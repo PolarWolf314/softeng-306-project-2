@@ -1,6 +1,7 @@
 plugins {
     id("java")
     id("application")
+    id("io.freefair.lombok") version "8.3"
 }
 
 group = "se306.group12"
