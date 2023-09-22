@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("application")
 }
 
 group = "se306.group12"
@@ -10,6 +11,10 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
+application {
+    mainClass = "se306.group12.Main"
+}
+
 repositories {
     mavenCentral()
 }
@@ -17,6 +22,13 @@ repositories {
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+}
+
+tasks.jar {
+    manifest {
+        // Include the main class in the Jar file so that we can run it
+        attributes["Main-Class"] = application.mainClass
+    }
 }
 
 tasks.test {
