@@ -134,18 +134,24 @@ public class CommandLineParser {
      * Validates that the specified command line arguments have valid values. If they are invalid
      * then an {@link ArgumentParserException} is thrown describing why.
      *
-     * @param commandLineArguments The command line arguments to validate
+     * @param arguments The command line arguments to validate
      * @throws ArgumentParserException If the arguments are invalid
      */
-    private void validateArguments(final CommandLineArguments commandLineArguments)
+    private void validateArguments(final CommandLineArguments arguments)
         throws ArgumentParserException {
-        if (commandLineArguments.processorsCount() < 1) {
+        if (arguments.processorsCount() < 1) {
             throw new ArgumentParserException(
                 "The number of processors (P) must be greater than 0", this.parser);
         }
-        if (commandLineArguments.algorithmProcessorsCount() < 1) {
+        final int availableProcessors = Runtime.getRuntime().availableProcessors();
+        if (arguments.algorithmProcessorsCount() < 1 ||
+            arguments.algorithmProcessorsCount() > availableProcessors
+        ) {
             throw new ArgumentParserException(
-                "The number of parallel processors (-p N) must be greater than 0", this.parser);
+                String.format("The number of parallel processors (-p N) must be greater than 0 and "
+                        + "less than or equal to the number of available processors (%d)",
+                    availableProcessors),
+                this.parser);
         }
 
         // TODO: Validate that the input file exists
