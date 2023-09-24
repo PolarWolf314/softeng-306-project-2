@@ -49,29 +49,36 @@ public class CommandLineParser {
      * @return A {@link CommandLineArguments} object representing the parsed arguments
      */
     public CommandLineArguments parse(final String[] args) {
-        Namespace namespace = null;
         try {
-            namespace = this.parser.parseArgs(args);
+            final Namespace namespace = this.parser.parseArgs(args);
+
+            final String inputDotGraph = this.withDotExtension(
+                namespace.getString("inputDotGraph"));
+            final int numberOfProcessors = namespace.getInt("processes");
+            final int algorithmProcesses = namespace.getInt("parallelProcesses");
+            final boolean visualiseSearch = namespace.getBoolean("visualise");
+            String outputDotGraph = this.withDotExtension(namespace.getString("output"));
+            if (outputDotGraph == null) {
+                outputDotGraph = this.withoutDotExtension(inputDotGraph) + "-output.dot";
+            }
+
+            final CommandLineArguments arguments = new CommandLineArguments(
+                inputDotGraph,
+                numberOfProcessors,
+                algorithmProcesses,
+                visualiseSearch,
+                outputDotGraph);
+
+            this.validateArguments(arguments);
+            return arguments;
+
         } catch (final ArgumentParserException e) {
             this.parser.handleError(e);
             System.exit(1);
         }
 
-        final String inputDotGraph = this.withDotExtension(namespace.getString("inputDotGraph"));
-        final int numberOfProcessors = namespace.getInt("processes");
-        final int algorithmProcesses = namespace.getInt("parallelProcesses");
-        final boolean visualiseSearch = namespace.getBoolean("visualise");
-        String outputDotGraph = this.withDotExtension(namespace.getString("output"));
-        if (outputDotGraph == null) {
-            outputDotGraph = this.withoutDotExtension(inputDotGraph) + "-output.dot";
-        }
-
-        return new CommandLineArguments(
-            inputDotGraph,
-            numberOfProcessors,
-            algorithmProcesses,
-            visualiseSearch,
-            outputDotGraph);
+        // This will never be reached but Java can't tell that.
+        return null;
     }
 
     /**
@@ -108,5 +115,26 @@ public class CommandLineParser {
             filename = filename.substring(0, filename.length() - 4);
         }
         return filename;
+    }
+
+    /**
+     * Validates that the specified command line arguments have valid values. If they are invalid
+     * then an {@link ArgumentParserException} is thrown describing why.
+     *
+     * @param commandLineArguments The command line arguments to validate
+     * @throws ArgumentParserException If the arguments are invalid
+     */
+    private void validateArguments(final CommandLineArguments commandLineArguments)
+        throws ArgumentParserException {
+        if (commandLineArguments.numberOfProcessors() < 1) {
+            throw new ArgumentParserException(
+                "The number of processors (P) must be greater than 0", this.parser);
+        }
+        if (commandLineArguments.algorithmProcesses() < 1) {
+            throw new ArgumentParserException(
+                "The number of parallel processes (-p N) must be greater than 0", this.parser);
+        }
+
+        // TODO: Validate that the input file exists
     }
 }
