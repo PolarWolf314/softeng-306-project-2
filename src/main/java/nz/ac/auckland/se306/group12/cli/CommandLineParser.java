@@ -1,6 +1,7 @@
 package nz.ac.auckland.se306.group12.cli;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.helper.HelpScreenException;
 import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
@@ -87,7 +88,8 @@ public class CommandLineParser {
             return arguments;
         } catch (final ArgumentParserException e) {
             this.parser.handleError(e);
-            System.exit(1);
+            // Don't exit with a failure status code if the user was just using `--help`
+            System.exit(e instanceof HelpScreenException ? 0 : 1);
         }
 
         // This will never be reached but Java can't tell that.
