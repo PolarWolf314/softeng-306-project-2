@@ -12,8 +12,8 @@ public class CommandLineParser {
     private static class Keys {
 
         private static final String INPUT_DOT_GRAPH = "inputDotGraph";
-        private static final String NUMBER_OF_PROCESSORS = "processes";
-        private static final String ALGORITHM_PROCESSES = "algorithmProcesses";
+        private static final String PROCESSORS_COUNT = "processorsCount";
+        private static final String ALGORITHM_PROCESSORS_COUNT = "algorithmProcessorsCount";
         private static final String VISUALISE_SEARCH = "visualise";
         private static final String OUTPUT_DOT_GRAPH = "output";
     }
@@ -29,15 +29,15 @@ public class CommandLineParser {
             .metavar("INPUT.dot")
             .required(true)
             .help("A task graph with integer weights in the dot format");
-        this.parser.addArgument(Keys.NUMBER_OF_PROCESSORS)
+        this.parser.addArgument(Keys.PROCESSORS_COUNT)
             .metavar("P")
             .required(true)
             .type(Integer.class)
-            .help("The number of processes to schedule the INPUT graph on");
+            .help("The number of processors to schedule the INPUT graph on");
         this.parser.addArgument("-p", "--parallel")
             .metavar("N")
             .type(Integer.class)
-            .dest(Keys.ALGORITHM_PROCESSES)
+            .dest(Keys.ALGORITHM_PROCESSORS_COUNT)
             .setDefault(1)
             .help("Use N cores for execution in parallel (default is sequential)");
         this.parser.addArgument("-v", "--visualise")
@@ -67,8 +67,8 @@ public class CommandLineParser {
             String outputDotGraph = this.withDotExtension(
                 namespace.getString(Keys.OUTPUT_DOT_GRAPH));
 
-            final int numberOfProcessors = namespace.getInt(Keys.NUMBER_OF_PROCESSORS);
-            final int algorithmProcesses = namespace.getInt(Keys.ALGORITHM_PROCESSES);
+            final int processorsCount = namespace.getInt(Keys.PROCESSORS_COUNT);
+            final int algorithmProcessorsCount = namespace.getInt(Keys.ALGORITHM_PROCESSORS_COUNT);
             final boolean visualiseSearch = namespace.getBoolean(Keys.VISUALISE_SEARCH);
 
             if (outputDotGraph == null) {
@@ -77,8 +77,8 @@ public class CommandLineParser {
 
             final CommandLineArguments arguments = new CommandLineArguments(
                 inputDotGraph,
-                numberOfProcessors,
-                algorithmProcesses,
+                processorsCount,
+                algorithmProcessorsCount,
                 visualiseSearch,
                 outputDotGraph);
 
@@ -138,13 +138,13 @@ public class CommandLineParser {
      */
     private void validateArguments(final CommandLineArguments commandLineArguments)
         throws ArgumentParserException {
-        if (commandLineArguments.numberOfProcessors() < 1) {
+        if (commandLineArguments.processorsCount() < 1) {
             throw new ArgumentParserException(
                 "The number of processors (P) must be greater than 0", this.parser);
         }
-        if (commandLineArguments.algorithmProcesses() < 1) {
+        if (commandLineArguments.algorithmProcessorsCount() < 1) {
             throw new ArgumentParserException(
-                "The number of parallel processes (-p N) must be greater than 0", this.parser);
+                "The number of parallel processors (-p N) must be greater than 0", this.parser);
         }
 
         // TODO: Validate that the input file exists
