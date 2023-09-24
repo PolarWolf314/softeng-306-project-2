@@ -31,6 +31,8 @@ tasks.jar {
         // Include the main class in the Jar file so that we can run it
         attributes["Main-Class"] = application.mainClass
     }
+    // The output jar file must be named 'scheduler.jar'
+    archiveFileName = "scheduler.jar"
 }
 
 tasks.test {
