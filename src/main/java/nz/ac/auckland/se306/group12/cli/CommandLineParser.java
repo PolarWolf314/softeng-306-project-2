@@ -13,7 +13,7 @@ public class CommandLineParser {
 
         private static final String INPUT_DOT_GRAPH = "inputDotGraph";
         private static final String PROCESSORS_COUNT = "processorsCount";
-        private static final String ALGORITHM_PROCESSORS_COUNT = "algorithmProcessorsCount";
+        private static final String PARALLELISATION_PROCESSORS_COUNT = "parallelisationProcessorsCount";
         private static final String VISUALISE_SEARCH = "visualise";
         private static final String OUTPUT_DOT_GRAPH = "output";
 
@@ -38,7 +38,7 @@ public class CommandLineParser {
         this.parser.addArgument("-p", "--parallel")
             .metavar("N")
             .type(Integer.class)
-            .dest(Keys.ALGORITHM_PROCESSORS_COUNT)
+            .dest(Keys.PARALLELISATION_PROCESSORS_COUNT)
             .setDefault(1)
             .help("Use N cores for execution in parallel (default is sequential)");
         this.parser.addArgument("-v", "--visualise")
@@ -67,9 +67,9 @@ public class CommandLineParser {
                 namespace.getString(Keys.INPUT_DOT_GRAPH));
             String outputDotGraph = this.withDotExtension(
                 namespace.getString(Keys.OUTPUT_DOT_GRAPH));
-
+            final int parallelisationProcessorsCount = namespace.getInt(
+                Keys.PARALLELISATION_PROCESSORS_COUNT);
             final int processorsCount = namespace.getInt(Keys.PROCESSORS_COUNT);
-            final int algorithmProcessorsCount = namespace.getInt(Keys.ALGORITHM_PROCESSORS_COUNT);
             final boolean visualiseSearch = namespace.getBoolean(Keys.VISUALISE_SEARCH);
 
             if (outputDotGraph == null) {
@@ -79,7 +79,7 @@ public class CommandLineParser {
             final CommandLineArguments arguments = new CommandLineArguments(
                 inputDotGraph,
                 processorsCount,
-                algorithmProcessorsCount,
+                parallelisationProcessorsCount,
                 visualiseSearch,
                 outputDotGraph);
 
@@ -144,8 +144,8 @@ public class CommandLineParser {
                 "The number of processors (P) must be greater than 0", this.parser);
         }
         final int availableProcessors = Runtime.getRuntime().availableProcessors();
-        if (arguments.algorithmProcessorsCount() < 1 ||
-            arguments.algorithmProcessorsCount() > availableProcessors
+        if (arguments.parallelisationProcessorsCount() < 1 ||
+            arguments.parallelisationProcessorsCount() > availableProcessors
         ) {
             throw new ArgumentParserException(
                 String.format("The number of parallel processors (-p N) must be greater than 0 and "
