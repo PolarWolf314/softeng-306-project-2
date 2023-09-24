@@ -1,4 +1,4 @@
-package se306.group12.models;
+package nz.ac.auckland.se306.group12.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

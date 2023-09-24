@@ -42,4 +42,4 @@ java -jar .\build\libs\scheduler.jar --help
 ## Notes
 
 * We're using the Gradle [Shadow](https://imperceptiblethoughts.com/shadow/) plugin in order to
-  bundle all our dependencies into a single executable jar file (Known as a *fat-jar*).
+  bundle all our dependencies into a single executable JAR file (Known as a *fat-JAR*).

@@ -1,11 +1,11 @@
-package se306.group12.cli;
+package nz.ac.auckland.se306.group12.cli;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
-import se306.group12.models.CommandLineArguments;
+import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 
 public class CommandLineParser {
 
@@ -16,6 +16,7 @@ public class CommandLineParser {
         private static final String ALGORITHM_PROCESSORS_COUNT = "algorithmProcessorsCount";
         private static final String VISUALISE_SEARCH = "visualise";
         private static final String OUTPUT_DOT_GRAPH = "output";
+
     }
 
     private final ArgumentParser parser;
@@ -149,4 +150,5 @@ public class CommandLineParser {
 
         // TODO: Validate that the input file exists
     }
+
 }
