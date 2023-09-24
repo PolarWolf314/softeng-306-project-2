@@ -1,7 +1,8 @@
 plugins {
     id("java")
     id("application")
-    id("io.freefair.lombok") version "8.3"
+    id("io.freefair.lombok") version ("8.3")
+    id("com.github.johnrengelman.shadow") version ("8.1.1")
 }
 
 group = "se306.group12"
@@ -31,6 +32,9 @@ tasks.jar {
         // Include the main class in the Jar file so that we can run it
         attributes["Main-Class"] = application.mainClass
     }
+}
+
+tasks.shadowJar {
     // The output jar file must be named 'scheduler.jar'
     archiveFileName = "scheduler.jar"
 }

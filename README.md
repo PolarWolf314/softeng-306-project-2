@@ -29,9 +29,14 @@ Named arguments:
 By default, this jar will be located at `build/libs/scheduler.jar`
 
 ```bash
-# Build the jar
-.\gradlew jar
+# Build the jar with all the dependencies included
+.\gradlew shadowJar
 
 # Execute the jar
 java -jar .\build\libs\scheduler.jar --help
 ```
+
+## Notes
+
+* We're using the Gradle [Shadow](https://imperceptiblethoughts.com/shadow/) plugin in order to
+  bundle all our dependencies into a single executable jar file (Known as a *fat-jar*).
