@@ -1,5 +1,8 @@
 ## Development
 
+> **Note**
+> This requires JDK 17 to run.
+
 ### Command line interface
 
 ```

@@ -21,7 +21,8 @@ public class CommandLineParser {
     private final ArgumentParser parser;
 
     public CommandLineParser() {
-        this.parser = ArgumentParsers.newFor("scheduler.jar").build()
+        this.parser = ArgumentParsers.newFor("scheduler.jar")
+            .build()
             .description(
                 "An algorithm for finding the optimal schedule for a given set of tasks and processors.");
         this.parser.addArgument(Keys.INPUT_DOT_GRAPH)
@@ -83,7 +84,6 @@ public class CommandLineParser {
 
             this.validateArguments(arguments);
             return arguments;
-
         } catch (final ArgumentParserException e) {
             this.parser.handleError(e);
             System.exit(1);
