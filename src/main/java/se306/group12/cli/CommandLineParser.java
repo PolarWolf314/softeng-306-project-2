@@ -9,17 +9,26 @@ import se306.group12.models.CommandLineArguments;
 
 public class CommandLineParser {
 
+    private static class Keys {
+
+        private static final String INPUT_DOT_GRAPH = "inputDotGraph";
+        private static final String NUMBER_OF_PROCESSORS = "processes";
+        private static final String ALGORITHM_PROCESSES = "algorithmProcesses";
+        private static final String VISUALISE_SEARCH = "visualise";
+        private static final String OUTPUT_DOT_GRAPH = "output";
+    }
+
     private final ArgumentParser parser;
 
     public CommandLineParser() {
         this.parser = ArgumentParsers.newFor("scheduler.jar").build()
             .description(
                 "An algorithm for finding the optimal schedule for a given set of tasks and processors.");
-        this.parser.addArgument("inputDotGraph")
+        this.parser.addArgument(Keys.INPUT_DOT_GRAPH)
             .metavar("INPUT.dot")
             .required(true)
             .help("A task graph with integer weights in the dot format");
-        this.parser.addArgument("processes")
+        this.parser.addArgument(Keys.NUMBER_OF_PROCESSORS)
             .metavar("P")
             .required(true)
             .type(Integer.class)
@@ -27,16 +36,16 @@ public class CommandLineParser {
         this.parser.addArgument("-p", "--parallel")
             .metavar("N")
             .type(Integer.class)
-            .dest("parallelProcesses")
+            .dest(Keys.ALGORITHM_PROCESSES)
             .setDefault(1)
             .help("Use N cores for execution in parallel (default is sequential)");
         this.parser.addArgument("-v", "--visualise")
             .action(Arguments.storeTrue())
-            .dest("visualise")
+            .dest(Keys.VISUALISE_SEARCH)
             .help("Visualise the search");
         this.parser.addArgument("-o", "--output")
             .metavar("OUTPUT")
-            .dest("output")
+            .dest(Keys.OUTPUT_DOT_GRAPH)
             .help("The output file to write the schedule to (default is INPUT-output.dot)");
     }
 
@@ -53,11 +62,14 @@ public class CommandLineParser {
             final Namespace namespace = this.parser.parseArgs(args);
 
             final String inputDotGraph = this.withDotExtension(
-                namespace.getString("inputDotGraph"));
-            final int numberOfProcessors = namespace.getInt("processes");
-            final int algorithmProcesses = namespace.getInt("parallelProcesses");
-            final boolean visualiseSearch = namespace.getBoolean("visualise");
-            String outputDotGraph = this.withDotExtension(namespace.getString("output"));
+                namespace.getString(Keys.INPUT_DOT_GRAPH));
+            String outputDotGraph = this.withDotExtension(
+                namespace.getString(Keys.OUTPUT_DOT_GRAPH));
+
+            final int numberOfProcessors = namespace.getInt(Keys.NUMBER_OF_PROCESSORS);
+            final int algorithmProcesses = namespace.getInt(Keys.ALGORITHM_PROCESSES);
+            final boolean visualiseSearch = namespace.getBoolean(Keys.VISUALISE_SEARCH);
+
             if (outputDotGraph == null) {
                 outputDotGraph = this.withoutDotExtension(inputDotGraph) + "-output.dot";
             }
