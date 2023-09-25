@@ -9,7 +9,6 @@ import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
 
-
 /*
  * Tests functionality of the model classes used for the graph classes
  */
@@ -100,8 +99,8 @@ class GraphNodeEdgeModelTest {
     graph1.getNodes().put("b", new Node("b", 2));
     graph2.getNodes().put("b", new Node("b", 2));
 
-    graph1.getEdges().add(new Edge(graph1.getNodes().get("a"), graph1.getNodes().get("b"), 1));
-    graph2.getEdges().add(new Edge(graph2.getNodes().get("a"), graph2.getNodes().get("b"), 1));
+    graph1.addEdge("a", "b", 1);
+    graph2.addEdge("a", "b", 1);
 
     Assertions.assertEquals(graph1, graph2);
   }
@@ -123,8 +122,8 @@ class GraphNodeEdgeModelTest {
     graph1.getNodes().put("c", new Node("c", 2));
     graph2.getNodes().put("c", new Node("c", 2));
 
-    graph1.getEdges().add(new Edge(graph1.getNodes().get("a"), graph1.getNodes().get("b"), 1));
-    graph2.getEdges().add(new Edge(graph2.getNodes().get("a"), graph2.getNodes().get("b"), 1));
+    graph1.addEdge("a", "b", 1);
+    graph2.addEdge("a", "c", 1);
 
     Assertions.assertNotEquals(graph1, graph2);
   }
