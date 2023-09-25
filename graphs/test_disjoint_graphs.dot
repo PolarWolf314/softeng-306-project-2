@@ -1,0 +1,16 @@
+digraph DisjointGraphs {
+    A [Weight = 2];
+    B [Weight = 3];
+    C [Weight = 1];
+    D [Weight = 4];
+
+    A -> B [Weight = 1];
+    A -> C [Weight = 2];
+    C -> D [Weight = 3];
+    B -> D [Weight = 1];
+
+    E [Weight = 2];
+    F [Weight = 3];
+
+    E -> F [Weight = 2];
+}
