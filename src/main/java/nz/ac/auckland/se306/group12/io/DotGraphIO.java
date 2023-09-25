@@ -48,7 +48,7 @@ public class DotGraphIO {
       Node destination = nodes.get(graphEdge.getNode2().getId());
 
       Edge edge = new Edge(source, destination, weight);
-      source.getChildren().add(edge);
+      source.getOutgoingEdges().add(edge);
       destination.getIncomingEdges().add(edge);
       edges.add(edge);
     }
@@ -90,7 +90,7 @@ public class DotGraphIO {
             .append("]")
             .append(NEW_LINE);
 
-        for (final Edge outgoingEdge : scheduledTask.getNode().getChildren()) {
+        for (final Edge outgoingEdge : scheduledTask.getNode().getOutgoingEdges()) {
           builder.append(outgoingEdge.getSource().getLabel())
               .append(" -> ")
               .append(outgoingEdge.getDestination().getLabel())
