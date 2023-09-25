@@ -17,43 +17,44 @@ import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
 
-// TODO: Use graph model classes when created
+// TODO: How to handle errors?
 public class DotGraphIO {
 
   private static final String NEW_LINE = System.getProperty("line.separator");
 
   public Graph readDotGraph(final File inputDotGraph) {
-    System.out.println(inputDotGraph.getPath());
+    FileInputStream inputStream;
     try {
-      final GraphParser parser = new GraphParser(new FileInputStream(inputDotGraph));
-
-      Map<String, Node> nodeSet = new HashMap<>();
-      Set<Edge> edgeSet = new HashSet<>();
-
-      final Map<String, GraphNode> nodes = parser.getNodes();
-      final Map<String, GraphEdge> edges = parser.getEdges();
-
-      for (final GraphNode node : nodes.values()) {
-        final long weight = Long.parseLong(node.getAttributes().get("Weight").toString());
-        Node currentNode = new Node(node.getId(), weight);
-        nodeSet.put(node.getId(), currentNode);
-      }
-
-      for (final GraphEdge edge : edges.values()) {
-        final long weight = Long.parseLong(edge.getAttributes().get("Weight").toString());
-        Node node1 = nodeSet.get(edge.getNode1().getId());
-        Node node2 = nodeSet.get(edge.getNode2().getId());
-        Edge currentEdge = new Edge(node1, node2, weight);
-        edgeSet.add(currentEdge);
-      }
-
-      Set<Node> resultNodes = new HashSet<>(nodeSet.values());
-      return new Graph(resultNodes, edgeSet);
-    } catch (final IOException e) {
+      inputStream = new FileInputStream(inputDotGraph);
+    } catch (IOException e) {
+      // TODO: How to handle this
       e.printStackTrace();
+      return null;
     }
 
-    return null;
+    final GraphParser parser = new GraphParser(inputStream);
+    Map<String, Node> nodeMap = new HashMap<>();
+    Set<Edge> edges = new HashSet<>();
+
+    for (GraphNode graphNode : parser.getNodes().values()) {
+      long weight = Long.parseLong(graphNode.getAttributes().get("Weight").toString());
+      Node node = new Node(graphNode.getId(), weight);
+      nodeMap.put(node.getLabel(), node);
+    }
+
+    for (GraphEdge graphEdge : parser.getEdges().values()) {
+      long weight = Long.parseLong(graphEdge.getAttributes().get("Weight").toString());
+      Node source = nodeMap.get(graphEdge.getNode1().getId());
+      Node destination = nodeMap.get(graphEdge.getNode2().getId());
+
+      Edge edge = new Edge(source, destination, weight);
+      source.getChildren().add(edge);
+      destination.getParents().add(edge);
+      edges.add(edge);
+    }
+
+    Set<Node> nodes = new HashSet<>(nodeMap.values());
+    return new Graph(nodes, edges);
   }
 
   public void writeDotGraph(
