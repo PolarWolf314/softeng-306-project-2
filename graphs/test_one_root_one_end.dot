@@ -1,0 +1,17 @@
+digraph OneRoot {
+    A [Weight = 2];
+    B [Weight = 3];
+    C [Weight = 1];
+    D [Weight = 4];
+    E [Weight = 2];
+    F [Weight = 3];
+
+    A -> B [Weight = 1];
+    A -> C [Weight = 2];
+    C -> D [Weight = 3];
+    B -> D [Weight = 1];
+    E -> F [Weight = 2];
+    C -> E [Weight = 3];
+    D -> F [Weight = 1];
+    E -> F [Weight = 2];
+}

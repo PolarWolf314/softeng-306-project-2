@@ -18,8 +18,9 @@ public class Node {
 
   @EqualsAndHashCode.Include
   private final String label;
+  @EqualsAndHashCode.Include
   private final long weight;
-  private final Set<Edge> parents = new HashSet<>();
-  private final Set<Edge> children = new HashSet<>();
+  private final Set<Edge> incomingEdges = new HashSet<>();
+  private final Set<Edge> outgoingEdges = new HashSet<>();
 
 }
