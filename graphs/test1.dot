@@ -6,7 +6,7 @@ digraph TestGraph1_Variation1 {
     E [Weight = 2];
 
     A -> B [Weight = 1];
-    B -> C [Weight = 3];  // Different weight
-    C -> D [Weight = 2];  // Different weight
-    D -> E [Weight = 1];  // Different weight
+    B -> C [Weight = 3];
+    C -> D [Weight = 2];
+    D -> E [Weight = 1]; 
 }

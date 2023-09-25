@@ -160,11 +160,9 @@ public class CommandLineParser {
 
         if (!arguments.inputDotGraph().exists()) {
             throw new ArgumentParserException(
-                String.format("The input dot graph file (%s) does not exist",
+                String.format("The input dot graph file %s does not exist",
                     arguments.inputDotGraph().getPath()), this.parser);
         }
-
-        // TODO: Validate that the input file exists
     }
 
 }

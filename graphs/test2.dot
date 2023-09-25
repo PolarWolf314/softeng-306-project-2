@@ -4,11 +4,11 @@ digraph TestGraph1_Variation2 {
     C [Weight = 1];
     D [Weight = 4];
     E [Weight = 2];
-    F [Weight = 3];  // Additional node
+    F [Weight = 3];
 
     A -> B [Weight = 1];
     B -> C [Weight = 2];
     C -> D [Weight = 3];
     D -> E [Weight = 1];
-    E -> F [Weight = 2];  // Additional edge
+    E -> F [Weight = 2];
 }
