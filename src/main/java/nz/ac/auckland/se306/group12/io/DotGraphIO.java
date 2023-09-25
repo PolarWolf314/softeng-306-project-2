@@ -35,6 +35,7 @@ public class DotGraphIO {
     GraphParser parser = new GraphParser(new FileInputStream(inputDotGraph));
     Map<String, Node> nodes = new HashMap<>();
     Set<Edge> edges = new HashSet<>();
+    Graph graph = new Graph(nodes, edges);
 
     for (GraphNode graphNode : parser.getNodes().values()) {
       long weight = Long.parseLong(graphNode.getAttributes().get("Weight").toString());
@@ -53,7 +54,7 @@ public class DotGraphIO {
       edges.add(edge);
     }
 
-    return new Graph(nodes, edges);
+    return graph;
   }
 
   /**
