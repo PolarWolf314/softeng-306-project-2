@@ -12,8 +12,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class Node {
+
     private final String label;
     private final long weight;
     private final Set<Edge> parents = new HashSet<>();
     private final Set<Edge> children = new HashSet<>();
+
 }
