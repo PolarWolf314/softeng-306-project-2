@@ -7,6 +7,7 @@ import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
+import nz.ac.auckland.se306.group12.io.FileIO;
 import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 
 public class CommandLineParser {
@@ -59,9 +60,9 @@ public class CommandLineParser {
     try {
       final Namespace namespace = this.parser.parseArgs(args);
 
-      final String inputDotGraph = this.withDotExtension(
+      final String inputDotGraph = FileIO.withDotExtension(
           namespace.getString(Keys.INPUT_DOT_GRAPH));
-      String outputDotGraph = this.withDotExtension(
+      String outputDotGraph = FileIO.withDotExtension(
           namespace.getString(Keys.OUTPUT_DOT_GRAPH));
       final int parallelisationProcessorCount = namespace.getInt(
           Keys.PARALLELISATION_PROCESSOR_COUNT);
@@ -70,7 +71,7 @@ public class CommandLineParser {
       final boolean writeToStdOut = namespace.getBoolean(Keys.WRITE_TO_STD_OUT);
 
       if (outputDotGraph == null) {
-        outputDotGraph = this.withoutDotExtension(inputDotGraph) + "-output.dot";
+        outputDotGraph = FileIO.withoutDotExtension(inputDotGraph) + "-output.dot";
       }
 
       final CommandLineArguments arguments = new CommandLineArguments(
@@ -91,43 +92,6 @@ public class CommandLineParser {
 
     // This will never be reached but Java can't tell that.
     return null;
-  }
-
-  /**
-   * Adds the <code>.dot</code> file extension to the filename if it doesn't already have it. If the
-   * filename is <code>null</code> then <code>null</code> is returned.
-   *
-   * @param filename The filename to add the extension to
-   * @return The filename with the <code>.dot</code> extension
-   */
-  private String withDotExtension(String filename) {
-    if (filename == null) {
-      return null;
-    }
-
-    if (!filename.endsWith(".dot")) {
-      filename += ".dot";
-    }
-    return filename;
-  }
-
-  /**
-   * Removes the <code>.dot</code> file extension from the filename if it has it. If the filename
-   * is
-   * <code>null</code> then <code>null</code> is returned.
-   *
-   * @param filename The filename to remove the extension from
-   * @return The filename without the <code>.dot</code> extension
-   */
-  private String withoutDotExtension(String filename) {
-    if (filename == null) {
-      return null;
-    }
-
-    if (filename.endsWith(".dot")) {
-      filename = filename.substring(0, filename.length() - 4);
-    }
-    return filename;
   }
 
   /**
