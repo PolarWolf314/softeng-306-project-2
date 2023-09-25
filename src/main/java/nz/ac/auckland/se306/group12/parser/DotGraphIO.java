@@ -46,9 +46,7 @@ public class DotGraphIO {
       }
 
       Set<Node> resultNodes = new HashSet<>(nodeSet.values());
-
-//      return new Graph(resultNodes, edgeSet);
-      return new Graph();
+      return new Graph(resultNodes, edgeSet);
     } catch (final IOException e) {
       e.printStackTrace();
     }
@@ -57,10 +55,10 @@ public class DotGraphIO {
   }
 
   public void writeDotGraph(
+      final boolean isWrittenToFile,
       final File outputDotGraph,
       final List<List<ScheduledTask>> scheduledTasks
   ) {
-
     final String NEW_LINE = System.getProperty("line.separator");
     final StringBuilder builder = new StringBuilder();
 
@@ -92,16 +90,21 @@ public class DotGraphIO {
     }
 
     builder.append("}");
-    try {
-      if (!outputDotGraph.exists()) {
-        outputDotGraph.createNewFile();
-      }
 
-      try (final FileOutputStream outputStream = new FileOutputStream(outputDotGraph)) {
-        outputStream.write(builder.toString().getBytes());
+    if (isWrittenToFile) {
+      try {
+        if (!outputDotGraph.exists()) {
+          outputDotGraph.createNewFile();
+        }
+
+        try (final FileOutputStream outputStream = new FileOutputStream(outputDotGraph)) {
+          outputStream.write(builder.toString().getBytes());
+        }
+      } catch (final IOException e) {
+        e.printStackTrace();
       }
-    } catch (final IOException e) {
-      e.printStackTrace();
+    } else {
+      System.out.println(builder);
     }
   }
 }
