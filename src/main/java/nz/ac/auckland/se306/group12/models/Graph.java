@@ -19,4 +19,22 @@ public class Graph {
   private final Map<String, Node> nodes;
   private final Set<Edge> edges;
 
+  /**
+   * Add and edge to the graph and also update the nodes incoming and outgoing edges
+   *
+   * @param source The source node label
+   * @param destination The destination node label
+   * @param weight The weight of the edge
+   */
+  public void addEdge(String source, String destination, int weight) {
+    Node sourceNode = this.nodes.get(source);
+    Node destinationNode = this.nodes.get(destination);
+
+    Edge edge = new Edge(sourceNode, destinationNode, weight);
+
+    destinationNode.getIncomingEdges().add(edge);
+    sourceNode.getOutgoingEdges().add(edge);
+    this.edges.add(edge);
+  }
+
 }
