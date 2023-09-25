@@ -18,7 +18,6 @@ public class TopologicalSorter {
    * acyclic graph.
    */
   public List<Node> getSomeTopologicalOrder(Graph graph) {
-
     // Find a source from which to start DFS traversal
     Node startNode = graph.getNodes()
         .stream()
@@ -30,7 +29,7 @@ public class TopologicalSorter {
       throw new RuntimeException(
           "Input digraph has a cycle. No topological order to be found.");
     }
-    
+
     Set<Node> discovered = new LinkedHashSet<>(graph.getNodes());
     Deque<Node> stack = new ArrayDeque<>();
     stack.push(startNode);
