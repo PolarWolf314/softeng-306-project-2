@@ -39,8 +39,7 @@ public class DotGraphIO {
 
     for (GraphNode graphNode : parser.getNodes().values()) {
       long weight = Long.parseLong(graphNode.getAttributes().get("Weight").toString());
-      Node node = new Node(graphNode.getId(), weight);
-      nodes.put(node.getLabel(), node);
+      graph.addNode(graphNode.getId(), weight);
     }
 
     for (GraphEdge graphEdge : parser.getEdges().values()) {
