@@ -8,6 +8,9 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
 import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 public class CommandLineParser {
 
     private static class Keys {
@@ -78,11 +81,11 @@ public class CommandLineParser {
             }
 
             final CommandLineArguments arguments = new CommandLineArguments(
-                inputDotGraph,
+                new File(inputDotGraph),
                 processorCount,
                 parallelisationProcessorCount,
                 visualiseSearch,
-                outputDotGraph);
+                new File(outputDotGraph));
 
             this.validateArguments(arguments);
             return arguments;
@@ -152,8 +155,13 @@ public class CommandLineParser {
             throw new ArgumentParserException(
                 String.format("The number of parallel processors (-p N) must be greater than 0 and "
                         + "less than or equal to the number of available processors (%d)",
-                    availableProcessors),
-                this.parser);
+                    availableProcessors), this.parser);
+        }
+
+        if (!arguments.inputDotGraph().exists()) {
+            throw new ArgumentParserException(
+                String.format("The input dot graph file (%s) does not exist",
+                    arguments.inputDotGraph().getPath()), this.parser);
         }
 
         // TODO: Validate that the input file exists
