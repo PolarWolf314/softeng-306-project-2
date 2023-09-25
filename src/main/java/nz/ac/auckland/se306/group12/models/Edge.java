@@ -13,10 +13,7 @@ import lombok.Getter;
 public class Edge {
 
   private final Node source;
-
   private final Node destination;
-
-  @EqualsAndHashCode.Exclude
   private final long weight;
 
   /**
