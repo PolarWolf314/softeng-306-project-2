@@ -30,9 +30,7 @@ public class TopologicalSorter {
       throw new RuntimeException(
           "Input digraph has a cycle. No topological order to be found.");
     }
-
-    LinkedList<Node> topologicalOrder = new LinkedList<>();
-
+    
     Set<Node> discovered = new LinkedHashSet<>(graph.getNodes());
     Deque<Node> stack = new ArrayDeque<>();
     stack.push(startNode);
@@ -45,6 +43,7 @@ public class TopologicalSorter {
     }
 
     // Insertion order into `discovered` is a valid topological order
+    LinkedList<Node> topologicalOrder = new LinkedList<>();
     discovered.forEach(topologicalOrder::addFirst);
 
     return new ArrayList<>(topologicalOrder);
