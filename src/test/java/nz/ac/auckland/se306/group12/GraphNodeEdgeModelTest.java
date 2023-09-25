@@ -2,7 +2,6 @@ package nz.ac.auckland.se306.group12;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import nz.ac.auckland.se306.group12.models.Edge;
@@ -66,8 +65,8 @@ class GraphNodeEdgeModelTest {
     Graph graph1 = new Graph(new HashMap<>(), new HashSet<>());
     Graph graph2 = new Graph(new HashMap<>(), new HashSet<>());
 
-    graph1.getNodes().put("a", new Node("a", 1));
-    graph2.getNodes().put("a", new Node("a", 1));
+    graph1.addNode("a", 1);
+    graph2.addNode("a", 1);
     Assertions.assertEquals(graph1, graph2);
   }
 
@@ -79,8 +78,8 @@ class GraphNodeEdgeModelTest {
     Graph graph1 = new Graph(new HashMap<>(), new HashSet<>());
     Graph graph2 = new Graph(new HashMap<>(), new HashSet<>());
 
-    graph1.getNodes().put("a", new Node("a", 1));
-    graph2.getNodes().put("b", new Node("b", 1));
+    graph1.addNode("a", 1);
+    graph2.addNode("b", 1);
 
     Assertions.assertNotEquals(graph1, graph2);
   }
@@ -93,11 +92,11 @@ class GraphNodeEdgeModelTest {
     Graph graph1 = new Graph(new HashMap<>(), new HashSet<>());
     Graph graph2 = new Graph(new HashMap<>(), new HashSet<>());
 
-    graph1.getNodes().put("a", new Node("a", 1));
-    graph2.getNodes().put("a", new Node("a", 1));
+    graph1.addNode("a", 1);
+    graph2.addNode("a", 1);
 
-    graph1.getNodes().put("b", new Node("b", 2));
-    graph2.getNodes().put("b", new Node("b", 2));
+    graph1.addNode("b", 2);
+    graph2.addNode("b", 2);
 
     graph1.addEdge("a", "b", 1);
     graph2.addEdge("a", "b", 1);
@@ -113,14 +112,14 @@ class GraphNodeEdgeModelTest {
     Graph graph1 = new Graph(new HashMap<>(), new HashSet<>());
     Graph graph2 = new Graph(new HashMap<>(), new HashSet<>());
 
-    graph1.getNodes().put("a", new Node("a", 1));
-    graph2.getNodes().put("a", new Node("a", 1));
+    graph1.addNode("a", 1);
+    graph2.addNode("a", 1);
 
-    graph1.getNodes().put("b", new Node("b", 2));
-    graph2.getNodes().put("b", new Node("b", 2));
+    graph1.addNode("b", 2);
+    graph2.addNode("b", 2);
 
-    graph1.getNodes().put("c", new Node("c", 2));
-    graph2.getNodes().put("c", new Node("c", 2));
+    graph1.addNode("c", 2);
+    graph2.addNode("c", 2);
 
     graph1.addEdge("a", "b", 1);
     graph2.addEdge("a", "c", 1);
