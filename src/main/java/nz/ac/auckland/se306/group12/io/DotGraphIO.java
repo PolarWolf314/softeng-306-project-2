@@ -45,13 +45,7 @@ public class DotGraphIO {
 
     for (GraphEdge graphEdge : parser.getEdges().values()) {
       long weight = Long.parseLong(graphEdge.getAttributes().get("Weight").toString());
-      Node source = nodes.get(graphEdge.getNode1().getId());
-      Node destination = nodes.get(graphEdge.getNode2().getId());
-
-      Edge edge = new Edge(source, destination, weight);
-      source.getOutgoingEdges().add(edge);
-      destination.getIncomingEdges().add(edge);
-      edges.add(edge);
+      graph.addEdge(graphEdge.getNode1().getId(), graphEdge.getNode2().getId(), weight);
     }
 
     return graph;
