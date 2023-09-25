@@ -41,7 +41,7 @@ public class TopologicalSorter {
       }
     }
 
-    // Insertion order into `discoveredNodes` is a valid topological order
+    // Reverse of insertion order into `discoveredNodes` is a valid topological order
     LinkedList<Node> topologicalOrder = new LinkedList<>();
     discoveredNodes.forEach(topologicalOrder::addFirst);
 
