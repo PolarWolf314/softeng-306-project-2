@@ -1,4 +1,4 @@
-package nz.ac.auckland.se306.group12.parser;
+package nz.ac.auckland.se306.group12.io;
 
 import com.paypal.digraph.parser.GraphEdge;
 import com.paypal.digraph.parser.GraphNode;

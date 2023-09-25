@@ -2,10 +2,10 @@ package nz.ac.auckland.se306.group12;
 
 import java.util.List;
 import nz.ac.auckland.se306.group12.cli.CommandLineParser;
+import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 import nz.ac.auckland.se306.group12.models.Node;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
-import nz.ac.auckland.se306.group12.parser.DotGraphIO;
 
 public class Main {
 
