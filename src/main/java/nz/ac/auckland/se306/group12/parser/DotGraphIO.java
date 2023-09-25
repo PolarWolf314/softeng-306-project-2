@@ -21,6 +21,8 @@ import nz.ac.auckland.se306.group12.models.ScheduledTask;
 // TODO: Use graph model classes when created
 public class DotGraphIO {
 
+  private static final String NEW_LINE = System.getProperty("line.separator");
+
   public Graph readDotGraph(final File inputDotGraph) {
     System.out.println(inputDotGraph.getPath());
     try {
@@ -59,9 +61,7 @@ public class DotGraphIO {
       final CommandLineArguments arguments,
       final List<List<ScheduledTask>> scheduledTasks
   ) {
-    final String NEW_LINE = System.getProperty("line.separator");
     final StringBuilder builder = new StringBuilder();
-
     builder.append("digraph ").append(arguments.outputDotGraph().getName()).append(" {")
         .append(NEW_LINE);
 
@@ -97,17 +97,27 @@ public class DotGraphIO {
       return;
     }
 
+    this.writeToFile(builder.toString(), arguments.outputDotGraph());
+  }
+
+  /**
+   * Writes the specified contents to the given file. If the file does not already exist then it
+   * will attempt to create it. If the file already exists then it will be overwritten.
+   *
+   * @param contents The contents to write to the file
+   * @param file     The file to write the contents to
+   */
+  private void writeToFile(final String contents, final File file) {
     try {
-      if (!arguments.outputDotGraph().exists()) {
-        arguments.outputDotGraph().createNewFile();
+      if (!file.exists()) {
+        file.createNewFile();
       }
 
-      try (final FileOutputStream outputStream = new FileOutputStream(arguments.outputDotGraph())) {
-        outputStream.write(builder.toString().getBytes());
+      try (final FileOutputStream outputStream = new FileOutputStream(file)) {
+        outputStream.write(contents.getBytes());
       }
     } catch (final IOException e) {
       e.printStackTrace();
     }
-
   }
 }
