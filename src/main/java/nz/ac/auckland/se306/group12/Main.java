@@ -21,7 +21,7 @@ public class Main {
         List.of(new ScheduledTask(new Node("B", 1), 0, 0))
     );
 
-    dotGraphIO.writeDotGraph(false, arguments.outputDotGraph(), scheduledTasks);
+    dotGraphIO.writeDotGraph(arguments, scheduledTasks);
   }
 
 }

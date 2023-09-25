@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
@@ -55,14 +56,14 @@ public class DotGraphIO {
   }
 
   public void writeDotGraph(
-      final boolean isWrittenToFile,
-      final File outputDotGraph,
+      final CommandLineArguments arguments,
       final List<List<ScheduledTask>> scheduledTasks
   ) {
     final String NEW_LINE = System.getProperty("line.separator");
     final StringBuilder builder = new StringBuilder();
 
-    builder.append("digraph ").append(outputDotGraph.getName()).append(" {").append(NEW_LINE);
+    builder.append("digraph ").append(arguments.outputDotGraph().getName()).append(" {")
+        .append(NEW_LINE);
 
     for (int processorIndex = 0; processorIndex < scheduledTasks.size(); processorIndex++) {
       final List<ScheduledTask> processorTasks = scheduledTasks.get(processorIndex);
@@ -91,20 +92,22 @@ public class DotGraphIO {
 
     builder.append("}");
 
-    if (isWrittenToFile) {
-      try {
-        if (!outputDotGraph.exists()) {
-          outputDotGraph.createNewFile();
-        }
-
-        try (final FileOutputStream outputStream = new FileOutputStream(outputDotGraph)) {
-          outputStream.write(builder.toString().getBytes());
-        }
-      } catch (final IOException e) {
-        e.printStackTrace();
-      }
-    } else {
+    if (arguments.writeToStdOut()) {
       System.out.println(builder);
+      return;
     }
+
+    try {
+      if (!arguments.outputDotGraph().exists()) {
+        arguments.outputDotGraph().createNewFile();
+      }
+
+      try (final FileOutputStream outputStream = new FileOutputStream(arguments.outputDotGraph())) {
+        outputStream.write(builder.toString().getBytes());
+      }
+    } catch (final IOException e) {
+      e.printStackTrace();
+    }
+
   }
 }

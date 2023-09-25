@@ -41,6 +41,10 @@ public class CommandLineParser {
         .metavar("OUTPUT")
         .dest(Keys.OUTPUT_DOT_GRAPH)
         .help("The output file to write the schedule to (default is INPUT-output.dot)");
+    this.parser.addArgument("-s", "--stdout")
+        .action(Arguments.storeTrue())
+        .dest(Keys.WRITE_TO_STD_OUT)
+        .help("Write the schedule to stdout instead of a file");
   }
 
   /**
@@ -63,6 +67,7 @@ public class CommandLineParser {
           Keys.PARALLELISATION_PROCESSOR_COUNT);
       final int processorCount = namespace.getInt(Keys.PROCESSOR_COUNT);
       final boolean visualiseSearch = namespace.getBoolean(Keys.VISUALISE_SEARCH);
+      final boolean writeToStdOut = namespace.getBoolean(Keys.WRITE_TO_STD_OUT);
 
       if (outputDotGraph == null) {
         outputDotGraph = this.withoutDotExtension(inputDotGraph) + "-output.dot";
@@ -73,7 +78,8 @@ public class CommandLineParser {
           processorCount,
           parallelisationProcessorCount,
           visualiseSearch,
-          new File(outputDotGraph));
+          new File(outputDotGraph),
+          writeToStdOut);
 
       this.validateArguments(arguments);
       return arguments;
@@ -161,6 +167,7 @@ public class CommandLineParser {
     private static final String PARALLELISATION_PROCESSOR_COUNT = "parallelisationProcessorCount";
     private static final String VISUALISE_SEARCH = "visualise";
     private static final String OUTPUT_DOT_GRAPH = "output";
+    private static final String WRITE_TO_STD_OUT = "writeToStdOut";
 
   }
 

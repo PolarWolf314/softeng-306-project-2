@@ -7,7 +7,8 @@ public record CommandLineArguments(
     int processorCount,
     int parallelisationProcessorCount,
     boolean visualiseSearch,
-    File outputDotGraph
+    File outputDotGraph,
+    boolean writeToStdOut
 ) {
 
 }

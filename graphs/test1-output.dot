@@ -1,0 +1,4 @@
+digraph test1-output.dot {
+A [Weight=1,Start=0,Processor=1]
+B [Weight=1,Start=0,Processor=2]
+}
