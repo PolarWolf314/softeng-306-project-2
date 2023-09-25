@@ -70,7 +70,6 @@ public class DotGraphIO {
       final List<ScheduledTask> processorTasks = scheduledTasks.get(processorIndex);
       for (final ScheduledTask scheduledTask : processorTasks) {
         builder.append(scheduledTask.getNode().getLabel())
-            .append(scheduledTask.getNode().getLabel())
             .append(" [Weight=")
             .append(scheduledTask.getNode().getWeight())
             .append(",Start=")

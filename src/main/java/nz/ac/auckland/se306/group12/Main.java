@@ -8,7 +8,7 @@ import nz.ac.auckland.se306.group12.models.ScheduledTask;
 import nz.ac.auckland.se306.group12.parser.DotGraphIO;
 
 public class Main {
-    
+
   public static void main(final String[] args) {
     final CommandLineParser parser = new CommandLineParser();
     final DotGraphIO dotGraphIO = new DotGraphIO();
@@ -18,7 +18,7 @@ public class Main {
 
     final List<List<ScheduledTask>> scheduledTasks = List.of(
         List.of(new ScheduledTask(new Node("A", 1), 0, 0)),
-        List.of(new ScheduledTask(new Node("B", 1), 0, 0)),
+        List.of(new ScheduledTask(new Node("B", 1), 0, 0))
     );
 
     dotGraphIO.writeDotGraph(arguments.outputDotGraph(), scheduledTasks);
