@@ -30,20 +30,20 @@ public class TopologicalSorter {
           "Input digraph has a cycle. No topological order to be found.");
     }
 
-    Set<Node> discovered = new LinkedHashSet<>(graph.getNodes());
+    Set<Node> discoveredNodes = new LinkedHashSet<>(graph.getNodes());
     Deque<Node> stack = new ArrayDeque<>();
     stack.push(startNode);
     while (!stack.isEmpty()) {
       Node node = stack.pop();
-      if (!discovered.contains(node)) {
-        discovered.add(node);
+      if (!discoveredNodes.contains(node)) {
+        discoveredNodes.add(node);
         node.getChildren().stream().map(Edge::getDestination).forEach(stack::push);
       }
     }
 
-    // Insertion order into `discovered` is a valid topological order
+    // Insertion order into `discoveredNodes` is a valid topological order
     LinkedList<Node> topologicalOrder = new LinkedList<>();
-    discovered.forEach(topologicalOrder::addFirst);
+    discoveredNodes.forEach(topologicalOrder::addFirst);
 
     return new ArrayList<>(topologicalOrder);
   }
