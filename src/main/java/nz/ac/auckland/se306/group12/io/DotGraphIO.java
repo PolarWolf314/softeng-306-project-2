@@ -49,7 +49,7 @@ public class DotGraphIO {
 
       Edge edge = new Edge(source, destination, weight);
       source.getChildren().add(edge);
-      destination.getParents().add(edge);
+      destination.getIncomingEdges().add(edge);
       edges.add(edge);
     }
 
