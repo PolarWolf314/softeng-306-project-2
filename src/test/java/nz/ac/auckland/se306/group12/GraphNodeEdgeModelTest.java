@@ -1,7 +1,5 @@
 package nz.ac.auckland.se306.group12;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import nz.ac.auckland.se306.group12.models.Edge;
@@ -51,8 +49,8 @@ class GraphNodeEdgeModelTest {
    */
   @Test
   public void testEmptyGraph() {
-    Graph graph1 = new Graph(new HashMap<>(), new HashSet<>());
-    Graph graph2 = new Graph(new HashMap<>(), new HashSet<>());
+    Graph graph1 = new Graph();
+    Graph graph2 = new Graph();
 
     Assertions.assertEquals(graph1, graph2);
   }
@@ -62,8 +60,8 @@ class GraphNodeEdgeModelTest {
    */
   @Test
   public void testEqualGraphWithNode() {
-    Graph graph1 = new Graph(new HashMap<>(), new HashSet<>());
-    Graph graph2 = new Graph(new HashMap<>(), new HashSet<>());
+    Graph graph1 = new Graph();
+    Graph graph2 = new Graph();
 
     graph1.addNode("a", 1);
     graph2.addNode("a", 1);
@@ -75,8 +73,8 @@ class GraphNodeEdgeModelTest {
    */
   @Test
   public void testUnequalGraphWithNode() {
-    Graph graph1 = new Graph(new HashMap<>(), new HashSet<>());
-    Graph graph2 = new Graph(new HashMap<>(), new HashSet<>());
+    Graph graph1 = new Graph();
+    Graph graph2 = new Graph();
 
     graph1.addNode("a", 1);
     graph2.addNode("b", 1);
@@ -89,8 +87,8 @@ class GraphNodeEdgeModelTest {
    */
   @Test
   public void testEqualGraphWithNodesAndEdge() {
-    Graph graph1 = new Graph(new HashMap<>(), new HashSet<>());
-    Graph graph2 = new Graph(new HashMap<>(), new HashSet<>());
+    Graph graph1 = new Graph();
+    Graph graph2 = new Graph();
 
     graph1.addNode("a", 1);
     graph2.addNode("a", 1);
@@ -109,8 +107,8 @@ class GraphNodeEdgeModelTest {
    */
   @Test
   public void testUnequalGraphWithNodesAndEdge() {
-    Graph graph1 = new Graph(new HashMap<>(), new HashSet<>());
-    Graph graph2 = new Graph(new HashMap<>(), new HashSet<>());
+    Graph graph1 = new Graph();
+    Graph graph2 = new Graph();
 
     graph1.addNode("a", 1);
     graph2.addNode("a", 1);

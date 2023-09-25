@@ -1,12 +1,9 @@
 package nz.ac.auckland.se306.group12;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
-import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
 
@@ -45,9 +42,7 @@ class DotGraphInputTest {
    */
   @Test
   public void test1Test() {
-    HashMap<String, Node> nodes = new HashMap<>();
-    HashSet<Edge> edges = new HashSet<>();
-    Graph expectedGraph = new Graph(nodes, edges);
+    Graph expectedGraph = new Graph();
 
     expectedGraph.addNode("A", 2);
     expectedGraph.addNode("B", 3);
@@ -68,9 +63,7 @@ class DotGraphInputTest {
    */
   @Test
   public void test2FileTest() {
-    HashMap<String, Node> nodes = new HashMap<>();
-    HashSet<Edge> edges = new HashSet<>();
-    Graph expectedGraph = new Graph(nodes, edges);
+    Graph expectedGraph = new Graph();
 
     expectedGraph.addNode("A", 2);
     expectedGraph.addNode("B", 3);
@@ -93,9 +86,7 @@ class DotGraphInputTest {
    */
   @Test
   public void testAnnoyingTest() {
-    HashMap<String, Node> nodes = new HashMap<>();
-    HashSet<Edge> edges = new HashSet<>();
-    Graph expectedGraph = new Graph(nodes, edges);
+    Graph expectedGraph = new Graph();
 
     expectedGraph.addNode("A", 2);
     expectedGraph.addNode("B", 3);
@@ -127,9 +118,7 @@ class DotGraphInputTest {
    */
   @Test
   public void testMultipleParentsTest() {
-    HashMap<String, Node> nodes = new HashMap<>();
-    HashSet<Edge> edges = new HashSet<>();
-    Graph expectedGraph = new Graph(nodes, edges);
+    Graph expectedGraph = new Graph();
 
     expectedGraph.addNode("A", 2);
     expectedGraph.addNode("B", 3);

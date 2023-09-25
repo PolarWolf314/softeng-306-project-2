@@ -33,9 +33,7 @@ public class DotGraphIO {
    */
   public Graph readDotGraph(final File inputDotGraph) throws IOException {
     GraphParser parser = new GraphParser(new FileInputStream(inputDotGraph));
-    Map<String, Node> nodes = new HashMap<>();
-    Set<Edge> edges = new HashSet<>();
-    Graph graph = new Graph(nodes, edges);
+    Graph graph = new Graph();
 
     for (GraphNode graphNode : parser.getNodes().values()) {
       long weight = Long.parseLong(graphNode.getAttributes().get("Weight").toString());

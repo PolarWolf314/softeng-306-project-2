@@ -1,5 +1,7 @@
 package nz.ac.auckland.se306.group12.models;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import lombok.AllArgsConstructor;
@@ -12,12 +14,11 @@ import lombok.ToString;
  */
 @Getter
 @ToString
-@AllArgsConstructor
 @EqualsAndHashCode
 public class Graph {
 
-  private final Map<String, Node> nodes;
-  private final Set<Edge> edges;
+  private final Map<String, Node> nodes = new HashMap<>();
+  private final Set<Edge> edges = new HashSet<>();
 
   /**
    * Add and edge to the graph and also update the nodes incoming and outgoing edges
