@@ -1,9 +1,9 @@
-digraph OneRoot {
+digraph WeirdPath {
     A [Weight = 2];
     B [Weight = 3];
     C [Weight = 1];
     D [Weight = 4];
-    E [Weight = 2];
+    E [Weight = 10];
 
     A -> B [Weight = 3];
     B -> C [Weight = 2];
