@@ -59,7 +59,8 @@ public class DotGraphIO {
       final List<List<ScheduledTask>> scheduledTasks
   ) throws IOException {
     final StringBuilder builder = new StringBuilder();
-    final String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
+    final String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName())
+        .replace("-", "");
     builder.append("digraph ")
         .append(digraphName)
         .append(" {")
