@@ -30,7 +30,7 @@ public class TopologicalSorter {
           "Input digraph has a cycle. No topological order to be found.");
     }
 
-    Set<Node> discoveredNodes = new LinkedHashSet<>(graph.getNodes());
+    Set<Node> discoveredNodes = new LinkedHashSet<>(graph.getNodes().size());
     Deque<Node> stack = new ArrayDeque<>();
     stack.push(startNode);
     while (!stack.isEmpty()) {
