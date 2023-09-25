@@ -49,11 +49,11 @@ class DotGraphInputTest {
     HashSet<Edge> edges = new HashSet<>();
     Graph expectedGraph = new Graph(nodes, edges);
 
-    nodes.put("A", new Node("A", 2));
-    nodes.put("B", new Node("B", 3));
-    nodes.put("C", new Node("C", 1));
-    nodes.put("D", new Node("D", 4));
-    nodes.put("E", new Node("E", 2));
+    expectedGraph.addNode("A", 2);
+    expectedGraph.addNode("B", 3);
+    expectedGraph.addNode("C", 1);
+    expectedGraph.addNode("D", 4);
+    expectedGraph.addNode("E", 2);
 
     expectedGraph.addEdge("A", "B", 1);
     expectedGraph.addEdge("B", "C", 3);
@@ -72,12 +72,12 @@ class DotGraphInputTest {
     HashSet<Edge> edges = new HashSet<>();
     Graph expectedGraph = new Graph(nodes, edges);
 
-    nodes.put("A", new Node("A", 2));
-    nodes.put("B", new Node("B", 3));
-    nodes.put("C", new Node("C", 1));
-    nodes.put("D", new Node("D", 4));
-    nodes.put("E", new Node("E", 2));
-    nodes.put("F", new Node("F", 3));
+    expectedGraph.addNode("A", 2);
+    expectedGraph.addNode("B", 3);
+    expectedGraph.addNode("C", 1);
+    expectedGraph.addNode("D", 4);
+    expectedGraph.addNode("E", 2);
+    expectedGraph.addNode("F", 3);
 
     expectedGraph.addEdge("A", "B", 1);
     expectedGraph.addEdge("B", "C", 2);
@@ -97,16 +97,16 @@ class DotGraphInputTest {
     HashSet<Edge> edges = new HashSet<>();
     Graph expectedGraph = new Graph(nodes, edges);
 
-    nodes.put("A", new Node("A", 2));
-    nodes.put("B", new Node("B", 3));
-    nodes.put("C", new Node("C", 1));
-    nodes.put("D", new Node("D", 4));
-    nodes.put("E", new Node("E", 2));
-    nodes.put("F", new Node("F", 3));
-    nodes.put("G", new Node("G", 5));
-    nodes.put("H", new Node("H", 2));
-    nodes.put("I", new Node("I", 2));
-    nodes.put("J", new Node("J", 7));
+    expectedGraph.addNode("A", 2);
+    expectedGraph.addNode("B", 3);
+    expectedGraph.addNode("C", 1);
+    expectedGraph.addNode("D", 4);
+    expectedGraph.addNode("E", 2);
+    expectedGraph.addNode("F", 3);
+    expectedGraph.addNode("G", 5);
+    expectedGraph.addNode("H", 2);
+    expectedGraph.addNode("I", 2);
+    expectedGraph.addNode("J", 7);
 
     expectedGraph.addEdge("A", "C", 1);
     expectedGraph.addEdge("B", "C", 2);
@@ -131,11 +131,11 @@ class DotGraphInputTest {
     HashSet<Edge> edges = new HashSet<>();
     Graph expectedGraph = new Graph(nodes, edges);
 
-    nodes.put("A", new Node("A", 2));
-    nodes.put("B", new Node("B", 3));
-    nodes.put("C", new Node("C", 1));
-    nodes.put("D", new Node("D", 4));
-    nodes.put("E", new Node("E", 2));
+    expectedGraph.addNode("A", 2);
+    expectedGraph.addNode("B", 3);
+    expectedGraph.addNode("C", 1);
+    expectedGraph.addNode("D", 4);
+    expectedGraph.addNode("E", 2);
 
     expectedGraph.addEdge("A", "B", 1);
     expectedGraph.addEdge("A", "C", 3);
