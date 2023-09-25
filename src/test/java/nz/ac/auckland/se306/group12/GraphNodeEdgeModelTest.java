@@ -118,6 +118,9 @@ class GraphNodeEdgeModelTest {
     graph2.getNodes().put("a", new Node("a", 1));
 
     graph1.getNodes().put("b", new Node("b", 2));
+    graph2.getNodes().put("b", new Node("b", 2));
+
+    graph1.getNodes().put("c", new Node("c", 2));
     graph2.getNodes().put("c", new Node("c", 2));
 
     graph1.getEdges().add(new Edge(graph1.getNodes().get("a"), graph1.getNodes().get("b"), 1));
