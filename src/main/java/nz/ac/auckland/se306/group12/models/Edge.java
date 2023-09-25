@@ -10,8 +10,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Edge {
 
-    private final Node src;
-    private final Node dst;
+    private final Node source;
+    private final Node destination;
     private final long weight;
 
 }
