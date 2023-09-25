@@ -61,7 +61,10 @@ public class DotGraphIO {
       final List<List<ScheduledTask>> scheduledTasks
   ) {
     final StringBuilder builder = new StringBuilder();
-    builder.append("digraph ").append(arguments.outputDotGraph().getName()).append(" {")
+    final String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
+    builder.append("digraph ")
+        .append(digraphName)
+        .append(" {")
         .append(NEW_LINE);
 
     for (int processorIndex = 0; processorIndex < scheduledTasks.size(); processorIndex++) {
