@@ -1,3 +1,5 @@
+package nz.ac.auckland.se306.group12;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
