@@ -37,4 +37,8 @@ public class Graph {
     this.edges.add(edge);
   }
 
+  public void addNode(String node, long weight) {
+    this.nodes.put(node, new Node(node, weight));
+  }
+
 }
