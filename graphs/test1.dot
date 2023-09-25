@@ -1,0 +1,12 @@
+digraph TestGraph1_Variation1 {
+    A [Weight = 2];
+    B [Weight = 3];
+    C [Weight = 1];
+    D [Weight = 4];
+    E [Weight = 2];
+
+    A -> B [Weight = 1];
+    B -> C [Weight = 3];
+    C -> D [Weight = 2];
+    D -> E [Weight = 1]; 
+}

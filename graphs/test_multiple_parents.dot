@@ -1,0 +1,13 @@
+digraph TestMultipleParents {
+    A [Weight = 2];
+    B [Weight = 3];
+    C [Weight = 1];
+    D [Weight = 4];
+    E [Weight = 2];
+
+    A -> B [Weight = 1];
+    A -> C [Weight = 3];
+    B -> D [Weight = 2];
+    C -> D [Weight = 1];
+    D -> E [Weight = 5];
+}
