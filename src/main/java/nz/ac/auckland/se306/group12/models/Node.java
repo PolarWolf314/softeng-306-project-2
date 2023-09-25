@@ -3,14 +3,14 @@ package nz.ac.auckland.se306.group12.models;
 import java.util.HashSet;
 import java.util.Set;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Node class represents a task in a schedule
  */
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Node {
 
     private final String label;
