@@ -12,9 +12,9 @@ import lombok.Getter;
 @EqualsAndHashCode
 public class Edge {
 
-    private final Node source;
-    private final Node destination;
-    @EqualsAndHashCode.Exclude
-    private final long weight;
+  private final Node source;
+  private final Node destination;
+  @EqualsAndHashCode.Exclude
+  private final long weight;
 
 }

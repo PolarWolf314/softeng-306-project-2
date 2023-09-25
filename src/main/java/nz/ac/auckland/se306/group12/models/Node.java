@@ -15,10 +15,10 @@ import lombok.RequiredArgsConstructor;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Node {
 
-    @EqualsAndHashCode.Include
-    private final String label;
-    private final long weight;
-    private final Set<Edge> parents = new HashSet<>();
-    private final Set<Edge> children = new HashSet<>();
+  @EqualsAndHashCode.Include
+  private final String label;
+  private final long weight;
+  private final Set<Edge> parents = new HashSet<>();
+  private final Set<Edge> children = new HashSet<>();
 
 }

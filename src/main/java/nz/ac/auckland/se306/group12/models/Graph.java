@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 public class Graph {
 
-    private final Set<Node> nodes = new HashSet<>();
-    private final Set<Edge> edges = new HashSet<>();
+  private final Set<Node> nodes = new HashSet<>();
+  private final Set<Edge> edges = new HashSet<>();
 
 }
