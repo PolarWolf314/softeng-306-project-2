@@ -26,7 +26,7 @@ public class Graph {
    * @param destination The destination node label
    * @param weight The weight of the edge
    */
-  public void addEdge(String source, String destination, int weight) {
+  public void addEdge(String source, String destination, long weight) {
     Node sourceNode = this.nodes.get(source);
     Node destinationNode = this.nodes.get(destination);
 
