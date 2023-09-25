@@ -1,0 +1,23 @@
+digraph Test_Annoying {
+    A [Weight = 2];
+    B [Weight = 3];
+    C [Weight = 1];
+    D [Weight = 4];
+    E [Weight = 2];
+    F [Weight = 3];
+    G [Weight = 5];
+    H [Weight = 2];
+    I [Weight = 2];
+    J [Weight = 7];
+
+    A -> C [Weight = 1];
+    B -> C [Weight = 2];
+    B -> D [Weight = 3];
+    D -> F [Weight = 1];
+    C -> F [Weight = 2];
+    C -> E [Weight = 3];
+    E -> G [Weight = 1];
+    G -> J [Weight = 2];
+    F -> H [Weight = 1];
+    F -> I [Weight = 2];
+}
