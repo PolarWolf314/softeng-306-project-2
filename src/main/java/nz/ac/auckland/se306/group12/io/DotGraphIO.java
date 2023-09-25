@@ -17,22 +17,22 @@ import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
 
-// TODO: How to handle errors?
+// TODO: Might be nice to create a model for the scheduled tasks?
 public class DotGraphIO {
 
   private static final String NEW_LINE = System.getProperty("line.separator");
 
-  public Graph readDotGraph(final File inputDotGraph) {
-    FileInputStream inputStream;
-    try {
-      inputStream = new FileInputStream(inputDotGraph);
-    } catch (IOException e) {
-      // TODO: How to handle this
-      e.printStackTrace();
-      return null;
-    }
-
-    final GraphParser parser = new GraphParser(inputStream);
+  /**
+   * Reads a dot graph from the given file and parses it into a {@link Graph} object. The graph is
+   * expected to be in a valid format, with each node and edge having a <code>Weight</code>
+   * attribute
+   *
+   * @param inputDotGraph The file to read the dot graph from
+   * @return A {@link Graph} object representing the parsed dot graph
+   * @throws IOException If an error occurs while reading the file
+   */
+  public Graph readDotGraph(final File inputDotGraph) throws IOException {
+    GraphParser parser = new GraphParser(new FileInputStream(inputDotGraph));
     Map<String, Node> nodeMap = new HashMap<>();
     Set<Edge> edges = new HashSet<>();
 
@@ -57,10 +57,20 @@ public class DotGraphIO {
     return new Graph(nodes, edges);
   }
 
+  /**
+   * Serialises the given scheduled tasks into a dot graph and either writes it to the given output
+   * file specified in the {@link CommandLineArguments} or to stdout if the <code>-s</code> flag was
+   * set. The scheduled tasks is a list of processor, each processor having a list of
+   * {@link ScheduledTask ScheduledTasks} on it.
+   *
+   * @param arguments      The parsed commandline arguments
+   * @param scheduledTasks The scheduled tasks to serialise
+   * @throws IOException If an error occurs while writing to the file
+   */
   public void writeDotGraph(
       final CommandLineArguments arguments,
       final List<List<ScheduledTask>> scheduledTasks
-  ) {
+  ) throws IOException {
     final StringBuilder builder = new StringBuilder();
     final String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
     builder.append("digraph ")
@@ -77,7 +87,7 @@ public class DotGraphIO {
             .append(",Start=")
             .append(scheduledTask.getStartTime())
             .append(",Processor=")
-            .append(processorIndex + 1)
+            .append(processorIndex + 1) // Processors are 1-indexed
             .append("]")
             .append(NEW_LINE);
 
@@ -97,9 +107,8 @@ public class DotGraphIO {
 
     if (arguments.writeToStdOut()) {
       System.out.println(builder);
-      return;
+    } else {
+      FileIO.writeToFile(builder.toString(), arguments.outputDotGraph());
     }
-
-    FileIO.writeToFile(builder.toString(), arguments.outputDotGraph());
   }
 }
