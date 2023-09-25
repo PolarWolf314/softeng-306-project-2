@@ -13,6 +13,6 @@ public class ScheduledTask {
 
   private final Node node;
   private final long startTime;
-  private final long proccesor;
+  private final long processor;
 
 }
