@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Edge class represents a dependences between two tasks in a schedule
+ * Edge class represents a dependencies between two tasks in a schedule
  */
 @Getter
 @AllArgsConstructor
