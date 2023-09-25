@@ -29,10 +29,10 @@ class DotGraphInputTest {
     }
   }
 
-  private void runTestWithFile(Graph expectedGraph, String pathFromRoot) {
+  private void runTestWithFile(Graph expectedGraph, String pathFromProjectRoot) {
     DotGraphIO dotGraphIO = new DotGraphIO();
     try {
-      Graph graph = dotGraphIO.readDotGraph(new File(pathFromRoot));
+      Graph graph = dotGraphIO.readDotGraph(new File(pathFromProjectRoot));
       checkGraphEquality(expectedGraph, graph);
     } catch (Exception e) {
       e.printStackTrace();
