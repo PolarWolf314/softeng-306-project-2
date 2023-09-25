@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import nz.ac.auckland.se306.group12.exceptions.IllegalGraphException;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
@@ -17,7 +18,7 @@ public class TopologicalSorter {
    * Uses finishing times from DFS to obtain <em>a</em> valid topological order, given a directed
    * acyclic graph.
    */
-  public List<Node> getSomeTopologicalOrder(Graph graph) {
+  public List<Node> getATopologicalOrder(Graph graph) {
     // Find a source from which to start DFS traversal
     Node startNode = graph.getNodes()
         .stream()
@@ -26,10 +27,11 @@ public class TopologicalSorter {
         .orElse(null); // Input graph not acyclic
 
     if (startNode == null) {
-      throw new RuntimeException(
+      throw new IllegalGraphException(
           "Input digraph has a cycle. No topological order to be found.");
     }
 
+    // Algorithm relies on insertion order into this set, hence `LinkedHashSet`
     Set<Node> discoveredNodes = new LinkedHashSet<>(graph.getNodes().size());
     Deque<Node> stack = new ArrayDeque<>();
     stack.push(startNode);
