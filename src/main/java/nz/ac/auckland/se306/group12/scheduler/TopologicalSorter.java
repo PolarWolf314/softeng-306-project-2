@@ -15,10 +15,10 @@ import nz.ac.auckland.se306.group12.models.Node;
 public class TopologicalSorter {
 
   /**
-   * <p>Uses finishing times from DFS to obtain <em>a</em> valid topological order, given a
-   * directed acyclic graph.
-   *
-   * <p>Although a DAG may have multiple valid topological orderings, the behaviour of this
+   * Uses finishing times from DFS to obtain <em>a</em> valid topological order, given a directed
+   * acyclic graph.
+   * <p>
+   * Although a DAG may have multiple valid topological orderings, the behaviour of this
    * implementation is intentionally deterministic to aid unit testing. Given the same graph, it
    * will return the same topological order.
    *
