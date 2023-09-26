@@ -15,8 +15,17 @@ import nz.ac.auckland.se306.group12.models.Node;
 public class TopologicalSorter {
 
   /**
-   * Uses finishing times from DFS to obtain <em>a</em> valid topological order, given a directed
-   * acyclic graph.
+   * <p>Uses finishing times from DFS to obtain <em>a</em> valid topological order, given a
+   * directed acyclic graph.
+   *
+   * <p>Although a DAG may have multiple valid topological orderings, the behaviour of this
+   * implementation is intentionally deterministic to aid unit testing. Given the same graph, it
+   * will return the same topological order.
+   *
+   * @param graph The dependence graph of tasks (a DAG) for which a topological order is to be
+   *              found.
+   * @return A list of the {@link Node}s from the input graph, in a topological order.
+   * @throws IllegalGraphException If given a cyclic digraph.
    */
   public List<Node> getATopologicalOrder(Graph graph) {
     // Find a source from which to start DFS traversal
