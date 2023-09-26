@@ -1,14 +1,10 @@
 package nz.ac.auckland.se306.group12;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
-
 
 /*
  * Tests functionality of the model classes used for the graph classes
@@ -53,8 +49,8 @@ class GraphNodeEdgeModelTest {
    */
   @Test
   public void testEmptyGraph() {
-    Graph graph1 = new Graph(new HashMap<>(), new HashSet<>());
-    Graph graph2 = new Graph(new HashMap<>(), new HashSet<>());
+    Graph graph1 = new Graph();
+    Graph graph2 = new Graph();
 
     Assertions.assertEquals(graph1, graph2);
   }
@@ -64,11 +60,11 @@ class GraphNodeEdgeModelTest {
    */
   @Test
   public void testEqualGraphWithNode() {
-    Graph graph1 = new Graph(new HashMap<>(), new HashSet<>());
-    Graph graph2 = new Graph(new HashMap<>(), new HashSet<>());
+    Graph graph1 = new Graph();
+    Graph graph2 = new Graph();
 
-    graph1.getNodes().put("a", new Node("a", 1));
-    graph2.getNodes().put("a", new Node("a", 1));
+    graph1.addNode("a", 1);
+    graph2.addNode("a", 1);
     Assertions.assertEquals(graph1, graph2);
   }
 
@@ -77,11 +73,11 @@ class GraphNodeEdgeModelTest {
    */
   @Test
   public void testUnequalGraphWithNode() {
-    Graph graph1 = new Graph(new HashMap<>(), new HashSet<>());
-    Graph graph2 = new Graph(new HashMap<>(), new HashSet<>());
+    Graph graph1 = new Graph();
+    Graph graph2 = new Graph();
 
-    graph1.getNodes().put("a", new Node("a", 1));
-    graph2.getNodes().put("b", new Node("b", 1));
+    graph1.addNode("a", 1);
+    graph2.addNode("b", 1);
 
     Assertions.assertNotEquals(graph1, graph2);
   }
@@ -91,17 +87,17 @@ class GraphNodeEdgeModelTest {
    */
   @Test
   public void testEqualGraphWithNodesAndEdge() {
-    Graph graph1 = new Graph(new HashMap<>(), new HashSet<>());
-    Graph graph2 = new Graph(new HashMap<>(), new HashSet<>());
+    Graph graph1 = new Graph();
+    Graph graph2 = new Graph();
 
-    graph1.getNodes().put("a", new Node("a", 1));
-    graph2.getNodes().put("a", new Node("a", 1));
+    graph1.addNode("a", 1);
+    graph2.addNode("a", 1);
 
-    graph1.getNodes().put("b", new Node("b", 2));
-    graph2.getNodes().put("b", new Node("b", 2));
+    graph1.addNode("b", 2);
+    graph2.addNode("b", 2);
 
-    graph1.getEdges().add(new Edge(graph1.getNodes().get("a"), graph1.getNodes().get("b"), 1));
-    graph2.getEdges().add(new Edge(graph2.getNodes().get("a"), graph2.getNodes().get("b"), 1));
+    graph1.addEdge("a", "b", 1);
+    graph2.addEdge("a", "b", 1);
 
     Assertions.assertEquals(graph1, graph2);
   }
@@ -111,17 +107,20 @@ class GraphNodeEdgeModelTest {
    */
   @Test
   public void testUnequalGraphWithNodesAndEdge() {
-    Graph graph1 = new Graph(new HashMap<>(), new HashSet<>());
-    Graph graph2 = new Graph(new HashMap<>(), new HashSet<>());
+    Graph graph1 = new Graph();
+    Graph graph2 = new Graph();
 
-    graph1.getNodes().put("a", new Node("a", 1));
-    graph2.getNodes().put("a", new Node("a", 1));
+    graph1.addNode("a", 1);
+    graph2.addNode("a", 1);
 
-    graph1.getNodes().put("b", new Node("b", 2));
-    graph2.getNodes().put("c", new Node("c", 2));
+    graph1.addNode("b", 2);
+    graph2.addNode("b", 2);
 
-    graph1.getEdges().add(new Edge(graph1.getNodes().get("a"), graph1.getNodes().get("b"), 1));
-    graph2.getEdges().add(new Edge(graph2.getNodes().get("a"), graph2.getNodes().get("b"), 1));
+    graph1.addNode("c", 2);
+    graph2.addNode("c", 2);
+
+    graph1.addEdge("a", "b", 1);
+    graph2.addEdge("a", "c", 1);
 
     Assertions.assertNotEquals(graph1, graph2);
   }

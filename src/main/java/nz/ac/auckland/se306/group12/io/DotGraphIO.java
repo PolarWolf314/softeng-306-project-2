@@ -33,27 +33,19 @@ public class DotGraphIO {
    */
   public Graph readDotGraph(final File inputDotGraph) throws IOException {
     GraphParser parser = new GraphParser(new FileInputStream(inputDotGraph));
-    Map<String, Node> nodes = new HashMap<>();
-    Set<Edge> edges = new HashSet<>();
+    Graph graph = new Graph();
 
     for (GraphNode graphNode : parser.getNodes().values()) {
       long weight = Long.parseLong(graphNode.getAttributes().get("Weight").toString());
-      Node node = new Node(graphNode.getId(), weight);
-      nodes.put(node.getLabel(), node);
+      graph.addNode(graphNode.getId(), weight);
     }
 
     for (GraphEdge graphEdge : parser.getEdges().values()) {
       long weight = Long.parseLong(graphEdge.getAttributes().get("Weight").toString());
-      Node source = nodes.get(graphEdge.getNode1().getId());
-      Node destination = nodes.get(graphEdge.getNode2().getId());
-
-      Edge edge = new Edge(source, destination, weight);
-      source.getOutgoingEdges().add(edge);
-      destination.getIncomingEdges().add(edge);
-      edges.add(edge);
+      graph.addEdge(graphEdge.getNode1().getId(), graphEdge.getNode2().getId(), weight);
     }
 
-    return new Graph(nodes, edges);
+    return graph;
   }
 
   /**

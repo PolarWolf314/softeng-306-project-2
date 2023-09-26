@@ -1,35 +1,13 @@
 package nz.ac.auckland.se306.group12;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
-import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
 
 class DotGraphInputTest {
-
-  /**
-   * Add and edge to the graph and also update the nodes incoming and outgoing edges
-   *
-   * @param graph The graph to add the edge to
-   * @param source The source node label
-   * @param destination The destination node label
-   * @param weight The weight of the edge
-   */
-  private void addEdgeToGraph(Graph graph, String source, String destination, int weight) {
-    Node sourceNode = graph.getNodes().get(source);
-    Node destinationNode = graph.getNodes().get(destination);
-
-    Edge edge = new Edge(sourceNode, destinationNode, weight);
-
-    destinationNode.getIncomingEdges().add(edge);
-    sourceNode.getOutgoingEdges().add(edge);
-    graph.getEdges().add(edge);
-  }
 
   /**
    * Check that the two graphs are equal including the edges and nodes and the incoming and outgoing
@@ -48,10 +26,10 @@ class DotGraphInputTest {
     }
   }
 
-  private void runTestWithFile(Graph expectedGraph, String pathFromRoot) {
+  private void runTestWithFile(Graph expectedGraph, String pathFromProjectRoot) {
     DotGraphIO dotGraphIO = new DotGraphIO();
     try {
-      Graph graph = dotGraphIO.readDotGraph(new File(pathFromRoot));
+      Graph graph = dotGraphIO.readDotGraph(new File(pathFromProjectRoot));
       checkGraphEquality(expectedGraph, graph);
     } catch (Exception e) {
       e.printStackTrace();
@@ -64,20 +42,18 @@ class DotGraphInputTest {
    */
   @Test
   public void test1Test() {
-    HashMap<String, Node> nodes = new HashMap<>();
-    HashSet<Edge> edges = new HashSet<>();
-    Graph expectedGraph = new Graph(nodes, edges);
+    Graph expectedGraph = new Graph();
 
-    nodes.put("A", new Node("A", 2));
-    nodes.put("B", new Node("B", 3));
-    nodes.put("C", new Node("C", 1));
-    nodes.put("D", new Node("D", 4));
-    nodes.put("E", new Node("E", 2));
+    expectedGraph.addNode("A", 2);
+    expectedGraph.addNode("B", 3);
+    expectedGraph.addNode("C", 1);
+    expectedGraph.addNode("D", 4);
+    expectedGraph.addNode("E", 2);
 
-    addEdgeToGraph(expectedGraph, "A", "B", 1);
-    addEdgeToGraph(expectedGraph, "B", "C", 3);
-    addEdgeToGraph(expectedGraph, "C", "D", 2);
-    addEdgeToGraph(expectedGraph, "D", "E", 1);
+    expectedGraph.addEdge("A", "B", 1);
+    expectedGraph.addEdge("B", "C", 3);
+    expectedGraph.addEdge("C", "D", 2);
+    expectedGraph.addEdge("D", "E", 1);
 
     runTestWithFile(expectedGraph, "./graphs/test1.dot");
   }
@@ -87,22 +63,20 @@ class DotGraphInputTest {
    */
   @Test
   public void test2FileTest() {
-    HashMap<String, Node> nodes = new HashMap<>();
-    HashSet<Edge> edges = new HashSet<>();
-    Graph expectedGraph = new Graph(nodes, edges);
+    Graph expectedGraph = new Graph();
 
-    nodes.put("A", new Node("A", 2));
-    nodes.put("B", new Node("B", 3));
-    nodes.put("C", new Node("C", 1));
-    nodes.put("D", new Node("D", 4));
-    nodes.put("E", new Node("E", 2));
-    nodes.put("F", new Node("F", 3));
+    expectedGraph.addNode("A", 2);
+    expectedGraph.addNode("B", 3);
+    expectedGraph.addNode("C", 1);
+    expectedGraph.addNode("D", 4);
+    expectedGraph.addNode("E", 2);
+    expectedGraph.addNode("F", 3);
 
-    addEdgeToGraph(expectedGraph, "A", "B", 1);
-    addEdgeToGraph(expectedGraph, "B", "C", 2);
-    addEdgeToGraph(expectedGraph, "C", "D", 3);
-    addEdgeToGraph(expectedGraph, "D", "E", 1);
-    addEdgeToGraph(expectedGraph, "E", "F", 2);
+    expectedGraph.addEdge("A", "B", 1);
+    expectedGraph.addEdge("B", "C", 2);
+    expectedGraph.addEdge("C", "D", 3);
+    expectedGraph.addEdge("D", "E", 1);
+    expectedGraph.addEdge("E", "F", 2);
 
     runTestWithFile(expectedGraph, "./graphs/test2.dot");
   }
@@ -112,31 +86,29 @@ class DotGraphInputTest {
    */
   @Test
   public void testAnnoyingTest() {
-    HashMap<String, Node> nodes = new HashMap<>();
-    HashSet<Edge> edges = new HashSet<>();
-    Graph expectedGraph = new Graph(nodes, edges);
+    Graph expectedGraph = new Graph();
 
-    nodes.put("A", new Node("A", 2));
-    nodes.put("B", new Node("B", 3));
-    nodes.put("C", new Node("C", 1));
-    nodes.put("D", new Node("D", 4));
-    nodes.put("E", new Node("E", 2));
-    nodes.put("F", new Node("F", 3));
-    nodes.put("G", new Node("G", 5));
-    nodes.put("H", new Node("H", 2));
-    nodes.put("I", new Node("I", 2));
-    nodes.put("J", new Node("J", 7));
+    expectedGraph.addNode("A", 2);
+    expectedGraph.addNode("B", 3);
+    expectedGraph.addNode("C", 1);
+    expectedGraph.addNode("D", 4);
+    expectedGraph.addNode("E", 2);
+    expectedGraph.addNode("F", 3);
+    expectedGraph.addNode("G", 5);
+    expectedGraph.addNode("H", 2);
+    expectedGraph.addNode("I", 2);
+    expectedGraph.addNode("J", 7);
 
-    addEdgeToGraph(expectedGraph, "A", "C", 1);
-    addEdgeToGraph(expectedGraph, "B", "C", 2);
-    addEdgeToGraph(expectedGraph, "B", "D", 3);
-    addEdgeToGraph(expectedGraph, "D", "F", 1);
-    addEdgeToGraph(expectedGraph, "C", "F", 2);
-    addEdgeToGraph(expectedGraph, "C", "E", 3);
-    addEdgeToGraph(expectedGraph, "E", "G", 1);
-    addEdgeToGraph(expectedGraph, "G", "J", 2);
-    addEdgeToGraph(expectedGraph, "F", "H", 1);
-    addEdgeToGraph(expectedGraph, "F", "I", 2);
+    expectedGraph.addEdge("A", "C", 1);
+    expectedGraph.addEdge("B", "C", 2);
+    expectedGraph.addEdge("B", "D", 3);
+    expectedGraph.addEdge("D", "F", 1);
+    expectedGraph.addEdge("C", "F", 2);
+    expectedGraph.addEdge("C", "E", 3);
+    expectedGraph.addEdge("E", "G", 1);
+    expectedGraph.addEdge("G", "J", 2);
+    expectedGraph.addEdge("F", "H", 1);
+    expectedGraph.addEdge("F", "I", 2);
 
     runTestWithFile(expectedGraph, "./graphs/test_annoying.dot");
   }
@@ -146,21 +118,19 @@ class DotGraphInputTest {
    */
   @Test
   public void testMultipleParentsTest() {
-    HashMap<String, Node> nodes = new HashMap<>();
-    HashSet<Edge> edges = new HashSet<>();
-    Graph expectedGraph = new Graph(nodes, edges);
+    Graph expectedGraph = new Graph();
 
-    nodes.put("A", new Node("A", 2));
-    nodes.put("B", new Node("B", 3));
-    nodes.put("C", new Node("C", 1));
-    nodes.put("D", new Node("D", 4));
-    nodes.put("E", new Node("E", 2));
+    expectedGraph.addNode("A", 2);
+    expectedGraph.addNode("B", 3);
+    expectedGraph.addNode("C", 1);
+    expectedGraph.addNode("D", 4);
+    expectedGraph.addNode("E", 2);
 
-    addEdgeToGraph(expectedGraph, "A", "B", 1);
-    addEdgeToGraph(expectedGraph, "A", "C", 3);
-    addEdgeToGraph(expectedGraph, "B", "D", 2);
-    addEdgeToGraph(expectedGraph, "C", "D", 1);
-    addEdgeToGraph(expectedGraph, "D", "E", 5);
+    expectedGraph.addEdge("A", "B", 1);
+    expectedGraph.addEdge("A", "C", 3);
+    expectedGraph.addEdge("B", "D", 2);
+    expectedGraph.addEdge("C", "D", 1);
+    expectedGraph.addEdge("D", "E", 5);
 
     runTestWithFile(expectedGraph, "./graphs/test_multiple_parents.dot");
   }
