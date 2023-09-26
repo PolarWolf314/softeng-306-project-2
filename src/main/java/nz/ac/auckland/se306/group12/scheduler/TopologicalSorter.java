@@ -21,8 +21,9 @@ public class TopologicalSorter {
   public List<Node> getATopologicalOrder(Graph graph) {
     // Find a source from which to start DFS traversal
     Node startNode = graph.getNodes()
+        .values()
         .stream()
-        .filter(node -> node.getParents().isEmpty())
+        .filter(node -> node.getIncomingEdges().isEmpty())
         .findFirst() // `findAny()` would be valid, but we need determinism for unit testing
         .orElse(null); // Input graph not acyclic
 
@@ -39,7 +40,7 @@ public class TopologicalSorter {
       Node node = stack.pop();
       if (!discoveredNodes.contains(node)) {
         discoveredNodes.add(node);
-        node.getChildren().stream().map(Edge::getDestination).forEach(stack::push);
+        node.getOutgoingEdges().stream().map(Edge::getDestination).forEach(stack::push);
       }
     }
 
