@@ -37,14 +37,7 @@ public class BasicScheduler {
 
       // if there are no parents, add to the cheapest processor
       if (parentTasks.isEmpty()) {
-        int smallestCumulativeStartTime = Integer.MAX_VALUE;
-        Processor cheapestProcessor = processors.get(0);
-        for (Processor processor : processors) {
-          if (processor.getCumulativeStartTime() < smallestCumulativeStartTime) {
-            smallestCumulativeStartTime = processor.getCumulativeStartTime();
-            cheapestProcessor = processor;
-          }
-        }
+        Processor cheapestProcessor = getCheapestProcessor(processors);
         cheapestProcessor.addTask(task);
         // set the start time of the task to the cumulative start time of the processor
         task.setStartTime(cheapestProcessor.getCumulativeStartTime());
@@ -54,6 +47,24 @@ public class BasicScheduler {
 
     }
     return null;
+  }
+
+  /**
+   * Returns the processor with the lowest cumulative start time.
+   *
+   * @param processors The list of processors to search through
+   * @return The processor with the lowest cumulative start time
+   */
+  public Processor getCheapestProcessor(List<Processor> processors) {
+    int smallestCumulativeStartTime = Integer.MAX_VALUE;
+    Processor cheapestProcessor = processors.get(0);
+    for (Processor processor : processors) {
+      if (processor.getCumulativeStartTime() < smallestCumulativeStartTime) {
+        smallestCumulativeStartTime = processor.getCumulativeStartTime();
+        cheapestProcessor = processor;
+      }
+    }
+    return cheapestProcessor;
   }
 
 }
