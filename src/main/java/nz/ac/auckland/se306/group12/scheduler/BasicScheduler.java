@@ -39,13 +39,20 @@ public class BasicScheduler {
       if (parentTasks.isEmpty()) {
         Processor cheapestProcessor = getCheapestProcessor(processors);
         cheapestProcessor.addTask(task);
-        // set the start time of the task to the cumulative start time of the processor
         task.setStartTime(cheapestProcessor.getCumulativeStartTime());
         continue;
       }
 
       // otherwise, find the parent with the highest start time
       Node parentWithHighestFinishTime = getParentWithHighestFinishTime(parentTasks);
+
+      // find the processor with the lowest cumulative start time
+      Processor cheapestProcessor = getCheapestProcessor(processors);
+
+      // find the parent processor of the parent task
+      Processor parentProcessor = getParentProcessor(parentWithHighestFinishTime, processors);
+
+
     }
     return null;
   }
@@ -86,5 +93,14 @@ public class BasicScheduler {
     return parentWithHighestFinishTime;
   }
 
+
+  public Processor getParentProcessor(Node parentTask, List<Processor> processors) {
+    for (Processor processor : processors) {
+      if (processor.getScheduledTasks().contains(parentTask)) {
+        return processor;
+      }
+    }
+    return null;
   }
+
 }
