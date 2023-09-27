@@ -19,7 +19,7 @@ class TopologicalSortTest {
     DotGraphIO dotGraphIO = new DotGraphIO();
 
     try {
-      File file = new File("graphs\\test1.dot");
+      File file = new File("./graphs/test1.dot");
       Graph graph = dotGraphIO.readDotGraph(file);
 
       TopologicalSorter sorter = new TopologicalSorter();
@@ -40,7 +40,7 @@ class TopologicalSortTest {
     DotGraphIO dotGraphIO = new DotGraphIO();
 
     try {
-      File file = new File("graphs\\test_disjoint_graphs.dot");
+      File file = new File("./graphs/test_disjoint_graphs.dot");
       Graph graph = dotGraphIO.readDotGraph(file);
 
       TopologicalSorter sorter = new TopologicalSorter();
@@ -61,7 +61,7 @@ class TopologicalSortTest {
     DotGraphIO dotGraphIO = new DotGraphIO();
 
     try {
-      File file = new File("graphs\\test_annoying.dot");
+      File file = new File("./graphs/test_annoying.dot");
       Graph graph = dotGraphIO.readDotGraph(file);
 
       TopologicalSorter sorter = new TopologicalSorter();
@@ -82,7 +82,7 @@ class TopologicalSortTest {
     DotGraphIO dotGraphIO = new DotGraphIO();
 
     try {
-      File file = new File("graphs\\test_unintuitive_shortest_path.dot");
+      File file = new File("./graphs/test_unintuitive_shortest_path.dot");
       Graph graph = dotGraphIO.readDotGraph(file);
 
       TopologicalSorter sorter = new TopologicalSorter();
