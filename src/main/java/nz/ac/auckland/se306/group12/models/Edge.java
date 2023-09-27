@@ -14,7 +14,7 @@ public class Edge {
 
   private final Node source;
   private final Node destination;
-  private final long weight;
+  private final int weight;
 
   /**
    * A custom <code>toString</code> method so that we can include the labels of the nodes without

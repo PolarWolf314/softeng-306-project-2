@@ -22,11 +22,11 @@ public class Graph {
   /**
    * Add and edge to the graph and also update the nodes incoming and outgoing edges
    *
-   * @param source The source node label
+   * @param source      The source node label
    * @param destination The destination node label
-   * @param weight The weight of the edge
+   * @param weight      The weight of the edge
    */
-  public void addEdge(String source, String destination, long weight) {
+  public void addEdge(String source, String destination, int weight) {
     Node sourceNode = this.nodes.get(source);
     Node destinationNode = this.nodes.get(destination);
 
@@ -37,7 +37,13 @@ public class Graph {
     this.edges.add(edge);
   }
 
-  public void addNode(String node, long weight) {
+  /**
+   * Adds a node to the graph with the given label and weight.
+   *
+   * @param node   The node label
+   * @param weight The node weight
+   */
+  public void addNode(String node, int weight) {
     this.nodes.put(node, new Node(node, weight));
   }
 
