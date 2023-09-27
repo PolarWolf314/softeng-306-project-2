@@ -81,7 +81,7 @@ public class BasicScheduler {
         }
       }
     }
-    return null;
+    return processors;
   }
 
   /**
