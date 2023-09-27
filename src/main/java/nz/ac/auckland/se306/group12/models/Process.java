@@ -12,7 +12,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Process {
 
-  private final long id;
   private final long cumulativeStartTime;
   private final List<ScheduledTask> scheduledTasks;
 }
