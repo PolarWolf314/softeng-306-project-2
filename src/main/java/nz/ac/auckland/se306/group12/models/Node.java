@@ -26,4 +26,10 @@ public class Node {
   private final Set<Edge> outgoingEdges = new HashSet<>();
   private int startTime = 0;
 
+  public Edge getEdgeToParent(Node parent) {
+    return this.incomingEdges.stream()
+        .filter(edge -> edge.getSource().equals(parent))
+        .findFirst()
+        .orElseThrow();
+  }
 }
