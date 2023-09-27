@@ -6,15 +6,10 @@ import com.paypal.digraph.parser.GraphParser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
-import nz.ac.auckland.se306.group12.models.Node;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
 
 // TODO: Might be nice to create a model for the scheduled tasks?
@@ -36,12 +31,12 @@ public class DotGraphIO {
     Graph graph = new Graph();
 
     for (GraphNode graphNode : parser.getNodes().values()) {
-      long weight = Long.parseLong(graphNode.getAttributes().get("Weight").toString());
+      int weight = Integer.parseInt(graphNode.getAttributes().get("Weight").toString());
       graph.addNode(graphNode.getId(), weight);
     }
 
     for (GraphEdge graphEdge : parser.getEdges().values()) {
-      long weight = Long.parseLong(graphEdge.getAttributes().get("Weight").toString());
+      int weight = Integer.parseInt(graphEdge.getAttributes().get("Weight").toString());
       graph.addEdge(graphEdge.getNode1().getId(), graphEdge.getNode2().getId(), weight);
     }
 
