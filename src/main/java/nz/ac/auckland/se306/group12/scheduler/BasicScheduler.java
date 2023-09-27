@@ -41,10 +41,11 @@ public class BasicScheduler {
         cheapestProcessor.addTask(task);
         // set the start time of the task to the cumulative start time of the processor
         task.setStartTime(cheapestProcessor.getCumulativeStartTime());
+        continue;
       }
 
       // otherwise, find the parent with the highest start time
-
+      Node parentWithHighestFinishTime = getParentWithHighestFinishTime(parentTasks);
     }
     return null;
   }
@@ -67,4 +68,23 @@ public class BasicScheduler {
     return cheapestProcessor;
   }
 
+  /**
+   * Returns the parent task with the highest finish time.
+   *
+   * @param parentTasks The list of parent tasks to search through
+   * @return The parent task with the highest finish time
+   */
+  public Node getParentWithHighestFinishTime(List<Node> parentTasks) {
+    int highestFinishTime = Integer.MIN_VALUE;
+    Node parentWithHighestFinishTime = parentTasks.get(0);
+    for (Node parentTask : parentTasks) {
+      if (parentTask.getStartTime() + parentTask.getWeight() > highestFinishTime) {
+        highestFinishTime = parentTask.getStartTime() + parentTask.getWeight();
+        parentWithHighestFinishTime = parentTask;
+      }
+    }
+    return parentWithHighestFinishTime;
+  }
+
+  }
 }
