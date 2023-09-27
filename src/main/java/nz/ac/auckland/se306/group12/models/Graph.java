@@ -37,6 +37,12 @@ public class Graph {
     this.edges.add(edge);
   }
 
+  /**
+   * Adds a node to the graph with the given label and weight.
+   *
+   * @param node   The node label
+   * @param weight The node weight
+   */
   public void addNode(String node, int weight) {
     this.nodes.put(node, new Node(node, weight));
   }
