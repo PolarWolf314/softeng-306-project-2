@@ -13,6 +13,5 @@ public class ScheduledTask {
 
   private final Node node;
   private final int startTime;
-  private final int processor;
 
 }
