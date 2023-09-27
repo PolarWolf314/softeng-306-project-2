@@ -94,6 +94,13 @@ public class BasicScheduler {
   }
 
 
+  /**
+   * Returns the parent processor of the given parent task.
+   *
+   * @param parentTask The parent task to find the parent processor of
+   * @param processors The list of processors to search through
+   * @return The parent processor of the given parent task
+   */
   public Processor getParentProcessor(Node parentTask, List<Processor> processors) {
     for (Processor processor : processors) {
       if (processor.getScheduledTasks().contains(parentTask)) {
