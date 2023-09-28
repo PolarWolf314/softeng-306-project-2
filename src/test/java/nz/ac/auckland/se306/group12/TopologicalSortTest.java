@@ -2,8 +2,11 @@ package nz.ac.auckland.se306.group12;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
+import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
 import nz.ac.auckland.se306.group12.scheduler.TopologicalSorter;
@@ -11,6 +14,28 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class TopologicalSortTest {
+
+  /**
+   * Checks that a given topological order is valid.
+   *
+   * @param topologicalOrder List of nodes to be checked
+   * @return whether the order is correct
+   */
+  boolean checkNodeOrdering(List<Node> topologicalOrder) {
+    Set<Node> visitedNodes = new HashSet<>();
+
+    for (Node node : topologicalOrder) {
+      visitedNodes.add(node);
+      for (Edge outgoingEdge : node.getOutgoingEdges()) {
+        Node destinationNode = outgoingEdge.getDestination();
+        if (!visitedNodes.contains(destinationNode)) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
 
   @Test
   void test_trivial_graph() {
@@ -21,12 +46,11 @@ class TopologicalSortTest {
       Graph graph = dotGraphIO.readDotGraph(file);
 
       TopologicalSorter sorter = new TopologicalSorter();
+      List<Node> topologicalOrder = sorter.getATopologicalOrder(graph);
 
-      List<Node> top = sorter.getATopologicalOrder(graph);
-      System.out.println(top);
-      dotGraphIO.writeOrderToDotGraph("test1", top);
+      Assertions.assertEquals(graph.getNodes().size(), topologicalOrder.size());
+      Assertions.assertTrue(checkNodeOrdering(topologicalOrder));
 
-      Assertions.assertTrue(true);
 
     } catch (IOException e) {
       Assertions.fail("File not found.");
@@ -42,12 +66,10 @@ class TopologicalSortTest {
       Graph graph = dotGraphIO.readDotGraph(file);
 
       TopologicalSorter sorter = new TopologicalSorter();
+      List<Node> topologicalOrder = sorter.getATopologicalOrder(graph);
 
-      List<Node> top = sorter.getATopologicalOrder(graph);
-      System.out.println(top);
-      dotGraphIO.writeOrderToDotGraph("test_disjoint_graphs", top);
-
-      Assertions.assertTrue(true);
+      Assertions.assertEquals(graph.getNodes().size(), topologicalOrder.size());
+      Assertions.assertTrue(checkNodeOrdering(topologicalOrder));
 
     } catch (IOException e) {
       Assertions.fail("File not found.");
@@ -63,12 +85,10 @@ class TopologicalSortTest {
       Graph graph = dotGraphIO.readDotGraph(file);
 
       TopologicalSorter sorter = new TopologicalSorter();
+      List<Node> topologicalOrder = sorter.getATopologicalOrder(graph);
 
-      List<Node> top = sorter.getATopologicalOrder(graph);
-      System.out.println(top);
-      dotGraphIO.writeOrderToDotGraph("test_annoying", top);
-
-      Assertions.assertTrue(true);
+      Assertions.assertEquals(graph.getNodes().size(), topologicalOrder.size());
+      Assertions.assertTrue(checkNodeOrdering(topologicalOrder));
 
     } catch (IOException e) {
       Assertions.fail("File not found.");
@@ -84,10 +104,12 @@ class TopologicalSortTest {
       Graph graph = dotGraphIO.readDotGraph(file);
 
       TopologicalSorter sorter = new TopologicalSorter();
+      List<Node> topologicalOrder = sorter.getATopologicalOrder(graph);
 
-      List<Node> top = sorter.getATopologicalOrder(graph);
-      System.out.println(top);
-      dotGraphIO.writeOrderToDotGraph("test_unintuitive_shortest_path", top);
+      dotGraphIO.writeOrderToDotGraph("intuitive", topologicalOrder);
+
+      Assertions.assertEquals(graph.getNodes().size(), topologicalOrder.size());
+      Assertions.assertTrue(checkNodeOrdering(topologicalOrder));
 
       Assertions.assertTrue(true);
 
