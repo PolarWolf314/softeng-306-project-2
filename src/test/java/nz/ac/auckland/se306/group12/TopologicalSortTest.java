@@ -15,7 +15,8 @@ class TopologicalSortTest {
   private final TopologicalSorter sorter = new TopologicalSorter();
 
   /**
-   * Checks if a topological order returned by a graph is valid.
+   * Checks if a topological order returned by a graph is valid by iterating through each node in
+   * order to ensure each subsequent node is in a lower order.
    *
    * @param graph to be checked
    */
@@ -30,6 +31,7 @@ class TopologicalSortTest {
       visitedNodes.add(node);
       for (Edge outgoingEdge : node.getOutgoingEdges()) {
         Node destinationNode = outgoingEdge.getDestination();
+        // Check for any parent nodes that have already been visited
         if (visitedNodes.contains(destinationNode)) {
           Assertions.fail("Topological order is not correct");
         }

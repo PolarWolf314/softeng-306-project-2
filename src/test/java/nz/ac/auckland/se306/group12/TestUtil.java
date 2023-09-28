@@ -14,7 +14,7 @@ public class TestUtil {
    * Loads a graph from a file of a specified path for testing.
    *
    * @param path of the file to load
-   * @return the
+   * @return the graph object read from the file
    */
   public static Graph loadGraph(String path) {
     try {
