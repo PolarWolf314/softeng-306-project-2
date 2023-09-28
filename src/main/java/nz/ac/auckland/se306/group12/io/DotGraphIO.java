@@ -106,21 +106,21 @@ public class DotGraphIO {
    * @param graphName String name of the graph
    * @param graph     list of nodes to create a graph with
    */
-  public void writeOrderToDotGraph(final String graphName, final List<Node> graph) {
-    final StringBuilder builder = new StringBuilder();
+  public void writeOrderToDotGraph(String graphName, List<Node> graph) {
+    StringBuilder builder = new StringBuilder();
     builder.append("digraph ")
         .append(graphName)
         .append(" {")
         .append(NEW_LINE);
 
-    for (final Node node : graph) {
+    for (Node node : graph) {
       builder.append(node.getLabel())
           .append(" [Weight=")
           .append(node.getWeight())
           .append("]")
           .append(NEW_LINE);
 
-      for (final Edge outgoingEdge : node.getOutgoingEdges()) {
+      for (Edge outgoingEdge : node.getOutgoingEdges()) {
         builder.append(outgoingEdge.getSource().getLabel())
             .append(" -> ")
             .append(outgoingEdge.getDestination().getLabel())

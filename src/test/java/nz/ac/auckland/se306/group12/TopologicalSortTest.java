@@ -25,7 +25,7 @@ class TopologicalSortTest {
     List<Node> topologicalOrder = sorter.getATopologicalOrder(graph);
 
     Assertions.assertEquals(graph.getNodes().size(), topologicalOrder.size(),
-        "Order's size is wrong");
+        "Number of nodes in the topological order and graph don’t match.");
 
     for (Node node : topologicalOrder) {
       visitedNodes.add(node);
@@ -43,7 +43,7 @@ class TopologicalSortTest {
    * Test for trivial graph
    */
   @Test
-  void test_trivial_graph() {
+  void testTrivialGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test1.dot");
     checkGraphTopologicalOrder(graph);
   }
@@ -52,7 +52,7 @@ class TopologicalSortTest {
    * Test for disconnected graph
    */
   @Test
-  void test_disjoint_graph() {
+  void testDisjointGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test_disjoint_graphs.dot");
     checkGraphTopologicalOrder(graph);
   }
@@ -61,7 +61,7 @@ class TopologicalSortTest {
    * Test with graph that has multiple sources
    */
   @Test
-  void test_annoying_graph() {
+  void testAnnoyingGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
     checkGraphTopologicalOrder(graph);
   }
@@ -70,7 +70,7 @@ class TopologicalSortTest {
    * Test with graph with a large path
    */
   @Test
-  void test_multiple_paths() {
+  void testMultiplePaths() {
     Graph graph = TestUtil.loadGraph("./graphs/test_unintuitive_shortest_path.dot");
     checkGraphTopologicalOrder(graph);
   }
