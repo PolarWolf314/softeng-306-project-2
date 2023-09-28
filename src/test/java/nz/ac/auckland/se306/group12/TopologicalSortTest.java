@@ -3,7 +3,6 @@ package nz.ac.auckland.se306.group12;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import nz.ac.auckland.se306.group12.cli.CommandLineParser;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
@@ -15,7 +14,6 @@ class TopologicalSortTest {
 
   @Test
   void test_trivial_graph() {
-    CommandLineParser parser = new CommandLineParser();
     DotGraphIO dotGraphIO = new DotGraphIO();
 
     try {
@@ -26,6 +24,7 @@ class TopologicalSortTest {
 
       List<Node> top = sorter.getATopologicalOrder(graph);
       System.out.println(top);
+      dotGraphIO.writeOrderToDotGraph("test1", top);
 
       Assertions.assertTrue(true);
 
@@ -36,7 +35,6 @@ class TopologicalSortTest {
 
   @Test
   void test_disjoint_graph() {
-    CommandLineParser parser = new CommandLineParser();
     DotGraphIO dotGraphIO = new DotGraphIO();
 
     try {
@@ -47,6 +45,7 @@ class TopologicalSortTest {
 
       List<Node> top = sorter.getATopologicalOrder(graph);
       System.out.println(top);
+      dotGraphIO.writeOrderToDotGraph("test_disjoint_graphs", top);
 
       Assertions.assertTrue(true);
 
@@ -57,7 +56,6 @@ class TopologicalSortTest {
 
   @Test
   void test_annoying_graph() {
-    CommandLineParser parser = new CommandLineParser();
     DotGraphIO dotGraphIO = new DotGraphIO();
 
     try {
@@ -68,6 +66,7 @@ class TopologicalSortTest {
 
       List<Node> top = sorter.getATopologicalOrder(graph);
       System.out.println(top);
+      dotGraphIO.writeOrderToDotGraph("test_annoying", top);
 
       Assertions.assertTrue(true);
 
@@ -78,7 +77,6 @@ class TopologicalSortTest {
 
   @Test
   void test_multiple_paths() {
-    CommandLineParser parser = new CommandLineParser();
     DotGraphIO dotGraphIO = new DotGraphIO();
 
     try {
@@ -89,6 +87,7 @@ class TopologicalSortTest {
 
       List<Node> top = sorter.getATopologicalOrder(graph);
       System.out.println(top);
+      dotGraphIO.writeOrderToDotGraph("test_unintuitive_shortest_path", top);
 
       Assertions.assertTrue(true);
 
