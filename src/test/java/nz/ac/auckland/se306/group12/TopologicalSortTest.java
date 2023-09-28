@@ -39,6 +39,9 @@ class TopologicalSortTest {
     }
   }
 
+  /**
+   * Test for trivial graph
+   */
   @Test
   void test_trivial_graph() {
     DotGraphIO dotGraphIO = new DotGraphIO();
@@ -54,6 +57,9 @@ class TopologicalSortTest {
     }
   }
 
+  /**
+   * Test for disconnected graph
+   */
   @Test
   void test_disjoint_graph() {
     DotGraphIO dotGraphIO = new DotGraphIO();
@@ -69,6 +75,9 @@ class TopologicalSortTest {
     }
   }
 
+  /**
+   * Test with graph that has multiple sources
+   */
   @Test
   void test_annoying_graph() {
     DotGraphIO dotGraphIO = new DotGraphIO();
@@ -84,6 +93,9 @@ class TopologicalSortTest {
     }
   }
 
+  /**
+   * Test with graph with a large path
+   */
   @Test
   void test_multiple_paths() {
     DotGraphIO dotGraphIO = new DotGraphIO();
