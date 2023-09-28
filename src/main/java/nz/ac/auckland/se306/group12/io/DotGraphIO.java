@@ -10,6 +10,7 @@ import java.util.List;
 import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
+import nz.ac.auckland.se306.group12.models.Node;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
 
 // TODO: Might be nice to create a model for the scheduled tasks?
@@ -96,5 +97,42 @@ public class DotGraphIO {
     } else {
       FileIO.writeToFile(builder.toString(), arguments.outputDotGraph());
     }
+  }
+
+  /**
+   * Takes a Topological order (in the form of a list of nodes) and outputs the corresponding dot
+   * file in the console. This function is used for the testing of the TopologicalSorter.
+   *
+   * @param graphName String name of the graph
+   * @param graph     list of nodes to create a graph with
+   */
+  public void writeOrderToDotGraph(String graphName, List<Node> graph) {
+    StringBuilder builder = new StringBuilder();
+    builder.append("digraph ")
+        .append(graphName)
+        .append(" {")
+        .append(NEW_LINE);
+
+    for (Node node : graph) {
+      builder.append(node.getLabel())
+          .append(" [Weight=")
+          .append(node.getWeight())
+          .append("]")
+          .append(NEW_LINE);
+
+      for (Edge outgoingEdge : node.getOutgoingEdges()) {
+        builder.append(outgoingEdge.getSource().getLabel())
+            .append(" -> ")
+            .append(outgoingEdge.getDestination().getLabel())
+            .append(" [Weight=")
+            .append(outgoingEdge.getWeight())
+            .append("]")
+            .append(NEW_LINE);
+      }
+    }
+
+    builder.append("}");
+
+    System.out.println(builder);
   }
 }
