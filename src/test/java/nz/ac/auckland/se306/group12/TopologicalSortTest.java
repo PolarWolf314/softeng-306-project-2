@@ -25,14 +25,15 @@ class TopologicalSortTest {
     Set<Node> visitedNodes = new HashSet<>();
     List<Node> topologicalOrder = sorter.getATopologicalOrder(graph);
 
-    Assertions.assertEquals(graph.getNodes().size(), topologicalOrder.size());
+    Assertions.assertEquals(graph.getNodes().size(), topologicalOrder.size(),
+        "Topological order does not contain all nodes");
 
     for (Node node : topologicalOrder) {
       visitedNodes.add(node);
       for (Edge outgoingEdge : node.getOutgoingEdges()) {
         Node destinationNode = outgoingEdge.getDestination();
-        if (!visitedNodes.contains(destinationNode)) {
-          Assertions.fail("Topological order contains a cycle");
+        if (visitedNodes.contains(destinationNode)) {
+          Assertions.fail("Topological order is not correct");
         }
       }
     }
