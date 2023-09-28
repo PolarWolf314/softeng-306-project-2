@@ -1,10 +1,8 @@
 package nz.ac.auckland.se306.group12.scheduler;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import nz.ac.auckland.se306.group12.exceptions.IllegalGraphException;
@@ -28,36 +26,42 @@ public class TopologicalSorter {
    * @throws IllegalGraphException If given a cyclic digraph.
    */
   public List<Node> getATopologicalOrder(Graph graph) {
-    // Find a source from which to start DFS traversal
-    Node startNode = graph.getNodes()
-        .values()
-        .stream()
-        .filter(node -> node.getIncomingEdges().isEmpty())
-        .findFirst() // `findAny()` would be valid, but we need determinism for unit testing
-        .orElse(null); // Input graph not acyclic
+    Set<Node> visited = new HashSet<>(graph.getNodes().size());
+    List<Node> list = new ArrayList<>();
 
-    if (startNode == null) {
-      throw new IllegalGraphException(
-          "Input digraph has a cycle. No topological order to be found.");
-    }
-
-    // Algorithm relies on insertion order into this set, hence `LinkedHashSet`
-    Set<Node> discoveredNodes = new LinkedHashSet<>(graph.getNodes().size());
-    Deque<Node> stack = new ArrayDeque<>();
-    stack.push(startNode);
-    while (!stack.isEmpty()) {
-      Node node = stack.pop();
-      if (!discoveredNodes.contains(node)) {
-        discoveredNodes.add(node);
-        node.getOutgoingEdges().stream().map(Edge::getDestination).forEach(stack::push);
+    // Iterate through all the nodes in the graph and call the recursive helper function
+    for (Node node : graph.getNodes().values()) {
+      if (!visited.contains(node)) {
+        TopologicalSortUtil(node, visited, list);
       }
     }
 
-    // Reverse of insertion order into `discoveredNodes` is a valid topological order
-    LinkedList<Node> topologicalOrder = new LinkedList<>();
-    discoveredNodes.forEach(topologicalOrder::addFirst);
+    // Reverse output list to get a topological orderings (alternatively enqueue could be used)
+    Collections.reverse(list);
 
-    return new ArrayList<>(topologicalOrder);
+    return list;
+  }
+
+  /**
+   * Recursive helper function for {@link #getATopologicalOrder(Graph)}.
+   * <p>
+   * This ensures that the children of the input node are added to the topological list
+   * before the node itself.
+   *
+   * @param node    The node to be added to the topological list.
+   * @param visited A set of nodes that have already been visited.
+   * @param list    The list of nodes in a topological order.
+   */
+  private void TopologicalSortUtil(Node node, Set<Node> visited, List<Node> list) {
+    visited.add(node);
+    // Recursively call this function for all the children that haven't been visited yet
+    for (Edge edge : node.getOutgoingEdges()) {
+      Node destination = edge.getDestination();
+      if (!visited.contains(destination)) {
+        TopologicalSortUtil(destination, visited, list);
+      }
+    }
+    list.add(node);
   }
 
 }
