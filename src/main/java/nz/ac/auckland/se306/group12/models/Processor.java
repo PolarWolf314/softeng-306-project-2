@@ -18,7 +18,8 @@ public class Processor {
   private int cumulativeCost = 0;
 
   public void addTask(Node task) {
-    cumulativeCost += task.getWeight();
+    cumulativeCost = task.getStartTime() + task.getWeight()
+`
     scheduledTasks.add(task);
   }
 }
