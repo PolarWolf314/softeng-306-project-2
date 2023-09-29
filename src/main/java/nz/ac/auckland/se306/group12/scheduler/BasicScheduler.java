@@ -39,8 +39,8 @@ public class BasicScheduler {
       // if there are no parents, add to the cheapest processor
       if (parentTasks.isEmpty()) {
         Processor cheapestProcessor = getCheapestProcessor(processors);
-        cheapestProcessor.addTask(task);
         task.setStartTime(cheapestProcessor.getCumulativeCost());
+        cheapestProcessor.addTask(task);
         continue;
       }
 
