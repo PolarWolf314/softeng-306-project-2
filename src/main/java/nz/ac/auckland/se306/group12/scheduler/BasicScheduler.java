@@ -32,7 +32,7 @@ public class BasicScheduler {
 
     for (Node task : tasks) {
       // find the parent tasks of the current task
-      List<Node> parentTasks = task.getOutgoingEdges().stream()
+      List<Node> parentTasks = task.getIncomingEdges().stream()
           .map(Edge::getDestination)
           .toList();
 
