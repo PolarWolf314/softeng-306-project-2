@@ -63,15 +63,11 @@ public class BasicScheduler {
 
       if (cheapestProcessor.getFinalCost() >= parentTaskFinishTime) {
         if (cheapestProcessor.getFinalCost() + communicationCost < parentProcessorFinishTime) {
-          cheapestProcessor.setFinalCost(
-              cheapestProcessor.getFinalCost() + communicationCost);
           task.setStartTime(cheapestProcessor.getFinalCost() + communicationCost);
           cheapestProcessor.addTask(task);
         }
       } else {
         if (parentTaskFinishTime + communicationCost < parentProcessorFinishTime) {
-          cheapestProcessor.setFinalCost(
-              parentTaskFinishTime + communicationCost);
           task.setStartTime(parentTaskFinishTime + communicationCost);
           cheapestProcessor.addTask(task);
         } else {
