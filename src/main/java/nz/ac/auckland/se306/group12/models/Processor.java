@@ -15,11 +15,10 @@ public class Processor {
 
   private final List<Node> scheduledTasks;
   @Setter
-  private int cumulativeCost = 0;
+  private int finalCost = 0;
 
   public void addTask(Node task) {
-    cumulativeCost = task.getStartTime() + task.getWeight()
-`
+    finalCost = task.getStartTime() + task.getWeight();
     scheduledTasks.add(task);
   }
 }
