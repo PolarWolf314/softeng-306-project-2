@@ -1,5 +1,6 @@
 package nz.ac.auckland.se306.group12.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class Processor {
 
-  private final List<Node> scheduledTasks;
+  private final List<Node> scheduledTasks = new ArrayList<>();
   @Setter
   private int finalCost = 0;
 

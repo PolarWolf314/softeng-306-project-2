@@ -27,7 +27,7 @@ public class BasicScheduler {
     List<Processor> processors = new ArrayList<>();
 
     for (int i = 0; i < numberOfProcessors; i++) {
-      processors.add(new Processor(new ArrayList<>()));
+      processors.add(new Processor());
     }
 
     for (Node task : tasks) {
