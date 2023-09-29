@@ -32,12 +32,10 @@ public class BasicScheduler {
 
     for (Node task : tasks) {
       // find the parent tasks of the current task
-      List<Node> parentTasks = task.getIncomingEdges().stream()
-          .map(Edge::getDestination)
-          .toList();
+      List<Edge> parentEdges = task.getIncomingEdges().stream().toList();
 
       // if there are no parents, add to the cheapest processor
-      if (parentTasks.isEmpty()) {
+      if (parentEdges.isEmpty()) {
         Processor cheapestProcessor = getCheapestProcessor(processors);
         task.setStartTime(cheapestProcessor.getFinalCost());
         cheapestProcessor.addTask(task);
@@ -45,22 +43,23 @@ public class BasicScheduler {
       }
 
       // otherwise, find the parent with the highest start time
-      Node parentTask = getParentWithHighestFinishTime(parentTasks);
+      Edge parentEdge = getParentWithHighestFinishTime(parentEdges);
 
       // find the processor with the lowest cumulative start time
       Processor cheapestProcessor = getCheapestProcessor(processors);
 
       // find the parent processor of the parent task
-      Processor parentProcessor = getParentProcessor(parentTask, processors);
+      Processor parentProcessor = getParentProcessor(parentEdge.getSource(), processors);
 
       // find the finish time of the parent processor
       int parentProcessorFinishTime = parentProcessor.getFinalCost();
 
       // find the finish time of the parent task
-      int parentTaskFinishTime = parentTask.getStartTime() + parentTask.getWeight();
+      int parentTaskFinishTime =
+          parentEdge.getSource().getStartTime() + parentEdge.getSource().getWeight();
 
       // find the communication cost
-      int communicationCost = task.getEdgeToParent(parentTask).getWeight();
+      int communicationCost = parentEdge.getWeight();
 
       if (cheapestProcessor.getFinalCost() >= parentTaskFinishTime) {
         if (cheapestProcessor.getFinalCost() + communicationCost < parentProcessorFinishTime) {
@@ -105,19 +104,21 @@ public class BasicScheduler {
   /**
    * Returns the parent task with the highest finish time.
    *
-   * @param parentTasks The list of parent tasks to search through
+   * @param parentEdges the list of parent edges to search through
    * @return The parent task with the highest finish time
    */
-  public Node getParentWithHighestFinishTime(List<Node> parentTasks) {
+  public Edge getParentWithHighestFinishTime(List<Edge> parentEdges) {
     int highestFinishTime = Integer.MIN_VALUE;
-    Node parentWithHighestFinishTime = parentTasks.get(0);
-    for (Node parentTask : parentTasks) {
-      if (parentTask.getStartTime() + parentTask.getWeight() > highestFinishTime) {
-        highestFinishTime = parentTask.getStartTime() + parentTask.getWeight();
-        parentWithHighestFinishTime = parentTask;
+    Edge parentEdgeWithHighestFinishTime = parentEdges.get(0);
+    for (Edge parentEdge : parentEdges) {
+      if (parentEdge.getSource().getStartTime() + parentEdge.getSource().getWeight()
+          > highestFinishTime) {
+        highestFinishTime = parentEdge.getSource().getStartTime()
+            + parentEdge.getSource().getWeight();
+        parentEdgeWithHighestFinishTime = parentEdge;
       }
     }
-    return parentWithHighestFinishTime;
+    return parentEdgeWithHighestFinishTime;
   }
 
 
