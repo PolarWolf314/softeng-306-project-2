@@ -12,7 +12,6 @@ import lombok.ToString;
  * Node class represents a task in a schedule
  */
 @Getter
-@Setter
 @ToString
 @RequiredArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -24,6 +23,7 @@ public class Node {
   private final int weight;
   private final Set<Edge> incomingEdges = new HashSet<>();
   private final Set<Edge> outgoingEdges = new HashSet<>();
+  @Setter
   private int startTime = 0;
 
   public Edge getEdgeToParent(Node parent) {

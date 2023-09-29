@@ -10,11 +10,11 @@ import lombok.Setter;
  * the list of scheduled tasks, and the list of scheduled tasks.
  */
 @Getter
-@Setter
 @RequiredArgsConstructor
 public class Processor {
 
   private final List<Node> scheduledTasks;
+  @Setter
   private int cumulativeCost = 0;
 
   public void addTask(Node task) {
