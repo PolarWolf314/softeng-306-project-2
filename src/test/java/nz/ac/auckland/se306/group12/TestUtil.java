@@ -22,7 +22,7 @@ public class TestUtil {
       return dotGraphIO.readDotGraph(file);
     } catch (IOException e) {
       Assertions.fail("File not found.");
-      return null;
+      throw new RuntimeException();
     }
   }
 }
