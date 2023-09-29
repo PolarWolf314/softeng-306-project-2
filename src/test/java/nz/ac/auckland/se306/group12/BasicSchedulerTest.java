@@ -13,10 +13,9 @@ public class BasicSchedulerTest {
   TopologicalSorter sorter = new TopologicalSorter();
   BasicScheduler scheduler = new BasicScheduler();
 
-  void checkForValidSchedule(Graph graph) {
+  void checkForValidSchedule(Graph graph, int processsors) {
     List<Node> tasks = sorter.getATopologicalOrder(graph);
-    System.out.println(tasks);
-    List<Processor> schedule = scheduler.getABasicSchedule(tasks, 2);
+    List<Processor> schedule = scheduler.getABasicSchedule(tasks, processsors);
     System.out.println(schedule);
   }
 
@@ -26,7 +25,7 @@ public class BasicSchedulerTest {
   @Test
   void testTrivialGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test1.dot");
-    checkForValidSchedule(graph);
+    checkForValidSchedule(graph, 2);
   }
 
   /**
@@ -35,7 +34,7 @@ public class BasicSchedulerTest {
   @Test
   void testDisjointGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test_disjoint_graphs.dot");
-    checkForValidSchedule(graph);
+    checkForValidSchedule(graph, 2);
   }
 
   /**
@@ -44,7 +43,7 @@ public class BasicSchedulerTest {
   @Test
   void testAnnoyingGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
-    checkForValidSchedule(graph);
+    checkForValidSchedule(graph, 2);
   }
 
   /**
@@ -53,6 +52,6 @@ public class BasicSchedulerTest {
   @Test
   void testMultiplePaths() {
     Graph graph = TestUtil.loadGraph("./graphs/test_unintuitive_shortest_path.dot");
-    checkForValidSchedule(graph);
+    checkForValidSchedule(graph, 2);
   }
 }

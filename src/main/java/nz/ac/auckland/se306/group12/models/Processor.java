@@ -5,12 +5,14 @@ import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Process class represents a process in a schedule that has a cumulative start time dependent on
  * the list of scheduled tasks, and the list of scheduled tasks.
  */
 @Getter
+@ToString
 @RequiredArgsConstructor
 public class Processor {
 

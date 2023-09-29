@@ -11,7 +11,6 @@ import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
-import nz.ac.auckland.se306.group12.models.ScheduledTask;
 
 // TODO: Might be nice to create a model for the scheduled tasks?
 public class DotGraphIO {
@@ -48,15 +47,15 @@ public class DotGraphIO {
    * Serialises the given scheduled tasks into a dot graph and either writes it to the given output
    * file specified in the {@link CommandLineArguments} or to stdout if the <code>-s</code> flag was
    * set. The scheduled tasks is a list of processor, each processor having a list of
-   * {@link ScheduledTask ScheduledTasks} on it.
+   * {@link Node ScheduledTasks} on it.
    *
-   * @param arguments      The parsed commandline arguments
-   * @param scheduledTasks The scheduled tasks to serialise
+   * @param arguments The parsed commandline arguments
+   * @param nodes     The scheduled tasks to serialise
    * @throws IOException If an error occurs while writing to the file
    */
   public void writeDotGraph(
       final CommandLineArguments arguments,
-      final List<List<ScheduledTask>> scheduledTasks
+      final List<List<Node>> nodes
   ) throws IOException {
     final StringBuilder builder = new StringBuilder();
     final String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
@@ -66,20 +65,20 @@ public class DotGraphIO {
         .append("\" {")
         .append(NEW_LINE);
 
-    for (int processorIndex = 0; processorIndex < scheduledTasks.size(); processorIndex++) {
-      final List<ScheduledTask> processorTasks = scheduledTasks.get(processorIndex);
-      for (final ScheduledTask scheduledTask : processorTasks) {
-        builder.append(scheduledTask.getNode().getLabel())
+    for (int processorIndex = 0; processorIndex < nodes.size(); processorIndex++) {
+      final List<Node> processorTasks = nodes.get(processorIndex);
+      for (final Node node : processorTasks) {
+        builder.append(node.getLabel())
             .append(" [Weight=")
-            .append(scheduledTask.getNode().getWeight())
+            .append(node.getWeight())
             .append(",Start=")
-            .append(scheduledTask.getStartTime())
+            .append(node.getStartTime())
             .append(",Processor=")
             .append(processorIndex + 1) // Processors are 1-indexed
             .append("]")
             .append(NEW_LINE);
 
-        for (final Edge outgoingEdge : scheduledTask.getNode().getOutgoingEdges()) {
+        for (final Edge outgoingEdge : node.getOutgoingEdges()) {
           builder.append(outgoingEdge.getSource().getLabel())
               .append(" -> ")
               .append(outgoingEdge.getDestination().getLabel())
