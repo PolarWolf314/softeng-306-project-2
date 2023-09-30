@@ -4,19 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import nz.ac.auckland.se306.group12.models.Edge;
+import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
 import nz.ac.auckland.se306.group12.models.Processor;
 
 public class BasicScheduler {
 
+  private final TopologicalSorter topologicalSorter = new TopologicalSorter();
+
   /**
-   * Returns a basic schedule for the given list of tasks.
+   * Returns a basic schedule for the given graph of tasks.
    *
-   * @param tasks              The list of tasks to schedule in topological order
+   * @param graph              The graph representing the tasks to be scheduled
    * @param numberOfProcessors The number of processors to schedule the tasks on
    * @return A basic schedule for the given list of tasks
    */
-  public List<Processor> getABasicSchedule(List<Node> tasks, int numberOfProcessors) {
+  public List<Processor> getABasicSchedule(Graph graph, int numberOfProcessors) {
+    final List<Node> tasks = this.topologicalSorter.getATopologicalOrder(graph);
     List<Processor> processors = new ArrayList<>();
 
     for (int i = 0; i < numberOfProcessors; i++) {
