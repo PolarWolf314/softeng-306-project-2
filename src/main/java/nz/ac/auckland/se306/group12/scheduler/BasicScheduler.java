@@ -14,6 +14,7 @@ public class BasicScheduler {
 
   /**
    * Returns a basic schedule for the given graph of tasks.
+   * <p>
    *
    * @param graph              The graph representing the tasks to be scheduled
    * @param numberOfProcessors The number of processors to schedule the tasks on
@@ -23,7 +24,7 @@ public class BasicScheduler {
     final List<Node> tasks = this.topologicalSorter.getATopologicalOrder(graph);
     List<Processor> processors = new ArrayList<>();
 
-    for (int i = 0; i < numberOfProcessors; i++) {
+    for (int i = 1; i <= numberOfProcessors; i++) {
       processors.add(new Processor(i));
     }
 

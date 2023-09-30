@@ -7,7 +7,6 @@ import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
-import nz.ac.auckland.se306.group12.models.ScheduledTask;
 
 public class Main {
 
@@ -20,12 +19,12 @@ public class Main {
       Graph graph = dotGraphIO.readDotGraph(arguments.inputDotGraph());
       System.out.println(graph);
 
-      List<List<ScheduledTask>> scheduledTasks = List.of(
-          List.of(new ScheduledTask(new Node("A", 1), 0, 0)),
-          List.of(new ScheduledTask(new Node("B", 1), 0, 0))
+      List<List<Node>> nodes = List.of(
+          List.of(new Node("A", 1)),
+          List.of(new Node("A", 1))
       );
 
-      dotGraphIO.writeDotGraph(arguments, scheduledTasks);
+      dotGraphIO.writeDotGraph(arguments, nodes);
     } catch (IOException e) {
       e.printStackTrace();
       System.exit(1);

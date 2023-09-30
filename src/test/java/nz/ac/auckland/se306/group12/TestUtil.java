@@ -2,8 +2,11 @@ package nz.ac.auckland.se306.group12;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Graph;
+import nz.ac.auckland.se306.group12.models.Node;
+import nz.ac.auckland.se306.group12.models.Processor;
 import org.junit.jupiter.api.Assertions;
 
 public class TestUtil {
@@ -21,8 +24,17 @@ public class TestUtil {
       File file = new File(path);
       return dotGraphIO.readDotGraph(file);
     } catch (IOException e) {
-      Assertions.fail("File not found.");
-      return null;
+      return Assertions.fail("File not found.");
     }
+  }
+
+  /**
+   * Takes in a schedule and turns it into a list of tasks for each processor
+   *
+   * @param schedule to be converted
+   * @return List of tasks for each processor
+   */
+  public static List<List<Node>> scheduleToListNodes(List<Processor> schedule) {
+    return schedule.stream().map(Processor::getScheduledTasks).toList();
   }
 }

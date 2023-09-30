@@ -11,7 +11,6 @@ import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
-import nz.ac.auckland.se306.group12.models.ScheduledTask;
 
 // TODO: Might be nice to create a model for the scheduled tasks?
 public class DotGraphIO {
@@ -48,55 +47,25 @@ public class DotGraphIO {
    * Serialises the given scheduled tasks into a dot graph and either writes it to the given output
    * file specified in the {@link CommandLineArguments} or to stdout if the <code>-s</code> flag was
    * set. The scheduled tasks is a list of processor, each processor having a list of
-   * {@link ScheduledTask ScheduledTasks} on it.
+   * {@link Node ScheduledTasks} on it.
    *
-   * @param arguments      The parsed commandline arguments
-   * @param scheduledTasks The scheduled tasks to serialise
+   * @param arguments The parsed commandline arguments
+   * @param nodes     The scheduled tasks to serialise
    * @throws IOException If an error occurs while writing to the file
    */
   public void writeDotGraph(
       final CommandLineArguments arguments,
-      final List<List<ScheduledTask>> scheduledTasks
+      final List<List<Node>> nodes
   ) throws IOException {
-    final StringBuilder builder = new StringBuilder();
     final String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
+
     // We surround the name with "..." to allow for characters such as '-' in the name
-    builder.append("digraph \"")
-        .append(digraphName)
-        .append("\" {")
-        .append(NEW_LINE);
-
-    for (int processorIndex = 0; processorIndex < scheduledTasks.size(); processorIndex++) {
-      final List<ScheduledTask> processorTasks = scheduledTasks.get(processorIndex);
-      for (final ScheduledTask scheduledTask : processorTasks) {
-        builder.append(scheduledTask.getNode().getLabel())
-            .append(" [Weight=")
-            .append(scheduledTask.getNode().getWeight())
-            .append(",Start=")
-            .append(scheduledTask.getStartTime())
-            .append(",Processor=")
-            .append(processorIndex + 1) // Processors are 1-indexed
-            .append("]")
-            .append(NEW_LINE);
-
-        for (final Edge outgoingEdge : scheduledTask.getNode().getOutgoingEdges()) {
-          builder.append(outgoingEdge.getSource().getLabel())
-              .append(" -> ")
-              .append(outgoingEdge.getDestination().getLabel())
-              .append(" [Weight=")
-              .append(outgoingEdge.getWeight())
-              .append("]")
-              .append(NEW_LINE);
-        }
-      }
-    }
-
-    builder.append("}");
+    String output = this.toDotString(digraphName, nodes);
 
     if (arguments.writeToStdOut()) {
-      System.out.println(builder);
+      System.out.println(output);
     } else {
-      FileIO.writeToFile(builder.toString(), arguments.outputDotGraph());
+      FileIO.writeToFile(output, arguments.outputDotGraph());
     }
   }
 
@@ -107,7 +76,7 @@ public class DotGraphIO {
    * @param graphName String name of the graph
    * @param graph     list of nodes to create a graph with
    */
-  public void writeOrderToDotGraph(String graphName, List<Node> graph) {
+  public void writeOrderToConsole(String graphName, List<Node> graph) {
     StringBuilder builder = new StringBuilder();
     builder.append("digraph ")
         .append(graphName)
@@ -135,5 +104,58 @@ public class DotGraphIO {
     builder.append("}");
 
     System.out.println(builder);
+  }
+
+  /**
+   * Same as writeDotGraph, used for testing.
+   *
+   * @param nodes The scheduled tasks to serialise
+   */
+  public void writeOutputDotGraphToConsole(String digraphName, final List<List<Node>> nodes) {
+    System.out.println(toDotString(digraphName, nodes));
+  }
+
+
+  /**
+   * Generates a dot graph string out of a schedule.
+   *
+   * @param digraphName name of the digraph
+   * @param schedule    the schedule of the digraph
+   * @return the digraph in string form, in a .dot format
+   */
+  public String toDotString(String digraphName, List<List<Node>> schedule) {
+    final StringBuilder builder = new StringBuilder();
+    builder.append("digraph ")
+        .append(digraphName)
+        .append(" {")
+        .append(NEW_LINE);
+
+    for (int processorIndex = 0; processorIndex < schedule.size(); processorIndex++) {
+      final List<Node> processorTasks = schedule.get(processorIndex);
+      for (final Node node : processorTasks) {
+        builder.append(node.getLabel())
+            .append(" [Weight=")
+            .append(node.getWeight())
+            .append(",Start=")
+            .append(node.getStartTime())
+            .append(",Processor=")
+            .append(processorIndex + 1) // Processors are 1-indexed
+            .append("]")
+            .append(NEW_LINE);
+
+        for (final Edge outgoingEdge : node.getOutgoingEdges()) {
+          builder.append(outgoingEdge.getSource().getLabel())
+              .append(" -> ")
+              .append(outgoingEdge.getDestination().getLabel())
+              .append(" [Weight=")
+              .append(outgoingEdge.getWeight())
+              .append("]")
+              .append(NEW_LINE);
+        }
+      }
+    }
+
+    builder.append("}");
+    return builder.toString();
   }
 }
