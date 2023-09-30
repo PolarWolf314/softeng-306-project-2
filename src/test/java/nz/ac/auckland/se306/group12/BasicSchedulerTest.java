@@ -23,6 +23,16 @@ public class BasicSchedulerTest {
   TopologicalSorter sorter = new TopologicalSorter();
   BasicScheduler scheduler = new BasicScheduler();
 
+  Processor findProcessor(Map<Processor, Integer> cpu, Node node) {
+    List<Processor> processCore = cpu.keySet()
+        .stream()
+        .filter(processor -> processor.getScheduledTasks().contains(node))
+        .toList();
+
+    Assertions.assertEquals(1, processCore.size(), "Task exists in multiple processors");
+    return processCore.get(0);
+  }
+
   /**
    * Checks if a given list of tasks is in a proper order
    *
@@ -77,19 +87,25 @@ public class BasicSchedulerTest {
 
     // Run the schedule
     for (Node node : schedule) {
-      List<Processor> processCore = cpu.keySet()
-          .stream()
-          .filter(processor -> processor.getScheduledTasks().contains(node))
-          .toList();
+      Processor processCore = findProcessor(cpu, node);
 
-      Assertions.assertEquals(1, processCore.size(), "Task exists in multiple processors");
+      for (Edge edge : node.getIncomingEdges()) {
+        Node parent = edge.getSource();
+        int slack = 0;
+        Processor processSource = findProcessor(cpu, parent);
+        if (!processCore.equals(processSource)) {
+          slack = edge.getWeight();
+        }
+        System.out.println(node.getStartTime());
+        Assertions.assertTrue(
+            node.getStartTime() >= parent.getStartTime() + parent.getWeight() + slack,
+            "Schedule ordering is not valid");
+      }
 
-      int currentValue = cpu.get(processCore.get(0));
-
+      int currentValue = cpu.get(processCore);
       Assertions.assertTrue(currentValue <= node.getStartTime(),
-          "Tasks are overlapping in the CPU");
-
-      cpu.put(processCore.get(0), node.getStartTime() + node.getWeight());
+          "Tasks are overlapping in a CPU");
+      cpu.put(processCore, node.getStartTime() + node.getWeight());
     }
   }
 
