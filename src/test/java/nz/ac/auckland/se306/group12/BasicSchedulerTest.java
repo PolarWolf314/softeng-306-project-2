@@ -89,7 +89,7 @@ public class BasicSchedulerTest {
       Assertions.assertTrue(currentValue <= node.getStartTime(),
           "Tasks are overlapping in the CPU");
 
-      cpu.put(processCore.get(0), currentValue + node.getWeight());
+      cpu.put(processCore.get(0), node.getStartTime() + node.getWeight());
     }
   }
 
