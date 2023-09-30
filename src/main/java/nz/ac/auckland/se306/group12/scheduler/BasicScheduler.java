@@ -27,7 +27,7 @@ public class BasicScheduler {
     List<Processor> processors = new ArrayList<>();
 
     for (int i = 0; i < numberOfProcessors; i++) {
-      processors.add(new Processor());
+      processors.add(new Processor(i));
     }
 
     for (Node task : tasks) {
@@ -98,6 +98,53 @@ public class BasicScheduler {
     }
 
     return shortestProcessor;
+  }
+
+  private void scheduleTaskOnEarliestProcessor(Node task, List<Processor> processors) {
+    int secondLatestParentEndTime = Integer.MIN_VALUE;
+    Node latestParent = null;
+    int latestParentEndTime = Integer.MIN_VALUE;
+
+    // Determine the latest and second-latest parents assuming the task is scheduled on a different
+    // processor and therefore, the communication cost must be considered. The latest parent node is
+    // also stored so that we can determine which processor it is scheduled on.
+    for (Edge parentEdge : task.getIncomingEdges()) {
+      final Node parent = parentEdge.getSource();
+      int parentEndTime = parent.getEndTime() + parentEdge.getWeight();
+
+      if (parentEndTime > latestParentEndTime) {
+        secondLatestParentEndTime = latestParentEndTime;
+        latestParent = parent;
+        latestParentEndTime = parentEndTime;
+      } else if (parentEndTime > secondLatestParentEndTime) {
+        secondLatestParentEndTime = parentEndTime;
+      }
+    }
+
+    int latestParentProcessorIndex = this.getParentProcessor(latestParent, processors)
+        .getProcessorIndex();
+
+    int earliestStartTime = Integer.MAX_VALUE;
+    Processor earliestProcessor = processors.get(0);
+
+    for (int processorIndex = 0; processorIndex < processors.size(); processorIndex++) {
+      int processorEndTime = processors.get(processorIndex).getEndTime();
+
+      // If it's scheduled on the same processor as the latest parent, we don't need to consider
+      // the intercommunication cost, and so we use the second-latest parent end time. The
+      // processor end time will always be >= the latest parent on that processor.
+      int parentEndTime = processorIndex == latestParentProcessorIndex
+          ? secondLatestParentEndTime : latestParentEndTime;
+
+      int earliestProcessorStartTime = Math.max(processorEndTime, parentEndTime);
+      if (earliestProcessorStartTime < earliestStartTime) {
+        earliestStartTime = earliestProcessorStartTime;
+        earliestProcessor = processors.get(processorIndex);
+      }
+    }
+
+    task.setStartTime(earliestStartTime);
+    earliestProcessor.addTask(task);
   }
 
   /**

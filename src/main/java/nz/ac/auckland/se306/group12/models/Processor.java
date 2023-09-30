@@ -14,10 +14,12 @@ import lombok.RequiredArgsConstructor;
 public class Processor {
 
   private final List<Node> scheduledTasks = new ArrayList<>();
+  private final int processorIndex;
   private int endTime = 0;
 
+
   public void addTask(Node task) {
-    this.endTime = task.getStartTime() + task.getWeight();
+    this.endTime = task.getEndTime();
     this.scheduledTasks.add(task);
   }
 }
