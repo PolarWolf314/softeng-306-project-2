@@ -149,7 +149,7 @@ public class BasicSchedulerTest {
    * Test for trivial graph
    */
   @ParameterizedTest
-  @ValueSource(ints = {1, 2, 3})
+  @ValueSource(ints = {1, 2, 3, 10, 24})
   void testTrivialGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test1.dot");
     validateSchedule(graph, 2);
@@ -159,7 +159,7 @@ public class BasicSchedulerTest {
    * Test for disconnected graph
    */
   @ParameterizedTest
-  @ValueSource(ints = {1, 2, 3})
+  @ValueSource(ints = {1, 2, 3, 10, 24})
   void testDisjointGraph(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_disjoint_graphs.dot");
     validateSchedule(graph, processors);
@@ -169,7 +169,7 @@ public class BasicSchedulerTest {
    * Test for disconnected graph
    */
   @ParameterizedTest
-  @ValueSource(ints = {1, 2, 3})
+  @ValueSource(ints = {1, 2, 3, 10, 24})
   void testLongCommunication(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_long_communication_time.dot");
     validateSchedule(graph, processors);
@@ -179,7 +179,7 @@ public class BasicSchedulerTest {
    * Test with graph that has multiple sources
    */
   @ParameterizedTest
-  @ValueSource(ints = {1, 2, 3})
+  @ValueSource(ints = {1, 2, 3, 10, 24})
   void testAnnoyingGraph(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
     validateSchedule(graph, processors);
@@ -189,7 +189,7 @@ public class BasicSchedulerTest {
    * Test with graph with a large path
    */
   @ParameterizedTest
-  @ValueSource(ints = {1, 2, 3})
+  @ValueSource(ints = {1, 2, 3, 10, 24})
   void testMultiplePaths(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_unintuitive_shortest_path.dot");
     validateSchedule(graph, processors);
