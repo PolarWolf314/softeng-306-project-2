@@ -20,8 +20,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 public class BasicSchedulerTest {
 
-  final TopologicalSorter sorter = new TopologicalSorter();
-  final BasicScheduler scheduler = new BasicScheduler();
+  final private TopologicalSorter sorter = new TopologicalSorter();
+  final private BasicScheduler scheduler = new BasicScheduler();
 
   Processor findProcessor(Map<Processor, Integer> cpu, Node node) {
     List<Processor> processCore = cpu.keySet()

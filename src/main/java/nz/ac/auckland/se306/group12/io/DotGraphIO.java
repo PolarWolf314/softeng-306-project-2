@@ -60,7 +60,7 @@ public class DotGraphIO {
     final String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
 
     // We surround the name with "..." to allow for characters such as '-' in the name
-    String output = toDotString(digraphName, nodes);
+    String output = this.toDotString(digraphName, nodes);
 
     if (arguments.writeToStdOut()) {
       System.out.println(output);
