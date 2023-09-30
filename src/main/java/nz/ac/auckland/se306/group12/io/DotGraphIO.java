@@ -30,6 +30,8 @@ public class DotGraphIO {
     GraphParser parser = new GraphParser(new FileInputStream(inputDotGraph));
     Graph graph = new Graph();
 
+    graph.setName(parser.getGraphId());
+
     for (GraphNode graphNode : parser.getNodes().values()) {
       int weight = Integer.parseInt(graphNode.getAttributes().get("Weight").toString());
       graph.addNode(graphNode.getId(), weight);

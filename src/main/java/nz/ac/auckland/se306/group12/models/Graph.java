@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 /*
@@ -18,6 +19,8 @@ public class Graph {
 
   private final Map<String, Node> nodes = new HashMap<>();
   private final Set<Edge> edges = new HashSet<>();
+  @Setter
+  private String name = "";
 
   /**
    * Add and edge to the graph and also update the nodes incoming and outgoing edges

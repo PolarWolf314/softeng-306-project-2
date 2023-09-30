@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
@@ -84,8 +83,8 @@ public class BasicSchedulerTest {
         .sorted(Comparator.comparingInt(Node::getStartTime))
         .toList();
 
-    DotGraphIO io = new DotGraphIO();
-    io.writeOutputDotGraphToConsole("Test", TestUtil.scheduleToListNodes(cores));
+    //    DotGraphIO io = new DotGraphIO();
+    //    io.writeOutputDotGraphToConsole(graph.getName(), TestUtil.scheduleToListNodes(cores));
 
     Assertions.assertEquals(graph.getNodes().size(), schedule.size(),
         "Schedule size does not match the graph size.");
@@ -118,7 +117,7 @@ public class BasicSchedulerTest {
       processors.put(processCore, node.getStartTime() + node.getWeight());
     }
   }
-  
+
 
   /**
    * Test for trivial graph
