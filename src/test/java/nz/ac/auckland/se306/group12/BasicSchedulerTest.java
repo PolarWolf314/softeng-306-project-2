@@ -98,11 +98,12 @@ public class BasicSchedulerTest {
         if (!processCore.equals(processSource)) {
           swapTime = edge.getWeight();
         }
-        System.out.println(node.getStartTime());
+        System.out.println();
         Assertions.assertTrue(
             node.getStartTime() >= parent.getStartTime() + parent.getWeight() + swapTime,
-            String.format("Invalid Schedule: Task %s starts before parent %s completes",
-                node.getLabel(), parent.getLabel()));
+            String.format(
+                "Invalid Schedule: Task %s starts before parent %s completes, at start %d",
+                node.getLabel(), parent.getLabel(), node.getStartTime()));
       }
 
       int currentCoreValue = processors.get(processCore);
