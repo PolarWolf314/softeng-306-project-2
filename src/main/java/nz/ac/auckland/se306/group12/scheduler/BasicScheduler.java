@@ -2,6 +2,7 @@ package nz.ac.auckland.se306.group12.scheduler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Node;
 import nz.ac.auckland.se306.group12.models.Processor;
@@ -16,14 +17,6 @@ public class BasicScheduler {
    * @return A basic schedule for the given list of tasks
    */
   public List<Processor> getABasicSchedule(List<Node> tasks, int numberOfProcessors) {
-    // Step 1: Create a list of processors
-    // Step 2: Find the parent task of the current task with the highest finish time
-    // Step 3: Find the processor with the earliest finish time.
-    // Step 4: Find the finish time of the parent processor
-    // Step 5: Find out the lower of these two ->
-    //      Step 3 (or parent task finish time, whichever is higher) + Communication Time or Step 4
-    // Step 6: Assign the task to the processor with the lower finish time
-
     List<Processor> processors = new ArrayList<>();
 
     for (int i = 0; i < numberOfProcessors; i++) {
@@ -31,51 +24,15 @@ public class BasicScheduler {
     }
 
     for (Node task : tasks) {
-      // find the parent tasks of the current task
-      List<Edge> parentEdges = task.getIncomingEdges().stream().toList();
+      Set<Edge> parentEdges = task.getIncomingEdges();
 
       // if there are no parents, add to the cheapest processor
       if (parentEdges.isEmpty()) {
         Processor shortestProcessor = this.getProcessorWithEarliestEndTime(processors);
         task.setStartTime(shortestProcessor.getEndTime());
         shortestProcessor.addTask(task);
-        continue;
-      }
-
-      Edge parentEdge = this.getParentWithHighestFinishTime(parentEdges);
-
-      // find the processor with the lowest cumulative start time
-      Processor cheapestProcessor = this.getProcessorWithEarliestEndTime(processors);
-
-      // find the parent processor of the parent task
-      Processor parentProcessor = this.getParentProcessor(parentEdge.getSource(), processors);
-
-      // find the finish time of the parent processor
-      int parentProcessorFinishTime = parentProcessor.getEndTime();
-
-      // find the finish time of the parent task
-      int parentTaskFinishTime =
-          parentEdge.getSource().getStartTime() + parentEdge.getSource().getWeight();
-
-      // find the communication cost
-      int communicationCost = parentEdge.getWeight();
-
-      if (cheapestProcessor.getEndTime() >= parentTaskFinishTime) {
-        if (cheapestProcessor.getEndTime() + communicationCost < parentProcessorFinishTime) {
-          task.setStartTime(cheapestProcessor.getEndTime() + communicationCost);
-          cheapestProcessor.addTask(task);
-        } else {
-          task.setStartTime(parentTaskFinishTime);
-          parentProcessor.addTask(task);
-        }
       } else {
-        if (parentTaskFinishTime + communicationCost < parentProcessorFinishTime) {
-          task.setStartTime(parentTaskFinishTime + communicationCost);
-          cheapestProcessor.addTask(task);
-        } else {
-          task.setStartTime(parentTaskFinishTime);
-          parentProcessor.addTask(task);
-        }
+        this.scheduleTaskOnEarliestProcessor(task, processors);
       }
     }
     return processors;
@@ -146,27 +103,6 @@ public class BasicScheduler {
     task.setStartTime(earliestStartTime);
     earliestProcessor.addTask(task);
   }
-
-  /**
-   * Returns the parent task with the highest finish time.
-   *
-   * @param parentEdges the list of parent edges to search through
-   * @return The parent task with the highest finish time
-   */
-  public Edge getParentWithHighestFinishTime(List<Edge> parentEdges) {
-    int highestFinishTime = Integer.MIN_VALUE;
-    Edge parentEdgeWithHighestFinishTime = parentEdges.get(0);
-    for (Edge parentEdge : parentEdges) {
-      if (parentEdge.getSource().getStartTime() + parentEdge.getSource().getWeight()
-          > highestFinishTime) {
-        highestFinishTime = parentEdge.getSource().getStartTime()
-            + parentEdge.getSource().getWeight();
-        parentEdgeWithHighestFinishTime = parentEdge;
-      }
-    }
-    return parentEdgeWithHighestFinishTime;
-  }
-
 
   /**
    * Returns the parent processor of the given parent task.
