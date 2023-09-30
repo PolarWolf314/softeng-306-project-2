@@ -7,12 +7,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
 import nz.ac.auckland.se306.group12.models.Processor;
 import nz.ac.auckland.se306.group12.scheduler.BasicScheduler;
-import nz.ac.auckland.se306.group12.scheduler.TopologicalSorter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,7 +20,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 public class BasicSchedulerTest {
 
-  final private TopologicalSorter sorter = new TopologicalSorter();
   final private BasicScheduler scheduler = new BasicScheduler();
 
   Processor findProcessor(Map<Processor, Integer> cpu, Node node) {
@@ -52,7 +51,12 @@ public class BasicSchedulerTest {
           .allMatch(edge -> edge.getDestination().getStartTime()
               >= task.getStartTime() + task.getWeight());
 
-      if (!(parentsComplete && completedBeforeChildrenStart)) {
+      if (!parentsComplete) {
+        System.out.println("Dependencies not met at - " + task.getLabel());
+        return false;
+      }
+      if (!completedBeforeChildrenStart) {
+        System.out.println("Completed before children start - " + task.getLabel());
         return false;
       }
     }
@@ -67,11 +71,10 @@ public class BasicSchedulerTest {
    * @param numProcesses amount of processors
    */
   void validateSchedule(Graph graph, int numProcesses) {
-    List<Node> tasks = this.sorter.getATopologicalOrder(graph);
 
     // Initialise my computer
     Map<Processor, Integer> processors = new HashMap<>();
-    List<Processor> cores = this.scheduler.getABasicSchedule(tasks, numProcesses);
+    List<Processor> cores = this.scheduler.getABasicSchedule(graph, numProcesses);
 
     for (Processor core : cores) {
       processors.put(core, 0);
@@ -82,6 +85,10 @@ public class BasicSchedulerTest {
         .flatMap(List::stream)
         .sorted(Comparator.comparingInt(Node::getStartTime))
         .toList();
+
+    DotGraphIO io = new DotGraphIO();
+    io.writeOutputDotGraphToConsole("Test", TestUtil.scheduleToListNodes(cores));
+
     Assertions.assertEquals(graph.getNodes().size(), schedule.size(),
         "Schedule size does not match the graph size.");
     Assertions.assertTrue(checkValidOrder(schedule),
@@ -98,7 +105,6 @@ public class BasicSchedulerTest {
         if (!processCore.equals(processSource)) {
           swapTime = edge.getWeight();
         }
-        System.out.println();
         Assertions.assertTrue(
             node.getStartTime() >= parent.getStartTime() + parent.getWeight() + swapTime,
             String.format(
@@ -110,7 +116,7 @@ public class BasicSchedulerTest {
       Assertions.assertTrue(currentCoreValue <= node.getStartTime(),
           String.format("Invalid Schedule: Task %s overlaps with another task on processor %d",
               node.getLabel(),
-              processCore.getId()));
+              processCore.getProcessorIndex()));
       processors.put(processCore, node.getStartTime() + node.getWeight());
     }
   }
