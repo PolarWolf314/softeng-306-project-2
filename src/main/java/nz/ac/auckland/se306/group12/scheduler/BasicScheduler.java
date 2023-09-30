@@ -11,11 +11,11 @@ public class BasicScheduler {
   /**
    * Returns a basic schedule for the given list of tasks.
    *
-   * @param tasks              The list of tasks to schedule in topological order
-   * @param numberOfProcessors The number of processors to schedule the tasks on
+   * @param tasks          The list of tasks to schedule in topological order
+   * @param processorCount The number of processors to schedule the tasks on
    * @return A basic schedule for the given list of tasks
    */
-  public List<Processor> getABasicSchedule(List<Node> tasks, int numberOfProcessors) {
+  public List<Processor> getABasicSchedule(List<Node> tasks, int processorCount) {
     // Step 1: Create a list of processors
     // Step 2: Find the parent task of the current task with the highest finish time
     // Step 3: Find the processor with the earliest finish time.
@@ -26,8 +26,8 @@ public class BasicScheduler {
 
     List<Processor> processors = new ArrayList<>();
 
-    for (int i = 0; i < numberOfProcessors; i++) {
-      processors.add(new Processor());
+    for (int i = 1; i <= processorCount; i++) {
+      processors.add(new Processor(i));
     }
 
     for (Node task : tasks) {
