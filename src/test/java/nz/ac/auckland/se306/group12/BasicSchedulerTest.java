@@ -1,13 +1,19 @@
 package nz.ac.auckland.se306.group12;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
+import nz.ac.auckland.se306.group12.models.Processor;
 import nz.ac.auckland.se306.group12.scheduler.BasicScheduler;
 import nz.ac.auckland.se306.group12.scheduler.TopologicalSorter;
 import org.junit.jupiter.api.Assertions;
@@ -33,15 +39,46 @@ public class BasicSchedulerTest {
     return true;
   }
 
-  void checkForValidSchedule(Graph graph, int processsors) {
+  void checkForValidSchedule(Graph graph, int processors) {
     List<Node> tasks = sorter.getATopologicalOrder(graph);
+
+    // Initialise my computer
+    Map<Processor, Integer> cpu = new HashMap<>();
+    List<Processor> cores = scheduler.getABasicSchedule(tasks, processors);
+
+    for (int i = 0; i < cores.size(); i++) {
+      cpu.put(cores.get(i), 0);
+    }
+
+    // Make sure schedule order is valid
     List<Node> schedule = TestUtil.scheduleToListNodes(
-            scheduler.getABasicSchedule(tasks, processsors)).stream()
+            cores).stream()
         .flatMap(List::stream)
         .sorted(Comparator.comparingInt(Node::getStartTime))
         .toList();
     Assertions.assertEquals(tasks.size(), schedule.size());
     Assertions.assertTrue(checkValidOrder(schedule));
+
+    DotGraphIO io = new DotGraphIO();
+    try {
+      io.writeOutputDotGraphToConsole("test", TestUtil.scheduleToListNodes(cores));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+
+    // Run the schedule
+    for (Node node : schedule) {
+      List<Processor> processCore = cpu.entrySet().stream()
+          .filter(processor -> processor.getKey().getScheduledTasks().contains(node)).map(
+              Entry::getKey).toList();
+      Assertions.assertEquals(1, processCore.size(), "Task exists in multiple processors");
+      int currentValue = cpu.get(processCore.get(0));
+      System.out.println(
+          "Current processor time: " + currentValue + " Scheduled time: " + node.getStartTime());
+      //Assertions.assertTrue(currentValue < node.getStartTime(), "Tasks are overlapping in the CPU");
+      cpu.put(processCore.get(0), currentValue + node.getWeight());
+      System.out.println(cpu.get(processCore.get(0)));
+    }
   }
 
 
@@ -74,7 +111,7 @@ public class BasicSchedulerTest {
   }
 
   /**
-   * Test with an invalid schedule
+   * Test with a weird but valid schedule
    */
   @Test
   void testConcussionSchedule() {
@@ -109,6 +146,15 @@ public class BasicSchedulerTest {
   @Test
   void testDisjointGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test_disjoint_graphs.dot");
+    checkForValidSchedule(graph, 2);
+  }
+
+  /**
+   * Test for disconnected graph
+   */
+  @Test
+  void testLongCommunication() {
+    Graph graph = TestUtil.loadGraph("./graphs/test_long_communication_time.dot");
     checkForValidSchedule(graph, 2);
   }
 

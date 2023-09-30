@@ -1,0 +1,11 @@
+digraph LongCommunicationTime {
+    A [Weight = 1];
+    B [Weight = 5];
+    C [Weight = 1];
+    D [Weight = 1];
+
+    A -> B [Weight = 3];
+    A -> C [Weight = 2];
+    C -> D [Weight = 10];
+    B -> D [Weight = 1];
+}
