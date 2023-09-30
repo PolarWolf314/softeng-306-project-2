@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
@@ -49,8 +48,8 @@ public class BasicSchedulerTest {
     Map<Processor, Integer> cpu = new HashMap<>();
     List<Processor> cores = scheduler.getABasicSchedule(tasks, processors);
 
-    for (int i = 0; i < cores.size(); i++) {
-      cpu.put(cores.get(i), 0);
+    for (Processor core : cores) {
+      cpu.put(core, 0);
     }
 
     // Make sure schedule order is valid
@@ -59,11 +58,8 @@ public class BasicSchedulerTest {
         .flatMap(List::stream)
         .sorted(Comparator.comparingInt(Node::getStartTime))
         .toList();
-    Assertions.assertEquals(tasks.size(), schedule.size());
+    Assertions.assertEquals(graph.getNodes().size(), schedule.size());
     Assertions.assertTrue(checkValidOrder(schedule));
-
-    DotGraphIO io = new DotGraphIO();
-    io.writeOutputDotGraphToConsole("test", TestUtil.scheduleToListNodes(cores));
 
     // Run the schedule
     for (Node node : schedule) {
