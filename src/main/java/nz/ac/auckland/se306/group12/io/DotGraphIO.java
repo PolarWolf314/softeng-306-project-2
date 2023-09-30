@@ -106,7 +106,7 @@ public class DotGraphIO {
    * @param graphName String name of the graph
    * @param graph     list of nodes to create a graph with
    */
-  public void writeOrderToDotGraph(String graphName, List<Node> graph) {
+  public void writeOrderToConsole(String graphName, List<Node> graph) {
     StringBuilder builder = new StringBuilder();
     builder.append("digraph ")
         .append(graphName)
@@ -128,6 +128,50 @@ public class DotGraphIO {
             .append(outgoingEdge.getWeight())
             .append("]")
             .append(NEW_LINE);
+      }
+    }
+
+    builder.append("}");
+
+    System.out.println(builder);
+  }
+
+  /**
+   * Same as writeDotGraph, used for testing.
+   *
+   * @param nodes The scheduled tasks to serialise
+   * @throws IOException If an error occurs while writing to the file
+   */
+  public void writeOutputDotGraphToConsole(String digraphName, final List<List<Node>> nodes)
+      throws IOException {
+    final StringBuilder builder = new StringBuilder();
+    builder.append("digraph ")
+        .append(digraphName)
+        .append(" {")
+        .append(NEW_LINE);
+
+    for (int processorIndex = 0; processorIndex < nodes.size(); processorIndex++) {
+      final List<Node> processorTasks = nodes.get(processorIndex);
+      for (final Node node : processorTasks) {
+        builder.append(node.getLabel())
+            .append(" [Weight=")
+            .append(node.getWeight())
+            .append(",Start=")
+            .append(node.getStartTime())
+            .append(",Processor=")
+            .append(processorIndex + 1) // Processors are 1-indexed
+            .append("]")
+            .append(NEW_LINE);
+
+        for (final Edge outgoingEdge : node.getOutgoingEdges()) {
+          builder.append(outgoingEdge.getSource().getLabel())
+              .append(" -> ")
+              .append(outgoingEdge.getDestination().getLabel())
+              .append(" [Weight=")
+              .append(outgoingEdge.getWeight())
+              .append("]")
+              .append(NEW_LINE);
+        }
       }
     }
 

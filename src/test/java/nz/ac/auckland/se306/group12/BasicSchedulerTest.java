@@ -1,11 +1,16 @@
 package nz.ac.auckland.se306.group12;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
-import nz.ac.auckland.se306.group12.models.Processor;
 import nz.ac.auckland.se306.group12.scheduler.BasicScheduler;
 import nz.ac.auckland.se306.group12.scheduler.TopologicalSorter;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class BasicSchedulerTest {
@@ -13,11 +18,81 @@ public class BasicSchedulerTest {
   TopologicalSorter sorter = new TopologicalSorter();
   BasicScheduler scheduler = new BasicScheduler();
 
+  boolean checkValidOrder(List<Node> schedule) {
+    Set<Node> completedTasks = new HashSet<>();
+
+    for (Node task : schedule) {
+      completedTasks.add(task);
+      for (Edge edge : task.getIncomingEdges()) {
+        if (!completedTasks.contains(edge.getSource())) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
   void checkForValidSchedule(Graph graph, int processsors) {
     List<Node> tasks = sorter.getATopologicalOrder(graph);
-    List<Processor> schedule = scheduler.getABasicSchedule(tasks, processsors);
-    System.out.println(schedule);
+    List<Node> schedule = TestUtil.scheduleToListNodes(
+            scheduler.getABasicSchedule(tasks, processsors)).stream()
+        .flatMap(List::stream)
+        .sorted(Comparator.comparingInt(Node::getStartTime))
+        .toList();
+    Assertions.assertEquals(tasks.size(), schedule.size());
+    Assertions.assertTrue(checkValidOrder(schedule));
   }
+
+
+  /**
+   * Test with an invalid schedule
+   */
+  @Test
+  void testInvalidSchedule() {
+    Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
+    List<Node> schedule = new ArrayList<>();
+    schedule.add(graph.getNodes().get("A"));
+    schedule.add(graph.getNodes().get("C"));
+    Assertions.assertFalse(checkValidOrder(schedule));
+  }
+
+  /**
+   * Test with an invalid schedule
+   */
+  @Test
+  void testInvalidScheduleAgain() {
+    Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
+    List<Node> schedule = new ArrayList<>();
+    schedule.add(graph.getNodes().get("A"));
+    schedule.add(graph.getNodes().get("B"));
+    schedule.add(graph.getNodes().get("C"));
+    schedule.add(graph.getNodes().get("D"));
+    schedule.add(graph.getNodes().get("F"));
+    schedule.add(graph.getNodes().get("J"));
+    Assertions.assertFalse(checkValidOrder(schedule));
+  }
+
+  /**
+   * Test with an invalid schedule
+   */
+  @Test
+  void testConcussionSchedule() {
+    Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
+    List<Node> schedule = new ArrayList<>();
+    schedule.add(graph.getNodes().get("A"));
+    schedule.add(graph.getNodes().get("B"));
+    schedule.add(graph.getNodes().get("C"));
+    schedule.add(graph.getNodes().get("E"));
+    schedule.add(graph.getNodes().get("G"));
+    schedule.add(graph.getNodes().get("J"));
+    schedule.add(graph.getNodes().get("D"));
+    schedule.add(graph.getNodes().get("F"));
+    schedule.add(graph.getNodes().get("H"));
+    schedule.add(graph.getNodes().get("I"));
+    Assertions.assertTrue(checkValidOrder(schedule));
+  }
+
 
   /**
    * Test for trivial graph

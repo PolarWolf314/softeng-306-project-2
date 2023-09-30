@@ -1,0 +1,4 @@
+digraph test_disjoint_graphs-output {
+A [Weight=1,Start=0,Processor=1]
+A [Weight=1,Start=0,Processor=2]
+}
