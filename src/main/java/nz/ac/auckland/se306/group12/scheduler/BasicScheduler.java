@@ -48,6 +48,14 @@ public class BasicScheduler {
     return shortestProcessor;
   }
 
+  /**
+   * Schedules the given task on the processor that gives it the earliest start time. This factors
+   * in the intercommunication cost if the task has dependencies and is scheduled on a different
+   * processor to them.
+   *
+   * @param task       The task to schedule
+   * @param processors The list of processors to schedule on
+   */
   private void scheduleTaskOnEarliestProcessor(Node task, List<Processor> processors) {
     Set<Edge> parentEdges = task.getIncomingEdges();
 
@@ -58,7 +66,7 @@ public class BasicScheduler {
       earliestProcessor = this.getProcessorWithEarliestEndTime(processors);
       earliestStartTime = earliestProcessor.getEndTime();
     } else {
-      InterCommunicationCosts communicationCosts = this.determineInterCommunicationsCosts(
+      IntercommunicationCosts communicationCosts = this.determineIntercommunicationCosts(
           parentEdges, processors);
 
       for (int processorIndex = 0; processorIndex < processors.size(); processorIndex++) {
@@ -82,7 +90,18 @@ public class BasicScheduler {
     earliestProcessor.addTask(task);
   }
 
-  public InterCommunicationCosts determineInterCommunicationsCosts(
+  /**
+   * Determines the intercommunication costs for the given parent edges and processors. We only need
+   * to find the latest and second-latest start times while factoring in the communication cost as
+   * if the task is scheduled on the same processor as the latest start time we switch to the
+   * second-latest start time (As the intercommunication cost doesn't apply when scheduled on the
+   * same processor). In all other cases, we use the latest start time.
+   *
+   * @param parentEdges The edges connecting the dependencies of the task
+   * @param processors  The list of processors that can be scheduled on
+   * @return The intercommunication-factored latest and second-latest start times
+   */
+  public IntercommunicationCosts determineIntercommunicationCosts(
       Set<Edge> parentEdges,
       List<Processor> processors
   ) {
@@ -109,7 +128,7 @@ public class BasicScheduler {
     int latestProcessorIndex = this.getParentProcessor(latestParent, processors)
         .getProcessorIndex();
 
-    return new InterCommunicationCosts(
+    return new IntercommunicationCosts(
         latestProcessorIndex, latestStartTime, secondLatestStartTime);
   }
 
@@ -129,7 +148,7 @@ public class BasicScheduler {
     return null;
   }
 
-  private record InterCommunicationCosts(int latestProcessorIndex,
+  private record IntercommunicationCosts(int latestProcessorIndex,
                                          int latestStartTime,
                                          int secondLatestStartTime) {
 
