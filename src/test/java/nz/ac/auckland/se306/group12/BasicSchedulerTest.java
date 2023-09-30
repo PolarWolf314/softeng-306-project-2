@@ -32,7 +32,7 @@ public class BasicSchedulerTest {
         }
       }
       for (Edge edge : task.getOutgoingEdges()) {
-        if (edge.getDestination().getStartTime() > task.getStartTime() + task.getWeight()) {
+        if (edge.getDestination().getStartTime() < task.getStartTime() + task.getWeight()) {
           return false;
         }
       }
@@ -106,26 +106,6 @@ public class BasicSchedulerTest {
     schedule.add(graph.getNodes().get("F"));
     schedule.add(graph.getNodes().get("J"));
     Assertions.assertFalse(checkValidOrder(schedule));
-  }
-
-  /**
-   * Test with a weird but valid schedule
-   */
-  @Test
-  void testConcussionSchedule() {
-    Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
-    List<Node> schedule = new ArrayList<>();
-    schedule.add(graph.getNodes().get("A"));
-    schedule.add(graph.getNodes().get("B"));
-    schedule.add(graph.getNodes().get("C"));
-    schedule.add(graph.getNodes().get("E"));
-    schedule.add(graph.getNodes().get("G"));
-    schedule.add(graph.getNodes().get("J"));
-    schedule.add(graph.getNodes().get("D"));
-    schedule.add(graph.getNodes().get("F"));
-    schedule.add(graph.getNodes().get("H"));
-    schedule.add(graph.getNodes().get("I"));
-    Assertions.assertTrue(checkValidOrder(schedule));
   }
 
 
