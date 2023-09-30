@@ -24,8 +24,7 @@ public class TestUtil {
       File file = new File(path);
       return dotGraphIO.readDotGraph(file);
     } catch (IOException e) {
-      Assertions.fail("File not found.");
-      throw new RuntimeException();
+      return Assertions.fail("File not found.");
     }
   }
 
