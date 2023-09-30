@@ -82,8 +82,10 @@ public class BasicSchedulerTest {
         .flatMap(List::stream)
         .sorted(Comparator.comparingInt(Node::getStartTime))
         .toList();
-    Assertions.assertEquals(graph.getNodes().size(), schedule.size());
-    Assertions.assertTrue(checkValidOrder(schedule));
+    Assertions.assertEquals(graph.getNodes().size(), schedule.size(),
+        "Schedule size does not match the graph size.");
+    Assertions.assertTrue(checkValidOrder(schedule),
+        "Invalid Schedule: A task's dependencies were not met before execution");
 
     // Run the schedule
     for (Node node : schedule) {
@@ -99,13 +101,15 @@ public class BasicSchedulerTest {
         System.out.println(node.getStartTime());
         Assertions.assertTrue(
             node.getStartTime() >= parent.getStartTime() + parent.getWeight() + swapTime,
-            String.format("Schedule ordering is not valid: %s", node.getLabel()));
+            String.format("Invalid Schedule: Task %s starts before parent %s completes",
+                node.getLabel(), parent.getLabel()));
       }
 
-      int currentCore = processors.get(processCore);
-      Assertions.assertTrue(currentCore <= node.getStartTime(),
-          String.format("Task %s overlaps with another task on processor %d", node.getLabel(),
-              currentCore));
+      int currentCoreValue = processors.get(processCore);
+      Assertions.assertTrue(currentCoreValue <= node.getStartTime(),
+          String.format("Invalid Schedule: Task %s overlaps with another task on processor %d",
+              node.getLabel(),
+              processCore.getId()));
       processors.put(processCore, node.getStartTime() + node.getWeight());
     }
   }

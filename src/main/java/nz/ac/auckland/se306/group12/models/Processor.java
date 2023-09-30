@@ -16,7 +16,10 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class Processor {
 
+
   private final List<Node> scheduledTasks = new ArrayList<>();
+  @Getter
+  private final int id;
   @Setter
   private int finalCost = 0;
 
