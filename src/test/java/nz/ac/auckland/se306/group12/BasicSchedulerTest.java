@@ -15,6 +15,8 @@ import nz.ac.auckland.se306.group12.scheduler.BasicScheduler;
 import nz.ac.auckland.se306.group12.scheduler.TopologicalSorter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class BasicSchedulerTest {
 
@@ -112,7 +114,8 @@ public class BasicSchedulerTest {
   /**
    * Test for trivial graph
    */
-  @Test
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3})
   void testTrivialGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test1.dot");
     checkForValidSchedule(graph, 2);
@@ -121,36 +124,40 @@ public class BasicSchedulerTest {
   /**
    * Test for disconnected graph
    */
-  @Test
-  void testDisjointGraph() {
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3})
+  void testDisjointGraph(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_disjoint_graphs.dot");
-    checkForValidSchedule(graph, 2);
+    checkForValidSchedule(graph, processors);
   }
 
   /**
    * Test for disconnected graph
    */
-  @Test
-  void testLongCommunication() {
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3})
+  void testLongCommunication(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_long_communication_time.dot");
-    checkForValidSchedule(graph, 2);
+    checkForValidSchedule(graph, processors);
   }
 
   /**
    * Test with graph that has multiple sources
    */
-  @Test
-  void testAnnoyingGraph() {
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3})
+  void testAnnoyingGraph(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
-    checkForValidSchedule(graph, 2);
+    checkForValidSchedule(graph, processors);
   }
 
   /**
    * Test with graph with a large path
    */
-  @Test
-  void testMultiplePaths() {
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3})
+  void testMultiplePaths(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_unintuitive_shortest_path.dot");
-    checkForValidSchedule(graph, 2);
+    checkForValidSchedule(graph, processors);
   }
 }
