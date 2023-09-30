@@ -57,45 +57,15 @@ public class DotGraphIO {
       final CommandLineArguments arguments,
       final List<List<Node>> nodes
   ) throws IOException {
-    final StringBuilder builder = new StringBuilder();
     final String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
+
     // We surround the name with "..." to allow for characters such as '-' in the name
-    builder.append("digraph \"")
-        .append(digraphName)
-        .append("\" {")
-        .append(NEW_LINE);
-
-    for (int processorIndex = 0; processorIndex < nodes.size(); processorIndex++) {
-      final List<Node> processorTasks = nodes.get(processorIndex);
-      for (final Node node : processorTasks) {
-        builder.append(node.getLabel())
-            .append(" [Weight=")
-            .append(node.getWeight())
-            .append(",Start=")
-            .append(node.getStartTime())
-            .append(",Processor=")
-            .append(processorIndex + 1) // Processors are 1-indexed
-            .append("]")
-            .append(NEW_LINE);
-
-        for (final Edge outgoingEdge : node.getOutgoingEdges()) {
-          builder.append(outgoingEdge.getSource().getLabel())
-              .append(" -> ")
-              .append(outgoingEdge.getDestination().getLabel())
-              .append(" [Weight=")
-              .append(outgoingEdge.getWeight())
-              .append("]")
-              .append(NEW_LINE);
-        }
-      }
-    }
-
-    builder.append("}");
+    String output = digraphStringBuilder(digraphName, nodes);
 
     if (arguments.writeToStdOut()) {
-      System.out.println(builder);
+      System.out.println(output);
     } else {
-      FileIO.writeToFile(builder.toString(), arguments.outputDotGraph());
+      FileIO.writeToFile(output, arguments.outputDotGraph());
     }
   }
 
@@ -142,6 +112,18 @@ public class DotGraphIO {
    * @param nodes The scheduled tasks to serialise
    */
   public void writeOutputDotGraphToConsole(String digraphName, final List<List<Node>> nodes) {
+    System.out.println(digraphStringBuilder(digraphName, nodes));
+  }
+
+
+  /**
+   * Generates a dot graph string out of a schedule.
+   *
+   * @param digraphName name of the digraph
+   * @param nodes       content of the digraph
+   * @return the digraph in string form, in a .dot format
+   */
+  public String digraphStringBuilder(String digraphName, List<List<Node>> nodes) {
     final StringBuilder builder = new StringBuilder();
     builder.append("digraph ")
         .append(digraphName)
@@ -174,7 +156,6 @@ public class DotGraphIO {
     }
 
     builder.append("}");
-
-    System.out.println(builder);
+    return builder.toString();
   }
 }
