@@ -20,8 +20,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 public class BasicSchedulerTest {
 
-  TopologicalSorter sorter = new TopologicalSorter();
-  BasicScheduler scheduler = new BasicScheduler();
+  final TopologicalSorter sorter = new TopologicalSorter();
+  final BasicScheduler scheduler = new BasicScheduler();
 
   Processor findProcessor(Map<Processor, Integer> cpu, Node node) {
     List<Processor> processCore = cpu.keySet()
@@ -44,15 +44,16 @@ public class BasicSchedulerTest {
 
     for (Node task : schedule) {
       completedTasks.add(task);
-      for (Edge edge : task.getIncomingEdges()) {
-        if (!completedTasks.contains(edge.getSource())) {
-          return false;
-        }
-      }
-      for (Edge edge : task.getOutgoingEdges()) {
-        if (edge.getDestination().getStartTime() < task.getStartTime() + task.getWeight()) {
-          return false;
-        }
+      boolean parentsComplete = task.getIncomingEdges()
+          .stream()
+          .allMatch(edge -> completedTasks.contains(edge.getSource()));
+      boolean completedBeforeChildrenStart = task.getOutgoingEdges()
+          .stream()
+          .allMatch(edge -> edge.getDestination().getStartTime()
+              >= task.getStartTime() + task.getWeight());
+
+      if (!(parentsComplete && completedBeforeChildrenStart)) {
+        return false;
       }
     }
 
@@ -62,20 +63,19 @@ public class BasicSchedulerTest {
   /**
    * Checks that a graph's schedule is valid.
    *
-   * @param graph      to be checked
-   * @param processors amount of processors
+   * @param graph        to be checked
+   * @param numProcesses amount of processors
    */
-  void checkForValidSchedule(Graph graph, int processors) {
-    List<Node> tasks = sorter.getATopologicalOrder(graph);
+  void validateSchedule(Graph graph, int numProcesses) {
+    List<Node> tasks = this.sorter.getATopologicalOrder(graph);
 
     // Initialise my computer
-    Map<Processor, Integer> cpu = new HashMap<>();
-    List<Processor> cores = scheduler.getABasicSchedule(tasks, processors);
+    Map<Processor, Integer> processors = new HashMap<>();
+    List<Processor> cores = this.scheduler.getABasicSchedule(tasks, numProcesses);
 
     for (Processor core : cores) {
-      cpu.put(core, 0);
+      processors.put(core, 0);
     }
-
     // Make sure schedule order is valid
     List<Node> schedule = TestUtil.scheduleToListNodes(
             cores).stream()
@@ -87,25 +87,26 @@ public class BasicSchedulerTest {
 
     // Run the schedule
     for (Node node : schedule) {
-      Processor processCore = findProcessor(cpu, node);
+      Processor processCore = findProcessor(processors, node);
 
       for (Edge edge : node.getIncomingEdges()) {
         Node parent = edge.getSource();
-        int slack = 0;
-        Processor processSource = findProcessor(cpu, parent);
+        int swapTime = 0;
+        Processor processSource = findProcessor(processors, parent);
         if (!processCore.equals(processSource)) {
-          slack = edge.getWeight();
+          swapTime = edge.getWeight();
         }
         System.out.println(node.getStartTime());
         Assertions.assertTrue(
-            node.getStartTime() >= parent.getStartTime() + parent.getWeight() + slack,
-            "Schedule ordering is not valid");
+            node.getStartTime() >= parent.getStartTime() + parent.getWeight() + swapTime,
+            String.format("Schedule ordering is not valid: %s", node.getLabel()));
       }
 
-      int currentValue = cpu.get(processCore);
-      Assertions.assertTrue(currentValue <= node.getStartTime(),
-          "Tasks are overlapping in a CPU");
-      cpu.put(processCore, node.getStartTime() + node.getWeight());
+      int currentCore = processors.get(processCore);
+      Assertions.assertTrue(currentCore <= node.getStartTime(),
+          String.format("Task %s overlaps with another task on processor %d", node.getLabel(),
+              currentCore));
+      processors.put(processCore, node.getStartTime() + node.getWeight());
     }
   }
 
@@ -146,7 +147,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3})
   void testTrivialGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test1.dot");
-    checkForValidSchedule(graph, 2);
+    validateSchedule(graph, 2);
   }
 
   /**
@@ -156,7 +157,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3})
   void testDisjointGraph(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_disjoint_graphs.dot");
-    checkForValidSchedule(graph, processors);
+    validateSchedule(graph, processors);
   }
 
   /**
@@ -166,7 +167,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3})
   void testLongCommunication(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_long_communication_time.dot");
-    checkForValidSchedule(graph, processors);
+    validateSchedule(graph, processors);
   }
 
   /**
@@ -176,7 +177,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3})
   void testAnnoyingGraph(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
-    checkForValidSchedule(graph, processors);
+    validateSchedule(graph, processors);
   }
 
   /**
@@ -186,6 +187,6 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3})
   void testMultiplePaths(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_unintuitive_shortest_path.dot");
-    checkForValidSchedule(graph, processors);
+    validateSchedule(graph, processors);
   }
 }

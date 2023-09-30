@@ -60,7 +60,7 @@ public class DotGraphIO {
     final String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
 
     // We surround the name with "..." to allow for characters such as '-' in the name
-    String output = digraphStringBuilder(digraphName, nodes);
+    String output = toDotString(digraphName, nodes);
 
     if (arguments.writeToStdOut()) {
       System.out.println(output);
@@ -112,7 +112,7 @@ public class DotGraphIO {
    * @param nodes The scheduled tasks to serialise
    */
   public void writeOutputDotGraphToConsole(String digraphName, final List<List<Node>> nodes) {
-    System.out.println(digraphStringBuilder(digraphName, nodes));
+    System.out.println(toDotString(digraphName, nodes));
   }
 
 
@@ -120,18 +120,18 @@ public class DotGraphIO {
    * Generates a dot graph string out of a schedule.
    *
    * @param digraphName name of the digraph
-   * @param nodes       content of the digraph
+   * @param schedule    the schedule of the digraph
    * @return the digraph in string form, in a .dot format
    */
-  public String digraphStringBuilder(String digraphName, List<List<Node>> nodes) {
+  public String toDotString(String digraphName, List<List<Node>> schedule) {
     final StringBuilder builder = new StringBuilder();
     builder.append("digraph ")
         .append(digraphName)
         .append(" {")
         .append(NEW_LINE);
 
-    for (int processorIndex = 0; processorIndex < nodes.size(); processorIndex++) {
-      final List<Node> processorTasks = nodes.get(processorIndex);
+    for (int processorIndex = 0; processorIndex < schedule.size(); processorIndex++) {
+      final List<Node> processorTasks = schedule.get(processorIndex);
       for (final Node node : processorTasks) {
         builder.append(node.getLabel())
             .append(" [Weight=")
