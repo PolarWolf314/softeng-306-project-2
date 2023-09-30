@@ -60,9 +60,10 @@ public class DotGraphIO {
   ) throws IOException {
     final StringBuilder builder = new StringBuilder();
     final String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
-    builder.append("digraph ")
+    // We surround the name with "..." to allow for characters such as '-' in the name
+    builder.append("digraph \"")
         .append(digraphName)
-        .append(" {")
+        .append("\" {")
         .append(NEW_LINE);
 
     for (int processorIndex = 0; processorIndex < scheduledTasks.size(); processorIndex++) {
