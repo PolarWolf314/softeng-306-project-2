@@ -24,16 +24,7 @@ public class BasicScheduler {
     }
 
     for (Node task : tasks) {
-      Set<Edge> parentEdges = task.getIncomingEdges();
-
-      // if there are no parents, add to the cheapest processor
-      if (parentEdges.isEmpty()) {
-        Processor shortestProcessor = this.getProcessorWithEarliestEndTime(processors);
-        task.setStartTime(shortestProcessor.getEndTime());
-        shortestProcessor.addTask(task);
-      } else {
-        this.scheduleTaskOnEarliestProcessor(task, processors);
-      }
+      this.scheduleTaskOnEarliestProcessor(task, processors);
     }
     return processors;
   }
@@ -58,25 +49,32 @@ public class BasicScheduler {
   }
 
   private void scheduleTaskOnEarliestProcessor(Node task, List<Processor> processors) {
-    InterCommunicationCosts communicationCosts = this.determineInterCommunicationsCosts(
-        task, processors);
+    Set<Edge> parentEdges = task.getIncomingEdges();
 
-    int earliestStartTime = Integer.MAX_VALUE;
     Processor earliestProcessor = processors.get(0);
+    int earliestStartTime = Integer.MAX_VALUE;
 
-    for (int processorIndex = 0; processorIndex < processors.size(); processorIndex++) {
-      int processorEndTime = processors.get(processorIndex).getEndTime();
+    if (parentEdges.isEmpty()) {
+      earliestProcessor = this.getProcessorWithEarliestEndTime(processors);
+      earliestStartTime = earliestProcessor.getEndTime();
+    } else {
+      InterCommunicationCosts communicationCosts = this.determineInterCommunicationsCosts(
+          parentEdges, processors);
 
-      // If it's scheduled on the same processor as the latest parent, we don't need to consider
-      // the intercommunication cost, and so we use the second-latest parent end time. The
-      // processor end time will always be >= the latest parent on that processor.
-      int parentEndTime = processorIndex == communicationCosts.latestProcessorIndex()
-          ? communicationCosts.secondLatestStartTime() : communicationCosts.latestStartTime();
+      for (int processorIndex = 0; processorIndex < processors.size(); processorIndex++) {
+        int processorEndTime = processors.get(processorIndex).getEndTime();
 
-      int earliestProcessorStartTime = Math.max(processorEndTime, parentEndTime);
-      if (earliestProcessorStartTime < earliestStartTime) {
-        earliestStartTime = earliestProcessorStartTime;
-        earliestProcessor = processors.get(processorIndex);
+        // If it's scheduled on the same processor as the latest parent, we don't need to consider
+        // the intercommunication cost, and so we use the second-latest parent end time. The
+        // processor end time will always be >= the latest parent on that processor.
+        int parentEndTime = processorIndex == communicationCosts.latestProcessorIndex()
+            ? communicationCosts.secondLatestStartTime() : communicationCosts.latestStartTime();
+
+        int earliestProcessorStartTime = Math.max(processorEndTime, parentEndTime);
+        if (earliestProcessorStartTime < earliestStartTime) {
+          earliestStartTime = earliestProcessorStartTime;
+          earliestProcessor = processors.get(processorIndex);
+        }
       }
     }
 
@@ -85,7 +83,7 @@ public class BasicScheduler {
   }
 
   public InterCommunicationCosts determineInterCommunicationsCosts(
-      Node task,
+      Set<Edge> parentEdges,
       List<Processor> processors
   ) {
     int secondLatestStartTime = Integer.MIN_VALUE;
@@ -95,7 +93,7 @@ public class BasicScheduler {
     // Determine the latest and second-latest parents assuming the task is scheduled on a different
     // processor and therefore, the communication cost must be considered. The latest parent node is
     // also stored so that we can determine which processor it is scheduled on.
-    for (Edge parentEdge : task.getIncomingEdges()) {
+    for (Edge parentEdge : parentEdges) {
       final Node parent = parentEdge.getSource();
       int newStartTime = parent.getEndTime() + parentEdge.getWeight();
 
