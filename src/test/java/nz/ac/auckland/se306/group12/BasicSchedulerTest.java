@@ -23,6 +23,12 @@ public class BasicSchedulerTest {
   TopologicalSorter sorter = new TopologicalSorter();
   BasicScheduler scheduler = new BasicScheduler();
 
+  /**
+   * Checks if a given list of tasks is in a proper order
+   *
+   * @param schedule to be checked
+   * @return boolean of whether or not it is valid
+   */
   boolean checkValidOrder(List<Node> schedule) {
     Set<Node> completedTasks = new HashSet<>();
 
@@ -43,6 +49,12 @@ public class BasicSchedulerTest {
     return true;
   }
 
+  /**
+   * Checks that a graph's schedule is valid.
+   *
+   * @param graph      to be checked
+   * @param processors amount of processors
+   */
   void checkForValidSchedule(Graph graph, int processors) {
     List<Node> tasks = sorter.getATopologicalOrder(graph);
 
