@@ -24,7 +24,7 @@ public class BasicScheduler {
     final List<Node> tasks = this.topologicalSorter.getATopologicalOrder(graph);
     List<Processor> processors = new ArrayList<>();
 
-    for (int i = 1; i <= numberOfProcessors; i++) {
+    for (int i = 0; i < numberOfProcessors; i++) {
       processors.add(new Processor(i));
     }
 
