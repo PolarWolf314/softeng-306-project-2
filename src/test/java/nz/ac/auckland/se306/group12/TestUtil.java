@@ -30,7 +30,10 @@ public class TestUtil {
   }
 
   /**
-   * jawspefysdlfkj
+   * Takes in a schedule and turns it into a list of tasks for each processor
+   *
+   * @param schedule to be converted
+   * @return List of tasks for each processor
    */
   public static List<List<Node>> scheduleToListNodes(List<Processor> schedule) {
     return schedule.stream().map(Processor::getScheduledTasks).toList();

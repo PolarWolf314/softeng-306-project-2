@@ -1,13 +1,11 @@
 package nz.ac.auckland.se306.group12;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Edge;
@@ -31,6 +29,11 @@ public class BasicSchedulerTest {
       completedTasks.add(task);
       for (Edge edge : task.getIncomingEdges()) {
         if (!completedTasks.contains(edge.getSource())) {
+          return false;
+        }
+      }
+      for (Edge edge : task.getOutgoingEdges()) {
+        if (edge.getDestination().getStartTime() > task.getStartTime() + task.getWeight()) {
           return false;
         }
       }
@@ -60,24 +63,23 @@ public class BasicSchedulerTest {
     Assertions.assertTrue(checkValidOrder(schedule));
 
     DotGraphIO io = new DotGraphIO();
-    try {
-      io.writeOutputDotGraphToConsole("test", TestUtil.scheduleToListNodes(cores));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    io.writeOutputDotGraphToConsole("test", TestUtil.scheduleToListNodes(cores));
 
     // Run the schedule
     for (Node node : schedule) {
-      List<Processor> processCore = cpu.entrySet().stream()
-          .filter(processor -> processor.getKey().getScheduledTasks().contains(node)).map(
-              Entry::getKey).toList();
+      List<Processor> processCore = cpu.keySet()
+          .stream()
+          .filter(processor -> processor.getScheduledTasks().contains(node))
+          .toList();
+
       Assertions.assertEquals(1, processCore.size(), "Task exists in multiple processors");
+
       int currentValue = cpu.get(processCore.get(0));
-      System.out.println(
-          "Current processor time: " + currentValue + " Scheduled time: " + node.getStartTime());
-      //Assertions.assertTrue(currentValue < node.getStartTime(), "Tasks are overlapping in the CPU");
+
+      Assertions.assertTrue(currentValue <= node.getStartTime(),
+          "Tasks are overlapping in the CPU");
+
       cpu.put(processCore.get(0), currentValue + node.getWeight());
-      System.out.println(cpu.get(processCore.get(0)));
     }
   }
 

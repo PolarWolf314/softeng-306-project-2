@@ -140,10 +140,8 @@ public class DotGraphIO {
    * Same as writeDotGraph, used for testing.
    *
    * @param nodes The scheduled tasks to serialise
-   * @throws IOException If an error occurs while writing to the file
    */
-  public void writeOutputDotGraphToConsole(String digraphName, final List<List<Node>> nodes)
-      throws IOException {
+  public void writeOutputDotGraphToConsole(String digraphName, final List<List<Node>> nodes) {
     final StringBuilder builder = new StringBuilder();
     builder.append("digraph ")
         .append(digraphName)
