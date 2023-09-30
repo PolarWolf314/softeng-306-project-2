@@ -36,23 +36,22 @@ public class BasicScheduler {
 
       // if there are no parents, add to the cheapest processor
       if (parentEdges.isEmpty()) {
-        Processor cheapestProcessor = getCheapestProcessor(processors);
-        task.setStartTime(cheapestProcessor.getFinalCost());
-        cheapestProcessor.addTask(task);
+        Processor shortestProcessor = this.getProcessorWithEarliestEndTime(processors);
+        task.setStartTime(shortestProcessor.getEndTime());
+        shortestProcessor.addTask(task);
         continue;
       }
 
-      // otherwise, find the parent with the highest start time
-      Edge parentEdge = getParentWithHighestFinishTime(parentEdges);
+      Edge parentEdge = this.getParentWithHighestFinishTime(parentEdges);
 
       // find the processor with the lowest cumulative start time
-      Processor cheapestProcessor = getCheapestProcessor(processors);
+      Processor cheapestProcessor = this.getProcessorWithEarliestEndTime(processors);
 
       // find the parent processor of the parent task
-      Processor parentProcessor = getParentProcessor(parentEdge.getSource(), processors);
+      Processor parentProcessor = this.getParentProcessor(parentEdge.getSource(), processors);
 
       // find the finish time of the parent processor
-      int parentProcessorFinishTime = parentProcessor.getFinalCost();
+      int parentProcessorFinishTime = parentProcessor.getEndTime();
 
       // find the finish time of the parent task
       int parentTaskFinishTime =
@@ -61,9 +60,9 @@ public class BasicScheduler {
       // find the communication cost
       int communicationCost = parentEdge.getWeight();
 
-      if (cheapestProcessor.getFinalCost() >= parentTaskFinishTime) {
-        if (cheapestProcessor.getFinalCost() + communicationCost < parentProcessorFinishTime) {
-          task.setStartTime(cheapestProcessor.getFinalCost() + communicationCost);
+      if (cheapestProcessor.getEndTime() >= parentTaskFinishTime) {
+        if (cheapestProcessor.getEndTime() + communicationCost < parentProcessorFinishTime) {
+          task.setStartTime(cheapestProcessor.getEndTime() + communicationCost);
           cheapestProcessor.addTask(task);
         } else {
           task.setStartTime(parentTaskFinishTime);
@@ -83,21 +82,22 @@ public class BasicScheduler {
   }
 
   /**
-   * Returns the processor with the lowest cumulative start time.
+   * Returns the processor with the earliest end time.
    *
    * @param processors The list of processors to search through
-   * @return The processor with the lowest cumulative start time
+   * @return The processor with the earliest end time
    */
-  public Processor getCheapestProcessor(List<Processor> processors) {
-    int smallestCumulativeStartTime = Integer.MAX_VALUE;
-    Processor cheapestProcessor = processors.get(0);
-    for (Processor processor : processors) {
-      if (processor.getFinalCost() < smallestCumulativeStartTime) {
-        smallestCumulativeStartTime = processor.getFinalCost();
-        cheapestProcessor = processor;
+  public Processor getProcessorWithEarliestEndTime(List<Processor> processors) {
+    Processor shortestProcessor = processors.get(0);
+
+    for (int processorIndex = 1; processorIndex < processors.size(); processorIndex++) {
+      Processor processor = processors.get(processorIndex);
+      if (processor.getEndTime() < shortestProcessor.getEndTime()) {
+        shortestProcessor = processor;
       }
     }
-    return cheapestProcessor;
+
+    return shortestProcessor;
   }
 
   /**
