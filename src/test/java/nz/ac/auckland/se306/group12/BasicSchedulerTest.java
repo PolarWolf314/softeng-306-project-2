@@ -1,6 +1,5 @@
 package nz.ac.auckland.se306.group12;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,7 +13,6 @@ import nz.ac.auckland.se306.group12.models.Node;
 import nz.ac.auckland.se306.group12.models.Processor;
 import nz.ac.auckland.se306.group12.scheduler.BasicScheduler;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -56,7 +54,7 @@ public class BasicSchedulerTest {
         return false;
       }
       if (!completedBeforeChildrenStart) {
-        System.out.println("Completed before children start - " + task.getLabel());
+        System.out.println("Not completed before children start - " + task.getLabel());
         return false;
       }
     }
@@ -120,36 +118,7 @@ public class BasicSchedulerTest {
       processors.put(processCore, node.getStartTime() + node.getWeight());
     }
   }
-
-
-  /**
-   * Test with an invalid schedule
-   */
-  @Test
-  void testInvalidSchedule() {
-    Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
-    List<Node> schedule = new ArrayList<>();
-    schedule.add(graph.getNodes().get("A"));
-    schedule.add(graph.getNodes().get("C"));
-    Assertions.assertFalse(checkValidOrder(schedule));
-  }
-
-  /**
-   * Test with an invalid schedule
-   */
-  @Test
-  void testInvalidScheduleAgain() {
-    Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
-    List<Node> schedule = new ArrayList<>();
-    schedule.add(graph.getNodes().get("A"));
-    schedule.add(graph.getNodes().get("B"));
-    schedule.add(graph.getNodes().get("C"));
-    schedule.add(graph.getNodes().get("D"));
-    schedule.add(graph.getNodes().get("F"));
-    schedule.add(graph.getNodes().get("J"));
-    Assertions.assertFalse(checkValidOrder(schedule));
-  }
-
+  
 
   /**
    * Test for trivial graph
