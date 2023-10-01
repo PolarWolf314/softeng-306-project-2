@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
@@ -83,8 +84,9 @@ public class BasicSchedulerTest {
         .sorted(Comparator.comparingInt(Node::getStartTime))
         .toList();
 
-    //    DotGraphIO io = new DotGraphIO();
-    //    io.writeOutputDotGraphToConsole(graph.getName(), TestUtil.scheduleToListNodes(cores));
+    System.out.println("Processors: " + numProcesses);
+    DotGraphIO io = new DotGraphIO();
+    io.writeOutputDotGraphToConsole(graph.getName(), TestUtil.scheduleToListNodes(cores));
 
     Assertions.assertEquals(graph.getNodes().size(), schedule.size(),
         "Schedule size does not match the graph size.");
@@ -166,6 +168,57 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3, 10, 24})
   void testMultiplePaths(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_unintuitive_shortest_path.dot");
+    validateSchedule(graph, processors);
+  }
+
+
+  /**
+   * Test with OutTree test case
+   */
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3, 10, 24})
+  void testOutTree(int processors) {
+    Graph graph = TestUtil.loadGraph("./graphs/Nodes_7_OutTree.dot");
+    validateSchedule(graph, processors);
+  }
+
+  /**
+   * Test with Random test case
+   */
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3, 10, 24})
+  void testRandom(int processors) {
+    Graph graph = TestUtil.loadGraph("./graphs/Nodes_8_Random.dot");
+    validateSchedule(graph, processors);
+  }
+
+  /**
+   * Test with SeriesParallel test case
+   */
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3, 10, 24})
+  void testSeriesParallel(int processors) {
+    Graph graph = TestUtil.loadGraph("./graphs/Nodes_9_SeriesParallel.dot");
+    validateSchedule(graph, processors);
+  }
+
+  /**
+   * Test with Random 10 test case
+   */
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3, 10, 24})
+  void testRandom10(int processors) {
+    Graph graph = TestUtil.loadGraph("./graphs/Nodes_10_Random.dot");
+    validateSchedule(graph, processors);
+  }
+
+  /**
+   * Test with Random 11 OutTree test case
+   */
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3, 10, 24})
+  void testOutTree11(int processors) {
+    Graph graph = TestUtil.loadGraph("./graphs/Nodes_11_OutTree.dot");
     validateSchedule(graph, processors);
   }
 }
