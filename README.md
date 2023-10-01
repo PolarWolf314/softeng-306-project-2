@@ -1,9 +1,9 @@
-## Development
+# Development
 
 > **Note**
-> This requires JDK 17 to run.
+> Only JDK 17 is officially supported.
 
-### Command line interface
+## ⌨️ Command line interface
 
 ```
 usage: scheduler.jar INPUT.dot P [-h] [-p N] [-v] [-o OUTPUT] 
@@ -21,25 +21,48 @@ Named arguments:
   -o OUTPUT, --output OUTPUT The output file to write the schedule to (default is INPUT-output.dot)
 ```
 
-### Running the application
+By default, the output DOT file is saved to the same folder as the input DOT file.
 
-```bash
-.\gradlew run --args="--help" # Run the application and display the help message
+## ☕ Building and running
+
+By default, the executable JAR file will be located at `/build/libs/scheduler.jar`
+
+### 🐧 Unix-like OSs
+
+```sh
+# Build JAR (with all dependencies included)
+./gradlew shadowJar
+
+# Execute JAR and show help message
+java -jar ./build/libs/scheduler.jar --help
 ```
 
-### Building executable jar
+### 🪟 Windows
 
-By default, this jar will be located at `build/libs/scheduler.jar`
-
-```bash
-# Build the jar with all the dependencies included
+```sh
+# Build JAR (with all dependencies included)
 .\gradlew shadowJar
 
-# Execute the jar
+# Execute JAR and show help message
 java -jar .\build\libs\scheduler.jar --help
 ```
 
-## Notes
+## 🐘 …Or use Gradle’s `run` task
 
-* We're using the Gradle [Shadow](https://imperceptiblethoughts.com/shadow/) plugin in order to
-  bundle all our dependencies into a single executable JAR file (Known as a *fat-JAR*).
+### 🐧 Unix-like OSs
+
+```sh
+# Run application and display help message
+./gradlew run --args="--help"
+```
+
+### 🪟 Windows
+
+```sh
+# Run application and display help message
+.\gradlew run --args="--help"
+```
+
+# Notes
+
+- We’re using the Gradle [Shadow](https://imperceptiblethoughts.com/shadow) plugin in order to bundle all our dependencies into a single executable JAR file (known as a *fat-JAR*).
