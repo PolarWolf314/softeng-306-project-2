@@ -68,7 +68,7 @@ public class BasicSchedulerTest {
   private void validateSchedule(Graph graph, int processorCount) {
 
     Map<Processor, Integer> processors = new HashMap<>();
-    List<Processor> cores = this.scheduler.getABasicSchedule(graph, processorCount);
+    List<Processor> cores = this.scheduler.schedule(graph, processorCount);
 
     for (Processor core : cores) {
       processors.put(core, 0);
