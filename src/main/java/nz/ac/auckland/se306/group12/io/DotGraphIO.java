@@ -103,7 +103,7 @@ public class DotGraphIO {
             .append(node.getStartTime())
             .append(",Processor=")
             .append(processorIndex + 1) // Processors are 1-indexed
-            .append("]")
+            .append("];")
             .append(NEW_LINE);
 
         for (final Edge outgoingEdge : node.getOutgoingEdges()) {
@@ -112,7 +112,7 @@ public class DotGraphIO {
               .append(outgoingEdge.getDestination().getLabel())
               .append(" [Weight=")
               .append(outgoingEdge.getWeight())
-              .append("]")
+              .append("];")
               .append(NEW_LINE);
         }
       }
@@ -121,4 +121,5 @@ public class DotGraphIO {
     builder.append("}");
     return builder.toString();
   }
+
 }
