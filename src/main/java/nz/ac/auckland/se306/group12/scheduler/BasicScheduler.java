@@ -8,18 +8,15 @@ import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
 import nz.ac.auckland.se306.group12.models.Processor;
 
-public class BasicScheduler {
+public class BasicScheduler implements Scheduler {
 
   private final TopologicalSorter topologicalSorter = new TopologicalSorter();
 
   /**
-   * Returns a basic schedule for the given graph of tasks.
-   *
-   * @param graph          The graph representing the tasks to be scheduled
-   * @param processorCount The number of processors to schedule the tasks on
-   * @return A basic schedule for the given list of tasks
+   * @inheritDoc
    */
-  public List<Processor> getABasicSchedule(Graph graph, int processorCount) {
+  @Override
+  public List<Processor> schedule(Graph graph, int processorCount) {
     final List<Node> tasks = this.topologicalSorter.getATopologicalOrder(graph);
     List<Processor> processors = new ArrayList<>(processorCount);
 
