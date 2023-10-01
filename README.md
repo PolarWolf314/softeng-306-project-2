@@ -21,6 +21,11 @@ Named arguments:
   -o OUTPUT, --output OUTPUT The output file to write the schedule to (default is INPUT-output.dot)
 ```
 
+#### 💾 Where files are saved
+
+- By default, the output DOT file is saved to the same folder as the input DOT file.
+- Relative pathnames are relative to the root of the project directory.
+
 ### ☕ Building and running
 
 By default, the executable JAR file will be located at `/build/libs/scheduler.jar`
