@@ -21,7 +21,7 @@ public class BasicScheduler {
    */
   public List<Processor> getABasicSchedule(Graph graph, int processorCount) {
     final List<Node> tasks = this.topologicalSorter.getATopologicalOrder(graph);
-    List<Processor> processors = new ArrayList<>();
+    List<Processor> processors = new ArrayList<>(processorCount);
 
     for (int processorIndex = 0; processorIndex < processorCount; processorIndex++) {
       processors.add(new Processor(processorIndex));
@@ -74,28 +74,44 @@ public class BasicScheduler {
       TransferTimeFactoredStartTimes transferTimeFactoredStartTimes = this.determineTransferTimeFactoredStartTime(
           incomingEdges, processors);
 
-      for (int processorIndex = 0; processorIndex < processors.size(); processorIndex++) {
-        int processorEndTime = processors.get(processorIndex).getEndTime();
+      for (Processor processor : processors) {
+        int earliestPossibleStartTime = this.determineEarliestPossibleStartTime(
+            processor, transferTimeFactoredStartTimes);
 
-        // If it's scheduled on the same processor as the latest dependence, we don't need to
-        // consider the latest transfer time, and so we use the second-latest transfer factored
-        // start time. The processor end time will always be >= the latest dependence on that
-        // processor, so we don't need to worry about disregarding the end time of the latest task.
-        int dependentStartTime =
-            processorIndex == transferTimeFactoredStartTimes.latestProcessorIndex()
-                ? transferTimeFactoredStartTimes.secondLatestStartTime()
-                : transferTimeFactoredStartTimes.latestStartTime();
-
-        int earliestProcessorStartTime = Math.max(processorEndTime, dependentStartTime);
-        if (earliestProcessorStartTime < earliestStartTime) {
-          earliestStartTime = earliestProcessorStartTime;
-          earliestProcessor = processors.get(processorIndex);
+        if (earliestPossibleStartTime < earliestStartTime) {
+          earliestStartTime = earliestPossibleStartTime;
+          earliestProcessor = processor;
         }
       }
     }
 
     task.setStartTime(earliestStartTime);
     earliestProcessor.addTask(task);
+  }
+
+  /**
+   * Determines the earliest possible start time for a task on the given processor. If it's
+   * scheduled on the same processor as the latest dependence, we don't need to consider the latest
+   * transfer time, and so we use the second-latest transfer factored start time. The processor end
+   * time will always be >= the latest dependence on that processor, so we don't need to worry about
+   * disregarding the end time of the latest task.
+   *
+   * @param processor                      The processor to schedule the task on
+   * @param transferTimeFactoredStartTimes The transfer time factored start times for the task
+   * @return The earliest possible start time for the task on the given processor
+   */
+  private int determineEarliestPossibleStartTime(
+      Processor processor,
+      TransferTimeFactoredStartTimes transferTimeFactoredStartTimes
+  ) {
+    int processorEndTime = processor.getEndTime();
+
+    int dependentStartTime =
+        processor.getProcessorIndex() == transferTimeFactoredStartTimes.latestProcessorIndex()
+            ? transferTimeFactoredStartTimes.secondLatestStartTime()
+            : transferTimeFactoredStartTimes.latestStartTime();
+
+    return Math.max(processorEndTime, dependentStartTime);
   }
 
   /**

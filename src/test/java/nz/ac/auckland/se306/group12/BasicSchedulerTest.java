@@ -32,10 +32,10 @@ public class BasicSchedulerTest {
   }
 
   /**
-   * Checks if a given list of tasks is in a proper order
+   * Asserts that the given list of tasks is in a valid order. If not, this will cause the unit test
+   * to fail.
    *
-   * @param schedule to be checked
-   * @return boolean of whether or not it is valid
+   * @param schedule The list of tasks to be checked
    */
   private void assertValidOrder(List<Node> schedule) {
     Set<Node> completedTasks = new HashSet<>();
@@ -60,15 +60,15 @@ public class BasicSchedulerTest {
   }
 
   /**
-   * Checks that a graph's schedule is valid.
+   * Checks that the resulting schedule from the given graph is valid.
    *
-   * @param graph        to be checked
-   * @param numProcesses amount of processors
+   * @param graph          The {@link Graph} representing the tasks to be scheduled
+   * @param processorCount The number of processors to schedule the tasks on
    */
-  private void validateSchedule(Graph graph, int numProcesses) {
+  private void validateSchedule(Graph graph, int processorCount) {
 
     Map<Processor, Integer> processors = new HashMap<>();
-    List<Processor> cores = this.scheduler.getABasicSchedule(graph, numProcesses);
+    List<Processor> cores = this.scheduler.getABasicSchedule(graph, processorCount);
 
     for (Processor core : cores) {
       processors.put(core, 0);
