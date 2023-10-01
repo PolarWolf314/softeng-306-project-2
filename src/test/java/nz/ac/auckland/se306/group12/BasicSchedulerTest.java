@@ -97,10 +97,10 @@ public class BasicSchedulerTest {
       for (Edge edge : node.getIncomingEdges()) {
         Node parent = edge.getSource();
         Processor processSource = this.findProcessor(processors, parent);
-        int swapTime = processCore.equals(processSource) ? 0 : edge.getWeight();
+        int transferTime = processCore.equals(processSource) ? 0 : edge.getWeight();
 
         Assertions.assertTrue(
-            node.getStartTime() >= parent.getEndTime() + swapTime,
+            node.getStartTime() >= parent.getEndTime() + transferTime,
             String.format(
                 "Invalid Schedule: Task %s starts before parent %s completes, at start %d",
                 node.getLabel(), parent.getLabel(), node.getStartTime()));

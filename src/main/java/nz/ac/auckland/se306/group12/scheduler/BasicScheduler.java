@@ -14,7 +14,6 @@ public class BasicScheduler {
 
   /**
    * Returns a basic schedule for the given graph of tasks.
-   * <p>
    *
    * @param graph          The graph representing the tasks to be scheduled
    * @param processorCount The number of processors to schedule the tasks on
@@ -55,8 +54,8 @@ public class BasicScheduler {
 
   /**
    * Schedules the given task on the processor that gives it the earliest start time. This factors
-   * in the intercommunication cost if the task has dependencies and is scheduled on a different
-   * processor to them.
+   * in the transfer time if the task has dependencies and is scheduled on a different processor to
+   * them.
    *
    * @param task       The task to schedule
    * @param processors The list of processors to schedule on
@@ -72,17 +71,20 @@ public class BasicScheduler {
       earliestProcessor = this.getProcessorWithEarliestEndTime(processors);
       earliestStartTime = earliestProcessor.getEndTime();
     } else {
-      IntercommunicationCosts communicationCosts = this.determineIntercommunicationCosts(
+      TransferTimeFactoredStartTimes transferTimeFactoredStartTimes = this.determineTransferTimeFactoredStartTime(
           incomingEdges, processors);
 
       for (int processorIndex = 0; processorIndex < processors.size(); processorIndex++) {
         int processorEndTime = processors.get(processorIndex).getEndTime();
 
-        // If it's scheduled on the same processor as the latest dependency, we don't need to consider
-        // the intercommunication cost, and so we use the second-latest start time. The
-        // processor end time will always be >= the latest dependency on that processor.
-        int dependentStartTime = processorIndex == communicationCosts.latestProcessorIndex()
-            ? communicationCosts.secondLatestStartTime() : communicationCosts.latestStartTime();
+        // If it's scheduled on the same processor as the latest dependency, we don't need to
+        // consider the latest transfer time, and so we use the second-latest transfer factored
+        // start time. The processor end time will always be >= the latest dependency on that
+        // processor, so we don't need to worry about disregarding the end time of the latest task.
+        int dependentStartTime =
+            processorIndex == transferTimeFactoredStartTimes.latestProcessorIndex()
+                ? transferTimeFactoredStartTimes.secondLatestStartTime()
+                : transferTimeFactoredStartTimes.latestStartTime();
 
         int earliestProcessorStartTime = Math.max(processorEndTime, dependentStartTime);
         if (earliestProcessorStartTime < earliestStartTime) {
@@ -97,17 +99,17 @@ public class BasicScheduler {
   }
 
   /**
-   * Determines the intercommunication costs for the given incoming edges and processors. We only
-   * need to find the latest and second-latest start times while factoring in the communication cost
-   * as if the task is scheduled on the same processor as the latest start time we switch to the
-   * second-latest start time (As the intercommunication cost doesn't apply when scheduled on the
-   * same processor). In all other cases, we use the latest start time.
+   * Determines the transfer time factored start times for the given incoming edges and processors.
+   * We only need to find the latest and second-latest start times while factoring in the transfer
+   * time as if the task is scheduled on the same processor as the latest start time we switch to
+   * the second-latest start time (As the transfer time doesn't apply when scheduled on the same
+   * processor). In all other cases, we use the latest start time.
    *
    * @param incomingEdges The edges connecting the dependencies of the task
    * @param processors    The list of processors that can be scheduled on
-   * @return The intercommunication-factored latest and second-latest start times
+   * @return The transfer time factored latest and second-latest start times
    */
-  public IntercommunicationCosts determineIntercommunicationCosts(
+  public TransferTimeFactoredStartTimes determineTransferTimeFactoredStartTime(
       Set<Edge> incomingEdges,
       List<Processor> processors
   ) {
@@ -116,7 +118,7 @@ public class BasicScheduler {
     int latestStartTime = Integer.MIN_VALUE;
 
     // Determine the latest and second-latest dependencies assuming the task is scheduled on a different
-    // processor and therefore, the communication cost must be considered. The latest dependency is
+    // processor and therefore, the transfer time must be considered. The latest dependency is
     // also stored so that we can determine which processor it is scheduled on.
     for (Edge incomingEdge : incomingEdges) {
       final Node dependency = incomingEdge.getSource();
@@ -134,7 +136,7 @@ public class BasicScheduler {
     int latestProcessorIndex = this.getParentProcessor(latestDependency, processors)
         .getProcessorIndex();
 
-    return new IntercommunicationCosts(
+    return new TransferTimeFactoredStartTimes(
         latestProcessorIndex, latestStartTime, secondLatestStartTime);
   }
 
@@ -154,9 +156,9 @@ public class BasicScheduler {
     return null;
   }
 
-  private record IntercommunicationCosts(int latestProcessorIndex,
-                                         int latestStartTime,
-                                         int secondLatestStartTime) {
+  private record TransferTimeFactoredStartTimes(int latestProcessorIndex,
+                                                int latestStartTime,
+                                                int secondLatestStartTime) {
 
   }
 
