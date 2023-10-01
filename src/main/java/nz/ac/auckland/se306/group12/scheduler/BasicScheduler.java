@@ -116,41 +116,53 @@ public class BasicScheduler implements Scheduler {
    * We only need to find the latest and second-latest start times while factoring in the transfer
    * time as if the task is scheduled on the same processor as the latest start time we switch to
    * the second-latest start time (As the transfer time doesn't apply when scheduled on the same
-   * processor). In all other cases, we use the latest start time.
+   * processor). In all other cases, we use the latest start time. Note this works because we ensure
+   * these two times are on different processors. If there's only one parent then
+   * {@link Integer#MIN_VALUE} is returned for the second-latest start time. This is fine as we'll
+   * always take the max of this value and the processor end time, which will always be > than
+   * this.
    *
    * @param incomingEdges The edges connecting the dependences of the task
    * @param processors    The list of processors that can be scheduled on
    * @return The transfer time factored latest and second-latest start times
+   * @throws IllegalArgumentException If the task has no dependences
    */
   public TransferTimeFactoredStartTimes determineTransferTimeFactoredStartTime(
       Set<Edge> incomingEdges,
       List<Processor> processors
   ) {
-    int secondLatestStartTime = Integer.MIN_VALUE;
-    Node latestDependence = null;
+    int secondLatestStartTime = 0;
+    Processor latestProcessor = null;
     int latestStartTime = Integer.MIN_VALUE;
 
     // Determine the latest and second-latest dependences assuming the task is scheduled on a different
     // processor and therefore, the transfer time must be considered. The latest dependence is
     // also stored so that we can determine which processor it is scheduled on.
     for (Edge incomingEdge : incomingEdges) {
-      final Node dependence = incomingEdge.getSource();
+      Node dependence = incomingEdge.getSource();
+      Processor dependenceProcessor = this.getParentProcessor(dependence, processors);
+
       int dependentStartTime = dependence.getEndTime() + incomingEdge.getWeight();
 
       if (dependentStartTime > latestStartTime) {
-        secondLatestStartTime = latestStartTime;
-        latestDependence = dependence;
+        if (!dependenceProcessor.equals(latestProcessor)) {
+          secondLatestStartTime = latestStartTime;
+        }
+
+        latestProcessor = dependenceProcessor;
         latestStartTime = dependentStartTime;
-      } else if (dependentStartTime > secondLatestStartTime) {
+      } else if (!dependenceProcessor.equals(latestProcessor)
+          && dependentStartTime > secondLatestStartTime) {
         secondLatestStartTime = dependentStartTime;
       }
     }
 
-    int latestProcessorIndex = this.getParentProcessor(latestDependence, processors)
-        .getProcessorIndex();
+    if (latestProcessor == null) {
+      throw new IllegalArgumentException("The task must have at least one dependence");
+    }
 
     return new TransferTimeFactoredStartTimes(
-        latestProcessorIndex, latestStartTime, secondLatestStartTime);
+        latestProcessor.getProcessorIndex(), latestStartTime, secondLatestStartTime);
   }
 
   /**
