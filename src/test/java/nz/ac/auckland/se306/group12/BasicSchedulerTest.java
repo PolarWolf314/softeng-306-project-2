@@ -50,11 +50,13 @@ public class BasicSchedulerTest {
               >= task.getStartTime() + task.getWeight());
 
       if (!parentsComplete) {
-        System.out.println("Dependencies not met at - " + task.getLabel());
+        System.out.format("Invalid order: Dependencies of task %s not met.%n", task.getLabel());
         return false;
       }
       if (!completedBeforeChildrenStart) {
-        System.out.println("Not completed before children start - " + task.getLabel());
+        System.out.format(
+            "Invalid order: Dependents of task %s start before this task completes.%n",
+            task.getLabel());
         return false;
       }
     }
@@ -89,7 +91,8 @@ public class BasicSchedulerTest {
     io.writeOutputDotGraphToConsole(graph.getName(), TestUtil.scheduleToListNodes(cores));
 
     Assertions.assertEquals(graph.getNodes().size(), schedule.size(),
-        "Schedule size does not match the graph size.");
+        String.format("Graph has order %d, but %d tasks have been scheduled.%n",
+            graph.getNodes().size(), schedule.size()));
     Assertions.assertTrue(checkValidOrder(schedule),
         "Invalid Schedule: A task's dependencies were not met before execution");
 

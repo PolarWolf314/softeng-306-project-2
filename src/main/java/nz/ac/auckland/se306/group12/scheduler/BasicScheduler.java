@@ -16,16 +16,16 @@ public class BasicScheduler {
    * Returns a basic schedule for the given graph of tasks.
    * <p>
    *
-   * @param graph              The graph representing the tasks to be scheduled
-   * @param numberOfProcessors The number of processors to schedule the tasks on
+   * @param graph          The graph representing the tasks to be scheduled
+   * @param processorCount The number of processors to schedule the tasks on
    * @return A basic schedule for the given list of tasks
    */
-  public List<Processor> getABasicSchedule(Graph graph, int numberOfProcessors) {
+  public List<Processor> getABasicSchedule(Graph graph, int processorCount) {
     final List<Node> tasks = this.topologicalSorter.getATopologicalOrder(graph);
     List<Processor> processors = new ArrayList<>();
 
-    for (int i = 0; i < numberOfProcessors; i++) {
-      processors.add(new Processor(i));
+    for (int processorIndex = 0; processorIndex < processorCount; processorIndex++) {
+      processors.add(new Processor(processorIndex));
     }
 
     for (Node task : tasks) {
