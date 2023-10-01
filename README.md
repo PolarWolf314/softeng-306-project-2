@@ -51,14 +51,14 @@ java -jar .\build\libs\scheduler.jar --help
 
 ### 🐧 Unix-like OSs
 
-```bash
+```sh
 # Run application and display help message
 ./gradlew run --args="--help"
 ```
 
 ### 🪟 Windows
 
-```bash
+```sh
 # Run application and display help message
 .\gradlew run --args="--help"
 ```
