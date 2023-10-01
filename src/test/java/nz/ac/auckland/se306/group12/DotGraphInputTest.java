@@ -1,20 +1,22 @@
 package nz.ac.auckland.se306.group12;
 
 import java.io.File;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 class DotGraphInputTest {
+
+  private final DotGraphIO dotGraphIO = new DotGraphIO();
 
   /**
    * Check that the two graphs are equal including the edges and nodes and the incoming and outgoing
    * edges of all the nodes
-   * 
+   *
    * @param expectedGraph The expected graph
-   * @param parsedGraph The parsed graph
+   * @param parsedGraph   The parsed graph
    */
   private void checkGraphEquality(Graph expectedGraph, Graph parsedGraph) {
     Assertions.assertEquals(expectedGraph, parsedGraph);
@@ -27,10 +29,9 @@ class DotGraphInputTest {
   }
 
   private void runTestWithFile(Graph expectedGraph, String pathFromProjectRoot) {
-    DotGraphIO dotGraphIO = new DotGraphIO();
     try {
-      Graph graph = dotGraphIO.readDotGraph(new File(pathFromProjectRoot));
-      checkGraphEquality(expectedGraph, graph);
+      Graph graph = this.dotGraphIO.readDotGraph(new File(pathFromProjectRoot));
+      this.checkGraphEquality(expectedGraph, graph);
     } catch (Exception e) {
       e.printStackTrace();
       System.exit(1);
@@ -55,7 +56,7 @@ class DotGraphInputTest {
     expectedGraph.addEdge("C", "D", 2);
     expectedGraph.addEdge("D", "E", 1);
 
-    runTestWithFile(expectedGraph, "./graphs/test1.dot");
+    this.runTestWithFile(expectedGraph, "./graphs/test1.dot");
   }
 
   /**
@@ -78,7 +79,7 @@ class DotGraphInputTest {
     expectedGraph.addEdge("D", "E", 1);
     expectedGraph.addEdge("E", "F", 2);
 
-    runTestWithFile(expectedGraph, "./graphs/test2.dot");
+    this.runTestWithFile(expectedGraph, "./graphs/test2.dot");
   }
 
   /**
@@ -110,7 +111,7 @@ class DotGraphInputTest {
     expectedGraph.addEdge("F", "H", 1);
     expectedGraph.addEdge("F", "I", 2);
 
-    runTestWithFile(expectedGraph, "./graphs/test_annoying.dot");
+    this.runTestWithFile(expectedGraph, "./graphs/test_annoying.dot");
   }
 
   /**
@@ -132,7 +133,7 @@ class DotGraphInputTest {
     expectedGraph.addEdge("C", "D", 1);
     expectedGraph.addEdge("D", "E", 5);
 
-    runTestWithFile(expectedGraph, "./graphs/test_multiple_parents.dot");
+    this.runTestWithFile(expectedGraph, "./graphs/test_multiple_parents.dot");
   }
 
 }

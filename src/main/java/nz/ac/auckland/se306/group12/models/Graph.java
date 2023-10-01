@@ -7,7 +7,7 @@ import java.util.Set;
 import lombok.EqualsAndHashCode;
 import lombok.EqualsAndHashCode.Exclude;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 /*
@@ -16,13 +16,19 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode
+@RequiredArgsConstructor
 public class Graph {
 
   private final Map<String, Node> nodes = new HashMap<>();
   private final Set<Edge> edges = new HashSet<>();
+
   @Exclude
-  @Setter
-  private String name = "";
+  private final String name;
+
+  public Graph() {
+    // Default name, for when the graph name doesn't matter
+    this.name = "Graph";
+  }
 
   /**
    * Add and edge to the graph and also update the nodes incoming and outgoing edges

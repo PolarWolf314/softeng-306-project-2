@@ -18,7 +18,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 public class BasicSchedulerTest {
 
-  final private BasicScheduler scheduler = new BasicScheduler();
+  private final BasicScheduler scheduler = new BasicScheduler();
 
   Processor findProcessor(Map<Processor, Integer> cpu, Node node) {
     List<Processor> processCore = cpu.keySet()
@@ -93,17 +93,17 @@ public class BasicSchedulerTest {
     Assertions.assertEquals(graph.getNodes().size(), schedule.size(),
         String.format("Graph has order %d, but %d tasks have been scheduled.%n",
             graph.getNodes().size(), schedule.size()));
-    Assertions.assertTrue(checkValidOrder(schedule),
+    Assertions.assertTrue(this.checkValidOrder(schedule),
         "Invalid Schedule: A task's dependencies were not met before execution");
 
     // Run the schedule
     for (Node node : schedule) {
-      Processor processCore = findProcessor(processors, node);
+      Processor processCore = this.findProcessor(processors, node);
 
       for (Edge edge : node.getIncomingEdges()) {
         Node parent = edge.getSource();
         int swapTime = 0;
-        Processor processSource = findProcessor(processors, parent);
+        Processor processSource = this.findProcessor(processors, parent);
         if (!processCore.equals(processSource)) {
           swapTime = edge.getWeight();
         }
@@ -131,7 +131,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3, 10, 24})
   void testTrivialGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test1.dot");
-    validateSchedule(graph, 2);
+    this.validateSchedule(graph, 2);
   }
 
   /**
@@ -141,7 +141,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3, 10, 24})
   void testDisjointGraph(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_disjoint_graphs.dot");
-    validateSchedule(graph, processors);
+    this.validateSchedule(graph, processors);
   }
 
   /**
@@ -151,7 +151,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3, 10, 24})
   void testLongCommunication(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_long_communication_time.dot");
-    validateSchedule(graph, processors);
+    this.validateSchedule(graph, processors);
   }
 
   /**
@@ -161,7 +161,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3, 10, 24})
   void testAnnoyingGraph(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
-    validateSchedule(graph, processors);
+    this.validateSchedule(graph, processors);
   }
 
   /**
@@ -171,7 +171,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3, 10, 24})
   void testMultiplePaths(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_unintuitive_shortest_path.dot");
-    validateSchedule(graph, processors);
+    this.validateSchedule(graph, processors);
   }
 
 
@@ -182,7 +182,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3, 10, 24})
   void testOutTree(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_7_OutTree.dot");
-    validateSchedule(graph, processors);
+    this.validateSchedule(graph, processors);
   }
 
   /**
@@ -192,7 +192,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3, 10, 24})
   void testRandom(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_8_Random.dot");
-    validateSchedule(graph, processors);
+    this.validateSchedule(graph, processors);
   }
 
   /**
@@ -202,7 +202,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3, 10, 24})
   void testSeriesParallel(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_9_SeriesParallel.dot");
-    validateSchedule(graph, processors);
+    this.validateSchedule(graph, processors);
   }
 
   /**
@@ -212,7 +212,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3, 10, 24})
   void testRandom10(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_10_Random.dot");
-    validateSchedule(graph, processors);
+    this.validateSchedule(graph, processors);
   }
 
   /**
@@ -222,7 +222,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3, 10, 24})
   void testOutTree11(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_11_OutTree.dot");
-    validateSchedule(graph, processors);
+    this.validateSchedule(graph, processors);
   }
 
 }

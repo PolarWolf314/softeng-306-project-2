@@ -28,9 +28,7 @@ public class DotGraphIO {
    */
   public Graph readDotGraph(final File inputDotGraph) throws IOException {
     GraphParser parser = new GraphParser(new FileInputStream(inputDotGraph));
-    Graph graph = new Graph();
-
-    graph.setName(parser.getGraphId());
+    Graph graph = new Graph(parser.getGraphId());
 
     for (GraphNode graphNode : parser.getNodes().values()) {
       int weight = Integer.parseInt(graphNode.getAttributes().get("Weight").toString());
@@ -61,7 +59,6 @@ public class DotGraphIO {
   ) throws IOException {
     final String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
 
-    // We surround the name with "..." to allow for characters such as '-' in the name
     String output = this.toDotString(digraphName, nodes);
 
     if (arguments.writeToStdOut()) {
@@ -72,51 +69,13 @@ public class DotGraphIO {
   }
 
   /**
-   * Takes a Topological order (in the form of a list of nodes) and outputs the corresponding dot
-   * file in the console. This function is used for the testing of the TopologicalSorter.
-   *
-   * @param graphName String name of the graph
-   * @param graph     list of nodes to create a graph with
-   */
-  public void writeOrderToConsole(String graphName, List<Node> graph) {
-    StringBuilder builder = new StringBuilder();
-    builder.append("digraph ")
-        .append(graphName)
-        .append(" {")
-        .append(NEW_LINE);
-
-    for (Node node : graph) {
-      builder.append(node.getLabel())
-          .append(" [Weight=")
-          .append(node.getWeight())
-          .append("]")
-          .append(NEW_LINE);
-
-      for (Edge outgoingEdge : node.getOutgoingEdges()) {
-        builder.append(outgoingEdge.getSource().getLabel())
-            .append(" -> ")
-            .append(outgoingEdge.getDestination().getLabel())
-            .append(" [Weight=")
-            .append(outgoingEdge.getWeight())
-            .append("]")
-            .append(NEW_LINE);
-      }
-    }
-
-    builder.append("}");
-
-    System.out.println(builder);
-  }
-
-  /**
    * Same as writeDotGraph, used for testing.
    *
    * @param nodes The scheduled tasks to serialise
    */
   public void writeOutputDotGraphToConsole(String digraphName, final List<List<Node>> nodes) {
-    System.out.println(toDotString(digraphName, nodes));
+    System.out.println(this.toDotString(digraphName, nodes));
   }
-
 
   /**
    * Generates a dot graph string out of a schedule.
@@ -127,9 +86,11 @@ public class DotGraphIO {
    */
   public String toDotString(String digraphName, List<List<Node>> schedule) {
     final StringBuilder builder = new StringBuilder();
-    builder.append("digraph ")
+
+    // We surround the name with "..." to allow for characters such as '-' in the name
+    builder.append("digraph \"")
         .append(digraphName)
-        .append(" {")
+        .append("\" {")
         .append(NEW_LINE);
 
     for (int processorIndex = 0; processorIndex < schedule.size(); processorIndex++) {
