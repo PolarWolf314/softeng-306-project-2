@@ -1,9 +1,9 @@
-## Development
+# Development
 
 > **Note**
 > Only JDK 17 is officially supported.
 
-### ⌨️ Command line interface
+## ⌨️ Command line interface
 
 ```
 usage: scheduler.jar INPUT.dot P [-h] [-p N] [-v] [-o OUTPUT] 
@@ -21,16 +21,16 @@ Named arguments:
   -o OUTPUT, --output OUTPUT The output file to write the schedule to (default is INPUT-output.dot)
 ```
 
-#### 💾 Where files are saved
+### 💾 Where files are saved
 
 - By default, the output DOT file is saved to the same folder as the input DOT file.
 - Relative pathnames are relative to the root of the project directory.
 
-### ☕ Building and running
+## ☕ Building and running
 
 By default, the executable JAR file will be located at `/build/libs/scheduler.jar`
 
-#### 🐧 Unix-like OSs
+### 🐧 Unix-like OSs
 
 ```bash
 # Build JAR (with all dependencies included)
@@ -40,7 +40,7 @@ By default, the executable JAR file will be located at `/build/libs/scheduler.ja
 java -jar ./build/libs/scheduler.jar --help
 ```
 
-#### 🪟 Windows
+### 🪟 Windows
 
 ```bash
 # Build JAR (with all dependencies included)
@@ -50,22 +50,22 @@ java -jar ./build/libs/scheduler.jar --help
 java -jar .\build\libs\scheduler.jar --help
 ```
 
-### 🐘 …Or use Gradle
+## 🐘 …Or use Gradle
 
-#### 🐧 Unix-like OSs
+### 🐧 Unix-like OSs
 
 ```bash
 # Run application and display help message
 ./gradlew run --args="--help"
 ```
 
-#### 🪟 Windows
+### 🪟 Windows
 
 ```bash
 # Run application and display help message
 .\gradlew run --args="--help"
 ```
 
-## Notes
+# Notes
 
 - We’re using the Gradle [Shadow](https://imperceptiblethoughts.com/shadow) plugin in order to bundle all our dependencies into a single executable JAR file (known as a *fat-JAR*).
