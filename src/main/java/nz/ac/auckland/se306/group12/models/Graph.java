@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import lombok.EqualsAndHashCode;
+import lombok.EqualsAndHashCode.Exclude;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,6 +20,7 @@ public class Graph {
 
   private final Map<String, Node> nodes = new HashMap<>();
   private final Set<Edge> edges = new HashSet<>();
+  @Exclude
   @Setter
   private String name = "";
 
