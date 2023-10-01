@@ -2,124 +2,159 @@ package nz.ac.auckland.se306.group12.scheduler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import nz.ac.auckland.se306.group12.models.Edge;
+import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
 import nz.ac.auckland.se306.group12.models.Processor;
 
 public class BasicScheduler {
 
+  private final TopologicalSorter topologicalSorter = new TopologicalSorter();
+
   /**
-   * Returns a basic schedule for the given list of tasks.
+   * Returns a basic schedule for the given graph of tasks.
    *
-   * @param tasks          The list of tasks to schedule in topological order
+   * @param graph          The graph representing the tasks to be scheduled
    * @param processorCount The number of processors to schedule the tasks on
    * @return A basic schedule for the given list of tasks
    */
-  public List<Processor> getABasicSchedule(List<Node> tasks, int processorCount) {
-    // Step 1: Create a list of processors
-    // Step 2: Find the parent task of the current task with the highest finish time
-    // Step 3: Find the processor with the earliest finish time.
-    // Step 4: Find the finish time of the parent processor
-    // Step 5: Find out the lower of these two ->
-    //      Step 3 (or parent task finish time, whichever is higher) + Communication Time or Step 4
-    // Step 6: Assign the task to the processor with the lower finish time
+  public List<Processor> getABasicSchedule(Graph graph, int processorCount) {
+    final List<Node> tasks = this.topologicalSorter.getATopologicalOrder(graph);
+    List<Processor> processors = new ArrayList<>(processorCount);
 
-    List<Processor> processors = new ArrayList<>();
-
-    for (int i = 1; i <= processorCount; i++) {
-      processors.add(new Processor(i));
+    for (int processorIndex = 0; processorIndex < processorCount; processorIndex++) {
+      processors.add(new Processor(processorIndex));
     }
 
     for (Node task : tasks) {
-      // find the parent tasks of the current task
-      List<Edge> parentEdges = task.getIncomingEdges().stream().toList();
-
-      // if there are no parents, add to the cheapest processor
-      if (parentEdges.isEmpty()) {
-        Processor cheapestProcessor = getCheapestProcessor(processors);
-        task.setStartTime(cheapestProcessor.getFinalCost());
-        cheapestProcessor.addTask(task);
-        continue;
-      }
-
-      // otherwise, find the parent with the highest start time
-      Edge parentEdge = getParentWithHighestFinishTime(parentEdges);
-
-      // find the processor with the lowest cumulative start time
-      Processor cheapestProcessor = getCheapestProcessor(processors);
-
-      // find the parent processor of the parent task
-      Processor parentProcessor = getParentProcessor(parentEdge.getSource(), processors);
-
-      // find the finish time of the parent processor
-      int parentProcessorFinishTime = parentProcessor.getFinalCost();
-
-      // find the finish time of the parent task
-      int parentTaskFinishTime =
-          parentEdge.getSource().getStartTime() + parentEdge.getSource().getWeight();
-
-      // find the communication cost
-      int communicationCost = parentEdge.getWeight();
-
-      if (cheapestProcessor.getFinalCost() >= parentTaskFinishTime) {
-        if (cheapestProcessor.getFinalCost() + communicationCost < parentProcessorFinishTime) {
-          task.setStartTime(cheapestProcessor.getFinalCost() + communicationCost);
-          cheapestProcessor.addTask(task);
-        } else {
-          task.setStartTime(parentTaskFinishTime);
-          parentProcessor.addTask(task);
-        }
-      } else {
-        if (parentTaskFinishTime + communicationCost < parentProcessorFinishTime) {
-          task.setStartTime(parentTaskFinishTime + communicationCost);
-          cheapestProcessor.addTask(task);
-        } else {
-          task.setStartTime(parentTaskFinishTime);
-          parentProcessor.addTask(task);
-        }
-      }
+      this.scheduleTaskOnEarliestProcessor(task, processors);
     }
     return processors;
   }
 
   /**
-   * Returns the processor with the lowest cumulative start time.
+   * Returns the processor with the earliest end time.
    *
    * @param processors The list of processors to search through
-   * @return The processor with the lowest cumulative start time
+   * @return The processor with the earliest end time
    */
-  public Processor getCheapestProcessor(List<Processor> processors) {
-    int smallestCumulativeStartTime = Integer.MAX_VALUE;
-    Processor cheapestProcessor = processors.get(0);
-    for (Processor processor : processors) {
-      if (processor.getFinalCost() < smallestCumulativeStartTime) {
-        smallestCumulativeStartTime = processor.getFinalCost();
-        cheapestProcessor = processor;
+  public Processor getProcessorWithEarliestEndTime(List<Processor> processors) {
+    Processor shortestProcessor = processors.get(0);
+
+    for (int processorIndex = 1; processorIndex < processors.size(); processorIndex++) {
+      Processor processor = processors.get(processorIndex);
+      if (processor.getEndTime() < shortestProcessor.getEndTime()) {
+        shortestProcessor = processor;
       }
     }
-    return cheapestProcessor;
+
+    return shortestProcessor;
   }
 
   /**
-   * Returns the parent task with the highest finish time.
+   * Schedules the given task on the processor that gives it the earliest start time. This factors
+   * in the transfer time if the task has dependences and is scheduled on a different processor to
+   * them.
    *
-   * @param parentEdges the list of parent edges to search through
-   * @return The parent task with the highest finish time
+   * @param task       The task to schedule
+   * @param processors The list of processors to schedule on
    */
-  public Edge getParentWithHighestFinishTime(List<Edge> parentEdges) {
-    int highestFinishTime = Integer.MIN_VALUE;
-    Edge parentEdgeWithHighestFinishTime = parentEdges.get(0);
-    for (Edge parentEdge : parentEdges) {
-      if (parentEdge.getSource().getStartTime() + parentEdge.getSource().getWeight()
-          > highestFinishTime) {
-        highestFinishTime = parentEdge.getSource().getStartTime()
-            + parentEdge.getSource().getWeight();
-        parentEdgeWithHighestFinishTime = parentEdge;
+  private void scheduleTaskOnEarliestProcessor(Node task, List<Processor> processors) {
+    Set<Edge> incomingEdges = task.getIncomingEdges();
+
+    // This is just a default value so that IntelliJ doesn't complain about potential null pointers.
+    Processor earliestProcessor = processors.get(0);
+    int earliestStartTime = Integer.MAX_VALUE;
+
+    if (incomingEdges.isEmpty()) {
+      earliestProcessor = this.getProcessorWithEarliestEndTime(processors);
+      earliestStartTime = earliestProcessor.getEndTime();
+    } else {
+      TransferTimeFactoredStartTimes transferTimeFactoredStartTimes = this.determineTransferTimeFactoredStartTime(
+          incomingEdges, processors);
+
+      for (Processor processor : processors) {
+        int earliestPossibleStartTime = this.determineEarliestPossibleStartTime(
+            processor, transferTimeFactoredStartTimes);
+
+        if (earliestPossibleStartTime < earliestStartTime) {
+          earliestStartTime = earliestPossibleStartTime;
+          earliestProcessor = processor;
+        }
       }
     }
-    return parentEdgeWithHighestFinishTime;
+
+    task.setStartTime(earliestStartTime);
+    earliestProcessor.addTask(task);
   }
 
+  /**
+   * Determines the earliest possible start time for a task on the given processor. If it's
+   * scheduled on the same processor as the latest dependence, we don't need to consider the latest
+   * transfer time, and so we use the second-latest transfer factored start time. The processor end
+   * time will always be >= the latest dependence on that processor, so we don't need to worry about
+   * disregarding the end time of the latest task.
+   *
+   * @param processor                      The processor to schedule the task on
+   * @param transferTimeFactoredStartTimes The transfer time factored start times for the task
+   * @return The earliest possible start time for the task on the given processor
+   */
+  private int determineEarliestPossibleStartTime(
+      Processor processor,
+      TransferTimeFactoredStartTimes transferTimeFactoredStartTimes
+  ) {
+    int processorEndTime = processor.getEndTime();
+
+    int dependentStartTime =
+        processor.getProcessorIndex() == transferTimeFactoredStartTimes.latestProcessorIndex()
+            ? transferTimeFactoredStartTimes.secondLatestStartTime()
+            : transferTimeFactoredStartTimes.latestStartTime();
+
+    return Math.max(processorEndTime, dependentStartTime);
+  }
+
+  /**
+   * Determines the transfer time factored start times for the given incoming edges and processors.
+   * We only need to find the latest and second-latest start times while factoring in the transfer
+   * time as if the task is scheduled on the same processor as the latest start time we switch to
+   * the second-latest start time (As the transfer time doesn't apply when scheduled on the same
+   * processor). In all other cases, we use the latest start time.
+   *
+   * @param incomingEdges The edges connecting the dependences of the task
+   * @param processors    The list of processors that can be scheduled on
+   * @return The transfer time factored latest and second-latest start times
+   */
+  public TransferTimeFactoredStartTimes determineTransferTimeFactoredStartTime(
+      Set<Edge> incomingEdges,
+      List<Processor> processors
+  ) {
+    int secondLatestStartTime = Integer.MIN_VALUE;
+    Node latestDependence = null;
+    int latestStartTime = Integer.MIN_VALUE;
+
+    // Determine the latest and second-latest dependences assuming the task is scheduled on a different
+    // processor and therefore, the transfer time must be considered. The latest dependence is
+    // also stored so that we can determine which processor it is scheduled on.
+    for (Edge incomingEdge : incomingEdges) {
+      final Node dependence = incomingEdge.getSource();
+      int dependentStartTime = dependence.getEndTime() + incomingEdge.getWeight();
+
+      if (dependentStartTime > latestStartTime) {
+        secondLatestStartTime = latestStartTime;
+        latestDependence = dependence;
+        latestStartTime = dependentStartTime;
+      } else if (dependentStartTime > secondLatestStartTime) {
+        secondLatestStartTime = dependentStartTime;
+      }
+    }
+
+    int latestProcessorIndex = this.getParentProcessor(latestDependence, processors)
+        .getProcessorIndex();
+
+    return new TransferTimeFactoredStartTimes(
+        latestProcessorIndex, latestStartTime, secondLatestStartTime);
+  }
 
   /**
    * Returns the parent processor of the given parent task.
@@ -135,6 +170,12 @@ public class BasicScheduler {
       }
     }
     return null;
+  }
+
+  private record TransferTimeFactoredStartTimes(int latestProcessorIndex,
+                                                int latestStartTime,
+                                                int secondLatestStartTime) {
+
   }
 
 }

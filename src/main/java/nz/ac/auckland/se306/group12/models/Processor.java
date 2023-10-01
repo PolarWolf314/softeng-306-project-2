@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -16,15 +15,12 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class Processor {
 
-
   private final List<Node> scheduledTasks = new ArrayList<>();
-  @Getter
-  private final int id;
-  @Setter
-  private int finalCost = 0;
+  private final int processorIndex;
+  private int endTime = 0;
 
   public void addTask(Node task) {
-    finalCost = task.getStartTime() + task.getWeight();
-    scheduledTasks.add(task);
+    this.endTime = task.getEndTime();
+    this.scheduledTasks.add(task);
   }
 }

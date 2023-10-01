@@ -1,29 +1,27 @@
 package nz.ac.auckland.se306.group12;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
 import nz.ac.auckland.se306.group12.models.Processor;
 import nz.ac.auckland.se306.group12.scheduler.BasicScheduler;
-import nz.ac.auckland.se306.group12.scheduler.TopologicalSorter;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class BasicSchedulerTest {
 
-  final private TopologicalSorter sorter = new TopologicalSorter();
-  final private BasicScheduler scheduler = new BasicScheduler();
+  private final DotGraphIO dotGraphIO = new DotGraphIO();
+  private final BasicScheduler scheduler = new BasicScheduler();
 
-  Processor findProcessor(Map<Processor, Integer> cpu, Node node) {
+  private Processor findProcessor(Map<Processor, Integer> cpu, Node node) {
     List<Processor> processCore = cpu.keySet()
         .stream()
         .filter(processor -> processor.getScheduledTasks().contains(node))
@@ -34,12 +32,12 @@ public class BasicSchedulerTest {
   }
 
   /**
-   * Checks if a given list of tasks is in a proper order
+   * Asserts that the given list of tasks is in a valid order. If not, this will cause the unit test
+   * to fail.
    *
-   * @param schedule to be checked
-   * @return boolean of whether or not it is valid
+   * @param schedule The list of tasks to be checked
    */
-  boolean checkValidOrder(List<Node> schedule) {
+  private void assertValidOrder(List<Node> schedule) {
     Set<Node> completedTasks = new HashSet<>();
 
     for (Node task : schedule) {
@@ -52,96 +50,70 @@ public class BasicSchedulerTest {
           .allMatch(edge -> edge.getDestination().getStartTime()
               >= task.getStartTime() + task.getWeight());
 
-      if (!(parentsComplete && completedBeforeChildrenStart)) {
-        return false;
-      }
-    }
+      Assertions.assertTrue(parentsComplete,
+          String.format("Invalid order: Dependents of task %s not met", task.getLabel()));
 
-    return true;
+      Assertions.assertTrue(completedBeforeChildrenStart,
+          String.format("Invalid order: Dependents of task %s start before this task completes",
+              task.getLabel()));
+    }
   }
 
   /**
-   * Checks that a graph's schedule is valid.
+   * Checks that the resulting schedule from the given graph is valid.
    *
-   * @param graph        to be checked
-   * @param numProcesses amount of processors
+   * @param graph          The {@link Graph} representing the tasks to be scheduled
+   * @param processorCount The number of processors to schedule the tasks on
    */
-  void validateSchedule(Graph graph, int numProcesses) {
-    List<Node> tasks = this.sorter.getATopologicalOrder(graph);
+  private void validateSchedule(Graph graph, int processorCount) {
 
-    // Initialise my computer
     Map<Processor, Integer> processors = new HashMap<>();
-    List<Processor> cores = this.scheduler.getABasicSchedule(tasks, numProcesses);
+    List<Processor> cores = this.scheduler.getABasicSchedule(graph, processorCount);
 
     for (Processor core : cores) {
       processors.put(core, 0);
     }
     // Make sure schedule order is valid
-    List<Node> schedule = TestUtil.scheduleToListNodes(
-            cores).stream()
+    List<Node> schedule = TestUtil.scheduleToListNodes(cores)
+        .stream()
         .flatMap(List::stream)
         .sorted(Comparator.comparingInt(Node::getStartTime))
         .toList();
+
+    this.dotGraphIO.writeOutputDotGraphToConsole(graph.getName(),
+        TestUtil.scheduleToListNodes(cores));
+
     Assertions.assertEquals(graph.getNodes().size(), schedule.size(),
-        "Schedule size does not match the graph size.");
-    Assertions.assertTrue(checkValidOrder(schedule),
-        "Invalid Schedule: A task's dependencies were not met before execution");
+        String.format(
+            "Graph has order %d, but %d tasks have been scheduled",
+            graph.getNodes().size(), schedule.size()));
+
+    this.assertValidOrder(schedule);
 
     // Run the schedule
     for (Node node : schedule) {
-      Processor processCore = findProcessor(processors, node);
+      Processor processCore = this.findProcessor(processors, node);
 
       for (Edge edge : node.getIncomingEdges()) {
         Node parent = edge.getSource();
-        int swapTime = 0;
-        Processor processSource = findProcessor(processors, parent);
-        if (!processCore.equals(processSource)) {
-          swapTime = edge.getWeight();
-        }
-        System.out.println();
+        Processor processSource = this.findProcessor(processors, parent);
+        int transferTime = processCore.equals(processSource) ? 0 : edge.getWeight();
+
         Assertions.assertTrue(
-            node.getStartTime() >= parent.getStartTime() + parent.getWeight() + swapTime,
+            node.getStartTime() >= parent.getEndTime() + transferTime,
             String.format(
                 "Invalid Schedule: Task %s starts before parent %s completes, at start %d",
                 node.getLabel(), parent.getLabel(), node.getStartTime()));
       }
 
       int currentCoreValue = processors.get(processCore);
+
       Assertions.assertTrue(currentCoreValue <= node.getStartTime(),
           String.format("Invalid Schedule: Task %s overlaps with another task on processor %d",
-              node.getLabel(),
-              processCore.getId()));
-      processors.put(processCore, node.getStartTime() + node.getWeight());
+              node.getLabel(), processCore.getProcessorIndex()));
+
+      processors.put(processCore, node.getEndTime());
     }
-  }
-
-
-  /**
-   * Test with an invalid schedule
-   */
-  @Test
-  void testInvalidSchedule() {
-    Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
-    List<Node> schedule = new ArrayList<>();
-    schedule.add(graph.getNodes().get("A"));
-    schedule.add(graph.getNodes().get("C"));
-    Assertions.assertFalse(checkValidOrder(schedule));
-  }
-
-  /**
-   * Test with an invalid schedule
-   */
-  @Test
-  void testInvalidScheduleAgain() {
-    Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
-    List<Node> schedule = new ArrayList<>();
-    schedule.add(graph.getNodes().get("A"));
-    schedule.add(graph.getNodes().get("B"));
-    schedule.add(graph.getNodes().get("C"));
-    schedule.add(graph.getNodes().get("D"));
-    schedule.add(graph.getNodes().get("F"));
-    schedule.add(graph.getNodes().get("J"));
-    Assertions.assertFalse(checkValidOrder(schedule));
   }
 
 
@@ -152,7 +124,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3, 10, 24})
   void testTrivialGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test1.dot");
-    validateSchedule(graph, 2);
+    this.validateSchedule(graph, 2);
   }
 
   /**
@@ -162,7 +134,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3, 10, 24})
   void testDisjointGraph(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_disjoint_graphs.dot");
-    validateSchedule(graph, processors);
+    this.validateSchedule(graph, processors);
   }
 
   /**
@@ -172,7 +144,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3, 10, 24})
   void testLongCommunication(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_long_communication_time.dot");
-    validateSchedule(graph, processors);
+    this.validateSchedule(graph, processors);
   }
 
   /**
@@ -182,7 +154,7 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3, 10, 24})
   void testAnnoyingGraph(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
-    validateSchedule(graph, processors);
+    this.validateSchedule(graph, processors);
   }
 
   /**
@@ -192,6 +164,58 @@ public class BasicSchedulerTest {
   @ValueSource(ints = {1, 2, 3, 10, 24})
   void testMultiplePaths(int processors) {
     Graph graph = TestUtil.loadGraph("./graphs/test_unintuitive_shortest_path.dot");
-    validateSchedule(graph, processors);
+    this.validateSchedule(graph, processors);
   }
+
+
+  /**
+   * Test with OutTree test case
+   */
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3, 10, 24})
+  void testOutTree(int processors) {
+    Graph graph = TestUtil.loadGraph("./graphs/Nodes_7_OutTree.dot");
+    this.validateSchedule(graph, processors);
+  }
+
+  /**
+   * Test with Random test case
+   */
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3, 10, 24})
+  void testRandom(int processors) {
+    Graph graph = TestUtil.loadGraph("./graphs/Nodes_8_Random.dot");
+    this.validateSchedule(graph, processors);
+  }
+
+  /**
+   * Test with SeriesParallel test case
+   */
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3, 10, 24})
+  void testSeriesParallel(int processors) {
+    Graph graph = TestUtil.loadGraph("./graphs/Nodes_9_SeriesParallel.dot");
+    this.validateSchedule(graph, processors);
+  }
+
+  /**
+   * Test with Random 10 test case
+   */
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3, 10, 24})
+  void testRandom10(int processors) {
+    Graph graph = TestUtil.loadGraph("./graphs/Nodes_10_Random.dot");
+    this.validateSchedule(graph, processors);
+  }
+
+  /**
+   * Test with Random 11 OutTree test case
+   */
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3, 10, 24})
+  void testOutTree11(int processors) {
+    Graph graph = TestUtil.loadGraph("./graphs/Nodes_11_OutTree.dot");
+    this.validateSchedule(graph, processors);
+  }
+
 }

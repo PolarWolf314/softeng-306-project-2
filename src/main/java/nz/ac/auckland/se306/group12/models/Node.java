@@ -25,4 +25,8 @@ public class Node {
   private final Set<Edge> outgoingEdges = new HashSet<>();
   @Setter
   private int startTime = 0;
+
+  public int getEndTime() {
+    return this.startTime + this.weight;
+  }
 }
