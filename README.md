@@ -28,7 +28,7 @@ By default, the executable JAR file will be located at `/build/libs/scheduler.ja
 #### 🐧 Unix-like OSs
 
 ```bash
-# Build JAR with all dependencies included
+# Build JAR (with all dependencies included)
 ./gradlew shadowJar
 
 # Execute the JAR and show help message
@@ -38,7 +38,7 @@ java -jar ./build/libs/scheduler.jar --help
 #### 🪟 Windows
 
 ```bash
-# Build JAR with all dependencies included
+# Build JAR (with all dependencies included)
 .\gradlew shadowJar
 
 # Execute the JAR and show help message
