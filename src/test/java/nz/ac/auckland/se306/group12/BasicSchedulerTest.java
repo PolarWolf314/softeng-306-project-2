@@ -50,7 +50,7 @@ public class BasicSchedulerTest {
               >= task.getStartTime() + task.getWeight());
 
       if (!parentsComplete) {
-        System.out.format("Invalid order: Dependencies of task %s not met.%n", task.getLabel());
+        System.out.format("Invalid order: Dependences of task %s not met.%n", task.getLabel());
         return false;
       }
       if (!completedBeforeChildrenStart) {
@@ -224,4 +224,5 @@ public class BasicSchedulerTest {
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_11_OutTree.dot");
     validateSchedule(graph, processors);
   }
+
 }
