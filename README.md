@@ -50,14 +50,14 @@ java -jar .\build\libs\scheduler.jar --help
 #### 🐧 Unix-like OSs
 
 ```bash
-# Run the application and display the help message
+# Run application and display help message
 ./gradlew run --args="--help"
 ```
 
 #### 🪟 Windows
 
 ```bash
-# Run the application and display the help message
+# Run application and display help message
 .\gradlew run --args="--help"
 ```
 
