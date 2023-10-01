@@ -7,6 +7,9 @@ import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Node;
+import nz.ac.auckland.se306.group12.models.Processor;
+import nz.ac.auckland.se306.group12.scheduler.BasicScheduler;
+import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 
 public class Main {
 
@@ -17,14 +20,15 @@ public class Main {
     CommandLineArguments arguments = parser.parse(args);
     try {
       Graph graph = dotGraphIO.readDotGraph(arguments.inputDotGraph());
-      System.out.println(graph);
 
-      List<List<Node>> nodes = List.of(
-          List.of(new Node("A", 1)),
-          List.of(new Node("A", 1))
-      );
+      Scheduler scheduler = new BasicScheduler();
 
-      dotGraphIO.writeDotGraph(arguments, nodes);
+      List<Processor> schedule = scheduler.schedule(graph, arguments.processorCount());
+      List<List<Node>> scheduledTasks = schedule.stream()
+          .map(Processor::getScheduledTasks)
+          .toList();
+
+      dotGraphIO.writeDotGraph(arguments, scheduledTasks);
     } catch (IOException e) {
       e.printStackTrace();
       System.exit(1);
