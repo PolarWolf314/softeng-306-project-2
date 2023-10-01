@@ -18,9 +18,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 public class BasicSchedulerTest {
 
+  private final DotGraphIO dotGraphIO = new DotGraphIO();
   private final BasicScheduler scheduler = new BasicScheduler();
 
-  Processor findProcessor(Map<Processor, Integer> cpu, Node node) {
+  private Processor findProcessor(Map<Processor, Integer> cpu, Node node) {
     List<Processor> processCore = cpu.keySet()
         .stream()
         .filter(processor -> processor.getScheduledTasks().contains(node))
@@ -36,7 +37,7 @@ public class BasicSchedulerTest {
    * @param schedule to be checked
    * @return boolean of whether or not it is valid
    */
-  boolean checkValidOrder(List<Node> schedule) {
+  private void assertValidOrder(List<Node> schedule) {
     Set<Node> completedTasks = new HashSet<>();
 
     for (Node task : schedule) {
@@ -49,19 +50,13 @@ public class BasicSchedulerTest {
           .allMatch(edge -> edge.getDestination().getStartTime()
               >= task.getStartTime() + task.getWeight());
 
-      if (!parentsComplete) {
-        System.out.format("Invalid order: Dependences of task %s not met.%n", task.getLabel());
-        return false;
-      }
-      if (!completedBeforeChildrenStart) {
-        System.out.format(
-            "Invalid order: Dependents of task %s start before this task completes.%n",
-            task.getLabel());
-        return false;
-      }
-    }
+      Assertions.assertTrue(parentsComplete,
+          String.format("Invalid order: Dependents of task %s not met", task.getLabel()));
 
-    return true;
+      Assertions.assertTrue(completedBeforeChildrenStart,
+          String.format("Invalid order: Dependents of task %s start before this task completes",
+              task.getLabel()));
+    }
   }
 
   /**
@@ -70,9 +65,8 @@ public class BasicSchedulerTest {
    * @param graph        to be checked
    * @param numProcesses amount of processors
    */
-  void validateSchedule(Graph graph, int numProcesses) {
+  private void validateSchedule(Graph graph, int numProcesses) {
 
-    // Initialise my computer
     Map<Processor, Integer> processors = new HashMap<>();
     List<Processor> cores = this.scheduler.getABasicSchedule(graph, numProcesses);
 
@@ -80,21 +74,21 @@ public class BasicSchedulerTest {
       processors.put(core, 0);
     }
     // Make sure schedule order is valid
-    List<Node> schedule = TestUtil.scheduleToListNodes(
-            cores).stream()
+    List<Node> schedule = TestUtil.scheduleToListNodes(cores)
+        .stream()
         .flatMap(List::stream)
         .sorted(Comparator.comparingInt(Node::getStartTime))
         .toList();
 
-    System.out.println("Processors: " + numProcesses);
-    DotGraphIO io = new DotGraphIO();
-    io.writeOutputDotGraphToConsole(graph.getName(), TestUtil.scheduleToListNodes(cores));
+    this.dotGraphIO.writeOutputDotGraphToConsole(graph.getName(),
+        TestUtil.scheduleToListNodes(cores));
 
     Assertions.assertEquals(graph.getNodes().size(), schedule.size(),
-        String.format("Graph has order %d, but %d tasks have been scheduled.%n",
+        String.format(
+            "Graph has order %d, but %d tasks have been scheduled",
             graph.getNodes().size(), schedule.size()));
-    Assertions.assertTrue(this.checkValidOrder(schedule),
-        "Invalid Schedule: A task's dependencies were not met before execution");
+
+    this.assertValidOrder(schedule);
 
     // Run the schedule
     for (Node node : schedule) {
@@ -102,24 +96,23 @@ public class BasicSchedulerTest {
 
       for (Edge edge : node.getIncomingEdges()) {
         Node parent = edge.getSource();
-        int swapTime = 0;
         Processor processSource = this.findProcessor(processors, parent);
-        if (!processCore.equals(processSource)) {
-          swapTime = edge.getWeight();
-        }
+        int swapTime = processCore.equals(processSource) ? 0 : edge.getWeight();
+
         Assertions.assertTrue(
-            node.getStartTime() >= parent.getStartTime() + parent.getWeight() + swapTime,
+            node.getStartTime() >= parent.getEndTime() + swapTime,
             String.format(
                 "Invalid Schedule: Task %s starts before parent %s completes, at start %d",
                 node.getLabel(), parent.getLabel(), node.getStartTime()));
       }
 
       int currentCoreValue = processors.get(processCore);
+
       Assertions.assertTrue(currentCoreValue <= node.getStartTime(),
           String.format("Invalid Schedule: Task %s overlaps with another task on processor %d",
-              node.getLabel(),
-              processCore.getProcessorIndex()));
-      processors.put(processCore, node.getStartTime() + node.getWeight());
+              node.getLabel(), processCore.getProcessorIndex()));
+
+      processors.put(processCore, node.getEndTime());
     }
   }
 
