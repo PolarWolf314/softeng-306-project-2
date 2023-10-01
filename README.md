@@ -21,10 +21,7 @@ Named arguments:
   -o OUTPUT, --output OUTPUT The output file to write the schedule to (default is INPUT-output.dot)
 ```
 
-### 💾 Where files are saved
-
-- By default, the output DOT file is saved to the same folder as the input DOT file.
-- Relative pathnames are relative to the root of the project directory.
+By default, the output DOT file is saved to the same folder as the input DOT file.
 
 ## ☕ Building and running
 
@@ -32,7 +29,7 @@ By default, the executable JAR file will be located at `/build/libs/scheduler.ja
 
 ### 🐧 Unix-like OSs
 
-```bash
+```sh
 # Build JAR (with all dependencies included)
 ./gradlew shadowJar
 
@@ -42,7 +39,7 @@ java -jar ./build/libs/scheduler.jar --help
 
 ### 🪟 Windows
 
-```bash
+```sh
 # Build JAR (with all dependencies included)
 .\gradlew shadowJar
 
@@ -50,7 +47,7 @@ java -jar ./build/libs/scheduler.jar --help
 java -jar .\build\libs\scheduler.jar --help
 ```
 
-## 🐘 …Or use Gradle
+## 🐘 …Or use Gradle’s `run` task
 
 ### 🐧 Unix-like OSs
 
