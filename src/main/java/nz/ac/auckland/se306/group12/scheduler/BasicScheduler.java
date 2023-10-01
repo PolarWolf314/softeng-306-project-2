@@ -64,6 +64,7 @@ public class BasicScheduler {
   private void scheduleTaskOnEarliestProcessor(Node task, List<Processor> processors) {
     Set<Edge> incomingEdges = task.getIncomingEdges();
 
+    // This is just a default value so that IntelliJ doesn't complain about potential null pointers.
     Processor earliestProcessor = processors.get(0);
     int earliestStartTime = Integer.MAX_VALUE;
 
