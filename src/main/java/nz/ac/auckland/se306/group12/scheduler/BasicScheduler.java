@@ -54,7 +54,7 @@ public class BasicScheduler {
 
   /**
    * Schedules the given task on the processor that gives it the earliest start time. This factors
-   * in the transfer time if the task has dependencies and is scheduled on a different processor to
+   * in the transfer time if the task has dependences and is scheduled on a different processor to
    * them.
    *
    * @param task       The task to schedule
@@ -77,9 +77,9 @@ public class BasicScheduler {
       for (int processorIndex = 0; processorIndex < processors.size(); processorIndex++) {
         int processorEndTime = processors.get(processorIndex).getEndTime();
 
-        // If it's scheduled on the same processor as the latest dependency, we don't need to
+        // If it's scheduled on the same processor as the latest dependence, we don't need to
         // consider the latest transfer time, and so we use the second-latest transfer factored
-        // start time. The processor end time will always be >= the latest dependency on that
+        // start time. The processor end time will always be >= the latest dependence on that
         // processor, so we don't need to worry about disregarding the end time of the latest task.
         int dependentStartTime =
             processorIndex == transferTimeFactoredStartTimes.latestProcessorIndex()
@@ -105,7 +105,7 @@ public class BasicScheduler {
    * the second-latest start time (As the transfer time doesn't apply when scheduled on the same
    * processor). In all other cases, we use the latest start time.
    *
-   * @param incomingEdges The edges connecting the dependencies of the task
+   * @param incomingEdges The edges connecting the dependences of the task
    * @param processors    The list of processors that can be scheduled on
    * @return The transfer time factored latest and second-latest start times
    */
@@ -114,26 +114,26 @@ public class BasicScheduler {
       List<Processor> processors
   ) {
     int secondLatestStartTime = Integer.MIN_VALUE;
-    Node latestDependency = null;
+    Node latestDependence = null;
     int latestStartTime = Integer.MIN_VALUE;
 
-    // Determine the latest and second-latest dependencies assuming the task is scheduled on a different
-    // processor and therefore, the transfer time must be considered. The latest dependency is
+    // Determine the latest and second-latest dependences assuming the task is scheduled on a different
+    // processor and therefore, the transfer time must be considered. The latest dependence is
     // also stored so that we can determine which processor it is scheduled on.
     for (Edge incomingEdge : incomingEdges) {
-      final Node dependency = incomingEdge.getSource();
-      int dependentStartTime = dependency.getEndTime() + incomingEdge.getWeight();
+      final Node dependence = incomingEdge.getSource();
+      int dependentStartTime = dependence.getEndTime() + incomingEdge.getWeight();
 
       if (dependentStartTime > latestStartTime) {
         secondLatestStartTime = latestStartTime;
-        latestDependency = dependency;
+        latestDependence = dependence;
         latestStartTime = dependentStartTime;
       } else if (dependentStartTime > secondLatestStartTime) {
         secondLatestStartTime = dependentStartTime;
       }
     }
 
-    int latestProcessorIndex = this.getParentProcessor(latestDependency, processors)
+    int latestProcessorIndex = this.getParentProcessor(latestDependence, processors)
         .getProcessorIndex();
 
     return new TransferTimeFactoredStartTimes(
