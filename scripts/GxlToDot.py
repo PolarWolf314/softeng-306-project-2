@@ -44,9 +44,9 @@ class Graph:
         root = tree.getroot()
         graph = root.find('graph')
 
-        self.name = graph.get('id')
-        self.nodes = []
-        self.edges = []
+        self.name: str = graph.get('id')
+        self.nodes: List[Node] = []
+        self.edges: List[Edge] = []
 
         for nodeTag in graph.findall('node'):
             node = Node(nodeTag)
@@ -55,6 +55,9 @@ class Graph:
         for edgeTag in graph.findall('edge'):
             edge = Edge(edgeTag)
             self.edges.append(edge)
+
+        # Determine the number of unique processors in this graph
+        self.processor_count = len(set([node.processor for node in self.nodes]))
 
     def get_filename(self) -> str:
         return self.name + '.dot'
