@@ -1,6 +1,30 @@
 from typing import List, Dict
 import xml.etree.ElementTree as ET
 
+class Graph:
+    def __init__(self, filename: str):
+        tree = ET.parse(filename)
+        root = tree.getroot()
+        graph = root.find('graph')
+
+        self.name = graph.get('id')
+        self.nodes = []
+        self.edges = []
+
+        for nodeTag in graph.findall('node'):
+            node = Node(nodeTag)
+            self.nodes.append(node)
+
+        for edgeTag in graph.findall('edge'):
+            edge = Edge(edgeTag)
+            self.edges.append(edge)
+    
+    def __str__(self) -> str:
+        stringifiedNodes = ', '.join([str(node) for node in self.nodes])
+        stringifiedEdges = ', '.join([str(edge) for edge in self.edges])
+
+        return f'Graph[name={self.name}, nodes={stringifiedNodes}, edges={stringifiedEdges}]'
+    
 class Node:
     def __init__(self, node: ET.Element):
         self.id = node.get('id')
@@ -46,19 +70,8 @@ def parse_attributes(element: ET.Element) -> Dict[str, any]:
     return attributeDict
     
 def main():
-    tree = ET.parse('Fork_Join_Nodes_10_CCR_0.10_WeightType_Random_Homogeneous-2.gxl')
-    root = tree.getroot()
-
-    graph = root.find('graph')
-    graph_name = graph.get('id')
-
-    for nodeTag in graph.findall('node'):
-        node = Node(nodeTag)
-        print(node)
-
-    for edgeTag in graph.findall('edge'):
-        edge = Edge(edgeTag)
-        print(edge)
+    graph = Graph('Fork_Join_Nodes_10_CCR_0.10_WeightType_Random_Homogeneous-2.gxl')
+    print(graph)
 
 if __name__ == '__main__':
     main()
