@@ -4,24 +4,27 @@ import xml.etree.ElementTree as ET
 import sys
 import os
 
+
 class Node:
     def __init__(self, node: ET.Element):
         self.id = node.get('id')
-    
+
         attributes = parse_attributes(node)
         self.start_time = attributes["Start time"]
         self.weight = attributes["Weight"]
         self.finish_time = attributes["Finish time"]
         self.processor = attributes["Processor"]
 
-    def to_input_dot_node(self) -> str:    
+    def to_input_dot_node(self) -> str:
         return f'{self.id} [Weight={self.weight}];'
-    
+
     def to_output_dot_node(self) -> str:
-        return f'{self.id} [Weight={self.weight},Start={self.start_time},Processor={self.processor}];'
+        # +1 on the processor as we want to start at 1 instead of 0
+        return f'{self.id} [Weight={self.weight},Start={self.start_time},Processor={self.processor + 1}];'
 
     def __str__(self) -> str:
         return f'Node[id={self.id}, start_time={self.start_time}, weight={self.weight}, finish_time={self.finish_time}, processor={self.processor}]'
+
 
 class Edge:
     def __init__(self, edge: ET.Element):
@@ -31,12 +34,13 @@ class Edge:
         attributes = parse_attributes(edge)
         self.weight = attributes["Weight"]
 
-    def to_dot_edge(self) -> str:    
+    def to_dot_edge(self) -> str:
         return f'{self.source} -> {self.target} [Weight={self.weight}];'
-    
+
     def __str__(self) -> str:
         return f'Edge[source={self.source}, target={self.target}, weight={self.weight}]'
-    
+
+
 class Graph:
     def __init__(self, filename: str):
         tree = ET.parse(filename)
@@ -54,13 +58,13 @@ class Graph:
         for edgeTag in graph.findall('edge'):
             edge = Edge(edgeTag)
             self.edges.append(edge)
-    
+
     def find_outgoing_edges(self, node: Node) -> List[Edge]:
         """
         Returns a list of all edges that have the given node as their source.
         """
         return [edge for edge in self.edges if edge.source == node.id]
-    
+
     def to_input_dot_graph(self) -> str:
         output = 'digraph ' + f'"{self.name}"' + ' {\n'
         output += '\n'.join([node.to_input_dot_node() for node in self.nodes]) + '\n'
@@ -68,7 +72,7 @@ class Graph:
         output += '}'
 
         return output
-    
+
     def write_input_dot_graph(self, output_dir: str) -> None:
         """
         Writes the input dot graph to the given output directory with the filename specified by the id of the
@@ -87,12 +91,12 @@ class Graph:
         compare the actual and expected outputs by comparing the strings.
         """
         output = 'digraph ' + f'"{self.name}"' + ' {\n'
-        key = lambda node: node.processor
+        def key(node: Node) -> int: return node.processor
 
         # We have to sort by the key as groupby just iterates through the list and creates a new group whenever the key changes
         for _, processor_nodes in groupby(sorted(self.nodes, key=key), key):
             sorted_processor_nodes = sorted(processor_nodes, key=lambda node: node.start_time)
-            
+
             for node in sorted_processor_nodes:
                 outgoing_edges = self.find_outgoing_edges(node)
                 output += node.to_output_dot_node() + '\n'
@@ -108,7 +112,8 @@ class Graph:
         stringifiedEdges = ', '.join([str(edge) for edge in self.edges])
 
         return f'Graph[name={self.name}, nodes={stringifiedNodes}, edges={stringifiedEdges}]'
-    
+
+
 def parse_attributes(element: ET.Element) -> Dict[str, any]:
     attributeDict = {}
 
@@ -116,8 +121,9 @@ def parse_attributes(element: ET.Element) -> Dict[str, any]:
         key = attribute.get('name')
         children = list(attribute)
         if (len(children) != 1):
-            raise SyntaxError(f'Expected <attr name="{key}"> to have exactly one child element')
-        
+            raise SyntaxError(
+                f'Expected <attr name="{key}"> to have exactly one child element')
+
         value = children[0]
         if (value.tag == 'int'):
             attributeDict[key] = int(value.text)
@@ -126,8 +132,9 @@ def parse_attributes(element: ET.Element) -> Dict[str, any]:
         else:
             # This should never happen, but if it does we want to know about it
             raise SyntaxError(f'Unexpected tag <{value.tag}> in <attr name="{key}">')
-    
+
     return attributeDict
+
 
 def get_gxl_file_paths(path: str) -> List[str]:
     """
@@ -135,13 +142,15 @@ def get_gxl_file_paths(path: str) -> List[str]:
     """
     return [os.path.join(path, filename) for filename in os.listdir(path) if filename.endswith('.gxl')]
 
+
 def generate_graphs(input_path: str, input_dot_graph_path: str) -> None:
     gxl_file_paths = get_gxl_file_paths(input_path)
-    print(f'Found {len(gxl_file_paths)} gxl files in "{input_path}"')
+    print(f'Found {len(gxl_file_paths)} gxl files in "{os.path.abspath(input_path)}"')
 
     for filename in gxl_file_paths:
         graph = Graph(filename)
         graph.write_input_dot_graph(input_dot_graph_path)
+
 
 def main():
     # By default, use the current directory
@@ -154,11 +163,12 @@ def main():
         raise SyntaxError(f'Expected input path "{input_path}" to be a valid directory')
     if (not os.path.isdir(input_dot_graph_path)):
         raise SyntaxError(f'Expected the directory "{input_dot_graph_path}" to exist')
-    
+
     generate_graphs(input_path, input_dot_graph_path)
 
-    # graph = Graph('Fork_Join_Nodes_10_CCR_0.10_WeightType_Random_Homogeneous-2.gxl')
-    # print(graph.to_output_dot_graph())
+    graph = Graph('Fork_Join_Nodes_10_CCR_0.10_WeightType_Random_Homogeneous-2.gxl')
+    print(graph.to_output_dot_graph())
+
 
 if __name__ == '__main__':
     main()
