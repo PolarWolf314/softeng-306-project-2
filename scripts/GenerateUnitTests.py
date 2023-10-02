@@ -58,11 +58,11 @@ def main():
     test_path = os.path.join(ROOT_PATH, 'src', 'test', 'java', 'nz', 'ac', 'auckland', 'se306', 'group12', 'optimal')
 
     if (not os.path.isdir(input_path)):
-        raise SyntaxError(f'Expected input path "{prettify_path(input_path)}" to be a valid directory')
+        raise FileNotFoundError(f'Expected input path "{prettify_path(input_path)}" to be a valid directory')
     if (not os.path.isdir(input_dot_graph_path)):
-        raise SyntaxError(f'Expected the directory "{prettify_path(input_dot_graph_path)}" to exist')
+        raise FileNotFoundError(f'Expected the directory "{prettify_path(input_dot_graph_path)}" to exist')
     if (not os.path.isdir(test_path)):
-        raise SyntaxError(f'Expected the directory "{prettify_path(test_path)}" to exist')
+        raise FileNotFoundError(f'Expected the directory "{prettify_path(test_path)}" to exist')
 
     generate_graphs(input_path, input_dot_graph_path)
 
