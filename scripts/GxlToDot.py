@@ -1,6 +1,8 @@
 from typing import List, Dict
 from itertools import groupby
 import xml.etree.ElementTree as ET
+import sys
+import os
 
 class Node:
     def __init__(self, node: ET.Element):
@@ -34,7 +36,6 @@ class Edge:
     
     def __str__(self) -> str:
         return f'Edge[source={self.source}, target={self.target}, weight={self.weight}]'
-    
     
 class Graph:
     def __init__(self, filename: str):
@@ -116,10 +117,26 @@ def parse_attributes(element: ET.Element) -> Dict[str, any]:
             raise SyntaxError(f'Unexpected tag <{value.tag}> in <attr name="{key}">')
     
     return attributeDict
+
+def get_gxl_file_paths(path: str) -> List[str]:
+    """
+    Returns a list of all the file paths for the gxl files in the given directory.
+    """
+    if (not os.path.isdir(path)):
+        raise SyntaxError(f'Expected {path} to be a directory')
+
+    return [os.path.join(path, filename) for filename in os.listdir(path) if filename.endswith('.gxl')]
+
     
 def main():
-    graph = Graph('Fork_Join_Nodes_10_CCR_0.10_WeightType_Random_Homogeneous-2.gxl')
-    print(graph.to_output_dot_graph())
+    # By default, use the current directory
+    path = sys.argv[1] if len(sys.argv) > 2 else '.'
+
+    print(get_gxl_file_paths(path))
+
+
+    # graph = Graph('Fork_Join_Nodes_10_CCR_0.10_WeightType_Random_Homogeneous-2.gxl')
+    # print(graph.to_output_dot_graph())
 
 if __name__ == '__main__':
     main()
