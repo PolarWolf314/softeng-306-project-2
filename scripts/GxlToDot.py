@@ -122,18 +122,21 @@ def get_gxl_file_paths(path: str) -> List[str]:
     """
     Returns a list of all the file paths for the gxl files in the given directory.
     """
-    if (not os.path.isdir(path)):
-        raise SyntaxError(f'Expected {path} to be a directory')
-
     return [os.path.join(path, filename) for filename in os.listdir(path) if filename.endswith('.gxl')]
 
+# def generate_graphs(input_path: str, output_path) -> None:
     
 def main():
     # By default, use the current directory
-    path = sys.argv[1] if len(sys.argv) > 2 else '.'
+    input_path = sys.argv[1] if len(sys.argv) >= 2 else '.'
+    output_path = sys.argv[2] if len(sys.argv) >= 3 else '../src/test/java/nz/ac/auckland/se306/group12/optimal'
 
-    print(get_gxl_file_paths(path))
-
+    if (not os.path.isdir(input_path)):
+        raise SyntaxError(f'Expected input path "{input_path}" to be a valid directory')
+    if (not os.path.isdir(output_path)):
+        raise SyntaxError(f'Expected output path "{output_path}" to be a valid directory')
+    
+    print(get_gxl_file_paths(input_path))
 
     # graph = Graph('Fork_Join_Nodes_10_CCR_0.10_WeightType_Random_Homogeneous-2.gxl')
     # print(graph.to_output_dot_graph())
