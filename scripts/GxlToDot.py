@@ -68,7 +68,18 @@ class Graph:
         output += '}'
 
         return output
-        
+    
+    def write_input_dot_graph(self, output_dir: str) -> None:
+        """
+        Writes the input dot graph to the given output directory with the filename specified by the id of the
+        gxl graph.
+        """
+        output_path = os.path.join(output_dir, self.name + '.dot')
+
+        with open(output_path, 'w') as f:
+            print(f'Writing input dot graph to "{output_path}"')
+            f.write(self.to_input_dot_graph())
+
     def to_output_dot_graph(self) -> str:
         """
         Builds a string of the dot graph representation of this graph. Care has been taken to ensure the output
@@ -79,7 +90,7 @@ class Graph:
         key = lambda node: node.processor
 
         # We have to sort by the key as groupby just iterates through the list and creates a new group whenever the key changes
-        for processor, processor_nodes in groupby(sorted(self.nodes, key=key), key):
+        for _, processor_nodes in groupby(sorted(self.nodes, key=key), key):
             sorted_processor_nodes = sorted(processor_nodes, key=lambda node: node.start_time)
             
             for node in sorted_processor_nodes:
@@ -130,11 +141,7 @@ def generate_graphs(input_path: str, input_dot_graph_path: str) -> None:
 
     for filename in gxl_file_paths:
         graph = Graph(filename)
-        input_dot_graph = graph.to_input_dot_graph()
-        input_dot_graph_filename = os.path.join(input_dot_graph_path, os.path.basename(filename).replace('.gxl', '.dot'))
-        with open(input_dot_graph_filename, 'w') as f:
-            print(f'Writing input dot graph to "{input_dot_graph_filename}"')
-            f.write(input_dot_graph)
+        graph.write_input_dot_graph(input_dot_graph_path)
 
 def main():
     # By default, use the current directory
