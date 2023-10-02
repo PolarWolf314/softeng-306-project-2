@@ -4,13 +4,13 @@ import xml.etree.ElementTree as ET
 
 class Node:
     def __init__(self, node: ET.Element):
-        self.id = node.get('id')
+        self.id: str = node.get('id')
 
         attributes = parse_attributes(node)
-        self.start_time = attributes["Start time"]
-        self.weight = attributes["Weight"]
-        self.finish_time = attributes["Finish time"]
-        self.processor = attributes["Processor"]
+        self.start_time: int = attributes["Start time"]
+        self.weight: int = attributes["Weight"]
+        self.finish_time: int = attributes["Finish time"]
+        self.processor: int = attributes["Processor"]
 
     def to_input_dot_node(self) -> str:
         return f'{self.id} [Weight={self.weight}];'
@@ -25,11 +25,11 @@ class Node:
 
 class Edge:
     def __init__(self, edge: ET.Element):
-        self.source = edge.get('from')
-        self.target = edge.get('to')
+        self.source: str = edge.get('from')
+        self.target: str = edge.get('to')
 
         attributes = parse_attributes(edge)
-        self.weight = attributes["Weight"]
+        self.weight: int = attributes["Weight"]
 
     def to_dot_edge(self) -> str:
         return f'{self.source} -> {self.target} [Weight={self.weight}];'
