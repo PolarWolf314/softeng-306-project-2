@@ -4,6 +4,8 @@ import xml.etree.ElementTree as ET
 import sys
 import os
 
+SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
+ROOT_PATH = os.path.abspath(os.path.join(SCRIPT_PATH, '..'))
 
 class Node:
     def __init__(self, node: ET.Element):
@@ -81,7 +83,7 @@ class Graph:
         output_path = os.path.join(output_dir, self.name + '.dot')
 
         with open(output_path, 'w') as f:
-            print(f'Writing input dot graph to "{output_path}"')
+            print(f'Writing input dot graph to "{prettify_path(output_path)}"')
             f.write(self.to_input_dot_graph())
 
     def to_output_dot_graph(self) -> str:
@@ -145,19 +147,25 @@ def get_gxl_file_paths(path: str) -> List[str]:
 
 def generate_graphs(input_path: str, input_dot_graph_path: str) -> None:
     gxl_file_paths = get_gxl_file_paths(input_path)
-    print(f'Found {len(gxl_file_paths)} gxl files in "{os.path.abspath(input_path)}"')
+    print(f'Found {len(gxl_file_paths)} gxl files in "{prettify_path(input_path)}"')
 
     for filename in gxl_file_paths:
         graph = Graph(filename)
         graph.write_input_dot_graph(input_dot_graph_path)
 
+def prettify_path(path: str) -> str:
+    """
+    Returns a prettified version of the given path by not showing the root directory. This is used to make 
+    the output of the script more readable.
+    """
+    return os.path.abspath(path).replace(ROOT_PATH, '<root>')
 
 def main():
     # By default, use the current directory
     input_path = sys.argv[1] if len(sys.argv) >= 2 else '.'
     # output_path = sys.argv[2] if len(sys.argv) >= 3 else '../src/test/java/nz/ac/auckland/se306/group12/optimal'
 
-    input_dot_graph_path = os.path.join('..', 'graphs', 'optimal')
+    input_dot_graph_path = os.path.abspath(os.path.join(SCRIPT_PATH, '..', 'graphs', 'optimal'))
 
     if (not os.path.isdir(input_path)):
         raise SyntaxError(f'Expected input path "{input_path}" to be a valid directory')
@@ -165,10 +173,6 @@ def main():
         raise SyntaxError(f'Expected the directory "{input_dot_graph_path}" to exist')
 
     generate_graphs(input_path, input_dot_graph_path)
-
-    graph = Graph('Fork_Join_Nodes_10_CCR_0.10_WeightType_Random_Homogeneous-2.gxl')
-    print(graph.to_output_dot_graph())
-
 
 if __name__ == '__main__':
     main()
