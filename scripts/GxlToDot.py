@@ -124,19 +124,31 @@ def get_gxl_file_paths(path: str) -> List[str]:
     """
     return [os.path.join(path, filename) for filename in os.listdir(path) if filename.endswith('.gxl')]
 
-# def generate_graphs(input_path: str, output_path) -> None:
-    
+def generate_graphs(input_path: str, input_dot_graph_path: str) -> None:
+    gxl_file_paths = get_gxl_file_paths(input_path)
+    print(f'Found {len(gxl_file_paths)} gxl files in "{input_path}"')
+
+    for filename in gxl_file_paths:
+        graph = Graph(filename)
+        input_dot_graph = graph.to_input_dot_graph()
+        input_dot_graph_filename = os.path.join(input_dot_graph_path, os.path.basename(filename).replace('.gxl', '.dot'))
+        with open(input_dot_graph_filename, 'w') as f:
+            print(f'Writing input dot graph to "{input_dot_graph_filename}"')
+            f.write(input_dot_graph)
+
 def main():
     # By default, use the current directory
     input_path = sys.argv[1] if len(sys.argv) >= 2 else '.'
-    output_path = sys.argv[2] if len(sys.argv) >= 3 else '../src/test/java/nz/ac/auckland/se306/group12/optimal'
+    # output_path = sys.argv[2] if len(sys.argv) >= 3 else '../src/test/java/nz/ac/auckland/se306/group12/optimal'
+
+    input_dot_graph_path = os.path.join('..', 'graphs', 'optimal')
 
     if (not os.path.isdir(input_path)):
         raise SyntaxError(f'Expected input path "{input_path}" to be a valid directory')
-    if (not os.path.isdir(output_path)):
-        raise SyntaxError(f'Expected output path "{output_path}" to be a valid directory')
+    if (not os.path.isdir(input_dot_graph_path)):
+        raise SyntaxError(f'Expected the directory "{input_dot_graph_path}" to exist')
     
-    print(get_gxl_file_paths(input_path))
+    generate_graphs(input_path, input_dot_graph_path)
 
     # graph = Graph('Fork_Join_Nodes_10_CCR_0.10_WeightType_Random_Homogeneous-2.gxl')
     # print(graph.to_output_dot_graph())
