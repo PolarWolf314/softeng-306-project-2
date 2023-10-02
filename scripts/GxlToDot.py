@@ -14,6 +14,17 @@ class Node:
     def __str__(self) -> str:
         return f'Node[id={self.id}, start_time={self.start_time}, weight={self.weight}, finish_time={self.finish_time}, processor={self.processor}]'
 
+class Edge:
+    def __init__(self, edge: ET.Element):
+        self.source = edge.get('from')
+        self.target = edge.get('to')
+
+        attributes = parse_attributes(edge)
+        self.weight = attributes["Weight"]
+
+    def __str__(self) -> str:
+        return f'Edge[source={self.source}, target={self.target}, weight={self.weight}]'
+    
 def parse_attributes(element: ET.Element) -> Dict[str, any]:
     attributeDict = {}
 
@@ -44,6 +55,10 @@ def main():
     for nodeTag in graph.findall('node'):
         node = Node(nodeTag)
         print(node)
+
+    for edgeTag in graph.findall('edge'):
+        edge = Edge(edgeTag)
+        print(edge)
 
 if __name__ == '__main__':
     main()
