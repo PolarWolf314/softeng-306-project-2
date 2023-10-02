@@ -19,6 +19,14 @@ class Graph:
             edge = Edge(edgeTag)
             self.edges.append(edge)
     
+    def to_input_dot_graph(self) -> str:
+        output = 'digraph ' + f'"{self.name}"' + '{\n'
+        output += '\n'.join([node.to_input_dot_node() for node in self.nodes]) + '\n'
+        output += '\n'.join([edge.to_dot_edge() for edge in self.edges]) + '\n'
+        output += '}'
+
+        return output
+        
     def __str__(self) -> str:
         stringifiedNodes = ', '.join([str(node) for node in self.nodes])
         stringifiedEdges = ', '.join([str(edge) for edge in self.edges])
@@ -35,6 +43,12 @@ class Node:
         self.finish_time = attributes["Finish time"]
         self.processor = attributes["Processor"]
 
+    def to_input_dot_node(self) -> str:    
+        return f'{self.id} [Weight={self.weight}];'
+    
+    def to_output_dot_node(self) -> str:
+        return f'{self.id} [Weight={self.weight},Start={self.start_time},Processor={self.processor}];'
+
     def __str__(self) -> str:
         return f'Node[id={self.id}, start_time={self.start_time}, weight={self.weight}, finish_time={self.finish_time}, processor={self.processor}]'
 
@@ -46,6 +60,9 @@ class Edge:
         attributes = parse_attributes(edge)
         self.weight = attributes["Weight"]
 
+    def to_dot_edge(self) -> str:    
+        return f'{self.source} -> {self.target} [Weight={self.weight}];'
+    
     def __str__(self) -> str:
         return f'Edge[source={self.source}, target={self.target}, weight={self.weight}]'
     
@@ -71,7 +88,7 @@ def parse_attributes(element: ET.Element) -> Dict[str, any]:
     
 def main():
     graph = Graph('Fork_Join_Nodes_10_CCR_0.10_WeightType_Random_Homogeneous-2.gxl')
-    print(graph)
+    print(graph.to_input_dot_graph())
 
 if __name__ == '__main__':
     main()
