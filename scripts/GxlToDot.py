@@ -61,6 +61,9 @@ class Graph:
             edge = Edge(edgeTag)
             self.edges.append(edge)
 
+    def get_filename(self) -> str:
+        return self.name + '.dot'
+
     def find_outgoing_edges(self, node: Node) -> List[Edge]:
         """
         Returns a list of all edges that have the given node as their source.
@@ -80,7 +83,7 @@ class Graph:
         Writes the input dot graph to the given output directory with the filename specified by the id of the
         gxl graph.
         """
-        output_path = os.path.join(output_dir, self.name + '.dot')
+        output_path = os.path.join(output_dir, self.get_filename())
 
         with open(output_path, 'w') as f:
             print(f'Writing input dot graph to "{prettify_path(output_path)}"')
@@ -117,6 +120,18 @@ class Graph:
 
 
 def parse_attributes(element: ET.Element) -> Dict[str, any]:
+    """
+    Parses all the gxl attributes for the given element into a dictionary. The values within this dictionary will
+    be parsed to their defined types. These attributes should be stored in the following format within the gxl file:
+
+    <attr name="KEY">
+        <int>VALUE</int>
+    </attr>
+
+    Elements may have multiple attributes, but each attribute must have exactly one child element which is either an
+    int or a string.
+    """
+
     attributeDict = {}
 
     for attribute in element.findall('attr'):
@@ -137,6 +152,14 @@ def parse_attributes(element: ET.Element) -> Dict[str, any]:
 
     return attributeDict
 
+def create_unit_test(graph: Graph) -> str: 
+    return f"""
+    @Test
+    void testOptimal{graph.name}() {{
+        Graph graph = TestUtil.loadGraph("./graphs/optimal/{graph.get_filename()}");
+        String expectedOutput = "{graph.to_output_dot_graph()}";
+    }}
+    """
 
 def get_gxl_file_paths(path: str) -> List[str]:
     """
@@ -165,12 +188,15 @@ def main():
     input_path = sys.argv[1] if len(sys.argv) >= 2 else '.'
     # output_path = sys.argv[2] if len(sys.argv) >= 3 else '../src/test/java/nz/ac/auckland/se306/group12/optimal'
 
-    input_dot_graph_path = os.path.abspath(os.path.join(SCRIPT_PATH, '..', 'graphs', 'optimal'))
+    input_dot_graph_path = os.path.join(ROOT_PATH, 'graphs', 'optimal')
+    test_path = os.path.join(ROOT_PATH, 'src', 'test', 'java', 'nz', 'ac', 'auckland', 'se306', 'group12', 'optimal')
 
     if (not os.path.isdir(input_path)):
-        raise SyntaxError(f'Expected input path "{input_path}" to be a valid directory')
+        raise SyntaxError(f'Expected input path "{prettify_path(input_path)}" to be a valid directory')
     if (not os.path.isdir(input_dot_graph_path)):
-        raise SyntaxError(f'Expected the directory "{input_dot_graph_path}" to exist')
+        raise SyntaxError(f'Expected the directory "{prettify_path(input_dot_graph_path)}" to exist')
+    if (not os.path.isdir(test_path)):
+        raise SyntaxError(f'Expected the directory "{prettify_path(test_path)}" to exist')
 
     generate_graphs(input_path, input_dot_graph_path)
 
