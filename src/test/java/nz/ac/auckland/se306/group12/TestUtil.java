@@ -31,12 +31,13 @@ public class TestUtil {
   }
 
   /**
-   * Returns a list of all the optimal schedulers that should be used in the parametrized testing of
-   * the scheduler.
+   * Returns a list of all the optimal schedulers that should be used in the parameterized testing
+   * of the scheduler in {@link OptimalSchedulerTest}.
    *
    * @return The schedulers to test
    */
   public static List<Scheduler> getOptimalSchedulers() {
     return Collections.emptyList();
   }
+
 }
