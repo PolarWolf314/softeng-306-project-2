@@ -8,12 +8,15 @@ ROOT_PATH = os.path.abspath(os.path.join(SCRIPT_PATH, '..'))
 
 def create_unit_test_file(graphs: List[Graph], output_path: str) -> None:
     class_name = 'OpimalSchedulerTest'
-    test_file_content = f"""package nz.ac.auckland.se306.group12.optimal;
+    test_file_content = f"""package nz.ac.auckland.se306.group12;
 
 import nz.ac.auckland.se306.group12.models.Graph;
+import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
+import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class {class_name} {{
     """
@@ -35,13 +38,14 @@ def create_unit_test(graph: Graph) -> str:
     method_name = f'testOptimal{graph.name.replace(".", "dot")}'
 
     return f"""
-    @Test
-    void {method_name}() {{
+    @ParameterizedTest
+    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
+    void {method_name}(Scheduler scheduler) {{
         Graph graph = TestUtil.loadGraph("./graphs/optimal/{graph.get_filename()}");
         int processorCount = {graph.processor_count};
         int expectedScheduleEndTime = {graph.optimal_schedule_end_time};
 
-        Schedule actualSchedule = null; // TODO: Create a scheduler
+        Schedule actualSchedule = scheduler.schedule(graph, processorCount); // TODO: Create a scheduler
 
         Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getEndTime());
 

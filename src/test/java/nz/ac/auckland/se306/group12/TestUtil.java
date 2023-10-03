@@ -2,8 +2,13 @@ package nz.ac.auckland.se306.group12;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Graph;
+import nz.ac.auckland.se306.group12.models.Node;
+import nz.ac.auckland.se306.group12.models.Processor;
+import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 import org.junit.jupiter.api.Assertions;
 
 public class TestUtil {
@@ -25,4 +30,13 @@ public class TestUtil {
     }
   }
 
+  /**
+   * Returns a list of all the optimal schedulers that should be used in the parametrized testing of
+   * the scheduler.
+   *
+   * @return The schedulers to test
+   */
+  public static List<Scheduler> getOptimalSchedulers() {
+    return Collections.emptyList();
+  }
 }
