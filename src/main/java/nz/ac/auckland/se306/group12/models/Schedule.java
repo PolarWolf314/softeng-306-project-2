@@ -13,9 +13,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Schedule {
 
-  final ScheduledTask[] scheduledTasks;
-  final int[] processorEndTimes;
-  final int scheduledTaskCount;
+  private final ScheduledTask[] scheduledTasks;
+  private final int[] processorEndTimes;
+  private final int scheduledTaskCount;
 
   /**
    * A constructor for creating a new schedule
