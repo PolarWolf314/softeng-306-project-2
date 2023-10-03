@@ -74,8 +74,8 @@ def get_gxl_file_paths(path: str, limit = -1) -> List[str]:
     filenames = [os.path.join(path, filename) for filename in os.listdir(path) if filename.endswith('.gxl')]
     return filenames if limit <= 0 else filenames[:limit]
 
-def generate_graphs(input_path: str, input_dot_graph_path: str, test_path: str) -> None:
-    gxl_file_paths = get_gxl_file_paths(input_path, 10)
+def generate_graphs(input_path: str, input_dot_graph_path: str, test_path: str, graph_limit: int) -> None:
+    gxl_file_paths = get_gxl_file_paths(input_path, graph_limit)
     print(f'Found {len(gxl_file_paths)} gxl files in "{prettify_path(input_path)}"')
 
     graphs: List[Graph] = []
@@ -107,6 +107,7 @@ def prettify_path(path: str) -> str:
 def main():
     # By default, use the current directory
     input_path = sys.argv[1] if len(sys.argv) >= 2 else '.'
+    graph_limit = int(sys.argv[2]) if len(sys.argv) >= 3 else 50
 
     input_dot_graph_path = os.path.join(ROOT_PATH, 'graphs', 'optimal')
     test_path = os.path.join(ROOT_PATH, 'src', 'test', 'java', 'nz', 'ac', 'auckland', 'se306', 'group12')
@@ -118,7 +119,7 @@ def main():
     if (not os.path.isdir(test_path)):
         raise FileNotFoundError(f'Expected the directory "{prettify_path(test_path)}" to exist')
 
-    generate_graphs(input_path, input_dot_graph_path, test_path)
+    generate_graphs(input_path, input_dot_graph_path, test_path, graph_limit)
 
 if __name__ == '__main__':
     main()
