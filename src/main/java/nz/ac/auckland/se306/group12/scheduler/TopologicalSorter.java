@@ -30,7 +30,7 @@ public class TopologicalSorter {
     List<Task> list = new ArrayList<>();
 
     // Iterate through all the nodes in the graph and call the recursive helper function
-    for (Task task : graph.getTasks().values()) {
+    for (Task task : graph.getTasks()) {
       if (!visited.contains(task)) {
         TopologicalSortUtil(task, visited, list);
       }
