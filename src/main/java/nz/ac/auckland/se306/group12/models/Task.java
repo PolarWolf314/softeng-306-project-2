@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 @RequiredArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Node {
+public class Task {
 
   @EqualsAndHashCode.Include
   private final String label;
@@ -23,6 +23,8 @@ public class Node {
   private final int weight;
   private final Set<Edge> incomingEdges = new HashSet<>();
   private final Set<Edge> outgoingEdges = new HashSet<>();
+  @Setter
+  private int index;
   @Setter
   private int startTime = 0;
 

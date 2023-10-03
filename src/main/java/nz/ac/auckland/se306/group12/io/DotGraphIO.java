@@ -10,7 +10,7 @@ import java.util.List;
 import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
-import nz.ac.auckland.se306.group12.models.Node;
+import nz.ac.auckland.se306.group12.models.Task;
 
 // TODO: Might be nice to create a model for the scheduled tasks?
 public class DotGraphIO {
@@ -47,7 +47,7 @@ public class DotGraphIO {
    * Serialises the given scheduled tasks into a dot graph and either writes it to the given output
    * file specified in the {@link CommandLineArguments} or to stdout if the <code>-s</code> flag was
    * set. The scheduled tasks is a list of processor, each processor having a list of
-   * {@link Node ScheduledTasks} on it.
+   * {@link Task ScheduledTasks} on it.
    *
    * @param arguments The parsed commandline arguments
    * @param nodes     The scheduled tasks to serialise
@@ -55,7 +55,7 @@ public class DotGraphIO {
    */
   public void writeDotGraph(
       final CommandLineArguments arguments,
-      final List<List<Node>> nodes
+      final List<List<Task>> nodes
   ) throws IOException {
     final String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
 
@@ -73,7 +73,7 @@ public class DotGraphIO {
    *
    * @param nodes The scheduled tasks to serialise
    */
-  public void writeOutputDotGraphToConsole(String digraphName, final List<List<Node>> nodes) {
+  public void writeOutputDotGraphToConsole(String digraphName, final List<List<Task>> nodes) {
     System.out.println(this.toDotString(digraphName, nodes));
   }
 
@@ -84,7 +84,7 @@ public class DotGraphIO {
    * @param schedule    the schedule of the digraph
    * @return the digraph in string form, in a .dot format
    */
-  public String toDotString(String digraphName, List<List<Node>> schedule) {
+  public String toDotString(String digraphName, List<List<Task>> schedule) {
     final StringBuilder builder = new StringBuilder();
 
     // We surround the name with "..." to allow for characters such as '-' in the name
@@ -94,19 +94,19 @@ public class DotGraphIO {
         .append(NEW_LINE);
 
     for (int processorIndex = 0; processorIndex < schedule.size(); processorIndex++) {
-      final List<Node> processorTasks = schedule.get(processorIndex);
-      for (final Node node : processorTasks) {
-        builder.append(node.getLabel())
+      final List<Task> processorTasks = schedule.get(processorIndex);
+      for (final Task task : processorTasks) {
+        builder.append(task.getLabel())
             .append(" [Weight=")
-            .append(node.getWeight())
+            .append(task.getWeight())
             .append(",Start=")
-            .append(node.getStartTime())
+            .append(task.getStartTime())
             .append(",Processor=")
             .append(processorIndex + 1) // Processors are 1-indexed
             .append("];")
             .append(NEW_LINE);
 
-        for (final Edge outgoingEdge : node.getOutgoingEdges()) {
+        for (final Edge outgoingEdge : task.getOutgoingEdges()) {
           builder.append(outgoingEdge.getSource().getLabel())
               .append(" -> ")
               .append(outgoingEdge.getDestination().getLabel())

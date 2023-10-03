@@ -19,7 +19,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class Graph {
 
-  private final Map<String, Node> nodes = new HashMap<>();
+  private final Map<String, Task> nodes = new HashMap<>();
   private final Set<Edge> edges = new HashSet<>();
 
   @Exclude
@@ -38,13 +38,13 @@ public class Graph {
    * @param weight      The weight of the edge
    */
   public void addEdge(String source, String destination, int weight) {
-    Node sourceNode = this.nodes.get(source);
-    Node destinationNode = this.nodes.get(destination);
+    Task sourceTask = this.nodes.get(source);
+    Task destinationTask = this.nodes.get(destination);
 
-    Edge edge = new Edge(sourceNode, destinationNode, weight);
+    Edge edge = new Edge(sourceTask, destinationTask, weight);
 
-    destinationNode.getIncomingEdges().add(edge);
-    sourceNode.getOutgoingEdges().add(edge);
+    destinationTask.getIncomingEdges().add(edge);
+    sourceTask.getOutgoingEdges().add(edge);
     this.edges.add(edge);
   }
 
@@ -55,7 +55,7 @@ public class Graph {
    * @param weight The node weight
    */
   public void addNode(String node, int weight) {
-    this.nodes.put(node, new Node(node, weight));
+    this.nodes.put(node, new Task(node, weight));
   }
 
 }

@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Set;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
-import nz.ac.auckland.se306.group12.models.Node;
 import nz.ac.auckland.se306.group12.models.Processor;
+import nz.ac.auckland.se306.group12.models.Task;
 
 public class BasicScheduler implements Scheduler {
 
@@ -17,14 +17,14 @@ public class BasicScheduler implements Scheduler {
    */
   @Override
   public List<Processor> schedule(Graph graph, int processorCount) {
-    final List<Node> tasks = this.topologicalSorter.getATopologicalOrder(graph);
+    final List<Task> tasks = this.topologicalSorter.getATopologicalOrder(graph);
     List<Processor> processors = new ArrayList<>(processorCount);
 
     for (int processorIndex = 0; processorIndex < processorCount; processorIndex++) {
       processors.add(new Processor(processorIndex));
     }
 
-    for (Node task : tasks) {
+    for (Task task : tasks) {
       this.scheduleTaskOnEarliestProcessor(task, processors);
     }
     return processors;
@@ -57,7 +57,7 @@ public class BasicScheduler implements Scheduler {
    * @param task       The task to schedule
    * @param processors The list of processors to schedule on
    */
-  private void scheduleTaskOnEarliestProcessor(Node task, List<Processor> processors) {
+  private void scheduleTaskOnEarliestProcessor(Task task, List<Processor> processors) {
     Set<Edge> incomingEdges = task.getIncomingEdges();
 
     // This is just a default value so that IntelliJ doesn't complain about potential null pointers.
@@ -139,7 +139,7 @@ public class BasicScheduler implements Scheduler {
     // processor and therefore, the transfer time must be considered. The latest dependence is
     // also stored so that we can determine which processor it is scheduled on.
     for (Edge incomingEdge : incomingEdges) {
-      Node dependence = incomingEdge.getSource();
+      Task dependence = incomingEdge.getSource();
       Processor dependenceProcessor = this.getParentProcessor(dependence, processors);
 
       int dependentStartTime = dependence.getEndTime() + incomingEdge.getWeight();
@@ -172,7 +172,7 @@ public class BasicScheduler implements Scheduler {
    * @param processors The list of processors to search through
    * @return The parent processor of the given parent task
    */
-  public Processor getParentProcessor(Node parentTask, List<Processor> processors) {
+  public Processor getParentProcessor(Task parentTask, List<Processor> processors) {
     for (Processor processor : processors) {
       if (processor.getScheduledTasks().contains(parentTask)) {
         return processor;

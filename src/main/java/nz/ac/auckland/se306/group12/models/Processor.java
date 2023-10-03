@@ -15,11 +15,11 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class Processor {
 
-  private final List<Node> scheduledTasks = new ArrayList<>();
+  private final List<Task> scheduledTasks = new ArrayList<>();
   private final int processorIndex;
   private int endTime = 0;
 
-  public void addTask(Node task) {
+  public void addTask(Task task) {
     this.endTime = task.getEndTime();
     this.scheduledTasks.add(task);
   }

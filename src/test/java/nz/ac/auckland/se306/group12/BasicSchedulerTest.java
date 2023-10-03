@@ -9,8 +9,8 @@ import java.util.Set;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
-import nz.ac.auckland.se306.group12.models.Node;
 import nz.ac.auckland.se306.group12.models.Processor;
+import nz.ac.auckland.se306.group12.models.Task;
 import nz.ac.auckland.se306.group12.scheduler.BasicScheduler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,10 +21,10 @@ public class BasicSchedulerTest {
   private final DotGraphIO dotGraphIO = new DotGraphIO();
   private final BasicScheduler scheduler = new BasicScheduler();
 
-  private Processor findProcessor(Map<Processor, Integer> cpu, Node node) {
+  private Processor findProcessor(Map<Processor, Integer> cpu, Task task) {
     List<Processor> processCore = cpu.keySet()
         .stream()
-        .filter(processor -> processor.getScheduledTasks().contains(node))
+        .filter(processor -> processor.getScheduledTasks().contains(task))
         .toList();
 
     Assertions.assertEquals(1, processCore.size(), "Task exists in multiple processors");
@@ -37,10 +37,10 @@ public class BasicSchedulerTest {
    *
    * @param schedule The list of tasks to be checked
    */
-  private void assertValidOrder(List<Node> schedule) {
-    Set<Node> completedTasks = new HashSet<>();
+  private void assertValidOrder(List<Task> schedule) {
+    Set<Task> completedTasks = new HashSet<>();
 
-    for (Node task : schedule) {
+    for (Task task : schedule) {
       completedTasks.add(task);
       boolean parentsComplete = task.getIncomingEdges()
           .stream()
@@ -74,10 +74,10 @@ public class BasicSchedulerTest {
       processors.put(core, 0);
     }
     // Make sure schedule order is valid
-    List<Node> schedule = TestUtil.scheduleToListNodes(cores)
+    List<Task> schedule = TestUtil.scheduleToListNodes(cores)
         .stream()
         .flatMap(List::stream)
-        .sorted(Comparator.comparingInt(Node::getStartTime))
+        .sorted(Comparator.comparingInt(Task::getStartTime))
         .toList();
 
     this.dotGraphIO.writeOutputDotGraphToConsole(graph.getName(),
@@ -91,28 +91,28 @@ public class BasicSchedulerTest {
     this.assertValidOrder(schedule);
 
     // Run the schedule
-    for (Node node : schedule) {
-      Processor processCore = this.findProcessor(processors, node);
+    for (Task task : schedule) {
+      Processor processCore = this.findProcessor(processors, task);
 
-      for (Edge edge : node.getIncomingEdges()) {
-        Node parent = edge.getSource();
+      for (Edge edge : task.getIncomingEdges()) {
+        Task parent = edge.getSource();
         Processor processSource = this.findProcessor(processors, parent);
         int transferTime = processCore.equals(processSource) ? 0 : edge.getWeight();
 
         Assertions.assertTrue(
-            node.getStartTime() >= parent.getEndTime() + transferTime,
+            task.getStartTime() >= parent.getEndTime() + transferTime,
             String.format(
                 "Invalid Schedule: Task %s starts before parent %s completes, at start %d",
-                node.getLabel(), parent.getLabel(), node.getStartTime()));
+                task.getLabel(), parent.getLabel(), task.getStartTime()));
       }
 
       int currentCoreValue = processors.get(processCore);
 
-      Assertions.assertTrue(currentCoreValue <= node.getStartTime(),
+      Assertions.assertTrue(currentCoreValue <= task.getStartTime(),
           String.format("Invalid Schedule: Task %s overlaps with another task on processor %d",
-              node.getLabel(), processCore.getProcessorIndex()));
+              task.getLabel(), processCore.getProcessorIndex()));
 
-      processors.put(processCore, node.getEndTime());
+      processors.put(processCore, task.getEndTime());
     }
   }
 

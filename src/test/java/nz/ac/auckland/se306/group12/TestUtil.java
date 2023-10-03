@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.List;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Graph;
-import nz.ac.auckland.se306.group12.models.Node;
 import nz.ac.auckland.se306.group12.models.Processor;
+import nz.ac.auckland.se306.group12.models.Task;
 import org.junit.jupiter.api.Assertions;
 
 public class TestUtil {
@@ -34,7 +34,7 @@ public class TestUtil {
    * @param schedule to be converted
    * @return List of tasks for each processor
    */
-  public static List<List<Node>> scheduleToListNodes(List<Processor> schedule) {
+  public static List<List<Task>> scheduleToListNodes(List<Processor> schedule) {
     return schedule.stream().map(Processor::getScheduledTasks).toList();
   }
 }

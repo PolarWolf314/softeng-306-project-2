@@ -6,8 +6,8 @@ import nz.ac.auckland.se306.group12.cli.CommandLineParser;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 import nz.ac.auckland.se306.group12.models.Graph;
-import nz.ac.auckland.se306.group12.models.Node;
 import nz.ac.auckland.se306.group12.models.Processor;
+import nz.ac.auckland.se306.group12.models.Task;
 import nz.ac.auckland.se306.group12.scheduler.BasicScheduler;
 import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 
@@ -24,7 +24,7 @@ public class Main {
       Scheduler scheduler = new BasicScheduler();
 
       List<Processor> schedule = scheduler.schedule(graph, arguments.processorCount());
-      List<List<Node>> scheduledTasks = schedule.stream()
+      List<List<Task>> scheduledTasks = schedule.stream()
           .map(Processor::getScheduledTasks)
           .toList();
 

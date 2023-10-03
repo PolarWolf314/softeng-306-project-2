@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
-import nz.ac.auckland.se306.group12.models.Node;
+import nz.ac.auckland.se306.group12.models.Task;
 import nz.ac.auckland.se306.group12.scheduler.TopologicalSorter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,18 +21,18 @@ class TopologicalSortTest {
    * @param graph to be checked
    */
   void checkGraphTopologicalOrder(Graph graph) {
-    Set<Node> visitedNodes = new HashSet<>();
-    List<Node> topologicalOrder = sorter.getATopologicalOrder(graph);
+    Set<Task> visitedTasks = new HashSet<>();
+    List<Task> topologicalOrder = sorter.getATopologicalOrder(graph);
 
     Assertions.assertEquals(graph.getNodes().size(), topologicalOrder.size(),
         "Number of nodes in the topological order and graph doesn't match.");
 
-    for (Node node : topologicalOrder) {
-      visitedNodes.add(node);
-      for (Edge outgoingEdge : node.getOutgoingEdges()) {
-        Node destinationNode = outgoingEdge.getDestination();
+    for (Task task : topologicalOrder) {
+      visitedTasks.add(task);
+      for (Edge outgoingEdge : task.getOutgoingEdges()) {
+        Task destinationTask = outgoingEdge.getDestination();
         // Check for any parent nodes that have already been visited
-        if (visitedNodes.contains(destinationNode)) {
+        if (visitedTasks.contains(destinationTask)) {
           Assertions.fail("Topological order is not correct");
         }
       }
