@@ -7,7 +7,7 @@ SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
 ROOT_PATH = os.path.abspath(os.path.join(SCRIPT_PATH, '..'))
 
 def create_unit_test_file(graphs: List[Graph], output_path: str) -> None:
-    class_name = 'OpimalSchedulerTest'
+    class_name = 'OptimalSchedulerTest'
     test_file_content = f"""package nz.ac.auckland.se306.group12;
 
 import nz.ac.auckland.se306.group12.models.Graph;
@@ -35,7 +35,7 @@ public class {class_name} {{
 def create_unit_test(graph: Graph) -> str:
     scheduled_tasks_array = ', '.join([to_scheduled_task(node) for node in graph.nodes])
     processor_end_times_array = ', '.join(str(end_time) for end_time in graph.get_processor_end_times())
-    method_name = f'testOptimal{graph.name.replace(".", "dot")}'
+    method_name = f'testOptimal{to_valid_method_name(graph)}'
 
     return f"""
     @ParameterizedTest
@@ -49,8 +49,8 @@ def create_unit_test(graph: Graph) -> str:
 
         Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getEndTime());
 
-        ScheduledTask[] expectedScheduledTasks = new []{{{scheduled_tasks_array}}};
-        int[] expectedProcessorEndTimes = new []{{{processor_end_times_array}}};
+        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{{{scheduled_tasks_array}}};
+        int[] expectedProcessorEndTimes = new int[]{{{processor_end_times_array}}};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, {len(graph.nodes)});
         
@@ -58,6 +58,10 @@ def create_unit_test(graph: Graph) -> str:
     }}
     
 """
+
+def to_valid_method_name(graph: Graph) -> str:
+    return graph.name.replace('.', 'dot').replace('-', '_').replace('#', '')
+
 
 def to_scheduled_task(node: Node) -> str: 
     return f'new ScheduledTask({node.start_time}, {node.finish_time}, {node.processor_index})'
@@ -71,7 +75,7 @@ def get_gxl_file_paths(path: str, limit = -1) -> List[str]:
     return filenames if limit <= 0 else filenames[:limit]
 
 def generate_graphs(input_path: str, input_dot_graph_path: str, test_path: str) -> None:
-    gxl_file_paths = get_gxl_file_paths(input_path)
+    gxl_file_paths = get_gxl_file_paths(input_path, 10)
     print(f'Found {len(gxl_file_paths)} gxl files in "{prettify_path(input_path)}"')
 
     graphs: List[Graph] = []
