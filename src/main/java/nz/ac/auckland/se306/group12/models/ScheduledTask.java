@@ -13,6 +13,6 @@ public class ScheduledTask {
 
   private final Task task;
   private final int startTime;
-  private final int processor;
+  private final int processorIndex;
 
 }
