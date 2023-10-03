@@ -10,17 +10,17 @@ class Node:
         self.start_time: int = attributes["Start time"]
         self.weight: int = attributes["Weight"]
         self.finish_time: int = attributes["Finish time"]
-        self.processor: int = attributes["Processor"]
+        self.processor_index: int = attributes["Processor"]
 
     def to_input_dot_node(self) -> str:
         return f'{self.id} [Weight={self.weight}];'
 
     def to_output_dot_node(self) -> str:
         # +1 on the processor as we want to start at 1 instead of 0
-        return f'{self.id} [Weight={self.weight},Start={self.start_time},Processor={self.processor + 1}];'
+        return f'{self.id} [Weight={self.weight},Start={self.start_time},Processor={self.processor_index + 1}];'
 
     def __str__(self) -> str:
-        return f'Node[id={self.id}, start_time={self.start_time}, weight={self.weight}, finish_time={self.finish_time}, processor={self.processor}]'
+        return f'Node[id={self.id}, start_time={self.start_time}, weight={self.weight}, finish_time={self.finish_time}, processor={self.processor_index}]'
 
 
 class Edge:
@@ -57,7 +57,7 @@ class Graph:
             self.edges.append(edge)
 
         # Determine the number of unique processors in this graph
-        self.processor_count = len(set([node.processor for node in self.nodes]))
+        self.processor_count = len(set([node.processor_index for node in self.nodes]))
 
     def get_filename(self) -> str:
         return self.name + '.dot'
@@ -67,6 +67,20 @@ class Graph:
         Returns a list of all edges that have the given node as their source.
         """
         return [edge for edge in self.edges if edge.source == node.id]
+
+
+    def get_processor_end_times(self) -> List[int]:
+        """
+        Returns the latest end time for each processor in this graph. The index of the list corresponds
+        to the index of the processor.
+        """
+        processor_end_times = [0 for _ in range(self.processor_count)]
+
+        for node in self.nodes:
+            processor_end_times[node.processor_index] = max(
+                processor_end_times[node.processor_index], node.finish_time)
+
+        return processor_end_times
 
     def to_input_dot_graph(self) -> str:
         output = 'digraph ' + f'"{self.name}"' + ' {\n'
@@ -83,7 +97,7 @@ class Graph:
         compare the actual and expected outputs by comparing the strings.
         """
         output = 'digraph ' + f'"{self.name}"' + ' {\n'
-        def key(node: Node) -> int: return node.processor
+        def key(node: Node) -> int: return node.processor_index
 
         # We have to sort by the key as groupby just iterates through the list and creates a new group whenever the key changes
         for _, processor_nodes in groupby(sorted(self.nodes, key=key), key):
