@@ -98,30 +98,29 @@ public class DotGraphIO {
         .append("\" {")
         .append(NEW_LINE);
 
-    for (int processorIndex = 0; processorIndex < schedule.getScheduledTaskCount();
-        processorIndex++) {
-      final List<Task> tasks = graph.getTasks();
-      final ScheduledTask[] scheduledTasks = schedule.getScheduledTasks();
-      for (int i = 0; i < scheduledTasks.length; i++) {
-        builder.append(tasks.get(i).getLabel())
+    List<Task> tasks = graph.getTasks();
+    ScheduledTask[] scheduledTasks = schedule.getScheduledTasks();
+    for (int i = 0; i < scheduledTasks.length; i++) {
+      Task task = tasks.get(i);
+      ScheduledTask scheduledTask = scheduledTasks[i];
+      builder.append(task.getLabel())
+          .append(" [Weight=")
+          .append(task.getWeight())
+          .append(",Start=")
+          .append(scheduledTask.getStartTime())
+          .append(",Processor=")
+          .append(scheduledTask.getProcessorIndex() + 1) // Processors are 1-indexed
+          .append("];")
+          .append(NEW_LINE);
+
+      for (final Edge outgoingEdge : tasks.get(i).getOutgoingEdges()) {
+        builder.append(outgoingEdge.getSource().getLabel())
+            .append(" -> ")
+            .append(outgoingEdge.getDestination().getLabel())
             .append(" [Weight=")
-            .append(tasks.get(i).getWeight())
-            .append(",Start=")
-            .append(scheduledTasks[i].getStartTime())
-            .append(",Processor=")
-            .append(processorIndex + 1) // Processors are 1-indexed
+            .append(outgoingEdge.getWeight())
             .append("];")
             .append(NEW_LINE);
-
-        for (final Edge outgoingEdge : tasks.get(i).getOutgoingEdges()) {
-          builder.append(outgoingEdge.getSource().getLabel())
-              .append(" -> ")
-              .append(outgoingEdge.getDestination().getLabel())
-              .append(" [Weight=")
-              .append(outgoingEdge.getWeight())
-              .append("];")
-              .append(NEW_LINE);
-        }
       }
     }
 
