@@ -52,12 +52,12 @@ class Graph:
         self.nodes: List[Node] = []
         self.edges: List[Edge] = []
 
-        for nodeTag in graph.findall('node'):
-            node = Node(nodeTag)
+        for node_tag in graph.findall('node'):
+            node = Node(node_tag)
             self.nodes.append(node)
 
-        for edgeTag in graph.findall('edge'):
-            edge = Edge(edgeTag)
+        for edge_tag in graph.findall('edge'):
+            edge = Edge(edge_tag)
             self.edges.append(edge)
 
         # Determine the number of unique processors in this graph
@@ -118,10 +118,10 @@ class Graph:
         return output
 
     def __str__(self) -> str:
-        stringifiedNodes = ', '.join([str(node) for node in self.nodes])
-        stringifiedEdges = ', '.join([str(edge) for edge in self.edges])
+        stringified_nodes = ', '.join([str(node) for node in self.nodes])
+        stringified_edges = ', '.join([str(edge) for edge in self.edges])
 
-        return f'Graph[name={self.name}, nodes={stringifiedNodes}, edges={stringifiedEdges}]'
+        return f'Graph[name={self.name}, nodes={stringified_nodes}, edges={stringified_edges}]'
 
 
 def parse_attributes(element: ET.Element) -> Dict[str, any]:
@@ -137,7 +137,7 @@ def parse_attributes(element: ET.Element) -> Dict[str, any]:
     int or a string.
     """
 
-    attributeDict = {}
+    attribute_dict = {}
 
     for attribute in element.findall('attr'):
         key = attribute.get('name')
@@ -148,11 +148,11 @@ def parse_attributes(element: ET.Element) -> Dict[str, any]:
 
         value = children[0]
         if (value.tag == 'int'):
-            attributeDict[key] = int(value.text)
+            attribute_dict[key] = int(value.text)
         elif (value.tag == 'string'):
-            attributeDict[key] = value.text
+            attribute_dict[key] = value.text
         else:
             # This should never happen, but if it does we want to know about it
             raise SyntaxError(f'Unexpected tag <{value.tag}> in <attr name="{key}">')
 
-    return attributeDict
+    return attribute_dict
