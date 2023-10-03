@@ -32,10 +32,11 @@ public class {class_name} {{
 def create_unit_test(graph: Graph) -> str:
     scheduled_tasks_array = ', '.join([to_scheduled_task(node) for node in graph.nodes])
     processor_end_times_array = ', '.join(str(end_time) for end_time in graph.get_processor_end_times())
+    method_name = f'testOptimal{graph.name.replace(".", "dot")}'
 
     return f"""
     @Test
-    void testOptimal{graph.name}() {{
+    void {method_name}() {{
         Graph graph = TestUtil.loadGraph("./graphs/optimal/{graph.get_filename()}");
         int processorCount = {graph.processor_count};
         
@@ -47,7 +48,8 @@ def create_unit_test(graph: Graph) -> str:
 
         Assertions.assertEqual(expectedSchedule, actualSchedule);
     }}
-    """
+    
+"""
 
 def to_scheduled_task(node: Node) -> str: 
     return f'new ScheduledTask({node.start_time}, {node.finish_time}, {node.processor_index})'
