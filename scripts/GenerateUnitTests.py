@@ -62,12 +62,13 @@ def create_unit_test(graph: Graph) -> str:
 def to_scheduled_task(node: Node) -> str: 
     return f'new ScheduledTask({node.start_time}, {node.finish_time}, {node.processor_index})'
 
-def get_gxl_file_paths(path: str) -> List[str]:
+def get_gxl_file_paths(path: str, limit = -1) -> List[str]:
     """
-    Returns a list of all the file paths for the gxl files in the given directory.
+    Returns a list of all the file paths for the gxl files in the given directory. If a limit is specified,
+    only up to that many file paths will be returned.
     """
-    return [os.path.join(path, filename) for filename in os.listdir(path) if filename.endswith('.gxl')]
-
+    filenames = [os.path.join(path, filename) for filename in os.listdir(path) if filename.endswith('.gxl')]
+    return filenames if limit <= 0 else filenames[:limit]
 
 def generate_graphs(input_path: str, input_dot_graph_path: str, test_path: str) -> None:
     gxl_file_paths = get_gxl_file_paths(input_path)
