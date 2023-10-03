@@ -24,7 +24,7 @@ class TopologicalSortTest {
     Set<Task> visitedTasks = new HashSet<>();
     List<Task> topologicalOrder = sorter.getATopologicalOrder(graph);
 
-    Assertions.assertEquals(graph.getNodes().size(), topologicalOrder.size(),
+    Assertions.assertEquals(graph.getTasks().size(), topologicalOrder.size(),
         "Number of nodes in the topological order and graph doesn't match.");
 
     for (Task task : topologicalOrder) {

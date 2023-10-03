@@ -26,11 +26,11 @@ public class TopologicalSorter {
    * @throws IllegalGraphException If given a cyclic digraph.
    */
   public List<Task> getATopologicalOrder(Graph graph) {
-    Set<Task> visited = new HashSet<>(graph.getNodes().size());
+    Set<Task> visited = new HashSet<>(graph.getTasks().size());
     List<Task> list = new ArrayList<>();
 
     // Iterate through all the nodes in the graph and call the recursive helper function
-    for (Task task : graph.getNodes().values()) {
+    for (Task task : graph.getTasks().values()) {
       if (!visited.contains(task)) {
         TopologicalSortUtil(task, visited, list);
       }

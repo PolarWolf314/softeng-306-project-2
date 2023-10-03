@@ -21,8 +21,8 @@ class DotGraphInputTest {
   private void checkGraphEquality(Graph expectedGraph, Graph parsedGraph) {
     Assertions.assertEquals(expectedGraph, parsedGraph);
 
-    for (Task task : expectedGraph.getNodes().values()) {
-      Task parsedTask = parsedGraph.getNodes().get(task.getLabel());
+    for (Task task : expectedGraph.getTasks().values()) {
+      Task parsedTask = parsedGraph.getTasks().get(task.getLabel());
       Assertions.assertEquals(task.getIncomingEdges(), parsedTask.getIncomingEdges());
       Assertions.assertEquals(task.getOutgoingEdges(), parsedTask.getOutgoingEdges());
     }
