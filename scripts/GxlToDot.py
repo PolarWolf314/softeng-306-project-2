@@ -45,6 +45,10 @@ class Graph:
         graph = root.find('graph')
 
         self.name: str = graph.get('id')
+
+        attributes = parse_attributes(graph)
+        self.optimal_schedule_end_time: int = attributes['Total schedule length']
+
         self.nodes: List[Node] = []
         self.edges: List[Edge] = []
 

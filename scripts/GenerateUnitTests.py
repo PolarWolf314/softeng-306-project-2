@@ -27,7 +27,7 @@ public class {class_name} {{
         for graph in graphs:
             f.write(create_unit_test(graph))
 
-        f.write('}')
+        f.write('}\n')
 
 def create_unit_test(graph: Graph) -> str:
     scheduled_tasks_array = ', '.join([to_scheduled_task(node) for node in graph.nodes])
@@ -39,14 +39,18 @@ def create_unit_test(graph: Graph) -> str:
     void {method_name}() {{
         Graph graph = TestUtil.loadGraph("./graphs/optimal/{graph.get_filename()}");
         int processorCount = {graph.processor_count};
-        
+        int expectedScheduleEndTime = {graph.optimal_schedule_end_time};
+
+        Schedule actualSchedule = null; // TODO: Create a scheduler
+
+        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getEndTime());
+
         ScheduledTask[] expectedScheduledTasks = new []{{{scheduled_tasks_array}}};
         int[] expectedProcessorEndTimes = new []{{{processor_end_times_array}}};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, {len(graph.nodes)});
-        Schedule actualSchedule = null; // TODO: Create a scheduler
-
-        Assertions.assertEqual(expectedSchedule, actualSchedule);
+        
+        Assertions.assertEquals(expectedSchedule, actualSchedule);
     }}
     
 """
