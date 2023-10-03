@@ -60,6 +60,11 @@ public class Graph {
     this.tasks.put(node, new Task(node, weight, this.tasks.size()));
   }
 
+  /**
+   * Gets the tasks in the graph
+   *
+   * @return A list of tasks in the graph
+   */
   public List<Task> getTasks() {
     return new ArrayList<>(this.tasks.values());
   }

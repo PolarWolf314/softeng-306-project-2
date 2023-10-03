@@ -14,7 +14,6 @@ import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
 import nz.ac.auckland.se306.group12.models.Task;
 
-// TODO: Might be nice to create a model for the scheduled tasks?
 public class DotGraphIO {
 
   private static final String NEW_LINE = System.getProperty("line.separator");
@@ -48,8 +47,7 @@ public class DotGraphIO {
   /**
    * Serialises the given scheduled tasks into a dot graph and either writes it to the given output
    * file specified in the {@link CommandLineArguments} or to stdout if the <code>-s</code> flag was
-   * set. The scheduled tasks is a list of processor, each processor having a list of
-   * {@link Task ScheduledTasks} on it.
+   * set.
    *
    * @param arguments The parsed commandline arguments
    * @param schedule  The scheduled tasks to serialise

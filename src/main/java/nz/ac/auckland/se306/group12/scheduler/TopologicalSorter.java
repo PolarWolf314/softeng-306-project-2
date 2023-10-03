@@ -50,7 +50,7 @@ public class TopologicalSorter {
    *
    * @param task    The node to be added to the topological list.
    * @param visited A set of nodes that have already been visited.
-   * @param list    The list of nodes in a topological order.
+   * @param list    The list of tasks in a topological order.
    */
   private void TopologicalSortUtil(Task task, Set<Task> visited, List<Task> list) {
     visited.add(task);
