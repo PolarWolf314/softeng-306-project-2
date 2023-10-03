@@ -1,6 +1,7 @@
 from typing import List, Dict
 from itertools import groupby
 import xml.etree.ElementTree as ET
+import os
 
 class Node:
     def __init__(self, node: ET.Element):
@@ -44,7 +45,9 @@ class Graph:
         root = tree.getroot()
         graph = root.find('graph')
 
-        self.name: str = graph.get('id')
+        # The id of the graph is not unique unless used in combination with the target system, 
+        # which is just the filename.
+        self.name = os.path.basename(filename).replace('.gxl', '')
 
         attributes = parse_attributes(graph)
         self.optimal_schedule_end_time: int = attributes['Total schedule length']
