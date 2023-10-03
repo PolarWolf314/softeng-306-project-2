@@ -25,10 +25,5 @@ public class Task {
   private final Set<Edge> outgoingEdges = new HashSet<>();
   @Setter
   private int index;
-  @Setter
-  private int startTime = 0;
 
-  public int getEndTime() {
-    return this.startTime + this.weight;
-  }
 }

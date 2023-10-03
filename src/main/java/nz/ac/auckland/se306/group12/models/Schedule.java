@@ -42,7 +42,7 @@ public class Schedule {
     int[] newProcessorEndTimes = Arrays.copyOf(this.processorEndTimes,
         this.processorEndTimes.length);
     scheduledTasks[taskIndex] = scheduledTask;
-    newProcessorEndTimes[scheduledTask.getProcessorIndex()] = scheduledTask.getTask().getEndTime();
+    newProcessorEndTimes[scheduledTask.getProcessorIndex()] = scheduledTask.getEndTime();
     return new Schedule(newScheduledTasks, newProcessorEndTimes, this.scheduledTaskCount + 1);
   }
 }

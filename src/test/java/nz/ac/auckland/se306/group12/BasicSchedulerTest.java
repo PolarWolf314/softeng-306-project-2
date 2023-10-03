@@ -11,7 +11,6 @@ import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Processor;
 import nz.ac.auckland.se306.group12.models.Task;
-import nz.ac.auckland.se306.group12.scheduler.BasicScheduler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

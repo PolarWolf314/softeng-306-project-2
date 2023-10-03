@@ -11,8 +11,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ScheduledTask {
 
-  private final Task task;
   private final int startTime;
+  private final int endTime;
   private final int processorIndex;
 
 }

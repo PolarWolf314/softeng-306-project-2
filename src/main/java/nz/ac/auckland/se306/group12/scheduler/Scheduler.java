@@ -1,8 +1,7 @@
 package nz.ac.auckland.se306.group12.scheduler;
 
-import java.util.List;
 import nz.ac.auckland.se306.group12.models.Graph;
-import nz.ac.auckland.se306.group12.models.Processor;
+import nz.ac.auckland.se306.group12.models.Schedule;
 
 public interface Scheduler {
 
@@ -14,8 +13,8 @@ public interface Scheduler {
    *
    * @param graph          The {@link Graph} representing the tasks to be scheduled
    * @param processorCount The number of processors to schedule the tasks on
-   * @return A valid schedule for the given graph of tasks on the processors
+   * @return A valid {@link Schedule} for the given graph of tasks on the processors
    */
-  List<Processor> schedule(Graph graph, int processorCount);
+  Schedule schedule(Graph graph, int processorCount);
 
 }
