@@ -5,7 +5,6 @@ import java.util.Set;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -23,7 +22,6 @@ public class Task {
   private final int weight;
   private final Set<Edge> incomingEdges = new HashSet<>();
   private final Set<Edge> outgoingEdges = new HashSet<>();
-  @Setter
-  private int index;
+  private final int index;
 
 }

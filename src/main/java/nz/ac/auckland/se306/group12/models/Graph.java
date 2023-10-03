@@ -57,7 +57,7 @@ public class Graph {
    * @param weight The node weight
    */
   public void addNode(String node, int weight) {
-    this.tasks.put(node, new Task(node, weight));
+    this.tasks.put(node, new Task(node, weight, this.tasks.size()));
   }
 
   public List<Task> getTasks() {

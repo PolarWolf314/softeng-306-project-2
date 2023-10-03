@@ -16,9 +16,9 @@ class GraphTaskEdgeModelTest {
    */
   @Test
   public void testNodeEquality() {
-    Task task1 = new Task("a", 1);
-    Task task2 = new Task("a", 1);
-    Task task3 = new Task("a", 2);
+    Task task1 = new Task("a", 1, 0);
+    Task task2 = new Task("a", 1, 1);
+    Task task3 = new Task("a", 2, 2);
 
     Assertions.assertEquals(task1, task2);
     Assertions.assertNotEquals(task1, task3);
@@ -30,9 +30,9 @@ class GraphTaskEdgeModelTest {
    */
   @Test
   public void testEdgeEquality() {
-    Task task1 = new Task("a", 1);
-    Task task2 = new Task("b", 1);
-    Task task3 = new Task("c", 1);
+    Task task1 = new Task("a", 1, 0);
+    Task task2 = new Task("b", 1, 1);
+    Task task3 = new Task("c", 1, 2);
     Edge edge1 = new Edge(task1, task2, 1);
     Edge edge2 = new Edge(task1, task2, 1);
     Edge edge3 = new Edge(task1, task2, 2);
