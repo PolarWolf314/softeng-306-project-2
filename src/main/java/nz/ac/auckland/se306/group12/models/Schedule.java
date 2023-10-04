@@ -45,4 +45,14 @@ public class Schedule {
     newProcessorEndTimes[scheduledTask.getProcessorIndex()] = scheduledTask.getEndTime();
     return new Schedule(newScheduledTasks, newProcessorEndTimes, this.scheduledTaskCount + 1);
   }
+
+  /**
+   * Returns the end time of the schedule by taking the latest end time of all the processors
+   *
+   * @return The end time of the schedule
+   */
+  public int getEndTime() {
+    //noinspection OptionalGetWithoutIsPresent
+    return Arrays.stream(this.processorEndTimes).max().getAsInt();
+  }
 }
