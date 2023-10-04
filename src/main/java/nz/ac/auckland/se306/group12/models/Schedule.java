@@ -20,11 +20,11 @@ public class Schedule {
   /**
    * A constructor for creating a new schedule
    *
-   * @param size           The number of tasks in the schedule
+   * @param taskCount      The number of tasks in the schedule
    * @param processorCount The number of processors in the schedule
    */
-  public Schedule(int size, int processorCount) {
-    scheduledTasks = new ScheduledTask[size];
+  public Schedule(int taskCount, int processorCount) {
+    scheduledTasks = new ScheduledTask[taskCount];
     processorEndTimes = new int[processorCount];
     scheduledTaskCount = 0;
   }

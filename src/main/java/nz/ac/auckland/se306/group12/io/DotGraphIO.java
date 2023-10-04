@@ -51,7 +51,7 @@ public class DotGraphIO {
    *
    * @param arguments The parsed commandline arguments
    * @param schedule  The scheduled tasks to serialise
-   * @param graph     The graph that the schedule was generated from
+   * @param graph     The precedence graph from which `schedule` was generated
    * @throws IOException If an error occurs while writing to the file
    */
   public void writeDotGraph(
@@ -75,7 +75,7 @@ public class DotGraphIO {
    *
    * @param graphName The name of the graph
    * @param schedule  The scheduled tasks to serialise
-   * @param graph     The graph that the schedule was generated from
+   * @param graph     The precedence graph from which `schedule` was generated
    */
   public void writeOutputDotGraphToConsole(
       String graphName,
