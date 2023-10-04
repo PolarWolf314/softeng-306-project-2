@@ -4,6 +4,7 @@ import java.util.Arrays;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 /**
  * Schedule class represents a schedule of tasks
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @EqualsAndHashCode
 @RequiredArgsConstructor
+@ToString
 public class Schedule {
 
   private final ScheduledTask[] scheduledTasks;
