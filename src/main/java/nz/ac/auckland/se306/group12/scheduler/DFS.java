@@ -53,17 +53,12 @@ public class DFS implements Scheduler {
           int startTime = Math.max(latestStartTimes[i], currentSchedule.getProcessorEndTimes()[i]);
           int endTime = startTime + task.getWeight();
           ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, i);
-          System.out.println(newScheduledTask);
-          // stack.push(currentSchedule.extendWithTask(newScheduledTask, task.getIndex()));
-          //
-          // System.out.println("Proc: " + startTime);
+          stack.push(currentSchedule.extendWithTask(newScheduledTask, task.getIndex()));
         }
       }
     }
 
-    // not throwing exception for testing purposes
-    return null;
-    // throw new UnsupportedOperationException("Unimplemented method 'schedule'");
+    return bestSchedule;
   }
 
   /**
