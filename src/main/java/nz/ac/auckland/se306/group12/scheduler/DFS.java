@@ -11,6 +11,9 @@ import nz.ac.auckland.se306.group12.models.Task;
 
 public class DFS implements Scheduler {
 
+  private int currentMinMakespan = Integer.MAX_VALUE;
+  private Schedule bestSchedule = null;
+
   /*
    * @inheritDoc
    */
@@ -25,15 +28,27 @@ public class DFS implements Scheduler {
     while (!stack.isEmpty()) {
       Schedule currentSchedule = stack.pop();
 
+      // Check if current schedule is worse than current best
+      if (currentSchedule.getEndTime() > currentMinMakespan) {
+        continue;
+      }
+
+      // Check if current schedule is complete
+      if (currentSchedule.getScheduledTaskCount() == graph.getTasks().size()) {
+        // Check if current schedule is better than current best and update accordingly
+        if (currentSchedule.getEndTime() < currentMinMakespan) {
+          currentMinMakespan = currentSchedule.getEndTime();
+          bestSchedule = currentSchedule;
+        }
+        continue;
+      }
+
       // Check to find if any tasks can be scheduled and schedule them
       for (Task task : graph.getTasks()) {
         if (!isSchedulable(currentSchedule, task)) {
           continue;
         }
-        System.out.println(task);
-
         int[] latestStartTimes = getLatestStartTimes(processorCount, currentSchedule, task);
-        System.out.println("Lastest");
         for (int i = 0; i < latestStartTimes.length; i++) {
           int startTime = latestStartTimes[i];
           int endTime = startTime + task.getWeight();
