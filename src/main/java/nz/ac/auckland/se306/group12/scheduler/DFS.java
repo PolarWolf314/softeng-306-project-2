@@ -96,8 +96,8 @@ public class DFS implements Scheduler {
       return false;
     }
     for (Edge sources : task.getIncomingEdges()) {
-      int taskIndex = sources.getSource().getIndex();
-      ScheduledTask parentScheduledTask = currentSchedule.getScheduledTasks()[taskIndex];
+      int sourceIndex = sources.getSource().getIndex();
+      ScheduledTask parentScheduledTask = currentSchedule.getScheduledTasks()[sourceIndex];
       if (parentScheduledTask == null) {
         return false;
       }
