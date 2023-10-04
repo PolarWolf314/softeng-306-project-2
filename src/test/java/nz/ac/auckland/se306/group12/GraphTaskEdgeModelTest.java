@@ -1,28 +1,28 @@
 package nz.ac.auckland.se306.group12;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
-import nz.ac.auckland.se306.group12.models.Node;
+import nz.ac.auckland.se306.group12.models.Task;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /*
  * Tests functionality of the model classes used for the graph classes
  */
-class GraphNodeEdgeModelTest {
+class GraphTaskEdgeModelTest {
 
   /**
    * Tests node equality checks for the same name and weight
    */
   @Test
   public void testNodeEquality() {
-    Node node1 = new Node("a", 1);
-    Node node2 = new Node("a", 1);
-    Node node3 = new Node("a", 2);
+    Task task1 = new Task("a", 1, 0);
+    Task task2 = new Task("a", 1, 1);
+    Task task3 = new Task("a", 2, 2);
 
-    Assertions.assertEquals(node1, node2);
-    Assertions.assertNotEquals(node1, node3);
-    Assertions.assertNotEquals(node2, node3);
+    Assertions.assertEquals(task1, task2);
+    Assertions.assertNotEquals(task1, task3);
+    Assertions.assertNotEquals(task2, task3);
   }
 
   /**
@@ -30,13 +30,13 @@ class GraphNodeEdgeModelTest {
    */
   @Test
   public void testEdgeEquality() {
-    Node node1 = new Node("a", 1);
-    Node node2 = new Node("b", 1);
-    Node node3 = new Node("c", 1);
-    Edge edge1 = new Edge(node1, node2, 1);
-    Edge edge2 = new Edge(node1, node2, 1);
-    Edge edge3 = new Edge(node1, node2, 2);
-    Edge edge4 = new Edge(node1, node3, 1);
+    Task task1 = new Task("a", 1, 0);
+    Task task2 = new Task("b", 1, 1);
+    Task task3 = new Task("c", 1, 2);
+    Edge edge1 = new Edge(task1, task2, 1);
+    Edge edge2 = new Edge(task1, task2, 1);
+    Edge edge3 = new Edge(task1, task2, 2);
+    Edge edge4 = new Edge(task1, task3, 1);
 
     Assertions.assertEquals(edge1, edge2);
     Assertions.assertNotEquals(edge1, edge3);

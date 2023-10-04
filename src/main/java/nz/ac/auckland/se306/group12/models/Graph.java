@@ -1,7 +1,9 @@
 package nz.ac.auckland.se306.group12.models;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import lombok.EqualsAndHashCode;
@@ -19,7 +21,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class Graph {
 
-  private final Map<String, Node> nodes = new HashMap<>();
+  private final Map<String, Task> tasks = new LinkedHashMap<>();
   private final Set<Edge> edges = new HashSet<>();
 
   @Exclude
@@ -38,13 +40,13 @@ public class Graph {
    * @param weight      The weight of the edge
    */
   public void addEdge(String source, String destination, int weight) {
-    Node sourceNode = this.nodes.get(source);
-    Node destinationNode = this.nodes.get(destination);
+    Task sourceTask = this.tasks.get(source);
+    Task destinationTask = this.tasks.get(destination);
 
-    Edge edge = new Edge(sourceNode, destinationNode, weight);
+    Edge edge = new Edge(sourceTask, destinationTask, weight);
 
-    destinationNode.getIncomingEdges().add(edge);
-    sourceNode.getOutgoingEdges().add(edge);
+    destinationTask.getIncomingEdges().add(edge);
+    sourceTask.getOutgoingEdges().add(edge);
     this.edges.add(edge);
   }
 
@@ -55,7 +57,15 @@ public class Graph {
    * @param weight The node weight
    */
   public void addNode(String node, int weight) {
-    this.nodes.put(node, new Node(node, weight));
+    this.tasks.put(node, new Task(node, weight, this.tasks.size()));
   }
 
+  /**
+   * Gets the tasks in the graph
+   *
+   * @return A list of tasks in the graph
+   */
+  public List<Task> getTasks() {
+    return new ArrayList<>(this.tasks.values());
+  }
 }

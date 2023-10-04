@@ -3,7 +3,7 @@ package nz.ac.auckland.se306.group12;
 import java.io.File;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Graph;
-import nz.ac.auckland.se306.group12.models.Node;
+import nz.ac.auckland.se306.group12.models.Task;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -21,10 +21,10 @@ class DotGraphInputTest {
   private void checkGraphEquality(Graph expectedGraph, Graph parsedGraph) {
     Assertions.assertEquals(expectedGraph, parsedGraph);
 
-    for (Node node : expectedGraph.getNodes().values()) {
-      Node parsedNode = parsedGraph.getNodes().get(node.getLabel());
-      Assertions.assertEquals(node.getIncomingEdges(), parsedNode.getIncomingEdges());
-      Assertions.assertEquals(node.getOutgoingEdges(), parsedNode.getOutgoingEdges());
+    for (Task task : expectedGraph.getTasks()) {
+      Task parsedTask = parsedGraph.getTasks().get(task.getIndex());
+      Assertions.assertEquals(task.getIncomingEdges(), parsedTask.getIncomingEdges());
+      Assertions.assertEquals(task.getOutgoingEdges(), parsedTask.getOutgoingEdges());
     }
   }
 

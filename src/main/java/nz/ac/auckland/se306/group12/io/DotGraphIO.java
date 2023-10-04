@@ -10,9 +10,10 @@ import java.util.List;
 import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
-import nz.ac.auckland.se306.group12.models.Node;
+import nz.ac.auckland.se306.group12.models.Schedule;
+import nz.ac.auckland.se306.group12.models.ScheduledTask;
+import nz.ac.auckland.se306.group12.models.Task;
 
-// TODO: Might be nice to create a model for the scheduled tasks?
 public class DotGraphIO {
 
   private static final String NEW_LINE = System.getProperty("line.separator");
@@ -46,20 +47,21 @@ public class DotGraphIO {
   /**
    * Serialises the given scheduled tasks into a dot graph and either writes it to the given output
    * file specified in the {@link CommandLineArguments} or to stdout if the <code>-s</code> flag was
-   * set. The scheduled tasks is a list of processor, each processor having a list of
-   * {@link Node ScheduledTasks} on it.
+   * set.
    *
    * @param arguments The parsed commandline arguments
-   * @param nodes     The scheduled tasks to serialise
+   * @param schedule  The scheduled tasks to serialise
+   * @param graph     The precedence graph from which `schedule` was generated
    * @throws IOException If an error occurs while writing to the file
    */
   public void writeDotGraph(
       final CommandLineArguments arguments,
-      final List<List<Node>> nodes
+      final Schedule schedule,
+      final Graph graph
   ) throws IOException {
     final String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
 
-    String output = this.toDotString(digraphName, nodes);
+    String output = this.toDotString(digraphName, schedule, graph);
 
     if (arguments.writeToStdOut()) {
       System.out.println(output);
@@ -71,10 +73,16 @@ public class DotGraphIO {
   /**
    * Same as writeDotGraph, used for testing.
    *
-   * @param nodes The scheduled tasks to serialise
+   * @param graphName The name of the graph
+   * @param schedule  The scheduled tasks to serialise
+   * @param graph     The precedence graph from which `schedule` was generated
    */
-  public void writeOutputDotGraphToConsole(String digraphName, final List<List<Node>> nodes) {
-    System.out.println(this.toDotString(digraphName, nodes));
+  public void writeOutputDotGraphToConsole(
+      String graphName,
+      Schedule schedule,
+      Graph graph
+  ) {
+    System.out.println(this.toDotString(graphName, schedule, graph));
   }
 
   /**
@@ -84,37 +92,39 @@ public class DotGraphIO {
    * @param schedule    the schedule of the digraph
    * @return the digraph in string form, in a .dot format
    */
-  public String toDotString(String digraphName, List<List<Node>> schedule) {
+  public String toDotString(String digraphName, Schedule schedule, Graph graph) {
     final StringBuilder builder = new StringBuilder();
 
     // We surround the name with "..." to allow for characters such as '-' in the name
+
     builder.append("digraph \"")
         .append(digraphName)
         .append("\" {")
         .append(NEW_LINE);
 
-    for (int processorIndex = 0; processorIndex < schedule.size(); processorIndex++) {
-      final List<Node> processorTasks = schedule.get(processorIndex);
-      for (final Node node : processorTasks) {
-        builder.append(node.getLabel())
+    List<Task> tasks = graph.getTasks();
+    ScheduledTask[] scheduledTasks = schedule.getScheduledTasks();
+    for (int i = 0; i < scheduledTasks.length; i++) {
+      Task task = tasks.get(i);
+      ScheduledTask scheduledTask = scheduledTasks[i];
+      builder.append(task.getLabel())
+          .append(" [Weight=")
+          .append(task.getWeight())
+          .append(",Start=")
+          .append(scheduledTask.getStartTime())
+          .append(",Processor=")
+          .append(scheduledTask.getProcessorIndex() + 1) // Processors are 1-indexed
+          .append("];")
+          .append(NEW_LINE);
+
+      for (final Edge outgoingEdge : tasks.get(i).getOutgoingEdges()) {
+        builder.append(outgoingEdge.getSource().getLabel())
+            .append(" -> ")
+            .append(outgoingEdge.getDestination().getLabel())
             .append(" [Weight=")
-            .append(node.getWeight())
-            .append(",Start=")
-            .append(node.getStartTime())
-            .append(",Processor=")
-            .append(processorIndex + 1) // Processors are 1-indexed
+            .append(outgoingEdge.getWeight())
             .append("];")
             .append(NEW_LINE);
-
-        for (final Edge outgoingEdge : node.getOutgoingEdges()) {
-          builder.append(outgoingEdge.getSource().getLabel())
-              .append(" -> ")
-              .append(outgoingEdge.getDestination().getLabel())
-              .append(" [Weight=")
-              .append(outgoingEdge.getWeight())
-              .append("];")
-              .append(NEW_LINE);
-        }
       }
     }
 

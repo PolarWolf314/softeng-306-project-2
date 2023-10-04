@@ -8,7 +8,7 @@ import java.util.Set;
 import nz.ac.auckland.se306.group12.exceptions.IllegalGraphException;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
-import nz.ac.auckland.se306.group12.models.Node;
+import nz.ac.auckland.se306.group12.models.Task;
 
 public class TopologicalSorter {
 
@@ -22,17 +22,17 @@ public class TopologicalSorter {
    *
    * @param graph The dependence graph of tasks (a DAG) for which a topological order is to be
    *              found.
-   * @return A list of the {@link Node}s from the input graph, in a topological order.
+   * @return A list of the {@link Task}s from the input graph, in a topological order.
    * @throws IllegalGraphException If given a cyclic digraph.
    */
-  public List<Node> getATopologicalOrder(Graph graph) {
-    Set<Node> visited = new HashSet<>(graph.getNodes().size());
-    List<Node> list = new ArrayList<>();
+  public List<Task> getATopologicalOrder(Graph graph) {
+    Set<Task> visited = new HashSet<>(graph.getTasks().size());
+    List<Task> list = new ArrayList<>();
 
     // Iterate through all the nodes in the graph and call the recursive helper function
-    for (Node node : graph.getNodes().values()) {
-      if (!visited.contains(node)) {
-        TopologicalSortUtil(node, visited, list);
+    for (Task task : graph.getTasks()) {
+      if (!visited.contains(task)) {
+        TopologicalSortUtil(task, visited, list);
       }
     }
 
@@ -45,23 +45,23 @@ public class TopologicalSorter {
   /**
    * Recursive helper function for {@link #getATopologicalOrder(Graph)}.
    * <p>
-   * This ensures that the children of the input node are added to the topological list
-   * before the node itself.
+   * This ensures that the children of the input node are added to the topological list before the
+   * node itself.
    *
-   * @param node    The node to be added to the topological list.
+   * @param task    The node to be added to the topological list.
    * @param visited A set of nodes that have already been visited.
-   * @param list    The list of nodes in a topological order.
+   * @param list    The list of tasks in a topological order.
    */
-  private void TopologicalSortUtil(Node node, Set<Node> visited, List<Node> list) {
-    visited.add(node);
+  private void TopologicalSortUtil(Task task, Set<Task> visited, List<Task> list) {
+    visited.add(task);
     // Recursively call this function for all the children that haven't been visited yet
-    for (Edge edge : node.getOutgoingEdges()) {
-      Node destination = edge.getDestination();
+    for (Edge edge : task.getOutgoingEdges()) {
+      Task destination = edge.getDestination();
       if (!visited.contains(destination)) {
         TopologicalSortUtil(destination, visited, list);
       }
     }
-    list.add(node);
+    list.add(task);
   }
 
 }

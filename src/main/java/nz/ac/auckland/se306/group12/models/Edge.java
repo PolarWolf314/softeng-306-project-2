@@ -12,8 +12,8 @@ import lombok.Getter;
 @EqualsAndHashCode
 public class Edge {
 
-  private final Node source;
-  private final Node destination;
+  private final Task source;
+  private final Task destination;
   private final int weight;
 
   /**
