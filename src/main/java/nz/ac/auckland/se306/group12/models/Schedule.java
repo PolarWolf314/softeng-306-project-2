@@ -43,7 +43,7 @@ public class Schedule {
         this.scheduledTasks.length);
     int[] newProcessorEndTimes = Arrays.copyOf(this.processorEndTimes,
         this.processorEndTimes.length);
-    scheduledTasks[taskIndex] = scheduledTask;
+    newScheduledTasks[taskIndex] = scheduledTask;
     newProcessorEndTimes[scheduledTask.getProcessorIndex()] = scheduledTask.getEndTime();
     return new Schedule(newScheduledTasks, newProcessorEndTimes, this.scheduledTaskCount + 1);
   }
