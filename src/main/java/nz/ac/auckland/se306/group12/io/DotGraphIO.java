@@ -73,12 +73,16 @@ public class DotGraphIO {
   /**
    * Same as writeDotGraph, used for testing.
    *
-   * @param schedule The scheduled tasks to serialise
-   * @param graph    The graph that the schedule was generated from
+   * @param graphName The name of the graph
+   * @param schedule  The scheduled tasks to serialise
+   * @param graph     The graph that the schedule was generated from
    */
-  public void writeOutputDotGraphToConsole(String digraphName, final Schedule schedule,
-      final Graph graph) {
-    System.out.println(this.toDotString(digraphName, schedule, graph));
+  public void writeOutputDotGraphToConsole(
+      String graphName,
+      Schedule schedule,
+      Graph graph
+  ) {
+    System.out.println(this.toDotString(graphName, schedule, graph));
   }
 
   /**
