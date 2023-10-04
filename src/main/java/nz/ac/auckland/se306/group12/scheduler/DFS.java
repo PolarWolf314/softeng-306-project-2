@@ -51,7 +51,8 @@ public class DFS implements Scheduler {
         int[] latestStartTimes = getLatestStartTimes(processorCount, currentSchedule, task);
         for (int i = 0; i < latestStartTimes.length; i++) {
           int startTime = latestStartTimes[i];
-          int endTime = startTime + task.getWeight();
+          int endTime = Math.max(startTime + task.getWeight(), currentSchedule
+              .getProcessorEndTimes()[i]);
           ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, i);
           System.out.println(newScheduledTask);
           // stack.push(currentSchedule.extendWithTask(newScheduledTask, task.getIndex()));
