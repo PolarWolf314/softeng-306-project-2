@@ -2,10 +2,10 @@ package nz.ac.auckland.se306.group12;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Graph;
+import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 import org.junit.jupiter.api.Assertions;
 
@@ -35,7 +35,15 @@ public class TestUtil {
    * @return The schedulers to test
    */
   public static List<Scheduler> getOptimalSchedulers() {
-    return Collections.emptyList();
+    // TODO: Return instances of the optimal schedulers
+    Scheduler placeholderScheduler = new Scheduler() {
+      @Override
+      public Schedule schedule(Graph graph, int processorCount) {
+        return null;
+      }
+    };
+
+    return List.of(placeholderScheduler);
   }
 
 }
