@@ -90,7 +90,7 @@ def to_scheduled_task(node: Node) -> str:
 
 def get_gxl_file_paths(path: str, limit = -1) -> List[str]:
     """
-    Returns a list of all the file paths for the gxl files in the given directory. If a limit is specified,
+    Returns a list of all the file paths for the GXL files in the given directory. If a limit is specified,
     only up to that many file paths will be returned.
     """
     filenames = [os.path.join(path, filename) for filename in os.listdir(path) if filename.endswith('.gxl')]
@@ -98,7 +98,7 @@ def get_gxl_file_paths(path: str, limit = -1) -> List[str]:
 
 def generate_graphs(input_path: str, input_dot_graph_path: str, test_path: str, graph_limit: int) -> None:
     """
-    This generates dot files from the gxl files found in the given input path directory and outputs them at the input
+    This generates dot files from the GXL files found in the given input path directory and outputs them at the input
     dot graph path directory. The graph limit parameter specifies the maximum number of graphs it will retrieve from the
     input path. It also generates a Java class file with unit tests for each of the graphs in the test path director.
     """
@@ -116,7 +116,7 @@ def generate_graphs(input_path: str, input_dot_graph_path: str, test_path: str, 
 def write_input_dot_graph(graph: Graph, output_dir: str) -> None:
     """
     Writes the input dot graph to the given output directory with the filename specified by the id of the
-    gxl graph.
+    GXL graph.
     """
     output_path = os.path.join(output_dir, graph.get_filename())
 
@@ -133,13 +133,13 @@ def prettify_path(path: str) -> str:
 
 def main():
     """
-    The entry point of this script. It converts gxl representations of task graphs and converts them into unit
+    The entry point of this script. It converts GXL representations of task graphs and converts them into unit
     tests that can be run to verify the correctness of the optimal schedulers we have designed. It expects up 
     to two arguments:
 
-    1. The input path of the gxl files to generate the unit tests from. By default, this is the current directory.
-    2. The maximum number of gxl files to generate unit tests for. By default this is 50. Specifying -1 will generate
-       unit tests for all gxl files in the input directory.
+    1. The input path of the GXL files to generate the unit tests from. By default, this is the current directory.
+    2. The maximum number of GXL files to generate unit tests for. By default this is 50. Specifying -1 will generate
+       unit tests for all GXL files in the input directory.
     """
     # By default, use the current directory
     input_path = sys.argv[1] if len(sys.argv) >= 2 else '.'

@@ -5,6 +5,9 @@ import os
 
 class Node:
     def __init__(self, node: ET.Element):
+        """ 
+        Parses an GXL element into a Node object.
+        """
         self.id: str = node.get('id')
 
         attributes = parse_attributes(node)
@@ -14,18 +17,30 @@ class Node:
         self.processor_index: int = attributes["Processor"]
 
     def to_input_dot_node(self) -> str:
+        """
+        Returns a string representation of this node in the input dot graph format (Just the weight attribute).
+        """
         return f'{self.id} [Weight={self.weight}];'
 
     def to_output_dot_node(self) -> str:
+        """
+        Returns a string representation of this node in the output dot graph format (Weight, Start and Processor attributes).
+        """
         # +1 on the processor as we want to start at 1 instead of 0
         return f'{self.id} [Weight={self.weight},Start={self.start_time},Processor={self.processor_index + 1}];'
 
     def __str__(self) -> str:
+        """
+        Returns a string representation of this node for debugging purposes.
+        """
         return f'Node[id={self.id}, start_time={self.start_time}, weight={self.weight}, finish_time={self.finish_time}, processor={self.processor_index}]'
 
 
 class Edge:
     def __init__(self, edge: ET.Element):
+        """
+        Parses a GXL element into an Edge object.
+        """
         self.source: str = edge.get('from')
         self.target: str = edge.get('to')
 
@@ -33,21 +48,30 @@ class Edge:
         self.weight: int = attributes["Weight"]
 
     def to_dot_edge(self) -> str:
+        """
+        Returns a string representation of this edge in the dot graph format.
+        """
         return f'{self.source} -> {self.target} [Weight={self.weight}];'
 
     def __str__(self) -> str:
+        """
+        Returns a string representation of this edge for debugging purposes.
+        """
         return f'Edge[source={self.source}, target={self.target}, weight={self.weight}]'
 
 
 class Graph:
-    def __init__(self, filename: str):
-        tree = ET.parse(filename)
+    def __init__(self, filen_path: str):
+        """
+        Parses a GXL file at the given file path into a Graph object.
+        """
+        tree = ET.parse(filen_path)
         root = tree.getroot()
         graph = root.find('graph')
 
         # The id of the graph is not unique unless used in combination with the target system, 
         # which is just the filename.
-        self.name = os.path.basename(filename).replace('.gxl', '')
+        self.name = os.path.basename(filen_path).replace('.gxl', '')
 
         attributes = parse_attributes(graph)
         self.optimal_schedule_end_time: int = attributes['Total schedule length']
@@ -67,6 +91,9 @@ class Graph:
         self.processor_count = len(set([node.processor_index for node in self.nodes]))
 
     def get_filename(self) -> str:
+        """
+        Returns the filename of the dot graph representation of this graph.
+        """
         return self.name + '.dot'
 
     def find_outgoing_edges(self, node: Node) -> List[Edge]:
@@ -90,6 +117,9 @@ class Graph:
         return processor_end_times
 
     def to_input_dot_graph(self) -> str:
+        """
+        Returns a string representation of the input dot graph representation of this graph.
+        """
         output = 'digraph ' + f'"{self.name}"' + ' {\n'
         output += '\n'.join([node.to_input_dot_node() for node in self.nodes]) + '\n'
         output += '\n'.join([edge.to_dot_edge() for edge in self.edges]) + '\n'
@@ -121,6 +151,9 @@ class Graph:
         return output
 
     def __str__(self) -> str:
+        """
+        Returns a string representation of this graph for debugging purposes.
+        """
         stringified_nodes = ', '.join([str(node) for node in self.nodes])
         stringified_edges = ', '.join([str(edge) for edge in self.edges])
 
