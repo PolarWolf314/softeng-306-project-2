@@ -7,6 +7,10 @@ SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
 ROOT_PATH = os.path.abspath(os.path.join(SCRIPT_PATH, '..'))
 
 def create_unit_test_file(graphs: List[Graph], output_path: str) -> None:
+    """
+    Gnerates a Java class file in the specified output path directory of the project with unit tests that
+    verify the optimal schedulers we have designed for each of the given graphs.
+    """
     class_name = 'OptimalSchedulerTest'
     test_file_content = f"""package nz.ac.auckland.se306.group12;
 
@@ -41,6 +45,9 @@ public class {class_name} {{
         f.write('}\n')
 
 def create_unit_test(graph: Graph) -> str:
+    """
+    Creates a string representing a single Java unit test for the given graph.
+    """
     scheduled_tasks_array = ', '.join([to_scheduled_task(node) for node in graph.nodes])
     processor_end_times_array = ', '.join(str(end_time) for end_time in graph.get_processor_end_times())
     method_name = f'testOptimal{to_valid_method_name(graph)}'
@@ -68,10 +75,17 @@ def create_unit_test(graph: Graph) -> str:
 """
 
 def to_valid_method_name(graph: Graph) -> str:
+    """
+    Converts the name of the graph into a valid Java method name by replacing any invalid characters with
+    suitable replacements.
+    """
     return graph.name.replace('.', 'dot').replace('-', '_').replace('#', '')
 
 
 def to_scheduled_task(node: Node) -> str: 
+    """
+    Converts the given node into a string representing a new ScheduledTask object in Java.
+    """
     return f'new ScheduledTask({node.start_time}, {node.finish_time}, {node.processor_index})'
 
 def get_gxl_file_paths(path: str, limit = -1) -> List[str]:
@@ -83,6 +97,11 @@ def get_gxl_file_paths(path: str, limit = -1) -> List[str]:
     return filenames if limit <= 0 else filenames[:limit]
 
 def generate_graphs(input_path: str, input_dot_graph_path: str, test_path: str, graph_limit: int) -> None:
+    """
+    This generates dot files from the gxl files found in the given input path directory and outputs them at the input
+    dot graph path directory. The graph limit parameter specifies the maximum number of graphs it will retrieve from the
+    input path. It also generates a Java class file with unit tests for each of the graphs in the test path director.
+    """
     gxl_file_paths = get_gxl_file_paths(input_path, graph_limit)
     print(f'Found {len(gxl_file_paths)} gxl files in "{prettify_path(input_path)}"')
 
@@ -113,6 +132,15 @@ def prettify_path(path: str) -> str:
     return os.path.abspath(path).replace(ROOT_PATH, '<root>')
 
 def main():
+    """
+    The entry point of this script. It converts gxl representations of task graphs and converts them into unit
+    tests that can be run to verify the correctness of the optimal schedulers we have designed. It expects up 
+    to two arguments:
+
+    1. The input path of the gxl files to generate the unit tests from. By default, this is the current directory.
+    2. The maximum number of gxl files to generate unit tests for. By default this is 50. Specifying -1 will generate
+       unit tests for all gxl files in the input directory.
+    """
     # By default, use the current directory
     input_path = sys.argv[1] if len(sys.argv) >= 2 else '.'
     graph_limit = int(sys.argv[2]) if len(sys.argv) >= 3 else 50
