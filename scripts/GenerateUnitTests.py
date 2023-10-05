@@ -112,15 +112,15 @@ def generate_graphs(input_path: str, input_dot_graph_path: str, test_path: str, 
     print(f'Found {len(gxl_file_paths)} gxl files in "{prettify_path(input_path)}"')
 
     graphs: List[Graph] = []
-    for filename in gxl_file_paths:
+    for index, filename in enumerate(gxl_file_paths):
         graph = Graph(filename)
-        write_input_dot_graph(graph, input_dot_graph_path)
+        write_input_dot_graph(graph, input_dot_graph_path, index + 1)
         graphs.append(graph)
 
     create_unit_test_file(graphs, test_path)
 
 
-def write_input_dot_graph(graph: Graph, output_dir: str) -> None:
+def write_input_dot_graph(graph: Graph, output_dir: str, position: int) -> None:
     """
     Writes the input DOT graph to the given output directory with the filename specified by the id of the
     GXL graph.
@@ -128,7 +128,7 @@ def write_input_dot_graph(graph: Graph, output_dir: str) -> None:
     output_path = os.path.join(output_dir, graph.get_filename())
 
     with open(output_path, 'w') as f:
-        print(f'Writing input DOT graph to "{prettify_path(output_path)}"')
+        print(f'{position} - Writing input DOT graph to "{prettify_path(output_path)}"')
         f.write(graph.to_input_dot_graph())
 
 
