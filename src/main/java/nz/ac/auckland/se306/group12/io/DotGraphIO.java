@@ -56,8 +56,8 @@ public class DotGraphIO {
    */
   public void writeDotGraph(CommandLineArguments arguments, Schedule schedule, Graph graph)
       throws IOException {
-    final String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
-
+    String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
+    
     String output = this.toDotString(digraphName, schedule, graph);
 
     if (arguments.writeToStdOut()) {
@@ -79,17 +79,16 @@ public class DotGraphIO {
   }
 
   /**
-   * Generates a dot graph string out of a schedule.
+   * Generates a DOT graph string out of a schedule.
    *
-   * @param digraphName name of the digraph
-   * @param schedule    the schedule of the digraph
-   * @return the digraph in string form, in a .dot format
+   * @param digraphName The name of the digraph
+   * @param schedule    The schedule of the digraph
+   * @return The digraph in DOT format, as a string
    */
   public String toDotString(String digraphName, Schedule schedule, Graph graph) {
     StringBuilder builder = new StringBuilder();
 
-    // We surround the name with "..." to allow for characters such as '-' in the name
-
+    // We surround the name in double quotes to accommodate special characters (such as '-')
     builder.append("digraph \"")
         .append(digraphName)
         .append("\" {")
@@ -106,7 +105,7 @@ public class DotGraphIO {
           .append(",Start=")
           .append(scheduledTask.getStartTime())
           .append(",Processor=")
-          .append(scheduledTask.getProcessorIndex() + 1) // Processors are 1-indexed
+          .append(scheduledTask.getProcessorIndex() + 1) // Processor indexing is 1-based
           .append("];")
           .append(NEW_LINE);
 
@@ -121,7 +120,8 @@ public class DotGraphIO {
       }
     }
 
-    builder.append("}");
+    builder.append("}").append(NEW_LINE);
+
     return builder.toString();
   }
 
