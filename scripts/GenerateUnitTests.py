@@ -98,8 +98,8 @@ def get_gxl_file_paths(path: str, limit = -1) -> List[str]:
 
 def generate_graphs(input_path: str, input_dot_graph_path: str, test_path: str, graph_limit: int) -> None:
     """
-    This generates dot files from the GXL files found in the given input path directory and outputs them at the input
-    dot graph path directory. The graph limit parameter specifies the maximum number of graphs it will retrieve from the
+    Generates DOT files from the GXL files found in the given input path directory and outputs them at the input
+    DOT graph path directory. The graph limit parameter specifies the maximum number of graphs it will retrieve from the
     input path. It also generates a Java class file with unit tests for each of the graphs in the test path director.
     """
     gxl_file_paths = get_gxl_file_paths(input_path, graph_limit)
