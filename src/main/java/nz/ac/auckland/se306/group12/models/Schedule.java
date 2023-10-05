@@ -57,12 +57,4 @@ public class Schedule {
     );
   }
 
-  /**
-   * Returns the end time of the schedule by taking the latest end time of all the processors
-   *
-   * @return The end time of the schedule
-   */
-  public int getEndTime() {
-    return latestEndTime;
-  }
 }

@@ -21,7 +21,7 @@ public class Main {
 
       Scheduler scheduler = new DfsScheduler();
       Schedule schedule = scheduler.schedule(graph, arguments.processorCount());
-      System.out.println(schedule.getEndTime());
+      System.out.println(schedule.getLatestEndTime());
       dotGraphIO.writeDotGraph(arguments, schedule, graph);
 
     } catch (IOException e) {
