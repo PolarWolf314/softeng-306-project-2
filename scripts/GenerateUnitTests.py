@@ -7,15 +7,31 @@ import os
 SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
 ROOT_PATH = os.path.abspath(os.path.join(SCRIPT_PATH, '..'))
 
-
-def create_unit_test_file(graphs: List[Graph], output_path: str) -> None:
+def get_test_filename(node_count: int) -> str:
     """
-    Generates a Java class file in the specified output path directory of the project with unit tests that
-    verify the optimal schedulers we have designed for each of the given graphs.
+    Returns the filename of the Java unit test file for the given number of nodes.
     """
-    class_name = 'OptimalSchedulerTest'
-    test_file_content = f"""package nz.ac.auckland.se306.group12;
+    return f'OptimalSchedulerNodes{node_count}Test.java'
 
+
+def get_test_file_paths(graphs: List[Graph], output_path: str) -> List[str]:
+    """
+    Returns a list of all the file paths that will be used to write the Java unit tests to.
+    """
+    unique_node_counts = set([len(graph.nodes) for graph in graphs])
+    return [os.path.join(output_path, get_test_filename(node_count)) for node_count in unique_node_counts]
+
+
+def create_test_file_headers(graphs: List[Graph], output_path: str) -> None:
+    """
+    Writes the boilerplate header for each of the Java unit test files. There will be one file for each unique
+    number of nodes in the given graphs.
+    """
+    for file_path in get_test_file_paths(graphs, output_path):
+        class_name = os.path.basename(file_path).split('.')[0]
+        test_file_header = f"""package nz.ac.auckland.se306.group12.optimal;
+
+import nz.ac.auckland.se306.group12.TestUtil;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
@@ -33,18 +49,29 @@ import org.junit.jupiter.params.provider.MethodSource;
  * done by the Parallel and Reconfigurable Computing Lab at the University of Auckland.
  */
 public class {class_name} {{
+"""
+        # Open file in write mode to overwrite any existing content
+        with open(file_path, 'w') as f:
+            f.write(test_file_header)
+
+
+def create_unit_test_files(graphs: List[Graph], output_path: str) -> None:
+    """
+    Generates the Java class files in the specified output path directory of the project with unit tests that
+    verify the optimal schedulers we have designed for each of the given graphs. There will be one file for 
+    each unique number of nodes in the given graphs.
     """
 
-    filename = os.path.join(output_path, class_name + '.java')
-    # Open file in write mode to overwrite any existing content
-    with open (filename, 'w') as f:
-        f.write(test_file_content)
+    create_test_file_headers(graphs, output_path)
 
-    with open (filename, 'a') as f:
-        for graph in graphs:
+    for graph in graphs:
+        filename = os.path.join(output_path, get_test_filename(len(graph.nodes)))
+        with open (filename, 'a') as f:
             f.write(create_unit_test(graph))
 
-        f.write('}\n')
+    for file_path in get_test_file_paths(graphs, output_path):
+        with open(file_path, 'a') as f:
+            f.write('}\n')
 
 
 def create_unit_test(graph: Graph) -> str:
@@ -59,7 +86,7 @@ def create_unit_test(graph: Graph) -> str:
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void {method_name}(Scheduler scheduler) {{
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/{graph.get_filename()}");
+        Graph graph = TestUtil.loadGraph("./graphs/optimal/{len(graph.nodes)}-nodes/{graph.get_filename()}");
         int processorCount = {graph.processor_count};
         int expectedScheduleEndTime = {graph.optimal_schedule_end_time};
 
@@ -117,7 +144,7 @@ def generate_graphs(input_path: str, input_dot_graph_path: str, test_path: str, 
         write_input_dot_graph(graph, input_dot_graph_path, index + 1)
         graphs.append(graph)
 
-    create_unit_test_file(graphs, test_path)
+    create_unit_test_files(graphs, test_path)
 
 
 def write_input_dot_graph(graph: Graph, output_dir: str, position: int) -> None:
@@ -125,12 +152,17 @@ def write_input_dot_graph(graph: Graph, output_dir: str, position: int) -> None:
     Writes the input DOT graph to the given output directory with the filename specified by the id of the
     GXL graph.
     """
-    output_path = os.path.join(output_dir, graph.get_filename())
+    node_count_directory = os.path.join(output_dir, f"{len(graph.nodes)}-nodes")
+    output_path = os.path.join(node_count_directory, graph.get_filename())
+
+    if (not os.path.isdir(node_count_directory)):
+        os.mkdir(node_count_directory)
 
     with open(output_path, 'w') as f:
-        print(f'{position} - Writing input DOT graph to "{prettify_path(output_path)}"')
-        f.write(graph.to_input_dot_graph())
-
+        # Printing is slow so only print every 100 graphs
+        if (position % 100 == 0):
+            print(f'{position} - Writing input DOT graph to "{prettify_path(output_path)}"')
+        f.write(graph.to_input_dot_graph() + '\n')
 
 def prettify_path(path: str) -> str:
     """
@@ -155,7 +187,7 @@ def main():
     graph_limit = int(sys.argv[2]) if len(sys.argv) >= 3 else 50
 
     input_dot_graph_path = os.path.join(ROOT_PATH, 'graphs', 'optimal')
-    test_path = os.path.join(ROOT_PATH, 'src', 'test', 'java', 'nz', 'ac', 'auckland', 'se306', 'group12')
+    test_path = os.path.join(ROOT_PATH, 'src', 'test', 'java', 'nz', 'ac', 'auckland', 'se306', 'group12', 'optimal')
 
     if (not os.path.isdir(input_path)):
         raise FileNotFoundError(f'Expected input path "{prettify_path(input_path)}" to be a valid directory')
