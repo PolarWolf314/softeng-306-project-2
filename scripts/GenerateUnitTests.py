@@ -3,8 +3,10 @@ from GxlToDot import Graph, Node
 import sys
 import os
 
+
 SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
 ROOT_PATH = os.path.abspath(os.path.join(SCRIPT_PATH, '..'))
+
 
 def create_unit_test_file(graphs: List[Graph], output_path: str) -> None:
     """
@@ -44,6 +46,7 @@ public class {class_name} {{
 
         f.write('}\n')
 
+
 def create_unit_test(graph: Graph) -> str:
     """
     Creates a string representing a single Java unit test for the given graph.
@@ -74,6 +77,7 @@ def create_unit_test(graph: Graph) -> str:
     
 """
 
+
 def to_valid_method_name(graph: Graph) -> str:
     """
     Converts the name of the graph into a valid Java method name by replacing any invalid characters with
@@ -88,6 +92,7 @@ def to_scheduled_task(node: Node) -> str:
     """
     return f'new ScheduledTask({node.start_time}, {node.finish_time}, {node.processor_index})'
 
+
 def get_gxl_file_paths(path: str, limit = -1) -> List[str]:
     """
     Returns a list of all the file paths for the GXL files in the given directory. If a limit is specified,
@@ -95,6 +100,7 @@ def get_gxl_file_paths(path: str, limit = -1) -> List[str]:
     """
     filenames = [os.path.join(path, filename) for filename in os.listdir(path) if filename.endswith('.gxl')]
     return filenames if limit <= 0 else filenames[:limit]
+
 
 def generate_graphs(input_path: str, input_dot_graph_path: str, test_path: str, graph_limit: int) -> None:
     """
@@ -113,6 +119,7 @@ def generate_graphs(input_path: str, input_dot_graph_path: str, test_path: str, 
 
     create_unit_test_file(graphs, test_path)
 
+
 def write_input_dot_graph(graph: Graph, output_dir: str) -> None:
     """
     Writes the input DOT graph to the given output directory with the filename specified by the id of the
@@ -124,12 +131,14 @@ def write_input_dot_graph(graph: Graph, output_dir: str) -> None:
         print(f'Writing input DOT graph to "{prettify_path(output_path)}"')
         f.write(graph.to_input_dot_graph())
 
+
 def prettify_path(path: str) -> str:
     """
     Returns a prettified version of the given path by not showing the root directory. This is used to make 
     the output of the script more readable.
     """
     return os.path.abspath(path).replace(ROOT_PATH, '<root>')
+
 
 def main():
     """
@@ -156,6 +165,7 @@ def main():
         raise FileNotFoundError(f'Expected the directory "{prettify_path(test_path)}" to exist')
 
     generate_graphs(input_path, input_dot_graph_path, test_path, graph_limit)
+
 
 if __name__ == '__main__':
     main()

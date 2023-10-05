@@ -3,6 +3,7 @@ from itertools import groupby
 import xml.etree.ElementTree as ET
 import os
 
+
 class Node:
     def __init__(self, node: ET.Element):
         """ 
