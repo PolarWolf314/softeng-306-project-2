@@ -5,6 +5,9 @@ import nz.ac.auckland.se306.group12.cli.CommandLineParser;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 import nz.ac.auckland.se306.group12.models.Graph;
+import nz.ac.auckland.se306.group12.models.Schedule;
+import nz.ac.auckland.se306.group12.scheduler.DfsScheduler;
+import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 
 public class Main {
 
@@ -16,15 +19,11 @@ public class Main {
     try {
       Graph graph = dotGraphIO.readDotGraph(arguments.inputDotGraph());
 
-      // TODO: Fix to use the correct scheduler
-//      Scheduler scheduler = new BasicScheduler();
-//
-//      List<Processor> schedule = scheduler.schedule(graph, arguments.processorCount());
-//      List<List<Task>> scheduledTasks = schedule.stream()
-//          .map(Processor::getScheduledTasks)
-//          .toList();
-//
-//      dotGraphIO.writeDotGraph(arguments, scheduledTasks);
+      Scheduler scheduler = new DfsScheduler();
+      Schedule schedule = scheduler.schedule(graph, arguments.processorCount());
+      System.out.println(schedule.getEndTime());
+      dotGraphIO.writeDotGraph(arguments, schedule, graph);
+
     } catch (IOException e) {
       e.printStackTrace();
       System.exit(1);

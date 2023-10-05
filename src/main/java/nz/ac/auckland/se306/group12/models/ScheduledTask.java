@@ -2,6 +2,7 @@ package nz.ac.auckland.se306.group12.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * ScheduledTask class represents a tasks in a schedule that has a start time and a processor
@@ -9,6 +10,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
+@ToString
 public class ScheduledTask {
 
   private final int startTime;
