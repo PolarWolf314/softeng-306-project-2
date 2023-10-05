@@ -69,7 +69,7 @@ public class Schedule {
     }
 
     return new Schedule(newScheduledTasks, newProcessorEndTimes, this.scheduledTaskCount + 1,
-        this.readyTasks);
+        newReadyTasks);
   }
 
   private boolean isTaskReady(ScheduledTask[] newScheduledTasks, List<Task> newReadyTasks,
