@@ -5,4 +5,5 @@ public class DanglingEdgeException extends RuntimeException {
   public DanglingEdgeException(String message) {
     super(message);
   }
+
 }
