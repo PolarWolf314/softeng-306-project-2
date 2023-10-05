@@ -2,6 +2,7 @@ package nz.ac.auckland.se306.group12.models;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,15 @@ public class Task {
   private final Set<Edge> incomingEdges = new HashSet<>();
 
   private final Set<Edge> outgoingEdges = new HashSet<>();
-  
+
   private final int index;
+
+  public Set<Task> getParentTasks() {
+    return incomingEdges.stream().map(Edge::getSource).collect(Collectors.toUnmodifiableSet());
+  }
+
+  public Set<Task> getChildTasks() {
+    return outgoingEdges.stream().map(Edge::getDestination).collect(Collectors.toUnmodifiableSet());
+  }
 
 }

@@ -11,6 +11,8 @@ import lombok.EqualsAndHashCode.Exclude;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import nz.ac.auckland.se306.group12.exceptions.DanglingEdgeException;
+import nz.ac.auckland.se306.group12.exceptions.IllegalEdgeWeightException;
 
 /*
  * Graph class represents a graph of tasks and their dependences to create a schedule
@@ -33,15 +35,50 @@ public class Graph {
   }
 
   /**
+   * @return The tasks in this graph in a {@link List}
+   */
+  public List<Task> getTasks() {
+    return new ArrayList<>(this.tasks.values());
+  }
+
+  /**
+   * @return The number of tasks in this task graph. (In other words, the order of this graph.)
+   */
+  public int taskCount() {
+    return this.tasks.size();
+  }
+
+  /**
    * Add and edge to the graph and also update the nodes incoming and outgoing edges
    *
    * @param source      The source node label
    * @param destination The destination node label
-   * @param weight      The weight of the edge
+   * @param weight      The weight of the edge, representing communication cost
    */
   public void addEdge(String source, String destination, int weight) {
     Task sourceTask = this.tasks.get(source);
+    if (sourceTask == null) {
+      throw new DanglingEdgeException(String.format(
+          "Cannot add edge (%s, %s) because node %s doesn't exist in the task graph.",
+          source,
+          destination,
+          source)
+      );
+    }
+
     Task destinationTask = this.tasks.get(destination);
+    if (destinationTask == null) {
+      throw new DanglingEdgeException(String.format(
+          "Cannot add edge (%s, %s) because node %s doesn't exist in the task graph.",
+          source,
+          destination,
+          destination)
+      );
+    }
+
+    if (weight < 0) {
+      throw new IllegalEdgeWeightException("Edge weights must be non-negative.");
+    }
 
     Edge edge = new Edge(sourceTask, destinationTask, weight);
 
@@ -53,19 +90,11 @@ public class Graph {
   /**
    * Adds a node to the graph with the given label and weight.
    *
-   * @param node   The node label
-   * @param weight The node weight
+   * @param nodeLabel The task's label
+   * @param weight    The node weight, representing the task's execution time
    */
-  public void addNode(String node, int weight) {
-    this.tasks.put(node, new Task(node, weight, this.tasks.size()));
+  public void addNode(String nodeLabel, int weight) {
+    this.tasks.put(nodeLabel, new Task(nodeLabel, weight, this.tasks.size()));
   }
 
-  /**
-   * Gets the tasks in the graph
-   *
-   * @return A list of tasks in the graph
-   */
-  public List<Task> getTasks() {
-    return new ArrayList<>(this.tasks.values());
-  }
 }
