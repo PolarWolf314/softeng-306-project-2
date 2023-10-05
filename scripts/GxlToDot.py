@@ -18,13 +18,13 @@ class Node:
 
     def to_input_dot_node(self) -> str:
         """
-        Returns a string representation of this node in the input dot graph format (Just the weight attribute).
+        Returns a string representation of this node in the input DOT graph format (Just the weight attribute).
         """
         return f'{self.id} [Weight={self.weight}];'
 
     def to_output_dot_node(self) -> str:
         """
-        Returns a string representation of this node in the output dot graph format (Weight, Start and Processor attributes).
+        Returns a string representation of this node in the output DOT graph format (Weight, Start and Processor attributes).
         """
         # +1 on the processor as we want to start at 1 instead of 0
         return f'{self.id} [Weight={self.weight},Start={self.start_time},Processor={self.processor_index + 1}];'
@@ -49,7 +49,7 @@ class Edge:
 
     def to_dot_edge(self) -> str:
         """
-        Returns a string representation of this edge in the dot graph format.
+        Returns a string representation of this edge in the DOT graph format.
         """
         return f'{self.source} -> {self.target} [Weight={self.weight}];'
 
@@ -92,7 +92,7 @@ class Graph:
 
     def get_filename(self) -> str:
         """
-        Returns the filename of the dot graph representation of this graph.
+        Returns the filename of the DOT graph representation of this graph.
         """
         return self.name + '.dot'
 
@@ -118,7 +118,7 @@ class Graph:
 
     def to_input_dot_graph(self) -> str:
         """
-        Returns a string representation of the input dot graph representation of this graph.
+        Returns a string representation of the input DOT graph representation of this graph.
         """
         output = f'digraph "{self.name}" {{\n'
         output += '\n'.join([node.to_input_dot_node() for node in self.nodes]) + '\n'
@@ -129,8 +129,8 @@ class Graph:
 
     def to_output_dot_graph(self) -> str:
         """
-        Builds a string of the dot graph representation of this graph. Care has been taken to ensure the output
-        format of this method matches the Java dot graph output method we have defined so that we can simply
+        Builds a string of the DOT graph representation of this graph. Care has been taken to ensure the output
+        format of this method matches the Java DOT graph output method we have defined so that we can simply
         compare the actual and expected outputs by comparing the strings.
         """
         output = f'digraph "{self.name}" {{\n'

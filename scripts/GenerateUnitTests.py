@@ -115,13 +115,13 @@ def generate_graphs(input_path: str, input_dot_graph_path: str, test_path: str, 
 
 def write_input_dot_graph(graph: Graph, output_dir: str) -> None:
     """
-    Writes the input dot graph to the given output directory with the filename specified by the id of the
+    Writes the input DOT graph to the given output directory with the filename specified by the id of the
     GXL graph.
     """
     output_path = os.path.join(output_dir, graph.get_filename())
 
     with open(output_path, 'w') as f:
-        print(f'Writing input dot graph to "{prettify_path(output_path)}"')
+        print(f'Writing input DOT graph to "{prettify_path(output_path)}"')
         f.write(graph.to_input_dot_graph())
 
 def prettify_path(path: str) -> str:
