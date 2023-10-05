@@ -20,6 +20,7 @@ public class Schedule {
 
   private final ScheduledTask[] scheduledTasks;
   private final int[] processorEndTimes;
+  private final int latestEndTime;
   private final int scheduledTaskCount;
   // Could consider storing readyTaskIndex, but only once task lookup is O(1)
   private final Set<Task> readyTasks;
@@ -30,11 +31,12 @@ public class Schedule {
    * @param taskCount      The number of tasks in the schedule
    * @param processorCount The number of processors in the schedule
    */
+
   public Schedule(Graph taskGraph, int processorCount) {
     this.scheduledTasks = new ScheduledTask[taskGraph.taskCount()];
     this.processorEndTimes = new int[processorCount];
     this.scheduledTaskCount = 0;
-
+    this.latestEndTime = 0;
     this.readyTasks = new HashSet<>();
     // Add all source tasks as a ready task
     for (Task task : taskGraph.getTasks()) {
@@ -61,6 +63,8 @@ public class Schedule {
     newScheduledTasks[task.getIndex()] = scheduledTask;
     newProcessorEndTimes[scheduledTask.getProcessorIndex()] = scheduledTask.getEndTime();
 
+    int newLatestEndTime = Math.max(this.latestEndTime, scheduledTask.getEndTime());
+
     // check if any children are ready
     for (Task child : task.getChildTasks()) {
       if (isTaskReady(newScheduledTasks, newReadyTasks, child)) {
@@ -69,8 +73,13 @@ public class Schedule {
     }
     newReadyTasks.remove(task);
 
-    return new Schedule(newScheduledTasks, newProcessorEndTimes, this.scheduledTaskCount + 1,
-        newReadyTasks);
+    return new Schedule(
+        newScheduledTasks,
+        newProcessorEndTimes,
+        newLatestEndTime,
+        this.scheduledTaskCount + 1,
+        newReadyTasks
+    );
   }
 
   private boolean isTaskReady(ScheduledTask[] newScheduledTasks, Set<Task> newReadyTasks,
@@ -129,4 +138,5 @@ public class Schedule {
     int processorCount = processorEndTimes.length;
     return processorCount;
   }
+
 }

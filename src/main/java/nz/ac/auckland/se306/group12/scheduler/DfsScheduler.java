@@ -29,13 +29,13 @@ public class DfsScheduler implements Scheduler {
       Schedule currentSchedule = stack.pop();
 
       // Prune if current schedule is worse than current best
-      if (currentSchedule.getEndTime() >= currentMinMakespan) {
+      if (currentSchedule.getLatestEndTime() >= currentMinMakespan) {
         continue;
       }
 
       // Check if current schedule is complete
       if (currentSchedule.getScheduledTaskCount() == taskGraph.taskCount()) {
-        currentMinMakespan = currentSchedule.getEndTime();
+        currentMinMakespan = currentSchedule.getLatestEndTime();
         this.bestSchedule = currentSchedule;
         continue;
       }
