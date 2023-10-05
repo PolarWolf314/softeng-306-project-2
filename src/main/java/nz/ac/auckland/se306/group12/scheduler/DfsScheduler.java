@@ -28,7 +28,7 @@ public class DfsScheduler implements Scheduler {
     while (!stack.isEmpty()) {
       Schedule currentSchedule = stack.pop();
 
-      // Check if current schedule is worse than current best
+      // Prune if current schedule is worse than current best
       if (currentSchedule.getEndTime() >= currentMinMakespan) {
         continue;
       }
@@ -87,6 +87,7 @@ public class DfsScheduler implements Scheduler {
           latestStartTimes[processorIndex] = newLatestStartTime;
         }
       }
+
     }
     return latestStartTimes;
   }
