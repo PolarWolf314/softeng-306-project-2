@@ -47,16 +47,16 @@ public class Schedule {
   /**
    * Returns a new schedule with the given task added to the end of the schedule
    *
-   * @param scheduledTask The task to add
-   * @param taskIndex     The index of the task to add
+   * @param scheduledTask The scheduledTask repesentation of the task to add
+   * @param task          The task to add
    * @return A new schedule with the given task added to the end of the schedule
    */
-  public Schedule extendWithTask(ScheduledTask scheduledTask, int taskIndex) {
+  public Schedule extendWithTask(ScheduledTask scheduledTask, Task task) {
     ScheduledTask[] newScheduledTasks = Arrays.copyOf(this.scheduledTasks,
         this.scheduledTasks.length);
     int[] newProcessorEndTimes = Arrays.copyOf(this.processorEndTimes,
         this.processorEndTimes.length);
-    newScheduledTasks[taskIndex] = scheduledTask;
+    newScheduledTasks[task.getIndex()] = scheduledTask;
     newProcessorEndTimes[scheduledTask.getProcessorIndex()] = scheduledTask.getEndTime();
     return new Schedule(newScheduledTasks, newProcessorEndTimes, this.scheduledTaskCount + 1,
         this.readyTasks);

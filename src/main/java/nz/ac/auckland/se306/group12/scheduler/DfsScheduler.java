@@ -51,7 +51,7 @@ public class DfsScheduler implements Scheduler {
           int startTime = Math.max(latestStartTimes[i], currentSchedule.getProcessorEndTimes()[i]);
           int endTime = startTime + task.getWeight();
           ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, i);
-          stack.push(currentSchedule.extendWithTask(newScheduledTask, task.getIndex()));
+          stack.push(currentSchedule.extendWithTask(newScheduledTask, task));
         }
       }
     }
