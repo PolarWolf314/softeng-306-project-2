@@ -31,11 +31,11 @@ public class Schedule {
    * @param processorCount The number of processors in the schedule
    */
   public Schedule(Graph taskGraph, int processorCount) {
-    scheduledTasks = new ScheduledTask[taskGraph.taskCount()];
-    processorEndTimes = new int[processorCount];
-    scheduledTaskCount = 0;
+    this.scheduledTasks = new ScheduledTask[taskGraph.taskCount()];
+    this.processorEndTimes = new int[processorCount];
+    this.scheduledTaskCount = 0;
 
-    readyTasks = new ArrayList<>();
+    this.readyTasks = new ArrayList<>();
     // Add all source tasks as a ready task
     for (Task task : taskGraph.getTasks()) {
       if (task.getParentTasks().size() == 0) {
