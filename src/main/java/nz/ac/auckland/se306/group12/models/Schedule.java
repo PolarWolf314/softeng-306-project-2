@@ -25,8 +25,8 @@ public class Schedule {
    * @param taskCount      The number of tasks in the schedule
    * @param processorCount The number of processors in the schedule
    */
-  public Schedule(int taskCount, int processorCount) {
-    scheduledTasks = new ScheduledTask[taskCount];
+  public Schedule(Graph taskGraph, int processorCount) {
+    scheduledTasks = new ScheduledTask[taskGraph.taskCount()];
     processorEndTimes = new int[processorCount];
     scheduledTaskCount = 0;
   }

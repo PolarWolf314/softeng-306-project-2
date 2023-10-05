@@ -22,7 +22,7 @@ public class DfsScheduler implements Scheduler {
 
     Deque<Schedule> stack = new ArrayDeque<>();
 
-    stack.push(new Schedule(taskGraph.taskCount(), processorCount));
+    stack.push(new Schedule(taskGraph, processorCount));
 
     // DFS iteration (no optimisations)
     while (!stack.isEmpty()) {
