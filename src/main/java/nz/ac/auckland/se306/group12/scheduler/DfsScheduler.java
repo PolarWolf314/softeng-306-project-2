@@ -18,11 +18,11 @@ public class DfsScheduler implements Scheduler {
    * @inheritDoc
    */
   @Override
-  public Schedule schedule(Graph graph, int processorCount) {
+  public Schedule schedule(Graph taskGraph, int processorCount) {
 
     Deque<Schedule> stack = new ArrayDeque<>();
 
-    stack.push(new Schedule(graph.getTasks().size(), processorCount));
+    stack.push(new Schedule(taskGraph.getTasks().size(), processorCount));
 
     // DFS iteration (no optimisations)
     while (!stack.isEmpty()) {
@@ -34,7 +34,7 @@ public class DfsScheduler implements Scheduler {
       }
 
       // Check if current schedule is complete
-      if (currentSchedule.getScheduledTaskCount() == graph.getTasks().size()) {
+      if (currentSchedule.getScheduledTaskCount() == taskGraph.getTasks().size()) {
         // Check if current schedule is better than current best and update accordingly
         if (currentSchedule.getEndTime() < currentMinMakespan) {
           currentMinMakespan = currentSchedule.getEndTime();
@@ -44,7 +44,7 @@ public class DfsScheduler implements Scheduler {
       }
 
       // Check to find if any tasks can be scheduled and schedule them
-      for (Task task : graph.getTasks()) {
+      for (Task task : taskGraph.getTasks()) {
         if (!isSchedulable(currentSchedule, task)) {
           continue;
         }
