@@ -27,7 +27,7 @@ public class DotGraphIO {
    * @return A {@link Graph} object representing the parsed dot graph
    * @throws IOException If an error occurs while reading the file
    */
-  public Graph readDotGraph(final File inputDotGraph) throws IOException {
+  public Graph readDotGraph(File inputDotGraph) throws IOException {
     GraphParser parser = new GraphParser(new FileInputStream(inputDotGraph));
     Graph graph = new Graph(parser.getGraphId());
 
@@ -54,13 +54,10 @@ public class DotGraphIO {
    * @param graph     The precedence graph from which `schedule` was generated
    * @throws IOException If an error occurs while writing to the file
    */
-  public void writeDotGraph(
-      final CommandLineArguments arguments,
-      final Schedule schedule,
-      final Graph graph
-  ) throws IOException {
-    final String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
-
+  public void writeDotGraph(CommandLineArguments arguments, Schedule schedule, Graph graph)
+      throws IOException {
+    String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
+    
     String output = this.toDotString(digraphName, schedule, graph);
 
     if (arguments.writeToStdOut()) {
@@ -77,26 +74,21 @@ public class DotGraphIO {
    * @param schedule  The scheduled tasks to serialise
    * @param graph     The precedence graph from which `schedule` was generated
    */
-  public void writeOutputDotGraphToConsole(
-      String graphName,
-      Schedule schedule,
-      Graph graph
-  ) {
+  public void writeOutputDotGraphToConsole(String graphName, Schedule schedule, Graph graph) {
     System.out.println(this.toDotString(graphName, schedule, graph));
   }
 
   /**
-   * Generates a dot graph string out of a schedule.
+   * Generates a DOT graph string out of a schedule.
    *
-   * @param digraphName name of the digraph
-   * @param schedule    the schedule of the digraph
-   * @return the digraph in string form, in a .dot format
+   * @param digraphName The name of the digraph
+   * @param schedule    The schedule of the digraph
+   * @return The digraph in DOT format, as a string
    */
   public String toDotString(String digraphName, Schedule schedule, Graph graph) {
-    final StringBuilder builder = new StringBuilder();
+    StringBuilder builder = new StringBuilder();
 
-    // We surround the name with "..." to allow for characters such as '-' in the name
-
+    // We surround the name in double quotes to accommodate special characters (such as '-')
     builder.append("digraph \"")
         .append(digraphName)
         .append("\" {")
@@ -113,11 +105,11 @@ public class DotGraphIO {
           .append(",Start=")
           .append(scheduledTask.getStartTime())
           .append(",Processor=")
-          .append(scheduledTask.getProcessorIndex() + 1) // Processors are 1-indexed
+          .append(scheduledTask.getProcessorIndex() + 1) // Processor indexing is 1-based
           .append("];")
           .append(NEW_LINE);
 
-      for (final Edge outgoingEdge : tasks.get(i).getOutgoingEdges()) {
+      for (Edge outgoingEdge : tasks.get(i).getOutgoingEdges()) {
         builder.append(outgoingEdge.getSource().getLabel())
             .append(" -> ")
             .append(outgoingEdge.getDestination().getLabel())
@@ -128,7 +120,8 @@ public class DotGraphIO {
       }
     }
 
-    builder.append("}");
+    builder.append("}").append(NEW_LINE);
+
     return builder.toString();
   }
 
