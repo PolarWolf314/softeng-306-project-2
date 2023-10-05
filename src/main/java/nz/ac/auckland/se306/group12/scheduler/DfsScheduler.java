@@ -22,7 +22,7 @@ public class DfsScheduler implements Scheduler {
 
     Deque<Schedule> stack = new ArrayDeque<>();
 
-    stack.push(new Schedule(taskGraph.getTasks().size(), processorCount));
+    stack.push(new Schedule(taskGraph.taskCount(), processorCount));
 
     // DFS iteration (no optimisations)
     while (!stack.isEmpty()) {
@@ -34,7 +34,7 @@ public class DfsScheduler implements Scheduler {
       }
 
       // Check if current schedule is complete
-      if (currentSchedule.getScheduledTaskCount() == taskGraph.getTasks().size()) {
+      if (currentSchedule.getScheduledTaskCount() == taskGraph.taskCount()) {
         currentMinMakespan = currentSchedule.getEndTime();
         this.bestSchedule = currentSchedule;
         continue;
