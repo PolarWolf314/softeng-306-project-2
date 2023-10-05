@@ -7,22 +7,25 @@ import java.io.IOException;
 public class FileIO {
 
   /**
+   * All methods in this class are static, do it doesn't really make sense to allow instantiation.
+   */
+  private FileIO() {
+  }
+
+  /**
    * Writes the specified contents to the given file. If the file does not already exist then it
-   * will attempt to create it. If the file already exists then it will be overwritten. If there is
-   * any error while writing to the file then an {@link IOException} will be thrown.
+   * will attempt to create it. If the file already exists then it will be overwritten.
    *
    * @param contents The contents to write to the file
    * @param file     The file to write the contents to
    * @throws IOException If an error occurs while writing to the file
    */
-  public static void writeToFile(final String contents, final File file) throws IOException {
-    if (!file.exists()) {
-      if (!file.createNewFile()) {
-        throw new IOException("Failed to create file: " + file.getPath());
-      }
+  public static void writeToFile(String contents, File file) throws IOException {
+    if (!file.exists() && !file.createNewFile()) {
+      throw new IOException("Failed to create file: " + file.getPath());
     }
 
-    try (final FileOutputStream outputStream = new FileOutputStream(file)) {
+    try (FileOutputStream outputStream = new FileOutputStream(file)) {
       outputStream.write(contents.getBytes());
     }
   }
@@ -38,10 +41,10 @@ public class FileIO {
     if (filename == null) {
       return null;
     }
-
     if (!filename.endsWith(".dot")) {
       filename += ".dot";
     }
+
     return filename;
   }
 
@@ -57,10 +60,10 @@ public class FileIO {
     if (filename == null) {
       return null;
     }
-
     if (filename.endsWith(".dot")) {
       filename = filename.substring(0, filename.length() - 4);
     }
+
     return filename;
   }
 
