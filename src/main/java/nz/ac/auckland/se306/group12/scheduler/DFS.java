@@ -38,7 +38,7 @@ public class DFS implements Scheduler {
         // Check if current schedule is better than current best and update accordingly
         if (currentSchedule.getEndTime() < currentMinMakespan) {
           currentMinMakespan = currentSchedule.getEndTime();
-          bestSchedule = currentSchedule;
+          this.bestSchedule = currentSchedule;
         }
         continue;
       }
