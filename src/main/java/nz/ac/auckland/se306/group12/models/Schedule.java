@@ -1,8 +1,8 @@
 package nz.ac.auckland.se306.group12.models;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,7 +22,7 @@ public class Schedule {
   private final int[] processorEndTimes;
   private final int scheduledTaskCount;
   // Could consider storing readyTaskIndex, but only once task lookup is O(1)
-  private final List<Task> readyTasks;
+  private final Set<Task> readyTasks;
 
   /**
    * A constructor for creating a new schedule
@@ -35,7 +35,7 @@ public class Schedule {
     this.processorEndTimes = new int[processorCount];
     this.scheduledTaskCount = 0;
 
-    this.readyTasks = new ArrayList<>();
+    this.readyTasks = new HashSet<>();
     // Add all source tasks as a ready task
     for (Task task : taskGraph.getTasks()) {
       if (task.getParentTasks().size() == 0) {
@@ -56,7 +56,7 @@ public class Schedule {
         this.scheduledTasks.length);
     int[] newProcessorEndTimes = Arrays.copyOf(this.processorEndTimes,
         this.processorEndTimes.length);
-    List<Task> newReadyTasks = new ArrayList<>(this.readyTasks);
+    Set<Task> newReadyTasks = new HashSet<>(this.readyTasks);
 
     newScheduledTasks[task.getIndex()] = scheduledTask;
     newProcessorEndTimes[scheduledTask.getProcessorIndex()] = scheduledTask.getEndTime();
@@ -67,12 +67,13 @@ public class Schedule {
         newReadyTasks.add(child);
       }
     }
+    newReadyTasks.remove(task);
 
     return new Schedule(newScheduledTasks, newProcessorEndTimes, this.scheduledTaskCount + 1,
         newReadyTasks);
   }
 
-  private boolean isTaskReady(ScheduledTask[] newScheduledTasks, List<Task> newReadyTasks,
+  private boolean isTaskReady(ScheduledTask[] newScheduledTasks, Set<Task> newReadyTasks,
       Task child) {
     for (Edge incomingEdge : child.getIncomingEdges()) {
       if (newScheduledTasks[incomingEdge.getSource().getIndex()] == null) {
