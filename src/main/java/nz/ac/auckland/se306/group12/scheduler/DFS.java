@@ -65,19 +65,19 @@ public class DFS implements Scheduler {
   /**
    * This method finds the latest start time for a task on each processor
    *
-   * @param processorCount  Number of processors
-   * @param currentSchedule Schedule at the current state of the DFS
-   * @param task            Task to find the latest start time for
+   * @param processorCount Number of processors
+   * @param schedule       Schedule at the current state of the DFS
+   * @param task           Task to find the latest start time for
    * @return Array of latest start times for the task on each processor
    */
-  private int[] getLatestStartTimes(int processorCount, Schedule currentSchedule, Task task) {
+  private int[] getLatestStartTimes(int processorCount, Schedule schedule, Task task) {
     // Find the latest start time for the task on each processor
     int[] latestStartTimes = new int[processorCount];
 
     // Loop through all parent tasks
     for (Edge incomingEdge : task.getIncomingEdges()) {
       int taskIndex = incomingEdge.getSource().getIndex();
-      ScheduledTask parentScheduledTask = currentSchedule.getScheduledTasks()[taskIndex];
+      ScheduledTask parentScheduledTask = schedule.getScheduledTasks()[taskIndex];
 
       // Loop through all processors for latest start time
       for (int currentProcessor = 0; currentProcessor < processorCount; currentProcessor++) {
