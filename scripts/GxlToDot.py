@@ -120,7 +120,7 @@ class Graph:
         """
         Returns a string representation of the input dot graph representation of this graph.
         """
-        output = 'digraph ' + f'"{self.name}"' + ' {\n'
+        output = f'digraph "{self.name}" {{\n'
         output += '\n'.join([node.to_input_dot_node() for node in self.nodes]) + '\n'
         output += '\n'.join([edge.to_dot_edge() for edge in self.edges]) + '\n'
         output += '}'
@@ -133,7 +133,7 @@ class Graph:
         format of this method matches the Java dot graph output method we have defined so that we can simply
         compare the actual and expected outputs by comparing the strings.
         """
-        output = 'digraph ' + f'"{self.name}"' + ' {\n'
+        output = f'digraph "{self.name}" {{\n'
         def key(node: Node) -> int: return node.processor_index
 
         # We have to sort by the key as groupby just iterates through the list and creates a new group whenever the key changes
@@ -165,9 +165,11 @@ def parse_attributes(element: ET.Element) -> Dict[str, any]:
     Parses all the gxl attributes for the given element into a dictionary. The values within this dictionary will
     be parsed to their defined types. These attributes should be stored in the following format within the gxl file:
 
+    ```xml
     <attr name="KEY">
         <int>VALUE</int>
     </attr>
+    ```
 
     Elements may have multiple attributes, but each attribute must have exactly one child element which is either an
     int or a string.
