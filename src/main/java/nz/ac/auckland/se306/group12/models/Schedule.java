@@ -79,9 +79,9 @@ public class Schedule {
    * @param task           Task to find the latest start time for
    * @return Array of latest start times for the task on each processor
    */
-  public int[] getTaskLatestStartTimes(int processorCount, Task task) {
+  public int[] getTaskLatestStartTimes(Task task) {
     // Find the latest start time for the task on each processor
-    int[] latestStartTimes = new int[processorCount];
+    int[] latestStartTimes = new int[getProcessorCount()];
 
     // Loop through all parent tasks
     for (Edge incomingEdge : task.getIncomingEdges()) {
@@ -89,7 +89,7 @@ public class Schedule {
       ScheduledTask parentScheduledTask = getScheduledTasks()[taskIndex];
 
       // Loop through all processors for latest start time
-      for (int processorIndex = 0; processorIndex < processorCount; processorIndex++) {
+      for (int processorIndex = 0; processorIndex < getProcessorCount(); processorIndex++) {
         int newLatestStartTime = processorIndex == parentScheduledTask.getProcessorIndex()
             ? parentScheduledTask.getEndTime()
             : parentScheduledTask.getEndTime() + incomingEdge.getWeight();
@@ -102,5 +102,10 @@ public class Schedule {
 
     }
     return latestStartTimes;
+  }
+
+  private int getProcessorCount() {
+    int processorCount = processorEndTimes.length;
+    return processorCount;
   }
 }
