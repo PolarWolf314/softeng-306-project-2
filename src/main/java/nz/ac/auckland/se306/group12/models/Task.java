@@ -16,12 +16,22 @@ import lombok.ToString;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Task {
 
+  /**
+   * The name of this task. Unique within a task graph.
+   */
   @EqualsAndHashCode.Include
   private final String label;
+
+  /**
+   * The execution time of this task. Factored into equality checking for testing purposes.
+   */
   @EqualsAndHashCode.Include
   private final int weight;
+
   private final Set<Edge> incomingEdges = new HashSet<>();
+
   private final Set<Edge> outgoingEdges = new HashSet<>();
+  
   private final int index;
 
 }
