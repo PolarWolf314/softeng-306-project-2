@@ -63,7 +63,7 @@ public class DfsScheduler implements Scheduler {
    * This method finds the latest start time for a task on each processor
    *
    * @param processorCount Number of processors
-   * @param schedule       Schedule at the current state of the DFS
+   * @param schedule       Schedule at the current state of the DFS state space tree
    * @param task           Task to find the latest start time for
    * @return Array of latest start times for the task on each processor
    */
