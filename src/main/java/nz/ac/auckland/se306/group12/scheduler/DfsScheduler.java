@@ -9,7 +9,7 @@ import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
 import nz.ac.auckland.se306.group12.models.Task;
 
-public class DFS implements Scheduler {
+public class DfsScheduler implements Scheduler {
 
   private int currentMinMakespan = Integer.MAX_VALUE;
   private Schedule bestSchedule = null;

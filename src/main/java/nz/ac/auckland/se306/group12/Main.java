@@ -6,7 +6,7 @@ import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
-import nz.ac.auckland.se306.group12.scheduler.DFS;
+import nz.ac.auckland.se306.group12.scheduler.DfsScheduler;
 import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 
 public class Main {
@@ -19,7 +19,7 @@ public class Main {
     try {
       Graph graph = dotGraphIO.readDotGraph(arguments.inputDotGraph());
 
-      Scheduler scheduler = new DFS();
+      Scheduler scheduler = new DfsScheduler();
       Schedule schedule = scheduler.schedule(graph, arguments.processorCount());
       System.out.println(schedule.getEndTime());
       dotGraphIO.writeDotGraph(arguments, schedule, graph);
