@@ -10,7 +10,7 @@ ROOT_PATH = os.path.abspath(os.path.join(SCRIPT_PATH, '..'))
 
 def create_unit_test_file(graphs: List[Graph], output_path: str) -> None:
     """
-    Gnerates a Java class file in the specified output path directory of the project with unit tests that
+    Generates a Java class file in the specified output path directory of the project with unit tests that
     verify the optimal schedulers we have designed for each of the given graphs.
     """
     class_name = 'OptimalSchedulerTest'
