@@ -80,14 +80,14 @@ public class DFS implements Scheduler {
       ScheduledTask parentScheduledTask = schedule.getScheduledTasks()[taskIndex];
 
       // Loop through all processors for latest start time
-      for (int currentProcessor = 0; currentProcessor < processorCount; currentProcessor++) {
-        int newLatestStartTime = currentProcessor == parentScheduledTask.getProcessorIndex()
+      for (int processorIndex = 0; processorIndex < processorCount; processorIndex++) {
+        int newLatestStartTime = processorIndex == parentScheduledTask.getProcessorIndex()
             ? parentScheduledTask.getEndTime()
             : parentScheduledTask.getEndTime() + incomingEdge.getWeight();
 
         // Update latest start time if new latest start time is greater
-        if (newLatestStartTime > latestStartTimes[currentProcessor]) {
-          latestStartTimes[currentProcessor] = newLatestStartTime;
+        if (newLatestStartTime > latestStartTimes[processorIndex]) {
+          latestStartTimes[processorIndex] = newLatestStartTime;
         }
       }
     }
