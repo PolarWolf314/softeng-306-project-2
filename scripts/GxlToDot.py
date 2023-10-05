@@ -93,7 +93,7 @@ class Graph:
 
     def get_filename(self) -> str:
         """
-        Returns the filename of the DOT graph representation of this graph.
+        Returns the filename of the DOT representation of this graph.
         """
         return self.name + '.dot'
 
@@ -119,7 +119,7 @@ class Graph:
 
     def to_input_dot_graph(self) -> str:
         """
-        Returns a string representation of the input DOT graph representation of this graph.
+        Returns a string representation of the input DOT representation of this graph.
         """
         output = f'digraph "{self.name}" {{\n'
         output += '\n'.join([node.to_input_dot_node() for node in self.nodes]) + '\n'
@@ -130,7 +130,7 @@ class Graph:
 
     def to_output_dot_graph(self) -> str:
         """
-        Builds a string of the DOT graph representation of this graph. Care has been taken to ensure the output
+        Builds a string of the DOT representation of this graph. Care has been taken to ensure the output
         format of this method matches the Java DOT graph output method we have defined so that we can simply
         compare the actual and expected outputs by comparing the strings.
         """
