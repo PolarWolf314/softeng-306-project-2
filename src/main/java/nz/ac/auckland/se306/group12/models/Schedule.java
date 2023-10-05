@@ -93,16 +93,6 @@ public class Schedule {
   }
 
   /**
-   * Returns the end time of the schedule by taking the latest end time of all the processors
-   *
-   * @return The end time of the schedule
-   */
-  public int getEndTime() {
-    //noinspection OptionalGetWithoutIsPresent
-    return Arrays.stream(this.processorEndTimes).max().getAsInt();
-  }
-
-  /**
    * This method finds the latest start time for a task on each processor
    *
    * @param processorCount Number of processors
