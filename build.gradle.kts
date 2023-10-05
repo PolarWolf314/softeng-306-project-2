@@ -42,4 +42,7 @@ tasks.shadowJar {
 
 tasks.test {
     useJUnitPlatform()
+
+    // Don't run the generated tests as this may cause us to run out of GitHub workflow minutes.
+    exclude("**/OptimalSchedulerTest.class")
 }
