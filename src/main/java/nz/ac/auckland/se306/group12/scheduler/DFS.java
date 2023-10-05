@@ -75,15 +75,15 @@ public class DFS implements Scheduler {
     int[] latestStartTimes = new int[processorCount];
 
     // Loop through all parent tasks
-    for (Edge sources : task.getIncomingEdges()) {
-      int taskIndex = sources.getSource().getIndex();
+    for (Edge incomingEdge : task.getIncomingEdges()) {
+      int taskIndex = incomingEdge.getSource().getIndex();
       ScheduledTask parentScheduledTask = currentSchedule.getScheduledTasks()[taskIndex];
 
       // Loop through all processors for latest start time
       for (int currentProcessor = 0; currentProcessor < processorCount; currentProcessor++) {
         int newLatestStartTime = currentProcessor == parentScheduledTask.getProcessorIndex()
             ? parentScheduledTask.getEndTime()
-            : parentScheduledTask.getEndTime() + sources.getWeight();
+            : parentScheduledTask.getEndTime() + incomingEdge.getWeight();
 
         // Update latest start time if new latest start time is greater
         if (newLatestStartTime > latestStartTimes[currentProcessor]) {
@@ -106,8 +106,8 @@ public class DFS implements Scheduler {
     if (currentSchedule.getScheduledTasks()[task.getIndex()] != null) {
       return false;
     }
-    for (Edge sources : task.getIncomingEdges()) {
-      int sourceIndex = sources.getSource().getIndex();
+    for (Edge incomingEdge : task.getIncomingEdges()) {
+      int sourceIndex = incomingEdge.getSource().getIndex();
       ScheduledTask parentScheduledTask = currentSchedule.getScheduledTasks()[sourceIndex];
       if (parentScheduledTask == null) {
         return false;
