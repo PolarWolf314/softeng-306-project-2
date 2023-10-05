@@ -1,6 +1,9 @@
 package nz.ac.auckland.se306.group12.models;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,8 @@ public class Schedule {
   private final ScheduledTask[] scheduledTasks;
   private final int[] processorEndTimes;
   private final int scheduledTaskCount;
+  // Could consider storing readyTaskIndex, but only once task lookup is O(1)
+  private final List<Task> readyTasks;
 
   /**
    * A constructor for creating a new schedule
@@ -29,6 +34,14 @@ public class Schedule {
     scheduledTasks = new ScheduledTask[taskGraph.taskCount()];
     processorEndTimes = new int[processorCount];
     scheduledTaskCount = 0;
+
+    readyTasks = new ArrayList<>();
+    // Add all source tasks as a ready task
+    for (Task task : taskGraph.getTasks()) {
+      if (task.getParentTasks().size() == 0) {
+        readyTasks.add(task);
+      }
+    }
   }
 
   /**
@@ -45,7 +58,8 @@ public class Schedule {
         this.processorEndTimes.length);
     newScheduledTasks[taskIndex] = scheduledTask;
     newProcessorEndTimes[scheduledTask.getProcessorIndex()] = scheduledTask.getEndTime();
-    return new Schedule(newScheduledTasks, newProcessorEndTimes, this.scheduledTaskCount + 1);
+    return new Schedule(newScheduledTasks, newProcessorEndTimes, this.scheduledTaskCount + 1,
+        this.readyTasks);
   }
 
   /**
