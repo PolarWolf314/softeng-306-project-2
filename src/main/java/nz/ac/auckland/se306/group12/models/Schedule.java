@@ -79,7 +79,7 @@ public class Schedule {
    * @param task           Task to find the latest start time for
    * @return Array of latest start times for the task on each processor
    */
-  public int[] getLatestStartTimes(int processorCount, Task task) {
+  public int[] getTaskLatestStartTimes(int processorCount, Task task) {
     // Find the latest start time for the task on each processor
     int[] latestStartTimes = new int[processorCount];
 
