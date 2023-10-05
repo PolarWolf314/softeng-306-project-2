@@ -17,6 +17,7 @@ public class Schedule {
 
   private final ScheduledTask[] scheduledTasks;
   private final int[] processorEndTimes;
+  private final int latestEndTime;
   private final int scheduledTaskCount;
 
   /**
@@ -29,6 +30,7 @@ public class Schedule {
     scheduledTasks = new ScheduledTask[taskCount];
     processorEndTimes = new int[processorCount];
     scheduledTaskCount = 0;
+    latestEndTime = 0;
   }
 
   /**
@@ -45,7 +47,14 @@ public class Schedule {
         this.processorEndTimes.length);
     newScheduledTasks[taskIndex] = scheduledTask;
     newProcessorEndTimes[scheduledTask.getProcessorIndex()] = scheduledTask.getEndTime();
-    return new Schedule(newScheduledTasks, newProcessorEndTimes, this.scheduledTaskCount + 1);
+    int newLatestEndTime = Math.max(this.latestEndTime, scheduledTask.getEndTime());
+
+    return new Schedule(
+        newScheduledTasks,
+        newProcessorEndTimes,
+        newLatestEndTime,
+        this.scheduledTaskCount + 1
+    );
   }
 
   /**
@@ -54,7 +63,6 @@ public class Schedule {
    * @return The end time of the schedule
    */
   public int getEndTime() {
-    //noinspection OptionalGetWithoutIsPresent
-    return Arrays.stream(this.processorEndTimes).max().getAsInt();
+    return latestEndTime;
   }
 }
