@@ -59,7 +59,7 @@ public class DFS implements Scheduler {
       }
     }
 
-    return bestSchedule;
+    return this.bestSchedule;
   }
 
   /**
