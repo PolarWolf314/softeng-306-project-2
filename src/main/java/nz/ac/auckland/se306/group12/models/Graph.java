@@ -59,15 +59,21 @@ public class Graph {
     Task sourceTask = this.tasks.get(source);
     if (sourceTask == null) {
       throw new DanglingEdgeException(String.format(
-          "Cannot add edge (%s, %s) because node %s doesn't exist in the task graph.", source,
-          destination, source));
+          "Cannot add edge (%s, %s) because node %s doesn't exist in the task graph.",
+          source,
+          destination,
+          source)
+      );
     }
 
     Task destinationTask = this.tasks.get(destination);
     if (destinationTask == null) {
       throw new DanglingEdgeException(String.format(
-          "Cannot add edge (%s, %s) because node %s doesn't exist in the task graph.", source,
-          destination, destination));
+          "Cannot add edge (%s, %s) because node %s doesn't exist in the task graph.",
+          source,
+          destination,
+          destination)
+      );
     }
 
     if (weight < 0) {
