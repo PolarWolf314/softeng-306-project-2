@@ -45,7 +45,7 @@ public class DfsScheduler implements Scheduler {
         if (!isSchedulable(currentSchedule, task)) {
           continue;
         }
-        int[] latestStartTimes = getLatestStartTimes(processorCount, currentSchedule, task);
+        int[] latestStartTimes = currentSchedule.getLatestStartTimes(processorCount, task);
         for (int i = 0; i < latestStartTimes.length; i++) {
           // Ensure that it either schedules by latest time or after the last task on the processor
           int startTime = Math.max(latestStartTimes[i], currentSchedule.getProcessorEndTimes()[i]);
@@ -57,39 +57,6 @@ public class DfsScheduler implements Scheduler {
     }
 
     return this.bestSchedule;
-  }
-
-  /**
-   * This method finds the latest start time for a task on each processor
-   *
-   * @param processorCount Number of processors
-   * @param schedule       Schedule at the current state of the DFS state space tree
-   * @param task           Task to find the latest start time for
-   * @return Array of latest start times for the task on each processor
-   */
-  private int[] getLatestStartTimes(int processorCount, Schedule schedule, Task task) {
-    // Find the latest start time for the task on each processor
-    int[] latestStartTimes = new int[processorCount];
-
-    // Loop through all parent tasks
-    for (Edge incomingEdge : task.getIncomingEdges()) {
-      int taskIndex = incomingEdge.getSource().getIndex();
-      ScheduledTask parentScheduledTask = schedule.getScheduledTasks()[taskIndex];
-
-      // Loop through all processors for latest start time
-      for (int processorIndex = 0; processorIndex < processorCount; processorIndex++) {
-        int newLatestStartTime = processorIndex == parentScheduledTask.getProcessorIndex()
-            ? parentScheduledTask.getEndTime()
-            : parentScheduledTask.getEndTime() + incomingEdge.getWeight();
-
-        // Update latest start time if new latest start time is greater
-        if (newLatestStartTime > latestStartTimes[processorIndex]) {
-          latestStartTimes[processorIndex] = newLatestStartTime;
-        }
-      }
-
-    }
-    return latestStartTimes;
   }
 
   /**
