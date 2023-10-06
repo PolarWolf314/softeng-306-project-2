@@ -18,9 +18,9 @@ class OptimalScheduleTest {
   /**
    * Returns an output schedule from specified
    *
-   * @param graph
-   * @param processorCount
-   * @return
+   * @param graph          {@link Graph} to produce a schedule out of
+   * @param processorCount number of processors that the schedule contains
+   * @return schedule output by the scheduler
    */
   private Schedule getOutputSchedule(Graph graph, int processorCount) {
     Scheduler scheduler = new DfsScheduler();
