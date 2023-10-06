@@ -1,0 +1,19 @@
+digraph "Independent_Nodes_16_WeightType_Random#2_Heterogeneous-4-4" {
+14 [Weight=10];
+4 [Weight=9];
+1 [Weight=8];
+2 [Weight=8];
+6 [Weight=8];
+12 [Weight=8];
+5 [Weight=6];
+15 [Weight=6];
+10 [Weight=5];
+9 [Weight=4];
+11 [Weight=4];
+0 [Weight=3];
+13 [Weight=3];
+3 [Weight=2];
+7 [Weight=2];
+8 [Weight=2];
+
+}

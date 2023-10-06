@@ -1,0 +1,34 @@
+digraph "Random_Nodes_21_Density_0.52_CCR_10.01_WeightType_Random_GB_Homogeneous-4" {
+2 [Weight=10];
+9 [Weight=8];
+10 [Weight=6];
+3 [Weight=7];
+4 [Weight=7];
+6 [Weight=3];
+19 [Weight=8];
+13 [Weight=9];
+12 [Weight=10];
+7 [Weight=9];
+16 [Weight=9];
+1 [Weight=8];
+15 [Weight=8];
+20 [Weight=8];
+8 [Weight=7];
+14 [Weight=7];
+5 [Weight=6];
+17 [Weight=5];
+18 [Weight=5];
+11 [Weight=4];
+0 [Weight=3];
+4 -> 17 [Weight=177];
+9 -> 19 [Weight=177];
+19 -> 20 [Weight=142];
+10 -> 19 [Weight=106];
+10 -> 16 [Weight=142];
+3 -> 16 [Weight=177];
+10 -> 18 [Weight=71];
+6 -> 13 [Weight=89];
+13 -> 16 [Weight=71];
+2 -> 19 [Weight=177];
+3 -> 14 [Weight=142];
+}

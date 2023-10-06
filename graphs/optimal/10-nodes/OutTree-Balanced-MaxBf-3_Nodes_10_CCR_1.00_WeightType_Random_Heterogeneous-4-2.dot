@@ -1,0 +1,21 @@
+digraph "OutTree-Balanced-MaxBf-3_Nodes_10_CCR_1.00_WeightType_Random_Heterogeneous-4-2" {
+0 [Weight=9];
+2 [Weight=8];
+1 [Weight=9];
+3 [Weight=9];
+9 [Weight=8];
+4 [Weight=7];
+8 [Weight=7];
+6 [Weight=6];
+7 [Weight=6];
+5 [Weight=5];
+2 -> 9 [Weight=16];
+0 -> 1 [Weight=5];
+0 -> 2 [Weight=11];
+1 -> 6 [Weight=6];
+1 -> 4 [Weight=8];
+1 -> 5 [Weight=3];
+0 -> 3 [Weight=3];
+2 -> 7 [Weight=13];
+2 -> 8 [Weight=9];
+}
