@@ -41,10 +41,7 @@ public class DfsScheduler implements Scheduler {
       }
 
       // Check to find if any tasks can be scheduled and schedule them
-      for (Task task : taskGraph.getTasks()) {
-        if (!isSchedulable(currentSchedule, task)) {
-          continue;
-        }
+      for (Task task : currentSchedule.getReadyTasks()) {
         int[] latestStartTimes = currentSchedule.getLatestStartTimesOf(task);
         for (int i = 0; i < latestStartTimes.length; i++) {
           // Ensure that it either schedules by latest time or after the last task on the processor
@@ -57,28 +54,6 @@ public class DfsScheduler implements Scheduler {
     }
 
     return this.bestSchedule;
-  }
-
-  /**
-   * This method checks if a task is schedulable based on if all its parents are scheduled
-   *
-   * @param currentSchedule Schedule at the current state of the DFS
-   * @param task            Task to check if it is schedulable
-   * @return true if the task is schedulable, false otherwise
-   */
-  private boolean isSchedulable(Schedule currentSchedule, Task task) {
-    // Loop through all parent tasks
-    if (currentSchedule.getScheduledTasks()[task.getIndex()] != null) {
-      return false;
-    }
-    for (Edge incomingEdge : task.getIncomingEdges()) {
-      int sourceIndex = incomingEdge.getSource().getIndex();
-      ScheduledTask parentScheduledTask = currentSchedule.getScheduledTasks()[sourceIndex];
-      if (parentScheduledTask == null) {
-        return false;
-      }
-    }
-    return true;
   }
 
 }
