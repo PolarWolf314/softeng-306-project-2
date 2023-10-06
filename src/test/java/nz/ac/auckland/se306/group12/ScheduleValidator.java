@@ -1,9 +1,11 @@
 package nz.ac.auckland.se306.group12;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Edge;
@@ -23,15 +25,26 @@ public class ScheduleValidator {
    *
    * @param schedule The list of tasks to be checked
    */
-  private void assertValidOrder(Schedule schedule, Graph graph) {
+  public static void assertValidOrder(Schedule schedule, Graph graph) {
     Set<Task> completedTasks = new HashSet<>();
 
-    List<Task> tasks = graph.getTasks();
+    List<Task> rawTasks = graph.getTasks();
+    ScheduledTask[] rawSchedule = schedule.getScheduledTasks();
 
-    ScheduledTask[] scheduledTasks = schedule.getScheduledTasks();
+    Map<Task, ScheduledTask> taskMapper = new HashMap<>();
+    for (int i = 0; i < rawTasks.size(); i++) {
+      taskMapper.put(rawTasks.get(i), rawSchedule[i]);
+    }
+    List<Task> tasks = taskMapper.entrySet().stream()
+        .sorted(Comparator.comparingInt(entry -> entry.getValue().getStartTime()))
+        .map(Entry::getKey).toList();
 
-    for (int i = 0; i < scheduledTasks.length; i++) {
-      ScheduledTask scheduledTask = scheduledTasks[i];
+    List<ScheduledTask> scheduledTasks = taskMapper.entrySet().stream()
+        .sorted(Comparator.comparingInt(entry -> entry.getValue().getStartTime()))
+        .map(Entry::getValue).toList();
+
+    for (int i = 0; i < scheduledTasks.size(); i++) {
+      ScheduledTask scheduledTask = scheduledTasks.get(i);
       Task task = tasks.get(i);
       completedTasks.add(task);
       boolean parentsComplete = task.getIncomingEdges()
@@ -39,7 +52,7 @@ public class ScheduleValidator {
           .allMatch(edge -> completedTasks.contains(edge.getSource()));
       boolean completedBeforeChildrenStart = task.getOutgoingEdges()
           .stream()
-          .allMatch(edge -> scheduledTasks[tasks.indexOf(edge.getDestination())].getStartTime()
+          .allMatch(edge -> scheduledTasks.get(tasks.indexOf(edge.getDestination())).getStartTime()
               >= scheduledTask.getEndTime());
 
       Assertions.assertTrue(parentsComplete,
@@ -56,36 +69,46 @@ public class ScheduleValidator {
    *
    * @param schedule The {@link Schedule} representing the tasks to be scheduled
    */
-  private void validateSchedule(Schedule schedule, Graph graph) {
+  public static void validateSchedule(Schedule schedule, Graph graph) {
 
     Map<Integer, Integer> processors = new HashMap<>();
 
     for (int i = 0; i < schedule.getProcessorEndTimes().length; i++) {
       processors.put(i, 0);
     }
-    // Make sure schedule order is valid
-    List<ScheduledTask> listTasks = List.of(schedule.getScheduledTasks());
+    List<Task> rawTasks = graph.getTasks();
+    ScheduledTask[] rawSchedule = schedule.getScheduledTasks();
 
-    Assertions.assertEquals(graph.getTasks().size(), listTasks.size(),
+    Map<Task, ScheduledTask> taskMapper = new HashMap<>();
+    for (int i = 0; i < rawTasks.size(); i++) {
+      taskMapper.put(rawTasks.get(i), rawSchedule[i]);
+    }
+    // Make sure schedule order is valid
+    List<Task> tasks = taskMapper.entrySet().stream()
+        .sorted(Comparator.comparingInt(entry -> entry.getValue().getStartTime()))
+        .map(Entry::getKey).toList();
+
+    List<ScheduledTask> scheduledTasks = taskMapper.entrySet().stream()
+        .sorted(Comparator.comparingInt(entry -> entry.getValue().getStartTime()))
+        .map(Entry::getValue).toList();
+
+    Assertions.assertEquals(graph.getTasks().size(), scheduledTasks.size(),
         String.format(
             "Graph has order %d, but %d tasks have been scheduled",
-            graph.getTasks().size(), listTasks.size()));
+            graph.getTasks().size(), scheduledTasks.size()));
 
-    this.assertValidOrder(schedule, graph);
+    assertValidOrder(schedule, graph);
 
-    // Run the schedule
-    List<Task> tasks = graph.getTasks();
+    // Run the schedule=
 
-    ScheduledTask[] scheduledTasks = schedule.getScheduledTasks();
-
-    for (int i = 0; i < scheduledTasks.length; i++) {
-      ScheduledTask scheduledTask = scheduledTasks[i];
+    for (int i = 0; i < scheduledTasks.size(); i++) {
+      ScheduledTask scheduledTask = scheduledTasks.get(i);
       Task task = tasks.get(i);
       int processCore = scheduledTask.getProcessorIndex();
 
       for (Edge edge : task.getIncomingEdges()) {
         Task parent = edge.getSource();
-        ScheduledTask scheduledParent = scheduledTasks[tasks.indexOf(parent)];
+        ScheduledTask scheduledParent = scheduledTasks.get(tasks.indexOf(parent));
 
         int processSource = scheduledParent.getProcessorIndex();
         int transferTime = processCore == processSource ? 0 : edge.getWeight();
