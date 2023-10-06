@@ -25,23 +25,8 @@ public class ScheduleValidator {
    *
    * @param schedule The list of tasks to be checked
    */
-  public static void assertValidOrder(Schedule schedule, Graph graph) {
+  public static void assertValidOrder(List<ScheduledTask> scheduledTasks, List<Task> tasks) {
     Set<Task> completedTasks = new HashSet<>();
-
-    List<Task> rawTasks = graph.getTasks();
-    ScheduledTask[] rawSchedule = schedule.getScheduledTasks();
-
-    Map<Task, ScheduledTask> taskMapper = new HashMap<>();
-    for (int i = 0; i < rawTasks.size(); i++) {
-      taskMapper.put(rawTasks.get(i), rawSchedule[i]);
-    }
-    List<Task> tasks = taskMapper.entrySet().stream()
-        .sorted(Comparator.comparingInt(entry -> entry.getValue().getStartTime()))
-        .map(Entry::getKey).toList();
-
-    List<ScheduledTask> scheduledTasks = taskMapper.entrySet().stream()
-        .sorted(Comparator.comparingInt(entry -> entry.getValue().getStartTime()))
-        .map(Entry::getValue).toList();
 
     for (int i = 0; i < scheduledTasks.size(); i++) {
       ScheduledTask scheduledTask = scheduledTasks.get(i);
@@ -97,7 +82,7 @@ public class ScheduleValidator {
             "Graph has order %d, but %d tasks have been scheduled",
             graph.getTasks().size(), scheduledTasks.size()));
 
-    assertValidOrder(schedule, graph);
+    assertValidOrder(scheduledTasks, tasks);
 
     // Run the schedule=
 
