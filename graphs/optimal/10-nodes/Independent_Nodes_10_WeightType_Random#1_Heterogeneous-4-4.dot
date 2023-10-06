@@ -1,0 +1,13 @@
+digraph "Independent_Nodes_10_WeightType_Random#1_Heterogeneous-4-4" {
+3 [Weight=10];
+5 [Weight=10];
+7 [Weight=8];
+2 [Weight=7];
+9 [Weight=6];
+6 [Weight=5];
+1 [Weight=4];
+4 [Weight=4];
+8 [Weight=3];
+0 [Weight=2];
+
+}

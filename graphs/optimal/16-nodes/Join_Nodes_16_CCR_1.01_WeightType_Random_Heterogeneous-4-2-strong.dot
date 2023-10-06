@@ -1,0 +1,33 @@
+digraph "Join_Nodes_16_CCR_1.01_WeightType_Random_Heterogeneous-4-2-strong" {
+0 [Weight=4];
+1 [Weight=5];
+2 [Weight=10];
+3 [Weight=7];
+4 [Weight=5];
+5 [Weight=11];
+6 [Weight=2];
+7 [Weight=4];
+8 [Weight=9];
+9 [Weight=2];
+10 [Weight=2];
+11 [Weight=5];
+12 [Weight=2];
+13 [Weight=7];
+14 [Weight=5];
+15 [Weight=7];
+15 -> 0 [Weight=8];
+2 -> 0 [Weight=6];
+12 -> 0 [Weight=2];
+14 -> 0 [Weight=7];
+1 -> 0 [Weight=3];
+10 -> 0 [Weight=3];
+9 -> 0 [Weight=8];
+13 -> 0 [Weight=10];
+6 -> 0 [Weight=5];
+8 -> 0 [Weight=6];
+4 -> 0 [Weight=10];
+7 -> 0 [Weight=7];
+5 -> 0 [Weight=3];
+3 -> 0 [Weight=7];
+11 -> 0 [Weight=3];
+}

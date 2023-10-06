@@ -1,0 +1,33 @@
+digraph "Independent_Nodes_30_WeightType_Random#1_Homogeneous-2" {
+4 [Weight=10];
+14 [Weight=10];
+15 [Weight=10];
+18 [Weight=10];
+24 [Weight=10];
+28 [Weight=10];
+3 [Weight=9];
+6 [Weight=9];
+1 [Weight=8];
+5 [Weight=8];
+10 [Weight=8];
+17 [Weight=8];
+20 [Weight=8];
+8 [Weight=7];
+21 [Weight=7];
+22 [Weight=7];
+25 [Weight=6];
+11 [Weight=5];
+12 [Weight=5];
+26 [Weight=5];
+9 [Weight=4];
+23 [Weight=4];
+29 [Weight=4];
+0 [Weight=3];
+2 [Weight=3];
+7 [Weight=3];
+19 [Weight=3];
+13 [Weight=2];
+16 [Weight=2];
+27 [Weight=2];
+
+}

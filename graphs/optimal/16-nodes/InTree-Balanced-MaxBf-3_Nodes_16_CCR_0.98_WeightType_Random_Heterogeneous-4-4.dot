@@ -1,0 +1,33 @@
+digraph "InTree-Balanced-MaxBf-3_Nodes_16_CCR_0.98_WeightType_Random_Heterogeneous-4-4" {
+0 [Weight=8];
+1 [Weight=7];
+2 [Weight=3];
+3 [Weight=2];
+4 [Weight=6];
+5 [Weight=2];
+6 [Weight=10];
+7 [Weight=4];
+8 [Weight=10];
+9 [Weight=3];
+10 [Weight=7];
+11 [Weight=4];
+12 [Weight=2];
+13 [Weight=8];
+14 [Weight=2];
+15 [Weight=7];
+12 -> 3 [Weight=6];
+1 -> 0 [Weight=8];
+2 -> 0 [Weight=2];
+6 -> 1 [Weight=4];
+4 -> 1 [Weight=4];
+3 -> 0 [Weight=7];
+9 -> 2 [Weight=6];
+5 -> 1 [Weight=6];
+11 -> 3 [Weight=8];
+14 -> 4 [Weight=6];
+8 -> 2 [Weight=10];
+10 -> 3 [Weight=8];
+15 -> 4 [Weight=2];
+7 -> 2 [Weight=2];
+13 -> 4 [Weight=4];
+}

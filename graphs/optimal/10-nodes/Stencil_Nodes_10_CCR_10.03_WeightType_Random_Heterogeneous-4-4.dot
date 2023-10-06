@@ -1,0 +1,28 @@
+digraph "Stencil_Nodes_10_CCR_10.03_WeightType_Random_Heterogeneous-4-4" {
+0 [Weight=10];
+1 [Weight=10];
+2 [Weight=8];
+3 [Weight=2];
+4 [Weight=5];
+5 [Weight=6];
+6 [Weight=4];
+7 [Weight=7];
+8 [Weight=7];
+9 [Weight=6];
+2 -> 4 [Weight=73];
+4 -> 7 [Weight=44];
+4 -> 6 [Weight=44];
+0 -> 2 [Weight=58];
+5 -> 6 [Weight=22];
+7 -> 9 [Weight=51];
+0 -> 3 [Weight=44];
+3 -> 4 [Weight=15];
+7 -> 8 [Weight=37];
+1 -> 2 [Weight=15];
+6 -> 9 [Weight=66];
+5 -> 7 [Weight=29];
+1 -> 3 [Weight=44];
+3 -> 5 [Weight=15];
+6 -> 8 [Weight=51];
+2 -> 5 [Weight=44];
+}

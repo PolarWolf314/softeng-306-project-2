@@ -1,0 +1,24 @@
+digraph "SeriesParallel-MaxBf-3_Nodes_10_CCR_10.02_WeightType_Random_GB_Homogeneous-4" {
+0 [Weight=4];
+1 [Weight=8];
+4 [Weight=6];
+3 [Weight=2];
+8 [Weight=2];
+9 [Weight=10];
+5 [Weight=9];
+6 [Weight=8];
+7 [Weight=3];
+2 [Weight=10];
+3 -> 6 [Weight=50];
+8 -> 7 [Weight=50];
+6 -> 2 [Weight=66];
+5 -> 2 [Weight=83];
+0 -> 1 [Weight=41];
+1 -> 5 [Weight=41];
+1 -> 3 [Weight=50];
+4 -> 8 [Weight=66];
+9 -> 7 [Weight=17];
+1 -> 4 [Weight=58];
+4 -> 9 [Weight=33];
+7 -> 2 [Weight=66];
+}
