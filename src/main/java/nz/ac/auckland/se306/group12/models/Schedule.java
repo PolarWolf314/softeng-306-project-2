@@ -65,13 +65,7 @@ public class Schedule {
 
     int newLatestEndTime = Math.max(this.latestEndTime, scheduledTask.getEndTime());
 
-    // check if any children are ready
-    for (Task child : task.getChildTasks()) {
-      if (isTaskReady(newScheduledTasks, child)) {
-        newReadyTasks.add(child);
-      }
-    }
-    newReadyTasks.remove(task);
+    addReadyTasks(task, newScheduledTasks, newReadyTasks);
 
     return new Schedule(
         newScheduledTasks,
@@ -80,6 +74,16 @@ public class Schedule {
         this.scheduledTaskCount + 1,
         newReadyTasks
     );
+  }
+
+  private void addReadyTasks(Task task, ScheduledTask[] newScheduledTasks,
+      List<Task> newReadyTasks) {
+    for (Task child : task.getChildTasks()) {
+      if (isTaskReady(newScheduledTasks, child)) {
+        newReadyTasks.add(child);
+      }
+    }
+    newReadyTasks.remove(task);
   }
 
   private boolean isTaskReady(ScheduledTask[] newScheduledTasks, Task child) {
