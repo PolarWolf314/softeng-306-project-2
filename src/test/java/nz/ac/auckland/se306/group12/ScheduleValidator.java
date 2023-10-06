@@ -33,18 +33,18 @@ public class ScheduleValidator {
       ScheduledTask scheduledTask = scheduledTasks.get(i);
       Task task = tasks.get(i);
       completedTasks.add(task);
-      boolean parentsComplete = task.getIncomingEdges()
+      boolean isReady = task.getIncomingEdges()
           .stream()
           .allMatch(edge -> completedTasks.contains(edge.getSource()));
-      boolean completedBeforeChildrenStart = task.getOutgoingEdges()
+      boolean isFinishedBeforeChildren = task.getOutgoingEdges()
           .stream()
           .allMatch(edge -> scheduledTasks.get(tasks.indexOf(edge.getDestination())).getStartTime()
               >= scheduledTask.getEndTime());
 
-      Assertions.assertTrue(parentsComplete,
+      Assertions.assertTrue(isReady,
           String.format("Invalid order: Dependents of task %s not met", task.getLabel()));
 
-      Assertions.assertTrue(completedBeforeChildrenStart,
+      Assertions.assertTrue(isFinishedBeforeChildren,
           String.format("Invalid order: Dependents of task %s start before this task completes",
               task.getLabel()));
     }
@@ -53,14 +53,14 @@ public class ScheduleValidator {
   /**
    * Checks that the resulting schedule from the given graph is valid.
    *
-   * @param schedule The {@link Schedule} representing the tasks to be scheduled
-   * @param graph    The {@link Graph} representing the original graph of the schedule
+   * @param schedule  The {@link Schedule} representing the tasks to be scheduled
+   * @param taskGraph The {@link Graph} representing the original graph of the schedule
    */
-  public static void validateSchedule(Schedule schedule, Graph graph) {
+  public static void assertValidSchedule(Schedule schedule, Graph taskGraph) {
 
     int[] processors = new int[schedule.getProcessorEndTimes().length];
 
-    List<Task> unorderedTasks = graph.getTasks();
+    List<Task> unorderedTasks = taskGraph.getTasks();
     ScheduledTask[] unorderedScheduledTasks = schedule.getScheduledTasks();
 
     Map<Task, ScheduledTask> taskMapper = new HashMap<>();
@@ -69,23 +69,23 @@ public class ScheduleValidator {
     }
 
     // Sorts tasks and scheduledTasks by the startTime
-    List<Task> tasks = taskMapper.entrySet()
+    final List<Task> tasks = taskMapper.entrySet()
         .stream()
         .sorted(Comparator
             .comparingInt(entry -> entry.getValue().getStartTime()))
         .map(Entry::getKey)
         .toList();
 
-    List<ScheduledTask> scheduledTasks = taskMapper.values()
+    final List<ScheduledTask> scheduledTasks = taskMapper.values()
         .stream()
         .sorted(Comparator
             .comparingInt(ScheduledTask::getStartTime))
         .toList();
 
-    Assertions.assertEquals(graph.getTasks().size(), scheduledTasks.size(),
+    Assertions.assertEquals(taskGraph.getTasks().size(), scheduledTasks.size(),
         String.format(
             "Graph has order %d, but %d tasks have been scheduled",
-            graph.getTasks().size(), scheduledTasks.size()));
+            taskGraph.getTasks().size(), scheduledTasks.size()));
 
     // Validate the schedule's order
     assertValidOrder(scheduledTasks, tasks);
@@ -119,5 +119,4 @@ public class ScheduleValidator {
       processors[processorCore] = scheduledTask.getEndTime();
     }
   }
-
 }
