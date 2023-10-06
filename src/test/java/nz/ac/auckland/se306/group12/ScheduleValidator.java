@@ -61,14 +61,15 @@ public class ScheduleValidator {
     for (int i = 0; i < schedule.getProcessorEndTimes().length; i++) {
       processors.put(i, 0);
     }
-    List<Task> rawTasks = graph.getTasks();
-    ScheduledTask[] rawSchedule = schedule.getScheduledTasks();
+    List<Task> unorderedTasks = graph.getTasks();
+    ScheduledTask[] unorderedScheduledTasks = schedule.getScheduledTasks();
 
     Map<Task, ScheduledTask> taskMapper = new HashMap<>();
-    for (int i = 0; i < rawTasks.size(); i++) {
-      taskMapper.put(rawTasks.get(i), rawSchedule[i]);
+    for (int i = 0; i < unorderedTasks.size(); i++) {
+      taskMapper.put(unorderedTasks.get(i), unorderedScheduledTasks[i]);
     }
-    // Make sure schedule order is valid
+
+    // Sorts tasks and scheduledTasks by the startTime
     List<Task> tasks = taskMapper.entrySet().stream()
         .sorted(Comparator.comparingInt(entry -> entry.getValue().getStartTime()))
         .map(Entry::getKey).toList();
@@ -82,10 +83,10 @@ public class ScheduleValidator {
             "Graph has order %d, but %d tasks have been scheduled",
             graph.getTasks().size(), scheduledTasks.size()));
 
+    // Validate the schedule's order
     assertValidOrder(scheduledTasks, tasks);
 
-    // Run the schedule=
-
+    // Run the schedule
     for (int i = 0; i < scheduledTasks.size(); i++) {
       ScheduledTask scheduledTask = scheduledTasks.get(i);
       Task task = tasks.get(i);
