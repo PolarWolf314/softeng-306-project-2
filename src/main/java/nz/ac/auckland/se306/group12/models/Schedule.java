@@ -58,32 +58,30 @@ public class Schedule {
         this.scheduledTasks.length);
     int[] newProcessorEndTimes = Arrays.copyOf(this.processorEndTimes,
         this.processorEndTimes.length);
-    List<Task> newReadyTasks = new ArrayList<>(this.readyTasks);
 
     newScheduledTasks[task.getIndex()] = scheduledTask;
     newProcessorEndTimes[scheduledTask.getProcessorIndex()] = scheduledTask.getEndTime();
 
     int newLatestEndTime = Math.max(this.latestEndTime, scheduledTask.getEndTime());
 
-    addReadyTasks(task, newScheduledTasks, newReadyTasks);
-
     return new Schedule(
         newScheduledTasks,
         newProcessorEndTimes,
         newLatestEndTime,
         this.scheduledTaskCount + 1,
-        newReadyTasks
+        getNewReadyTasks(task, newScheduledTasks)
     );
   }
 
-  private void addReadyTasks(Task task, ScheduledTask[] newScheduledTasks,
-      List<Task> newReadyTasks) {
+  private List<Task> getNewReadyTasks(Task task, ScheduledTask[] newScheduledTasks) {
+    List<Task> newReadyTasks = new ArrayList<>(this.readyTasks);
     for (Task child : task.getChildTasks()) {
       if (isTaskReady(newScheduledTasks, child)) {
         newReadyTasks.add(child);
       }
     }
     newReadyTasks.remove(task);
+    return newReadyTasks;
   }
 
   private boolean isTaskReady(ScheduledTask[] newScheduledTasks, Task child) {
