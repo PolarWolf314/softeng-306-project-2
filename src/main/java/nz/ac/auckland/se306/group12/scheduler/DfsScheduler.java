@@ -45,7 +45,7 @@ public class DfsScheduler implements Scheduler {
         if (!isSchedulable(currentSchedule, task)) {
           continue;
         }
-        int[] latestStartTimes = currentSchedule.getTaskLatestStartTimes(task);
+        int[] latestStartTimes = currentSchedule.getLatestStartTimesOf(task);
         for (int i = 0; i < latestStartTimes.length; i++) {
           // Ensure that it either schedules by latest time or after the last task on the processor
           int startTime = Math.max(latestStartTimes[i], currentSchedule.getProcessorEndTimes()[i]);
