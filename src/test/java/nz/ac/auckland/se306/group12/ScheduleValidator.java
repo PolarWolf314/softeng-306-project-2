@@ -23,7 +23,8 @@ public class ScheduleValidator {
    * Asserts that the given list of tasks is in a valid order. If not, this will cause the unit test
    * to fail.
    *
-   * @param schedule The list of tasks to be checked
+   * @param scheduledTasks list of scheduledTasks in order of start time
+   * @param tasks          list of tasks from original graph in order of start time
    */
   public static void assertValidOrder(List<ScheduledTask> scheduledTasks, List<Task> tasks) {
     Set<Task> completedTasks = new HashSet<>();
@@ -53,6 +54,7 @@ public class ScheduleValidator {
    * Checks that the resulting schedule from the given graph is valid.
    *
    * @param schedule The {@link Schedule} representing the tasks to be scheduled
+   * @param graph    The {@link Graph} representing the original graph of the schedule
    */
   public static void validateSchedule(Schedule schedule, Graph graph) {
 
@@ -114,7 +116,7 @@ public class ScheduleValidator {
           String.format("Invalid Schedule: Task %s overlaps with another task on processor %d",
               task.getLabel(), processorCore));
 
-      processors[processorCore] += scheduledTask.getEndTime();
+      processors[processorCore] = scheduledTask.getEndTime();
     }
   }
 

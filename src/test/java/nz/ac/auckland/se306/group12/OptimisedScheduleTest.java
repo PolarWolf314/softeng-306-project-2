@@ -8,107 +8,113 @@ import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/*
+/**
  * Tests functionality of the model classes used for the graph classes
  */
 class OptimisedScheduleTest {
 
   private final DotGraphIO dotGraphIO = new DotGraphIO();
 
-  private Schedule getOutputSchedule(String pathFromProjectRoot, int processorCount) {
-    Graph graph = TestUtil.loadGraph(pathFromProjectRoot);
+  /**
+   * Returns an output schedule from specified
+   *
+   * @param graph
+   * @param processorCount
+   * @return
+   */
+  private Schedule getOutputSchedule(Graph graph, int processorCount) {
     Scheduler scheduler = new DfsScheduler();
     return scheduler.schedule(graph, processorCount);
   }
 
   @Test
   public void Test2ProcNodes_7_OutTree() {
-    Schedule schedule = this.getOutputSchedule("./graphs/Nodes_7_OutTree.dot", 2);
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_7_OutTree.dot");
+    Schedule schedule = this.getOutputSchedule(graph, 2);
     ScheduleValidator.validateSchedule(schedule, graph);
-    Assertions.assertEquals(schedule.getLatestEndTime(), 28);
+    Assertions.assertEquals(28, schedule.getLatestEndTime());
   }
 
 
   @Test
   public void Test4ProcNodes_7_OutTree() {
-    Schedule schedule = this.getOutputSchedule("./graphs/Nodes_7_OutTree.dot", 4);
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_7_OutTree.dot");
+    Schedule schedule = this.getOutputSchedule(graph, 4);
     dotGraphIO.writeOutputDotGraphToConsole(graph.getName(), schedule, graph);
     ScheduleValidator.validateSchedule(schedule, graph);
-    Assertions.assertEquals(schedule.getLatestEndTime(), 22);
+    Assertions.assertEquals(22, schedule.getLatestEndTime());
   }
 
   @Test
   public void Test2ProcNodes_8_Random() {
-    Schedule schedule = this.getOutputSchedule("./graphs/Nodes_8_Random.dot", 2);
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_8_Random.dot");
+    Schedule schedule = this.getOutputSchedule(graph, 2);
     dotGraphIO.writeOutputDotGraphToConsole(graph.getName(), schedule, graph);
     ScheduleValidator.validateSchedule(schedule, graph);
-    Assertions.assertEquals(schedule.getLatestEndTime(), 581);
+    Assertions.assertEquals(581, schedule.getLatestEndTime());
   }
 
   @Test
   public void Test4ProcNodes_8_Random() {
-    Schedule schedule = this.getOutputSchedule("./graphs/Nodes_8_Random.dot", 4);
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_8_Random.dot");
+    Schedule schedule = this.getOutputSchedule(graph, 4);
     dotGraphIO.writeOutputDotGraphToConsole(graph.getName(), schedule, graph);
     ScheduleValidator.validateSchedule(schedule, graph);
-    Assertions.assertEquals(schedule.getLatestEndTime(), 581);
+    Assertions.assertEquals(581, schedule.getLatestEndTime());
   }
 
   @Test
   public void Test2ProcNodes_9_SeriesParallel() {
-    Schedule schedule = this.getOutputSchedule("./graphs/Nodes_9_SeriesParallel.dot", 2);
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_9_SeriesParallel.dot");
+    Schedule schedule = this.getOutputSchedule(graph, 2);
     dotGraphIO.writeOutputDotGraphToConsole(graph.getName(), schedule, graph);
     ScheduleValidator.validateSchedule(schedule, graph);
-    Assertions.assertEquals(schedule.getLatestEndTime(), 55);
+    Assertions.assertEquals(55, schedule.getLatestEndTime());
   }
 
   @Test
   public void Test4ProcNodes_9_SeriesParallel() {
-    Schedule schedule = this.getOutputSchedule("./graphs/Nodes_9_SeriesParallel.dot", 4);
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_9_SeriesParallel.dot");
+    Schedule schedule = this.getOutputSchedule(graph, 4);
     dotGraphIO.writeOutputDotGraphToConsole(graph.getName(), schedule, graph);
     ScheduleValidator.validateSchedule(schedule, graph);
-    Assertions.assertEquals(schedule.getLatestEndTime(), 55);
+    Assertions.assertEquals(55, schedule.getLatestEndTime());
   }
 
   @Test
   public void Test2ProcNodes_10_Random() {
-    Schedule schedule = this.getOutputSchedule("./graphs/Nodes_10_Random.dot", 2);
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_10_Random.dot");
+    Schedule schedule = this.getOutputSchedule(graph, 2);
     dotGraphIO.writeOutputDotGraphToConsole(graph.getName(), schedule, graph);
     ScheduleValidator.validateSchedule(schedule, graph);
-    Assertions.assertEquals(schedule.getLatestEndTime(), 50);
+    Assertions.assertEquals(50, schedule.getLatestEndTime());
   }
 
   @Test
   public void Test4ProcNodes_10_Random() {
-    Schedule schedule = this.getOutputSchedule("./graphs/Nodes_10_Random.dot", 4);
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_10_Random.dot");
+    Schedule schedule = this.getOutputSchedule(graph, 4);
     dotGraphIO.writeOutputDotGraphToConsole(graph.getName(), schedule, graph);
     ScheduleValidator.validateSchedule(schedule, graph);
-    Assertions.assertEquals(schedule.getLatestEndTime(), 50);
+    Assertions.assertEquals(50, schedule.getLatestEndTime());
   }
 
   @Test
   public void Test2ProcNodes_11_OutTree() {
-    Schedule schedule = this.getOutputSchedule("./graphs/Nodes_11_OutTree.dot", 2);
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_11_OutTree.dot");
+    Schedule schedule = this.getOutputSchedule(graph, 2);
     dotGraphIO.writeOutputDotGraphToConsole(graph.getName(), schedule, graph);
     ScheduleValidator.validateSchedule(schedule, graph);
-    Assertions.assertEquals(schedule.getLatestEndTime(), 350);
+    Assertions.assertEquals(350, schedule.getLatestEndTime());
   }
 
   @Test
   public void Test4ProcNodes_11_OutTree() {
-    Schedule schedule = this.getOutputSchedule("./graphs/Nodes_11_OutTree.dot", 4);
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_11_OutTree.dot");
+    Schedule schedule = this.getOutputSchedule(graph, 4);
     dotGraphIO.writeOutputDotGraphToConsole(graph.getName(), schedule, graph);
     ScheduleValidator.validateSchedule(schedule, graph);
-    Assertions.assertEquals(schedule.getLatestEndTime(), 227);
+    Assertions.assertEquals(227, schedule.getLatestEndTime());
   }
 
 }
