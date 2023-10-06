@@ -92,12 +92,12 @@ def create_unit_test(graph: Graph) -> str:
 
         Schedule actualSchedule = scheduler.schedule(graph, processorCount);
 
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getEndTime());
+        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{{{scheduled_tasks_array}}};
         int[] expectedProcessorEndTimes = new int[]{{{processor_end_times_array}}};
 
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, {len(graph.nodes)});
+        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, {len(graph.nodes)});
         
         Assertions.assertEquals(expectedSchedule, actualSchedule);
     }}
