@@ -56,11 +56,8 @@ public class ScheduleValidator {
    */
   public static void validateSchedule(Schedule schedule, Graph graph) {
 
-    Map<Integer, Integer> processors = new HashMap<>();
+    int[] processors = new int[schedule.getProcessorEndTimes().length];
 
-    for (int i = 0; i < schedule.getProcessorEndTimes().length; i++) {
-      processors.put(i, 0);
-    }
     List<Task> unorderedTasks = graph.getTasks();
     ScheduledTask[] unorderedScheduledTasks = schedule.getScheduledTasks();
 
@@ -111,13 +108,13 @@ public class ScheduleValidator {
                 task.getLabel(), parent.getLabel(), scheduledTask.getStartTime()));
       }
 
-      int currentCoreValue = processors.get(processorCore);
+      int currentCoreValue = processors[processorCore];
 
       Assertions.assertTrue(currentCoreValue <= scheduledTask.getStartTime(),
           String.format("Invalid Schedule: Task %s overlaps with another task on processor %d",
               task.getLabel(), processorCore));
 
-      processors.put(processorCore, scheduledTask.getEndTime());
+      processors[processorCore] += scheduledTask.getEndTime();
     }
   }
 

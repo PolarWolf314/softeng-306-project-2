@@ -102,5 +102,13 @@ class OptimisedScheduleTest {
     Assertions.assertEquals(schedule.getLatestEndTime(), 350);
   }
 
+  @Test
+  public void Test4ProcNodes_11_OutTree() {
+    Schedule schedule = this.getOutputSchedule("./graphs/Nodes_11_OutTree.dot", 4);
+    Graph graph = TestUtil.loadGraph("./graphs/Nodes_11_OutTree.dot");
+    dotGraphIO.writeOutputDotGraphToConsole(graph.getName(), schedule, graph);
+    ScheduleValidator.validateSchedule(schedule, graph);
+    Assertions.assertEquals(schedule.getLatestEndTime(), 227);
+  }
 
 }
