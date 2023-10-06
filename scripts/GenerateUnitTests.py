@@ -136,18 +136,18 @@ def generate_graphs(input_path: str, input_dot_graph_path: str, test_path: str, 
     input path. It also generates a Java class file with unit tests for each of the graphs in the test path director.
     """
     gxl_file_paths = get_gxl_file_paths(input_path, graph_limit)
-    print(f'Found {len(gxl_file_paths)} gxl files in "{prettify_path(input_path)}"')
+    print(f'Found {len(gxl_file_paths)} GXL files in "{prettify_path(input_path)}"')
 
     graphs: List[Graph] = []
     for index, filename in enumerate(gxl_file_paths):
         graph = Graph(filename)
-        write_input_dot_graph(graph, input_dot_graph_path, index + 1)
+        write_input_dot_graph(graph, input_dot_graph_path, index)
         graphs.append(graph)
 
     create_unit_test_files(graphs, test_path)
 
 
-def write_input_dot_graph(graph: Graph, output_dir: str, position: int) -> None:
+def write_input_dot_graph(graph: Graph, output_dir: str, index: int) -> None:
     """
     Writes the input DOT graph to the given output directory with the filename specified by the id of the
     GXL graph.
@@ -160,8 +160,8 @@ def write_input_dot_graph(graph: Graph, output_dir: str, position: int) -> None:
 
     with open(output_path, 'w') as f:
         # Printing is slow so only print every 100 graphs
-        if (position % 100 == 0):
-            print(f'{position} - Writing input DOT graph to "{prettify_path(output_path)}"')
+        if (index % 100 == 0):
+            print(f'{index} - Writing input DOT graph to "{prettify_path(output_path)}"')
         f.write(graph.to_input_dot_graph() + '\n')
 
 def prettify_path(path: str) -> str:
