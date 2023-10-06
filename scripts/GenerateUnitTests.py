@@ -141,6 +141,9 @@ def generate_graphs(input_path: str, input_dot_graph_path: str, test_path: str, 
     graphs: List[Graph] = []
     for index, filename in enumerate(gxl_file_paths):
         graph = Graph(filename)
+        if (graph.is_heterogenous): # We do not support heterogenous processors
+            continue
+
         write_input_dot_graph(graph, input_dot_graph_path, index)
         graphs.append(graph)
 
