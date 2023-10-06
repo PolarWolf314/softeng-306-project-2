@@ -37,7 +37,7 @@ public class ScheduleValidator {
           .allMatch(edge -> completedTasks.contains(edge.getSource()));
       boolean completedBeforeChildrenStart = task.getOutgoingEdges()
           .stream()
-          .allMatch(edge -> scheduledTasks.get(tasks.indexOf(edge.getDestination())).getStartTime()
+          .allMatch(edge -> scheduledTasks.get(edge.getDestination().getIndex()).getStartTime()
               >= scheduledTask.getEndTime());
 
       Assertions.assertTrue(parentsComplete,
@@ -90,14 +90,14 @@ public class ScheduleValidator {
     for (int i = 0; i < scheduledTasks.size(); i++) {
       ScheduledTask scheduledTask = scheduledTasks.get(i);
       Task task = tasks.get(i);
-      int processCore = scheduledTask.getProcessorIndex();
+      int processorCore = scheduledTask.getProcessorIndex();
 
       for (Edge edge : task.getIncomingEdges()) {
         Task parent = edge.getSource();
-        ScheduledTask scheduledParent = scheduledTasks.get(tasks.indexOf(parent));
+        ScheduledTask scheduledParent = scheduledTasks.get(parent.getIndex());
 
-        int processSource = scheduledParent.getProcessorIndex();
-        int transferTime = processCore == processSource ? 0 : edge.getWeight();
+        int processorSource = scheduledParent.getProcessorIndex();
+        int transferTime = processorCore == processorSource ? 0 : edge.getWeight();
 
         Assertions.assertTrue(
             scheduledTask.getStartTime() >= scheduledParent.getEndTime() + transferTime,
@@ -106,13 +106,13 @@ public class ScheduleValidator {
                 task.getLabel(), parent.getLabel(), scheduledTask.getStartTime()));
       }
 
-      int currentCoreValue = processors.get(processCore);
+      int currentCoreValue = processors.get(processorCore);
 
       Assertions.assertTrue(currentCoreValue <= scheduledTask.getStartTime(),
           String.format("Invalid Schedule: Task %s overlaps with another task on processor %d",
-              task.getLabel(), processCore));
+              task.getLabel(), processorCore));
 
-      processors.put(processCore, scheduledTask.getEndTime());
+      processors.put(processorCore, scheduledTask.getEndTime());
     }
   }
 
