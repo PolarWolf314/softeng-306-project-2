@@ -67,7 +67,7 @@ public class Schedule {
 
     // check if any children are ready
     for (Task child : task.getChildTasks()) {
-      if (isTaskReady(newScheduledTasks, newReadyTasks, child)) {
+      if (isTaskReady(newScheduledTasks, child)) {
         newReadyTasks.add(child);
       }
     }
@@ -82,8 +82,7 @@ public class Schedule {
     );
   }
 
-  private boolean isTaskReady(ScheduledTask[] newScheduledTasks, Set<Task> newReadyTasks,
-      Task child) {
+  private boolean isTaskReady(ScheduledTask[] newScheduledTasks, Task child) {
     for (Edge incomingEdge : child.getIncomingEdges()) {
       if (newScheduledTasks[incomingEdge.getSource().getIndex()] == null) {
         return false;
