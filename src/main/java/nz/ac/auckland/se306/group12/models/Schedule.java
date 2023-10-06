@@ -1,8 +1,8 @@
 package nz.ac.auckland.se306.group12.models;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -23,7 +23,7 @@ public class Schedule {
   private final int latestEndTime;
   private final int scheduledTaskCount;
   // Could consider storing readyTaskIndex, but only once task lookup is O(1)
-  private final Set<Task> readyTasks;
+  private final List<Task> readyTasks;
 
   /**
    * A constructor for creating a new schedule
@@ -37,7 +37,7 @@ public class Schedule {
     this.processorEndTimes = new int[processorCount];
     this.scheduledTaskCount = 0;
     this.latestEndTime = 0;
-    this.readyTasks = new HashSet<>();
+    this.readyTasks = new ArrayList<>();
     // Add all source tasks as a ready task
     for (Task task : taskGraph.getTasks()) {
       if (task.getParentTasks().size() == 0) {
@@ -58,7 +58,7 @@ public class Schedule {
         this.scheduledTasks.length);
     int[] newProcessorEndTimes = Arrays.copyOf(this.processorEndTimes,
         this.processorEndTimes.length);
-    Set<Task> newReadyTasks = new HashSet<>(this.readyTasks);
+    List<Task> newReadyTasks = new ArrayList<>(this.readyTasks);
 
     newScheduledTasks[task.getIndex()] = scheduledTask;
     newProcessorEndTimes[scheduledTask.getProcessorIndex()] = scheduledTask.getEndTime();
