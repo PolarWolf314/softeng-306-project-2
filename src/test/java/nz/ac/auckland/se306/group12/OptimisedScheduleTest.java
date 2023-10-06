@@ -1,6 +1,5 @@
 package nz.ac.auckland.se306.group12;
 
-import java.io.File;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
@@ -17,16 +16,9 @@ class OptimisedScheduleTest {
   private final DotGraphIO dotGraphIO = new DotGraphIO();
 
   private Schedule getOutputSchedule(String pathFromProjectRoot, int processorCount) {
-    try {
-      Graph graph = this.dotGraphIO.readDotGraph(new File(pathFromProjectRoot));
-
-      Scheduler scheduler = new DfsScheduler();
-      return scheduler.schedule(graph, processorCount);
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.exit(1);
-    }
-    return null;
+    Graph graph = TestUtil.loadGraph(pathFromProjectRoot);
+    Scheduler scheduler = new DfsScheduler();
+    return scheduler.schedule(graph, processorCount);
   }
 
   @Test
