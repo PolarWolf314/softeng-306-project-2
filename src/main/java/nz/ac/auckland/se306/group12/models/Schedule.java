@@ -126,8 +126,7 @@ public class Schedule {
   }
 
   private int getProcessorCount() {
-    int processorCount = processorEndTimes.length;
-    return processorCount;
+    return processorEndTimes.length;
   }
 
 }
