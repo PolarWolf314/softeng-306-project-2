@@ -54,6 +54,15 @@ public class AnsiEscapeSequenceBuilder {
     return this;
   }
 
+  public AnsiEscapeSequenceBuilder background(int colorCode8Bit) {
+    if (colorCode8Bit < 0 || colorCode8Bit > 255) {
+      throw new InvalidColorException("%d is not a valid colour code in 256-colour mode.");
+    }
+    stringBuilder.append("48").append(SEPARATOR)
+        .append(colorCode8Bit).append(SEPARATOR);
+    return this;
+  }
+
   public AnsiEscapeSequenceBuilder background(int r, int g, int b) {
     stringBuilder.append("48").append(SEPARATOR)
         .append(r).append(SEPARATOR)
