@@ -100,7 +100,6 @@ public class Schedule {
    * @return Array of latest start times for the task on each processor
    */
   public int[] getLatestStartTimesOf(Task task) {
-    // Find the latest start time for the task on each processor
     int[] latestStartTimes = new int[getProcessorCount()];
 
     // Loop through all parent tasks
