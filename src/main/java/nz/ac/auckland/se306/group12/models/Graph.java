@@ -14,8 +14,8 @@ import lombok.ToString;
 import nz.ac.auckland.se306.group12.exceptions.DanglingEdgeException;
 import nz.ac.auckland.se306.group12.exceptions.IllegalEdgeWeightException;
 
-/*
- * Graph class represents a graph of tasks and their dependences to create a schedule
+/**
+ * Represents a graph of tasks and their dependences to create a schedule
  */
 @Getter
 @ToString

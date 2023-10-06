@@ -27,12 +27,12 @@ public class TopologicalSorter {
    */
   public List<Task> getATopologicalOrder(Graph graph) {
     Set<Task> visited = new HashSet<>(graph.taskCount());
-    List<Task> list = new ArrayList<>();
+    List<Task> list = new ArrayList<>(graph.taskCount());
 
     // Iterate through all the nodes in the graph and call the recursive helper function
     for (Task task : graph.getTasks()) {
       if (!visited.contains(task)) {
-        TopologicalSortUtil(task, visited, list);
+        topologicalSortUtil(task, visited, list);
       }
     }
 
@@ -52,13 +52,13 @@ public class TopologicalSorter {
    * @param visited A set of nodes that have already been visited.
    * @param list    The list of tasks in a topological order.
    */
-  private void TopologicalSortUtil(Task task, Set<Task> visited, List<Task> list) {
+  private void topologicalSortUtil(Task task, Set<Task> visited, List<Task> list) {
     visited.add(task);
     // Recursively call this function for all the children that haven't been visited yet
     for (Edge edge : task.getOutgoingEdges()) {
       Task destination = edge.getDestination();
       if (!visited.contains(destination)) {
-        TopologicalSortUtil(destination, visited, list);
+        topologicalSortUtil(destination, visited, list);
       }
     }
     list.add(task);
