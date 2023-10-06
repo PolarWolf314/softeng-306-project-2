@@ -37,7 +37,7 @@ public class ScheduleValidator {
           .allMatch(edge -> completedTasks.contains(edge.getSource()));
       boolean completedBeforeChildrenStart = task.getOutgoingEdges()
           .stream()
-          .allMatch(edge -> scheduledTasks.get(edge.getDestination().getIndex()).getStartTime()
+          .allMatch(edge -> scheduledTasks.get(tasks.indexOf(edge.getDestination())).getStartTime()
               >= scheduledTask.getEndTime());
 
       Assertions.assertTrue(parentsComplete,
@@ -70,13 +70,18 @@ public class ScheduleValidator {
     }
 
     // Sorts tasks and scheduledTasks by the startTime
-    List<Task> tasks = taskMapper.entrySet().stream()
-        .sorted(Comparator.comparingInt(entry -> entry.getValue().getStartTime()))
-        .map(Entry::getKey).toList();
+    List<Task> tasks = taskMapper.entrySet()
+        .stream()
+        .sorted(Comparator
+            .comparingInt(entry -> entry.getValue().getStartTime()))
+        .map(Entry::getKey)
+        .toList();
 
-    List<ScheduledTask> scheduledTasks = taskMapper.entrySet().stream()
-        .sorted(Comparator.comparingInt(entry -> entry.getValue().getStartTime()))
-        .map(Entry::getValue).toList();
+    List<ScheduledTask> scheduledTasks = taskMapper.values()
+        .stream()
+        .sorted(Comparator
+            .comparingInt(ScheduledTask::getStartTime))
+        .toList();
 
     Assertions.assertEquals(graph.getTasks().size(), scheduledTasks.size(),
         String.format(
@@ -94,7 +99,7 @@ public class ScheduleValidator {
 
       for (Edge edge : task.getIncomingEdges()) {
         Task parent = edge.getSource();
-        ScheduledTask scheduledParent = scheduledTasks.get(parent.getIndex());
+        ScheduledTask scheduledParent = scheduledTasks.get(tasks.indexOf(parent));
 
         int processorSource = scheduledParent.getProcessorIndex();
         int transferTime = processorCore == processorSource ? 0 : edge.getWeight();
