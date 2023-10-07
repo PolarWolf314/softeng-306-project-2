@@ -3,6 +3,7 @@ package nz.ac.auckland.se306.group12;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Task;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 class TopologicalSortTest {
 
   private final TopologicalSorter sorter = new TopologicalSorter();
+  private final DotGraphIO dotGraphIO = new DotGraphIO();
 
   /**
    * Checks if a topological order returned by a graph is valid by iterating through each node in
@@ -45,6 +47,7 @@ class TopologicalSortTest {
   @Test
   void testTrivialGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test1.dot");
+
     checkGraphTopologicalOrder(graph);
   }
 
@@ -54,6 +57,7 @@ class TopologicalSortTest {
   @Test
   void testDisjointGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test_disjoint_graphs.dot");
+
     checkGraphTopologicalOrder(graph);
   }
 
@@ -63,6 +67,8 @@ class TopologicalSortTest {
   @Test
   void testAnnoyingGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
+    System.out.println(graph);
+    graph.setBottomLevels();
     checkGraphTopologicalOrder(graph);
   }
 
@@ -72,6 +78,7 @@ class TopologicalSortTest {
   @Test
   void testMultiplePaths() {
     Graph graph = TestUtil.loadGraph("./graphs/test_unintuitive_shortest_path.dot");
+
     checkGraphTopologicalOrder(graph);
   }
 }

@@ -123,4 +123,9 @@ public class Graph {
     return this.tasks.get(index);
   }
 
+  public void setBottomLevels() {
+    for (Task task : this.getTasks()) {
+      System.out.println(task.getLabel() + ": " + task.findBottomLevel());
+    }
+  }
 }
