@@ -160,12 +160,12 @@ public class TerminalVisualizer implements Visualizer {
       Arrays.fill(row, PROCESSOR_IDLE);
     }
 
+    // "Fill in" Gantt matrix with active tasks based on start times, execution times
     ScheduledTask[] tasks = schedule.getScheduledTasks();
     for (int i = 0, taskCount = schedule.getScheduledTaskCount(); i < taskCount; i++) {
       ScheduledTask task = tasks[i];
       int processorIndex = task.getProcessorIndex();
       for (int time = task.getStartTime(); time < task.getEndTime(); time++) {
-        // "Vertical" Gantt matrix, so columns represent processors
         scheduleMatrix[time][processorIndex] = i;
       }
     }
