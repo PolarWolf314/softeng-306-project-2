@@ -114,6 +114,9 @@ public class TerminalVisualizer implements Visualizer {
         .append(NEW_LINE);
   }
 
+  /**
+   * Adds a solid horizontal line, 80 characters wide, to the output.
+   */
   private void addDivider() {
     // Note: 8-bit fallback colour is `AnsiColor.EIGHT_BIT_COLOR_CUBE[2][0][5]`
     sb.append(new AnsiEscapeSequenceBuilder().foreground(125, 86, 243))
