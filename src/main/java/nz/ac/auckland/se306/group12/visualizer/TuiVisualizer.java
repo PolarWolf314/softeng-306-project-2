@@ -21,8 +21,6 @@ public class TuiVisualizer implements Visualizer {
    */
   @Override
   public void visualize(Schedule schedule) {
-
-    // Status bar
     this.populateStatusBar();
     sb.append(NEW_LINE);
 
@@ -42,6 +40,7 @@ public class TuiVisualizer implements Visualizer {
 
     // Chart body
     int[][] verticalGantt = this.scheduleToVerticalGantt(schedule);
+
     for (int[] unitTime : verticalGantt) {
       for (int activeTaskIndex : unitTime) {
 
@@ -50,9 +49,8 @@ public class TuiVisualizer implements Visualizer {
           sb.append(new AnsiEscapeSequenceBuilder().background(7))
               .append("       ");  // 7 spaces (chart columns are 7ch long, excl. padding)
         } else {
-          // Background colours constrained to SRG codes 196 through 213
           sb.append(new AnsiEscapeSequenceBuilder().foreground(255, 255, 255)
-                  .background(activeTaskIndex % 18 + 196))
+                  .background(AnsiColor.EIGHT_BIT_COLOR_CUBE[activeTaskIndex % 6][0][4]))
               .append(String.format(" %-5d ", activeTaskIndex));
         }
 
