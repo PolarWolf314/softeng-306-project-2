@@ -48,13 +48,15 @@ public class TuiVisualizer implements Visualizer {
         if (activeTaskIndex == -1) {
           // Processor idling
           sb.append(new AnsiEscapeSequenceBuilder().background(7))
-              .append("       ");  // 7 spaces (chart columns are 7ch long, excl. padding)
+              .append("       "); // 7 spaces (chart columns are 7ch long, excl. padding)
         } else {
-          sb.append(new AnsiEscapeSequenceBuilder().foreground(255, 255, 255)
+          sb.append(new AnsiEscapeSequenceBuilder()
+                  .foreground(255, 255, 255)
                   .background(AnsiColor.EIGHT_BIT_COLOR_CUBE[activeTaskIndex % 6][0][4]))
               .append(taskRenderStarted[activeTaskIndex]
                   ? "       "
-                  : String.format(" %-5d ", activeTaskIndex));
+                  : String.format(" %-5.5s ", taskGraph.getTask(activeTaskIndex).getLabel()));
+
           taskRenderStarted[activeTaskIndex] = true;
         }
 
