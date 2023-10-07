@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import lombok.EqualsAndHashCode;
 import lombok.EqualsAndHashCode.Exclude;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import nz.ac.auckland.se306.group12.exceptions.DanglingEdgeException;
 import nz.ac.auckland.se306.group12.exceptions.IllegalEdgeWeightException;
@@ -17,15 +19,19 @@ import nz.ac.auckland.se306.group12.exceptions.IllegalEdgeWeightException;
  */
 @ToString
 @EqualsAndHashCode
+@RequiredArgsConstructor
 public class Graph {
 
-  private final List<Task> tasks = new ArrayList<>();
-  private final Set<Edge> edges = new HashSet<>();
-
-  @Exclude
-  private final Map<String, Integer> taskIndexMap = new HashMap<>();
+  @Getter
   @Exclude
   private final String name;
+
+  @Getter
+  private final List<Task> tasks = new ArrayList<>();
+  @Getter
+  private final Set<Edge> edges = new HashSet<>();
+  @Exclude
+  private final Map<String, Integer> taskIndexMap = new HashMap<>();
 
   public Graph() {
     // Default name, for when the graph name doesn't matter
