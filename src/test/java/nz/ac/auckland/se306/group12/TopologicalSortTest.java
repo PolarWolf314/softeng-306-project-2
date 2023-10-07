@@ -47,7 +47,6 @@ class TopologicalSortTest {
   @Test
   void testTrivialGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test1.dot");
-
     checkGraphTopologicalOrder(graph);
   }
 
@@ -57,7 +56,6 @@ class TopologicalSortTest {
   @Test
   void testDisjointGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test_disjoint_graphs.dot");
-
     checkGraphTopologicalOrder(graph);
   }
 
@@ -67,8 +65,6 @@ class TopologicalSortTest {
   @Test
   void testAnnoyingGraph() {
     Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
-    System.out.println(graph);
-    graph.setBottomLevels();
     checkGraphTopologicalOrder(graph);
   }
 
@@ -78,7 +74,6 @@ class TopologicalSortTest {
   @Test
   void testMultiplePaths() {
     Graph graph = TestUtil.loadGraph("./graphs/test_unintuitive_shortest_path.dot");
-
     checkGraphTopologicalOrder(graph);
   }
 }
