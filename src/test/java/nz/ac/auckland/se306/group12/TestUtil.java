@@ -46,7 +46,7 @@ public class TestUtil {
    * @param expectedGraph The expected graph
    * @param parsedGraph   The parsed graph
    */
-  private void checkGraphEquality(Graph expectedGraph, Graph parsedGraph) {
+  public static void checkGraphEquality(Graph expectedGraph, Graph parsedGraph) {
     Assertions.assertEquals(expectedGraph, parsedGraph);
 
     for (Task task : expectedGraph.getTasks()) {
