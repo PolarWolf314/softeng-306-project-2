@@ -35,10 +35,23 @@ public class Task {
 
   private final int index;
 
+  /**
+   * This method should not be used in performance sensitive areas as it recreates the entire
+   * incomingEdges as a new set
+   * 
+   * @return the set of tasks that are parents of this task
+   */
+
   public Set<Task> getParentTasks() {
     return incomingEdges.stream().map(Edge::getSource).collect(Collectors.toUnmodifiableSet());
   }
 
+  /**
+   * This method should not be used in performance sensitive areas as it recreates the entire
+   * outgoingEdges as a new set
+   * 
+   * @return the set of tasks that are children of this task
+   */
   public Set<Task> getChildTasks() {
     return outgoingEdges.stream().map(Edge::getDestination).collect(Collectors.toUnmodifiableSet());
   }
