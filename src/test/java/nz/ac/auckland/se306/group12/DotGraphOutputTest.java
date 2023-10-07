@@ -153,4 +153,45 @@ public class DotGraphOutputTest {
 
     Assertions.assertEquals(expectedDotGraph, actualDotGraph);
   }
+
+  /**
+   * Test that the dot graph output is correct for multiple processors when given a graph with no
+   * edges
+   */
+  @Test
+  public void testMultiProcessorIsolatedTasksGraphTest() {
+    String expectedDotGraph = """
+        digraph "test2-output" {
+        A [Weight=2,Start=0,Processor=1];
+        B [Weight=3,Start=2,Processor=1];
+        C [Weight=1,Start=8,Processor=2];
+        D [Weight=4,Start=11,Processor=3];
+        E [Weight=2,Start=16,Processor=4];
+        }
+        """;
+
+    Graph actualGraph = new Graph();
+    actualGraph.addNode("A", 2);
+    actualGraph.addNode("B", 3);
+    actualGraph.addNode("C", 1);
+    actualGraph.addNode("D", 4);
+    actualGraph.addNode("E", 2);
+
+    ScheduledTask taskA = new ScheduledTask(0, 2, 0);
+    ScheduledTask taskB = new ScheduledTask(2, 5, 0);
+    ScheduledTask taskC = new ScheduledTask(8, 9, 1);
+    ScheduledTask taskD = new ScheduledTask(11, 15, 2);
+    ScheduledTask taskE = new ScheduledTask(16, 18, 3);
+
+    Schedule actualSchedule = new Schedule(5, 4);
+    actualSchedule = actualSchedule.extendWithTask(taskA, 0);
+    actualSchedule = actualSchedule.extendWithTask(taskB, 1);
+    actualSchedule = actualSchedule.extendWithTask(taskC, 2);
+    actualSchedule = actualSchedule.extendWithTask(taskD, 3);
+    actualSchedule = actualSchedule.extendWithTask(taskE, 4);
+
+    String actualDotGraph = dotGraphIO.toDotString("test2-output", actualSchedule, actualGraph);
+
+    Assertions.assertEquals(expectedDotGraph, actualDotGraph);
+  }
 }
