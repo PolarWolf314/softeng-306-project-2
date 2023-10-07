@@ -43,7 +43,7 @@ public class TuiVisualizer implements Visualizer {
     this.updateGanttChart(schedule);
     sb.append(NEW_LINE);
 
-    this.addDivider(); // Buttom border
+    this.addDivider(); // Bottom border
 
     System.out.println(sb);
   }
