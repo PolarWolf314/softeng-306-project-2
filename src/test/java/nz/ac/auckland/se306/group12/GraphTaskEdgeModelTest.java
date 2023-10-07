@@ -63,8 +63,8 @@ class GraphTaskEdgeModelTest {
     Graph graph1 = new Graph();
     Graph graph2 = new Graph();
 
-    graph1.addNode("a", 1);
-    graph2.addNode("a", 1);
+    graph1.addTask("a", 1);
+    graph2.addTask("a", 1);
     Assertions.assertEquals(graph1, graph2);
   }
 
@@ -76,8 +76,8 @@ class GraphTaskEdgeModelTest {
     Graph graph1 = new Graph();
     Graph graph2 = new Graph();
 
-    graph1.addNode("a", 1);
-    graph2.addNode("b", 1);
+    graph1.addTask("a", 1);
+    graph2.addTask("b", 1);
 
     Assertions.assertNotEquals(graph1, graph2);
   }
@@ -90,11 +90,11 @@ class GraphTaskEdgeModelTest {
     Graph graph1 = new Graph();
     Graph graph2 = new Graph();
 
-    graph1.addNode("a", 1);
-    graph2.addNode("a", 1);
+    graph1.addTask("a", 1);
+    graph2.addTask("a", 1);
 
-    graph1.addNode("b", 2);
-    graph2.addNode("b", 2);
+    graph1.addTask("b", 2);
+    graph2.addTask("b", 2);
 
     graph1.addEdge("a", "b", 1);
     graph2.addEdge("a", "b", 1);
@@ -110,14 +110,14 @@ class GraphTaskEdgeModelTest {
     Graph graph1 = new Graph();
     Graph graph2 = new Graph();
 
-    graph1.addNode("a", 1);
-    graph2.addNode("a", 1);
+    graph1.addTask("a", 1);
+    graph2.addTask("a", 1);
 
-    graph1.addNode("b", 2);
-    graph2.addNode("b", 2);
+    graph1.addTask("b", 2);
+    graph2.addTask("b", 2);
 
-    graph1.addNode("c", 2);
-    graph2.addNode("c", 2);
+    graph1.addTask("c", 2);
+    graph2.addTask("c", 2);
 
     graph1.addEdge("a", "b", 1);
     graph2.addEdge("a", "c", 1);

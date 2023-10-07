@@ -76,6 +76,7 @@ class Graph:
 
         attributes = parse_attributes(graph)
         self.optimal_schedule_end_time: int = attributes['Total schedule length']
+        self.is_heterogenous = attributes['TargetSystem'].startswith('Heterogeneous')
 
         self.nodes: List[Node] = []
         self.edges: List[Edge] = []
@@ -89,7 +90,7 @@ class Graph:
             self.edges.append(edge)
 
         # Determine the number of unique processors in this graph
-        self.processor_count = len(set([node.processor_index for node in self.nodes]))
+        self.processor_count = max([node.processor_index for node in self.nodes]) + 1
 
     def get_filename(self) -> str:
         """
@@ -112,6 +113,10 @@ class Graph:
         processor_end_times = [0 for _ in range(self.processor_count)]
 
         for node in self.nodes:
+            if node.processor_index >= len(processor_end_times):
+                print(f'❗ Processor index out of bounds for graph {self.name}')
+                return processor_end_times
+
             processor_end_times[node.processor_index] = max(
                 processor_end_times[node.processor_index], node.finish_time)
 

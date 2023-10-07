@@ -1,8 +1,8 @@
 package nz.ac.auckland.se306.group12.models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,31 +14,28 @@ import lombok.ToString;
 import nz.ac.auckland.se306.group12.exceptions.DanglingEdgeException;
 import nz.ac.auckland.se306.group12.exceptions.IllegalEdgeWeightException;
 
-/*
- * Graph class represents a graph of tasks and their dependences to create a schedule
+/**
+ * Represents a graph of tasks and their dependences to create a schedule
  */
-@Getter
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor
 public class Graph {
 
-  private final Map<String, Task> tasks = new LinkedHashMap<>();
-  private final Set<Edge> edges = new HashSet<>();
-
+  @Getter
   @Exclude
   private final String name;
+
+  @Getter
+  private final List<Task> tasks = new ArrayList<>();
+  @Getter
+  private final Set<Edge> edges = new HashSet<>();
+  @Exclude
+  private final Map<String, Integer> taskIndexMap = new HashMap<>();
 
   public Graph() {
     // Default name, for when the graph name doesn't matter
     this.name = "Graph";
-  }
-
-  /**
-   * @return The tasks in this graph in a {@link List}
-   */
-  public List<Task> getTasks() {
-    return new ArrayList<>(this.tasks.values());
   }
 
   /**
@@ -56,7 +53,7 @@ public class Graph {
    * @param weight      The weight of the edge, representing communication cost
    */
   public void addEdge(String source, String destination, int weight) {
-    Task sourceTask = this.tasks.get(source);
+    Task sourceTask = this.getTask(source);
     if (sourceTask == null) {
       throw new DanglingEdgeException(String.format(
           "Cannot add edge (%s, %s) because node %s doesn't exist in the task graph.",
@@ -66,7 +63,7 @@ public class Graph {
       );
     }
 
-    Task destinationTask = this.tasks.get(destination);
+    Task destinationTask = this.getTask(destination);
     if (destinationTask == null) {
       throw new DanglingEdgeException(String.format(
           "Cannot add edge (%s, %s) because node %s doesn't exist in the task graph.",
@@ -88,13 +85,42 @@ public class Graph {
   }
 
   /**
-   * Adds a node to the graph with the given label and weight.
+   * Adds a task to the graph with the given label and weight.
    *
-   * @param nodeLabel The task's label
-   * @param weight    The node weight, representing the task's execution time
+   * @param taskLabel The task's label
+   * @param weight    The task's weight, representing the execution time of the task
    */
-  public void addNode(String nodeLabel, int weight) {
-    this.tasks.put(nodeLabel, new Task(nodeLabel, weight, this.tasks.size()));
+  public void addTask(String taskLabel, int weight) {
+    int index = this.tasks.size();
+    this.tasks.add(new Task(taskLabel, weight, index));
+    this.taskIndexMap.put(taskLabel, index);
+  }
+
+  /**
+   * Retrieves a task from the graph by its label. If no task with that label exists in the graph,
+   * null is returned.
+   *
+   * @param label The label of the task to retrieve
+   * @return The task with the given label, or null if no such task exists
+   */
+  public Task getTask(String label) {
+    if (!this.taskIndexMap.containsKey(label)) {
+      return null;
+    }
+
+    int index = this.taskIndexMap.get(label);
+    return this.getTask(index);
+  }
+
+  /**
+   * Retrieves a task from the graph by its index.
+   *
+   * @param index The index of the task to retrieve
+   * @return The task with the given index
+   * @throws IndexOutOfBoundsException If there is no task with the given index
+   */
+  public Task getTask(int index) {
+    return this.tasks.get(index);
   }
 
 }

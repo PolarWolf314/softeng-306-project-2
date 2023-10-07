@@ -3,35 +3,16 @@ package nz.ac.auckland.se306.group12;
 import java.io.File;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Graph;
-import nz.ac.auckland.se306.group12.models.Task;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class DotGraphInputTest {
 
   private final DotGraphIO dotGraphIO = new DotGraphIO();
 
-  /**
-   * Check that the two graphs are equal including the edges and nodes and the incoming and outgoing
-   * edges of all the nodes
-   *
-   * @param expectedGraph The expected graph
-   * @param parsedGraph   The parsed graph
-   */
-  private void checkGraphEquality(Graph expectedGraph, Graph parsedGraph) {
-    Assertions.assertEquals(expectedGraph, parsedGraph);
-
-    for (Task task : expectedGraph.getTasks()) {
-      Task parsedTask = parsedGraph.getTasks().get(task.getIndex());
-      Assertions.assertEquals(task.getIncomingEdges(), parsedTask.getIncomingEdges());
-      Assertions.assertEquals(task.getOutgoingEdges(), parsedTask.getOutgoingEdges());
-    }
-  }
-
   private void runTestWithFile(Graph expectedGraph, String pathFromProjectRoot) {
     try {
       Graph graph = this.dotGraphIO.readDotGraph(new File(pathFromProjectRoot));
-      this.checkGraphEquality(expectedGraph, graph);
+      TestUtil.checkGraphEquality(expectedGraph, graph);
     } catch (Exception e) {
       e.printStackTrace();
       System.exit(1);
@@ -45,11 +26,11 @@ class DotGraphInputTest {
   public void test1Test() {
     Graph expectedGraph = new Graph();
 
-    expectedGraph.addNode("A", 2);
-    expectedGraph.addNode("B", 3);
-    expectedGraph.addNode("C", 1);
-    expectedGraph.addNode("D", 4);
-    expectedGraph.addNode("E", 2);
+    expectedGraph.addTask("A", 2);
+    expectedGraph.addTask("B", 3);
+    expectedGraph.addTask("C", 1);
+    expectedGraph.addTask("D", 4);
+    expectedGraph.addTask("E", 2);
 
     expectedGraph.addEdge("A", "B", 1);
     expectedGraph.addEdge("B", "C", 3);
@@ -66,12 +47,12 @@ class DotGraphInputTest {
   public void test2FileTest() {
     Graph expectedGraph = new Graph();
 
-    expectedGraph.addNode("A", 2);
-    expectedGraph.addNode("B", 3);
-    expectedGraph.addNode("C", 1);
-    expectedGraph.addNode("D", 4);
-    expectedGraph.addNode("E", 2);
-    expectedGraph.addNode("F", 3);
+    expectedGraph.addTask("A", 2);
+    expectedGraph.addTask("B", 3);
+    expectedGraph.addTask("C", 1);
+    expectedGraph.addTask("D", 4);
+    expectedGraph.addTask("E", 2);
+    expectedGraph.addTask("F", 3);
 
     expectedGraph.addEdge("A", "B", 1);
     expectedGraph.addEdge("B", "C", 2);
@@ -89,16 +70,16 @@ class DotGraphInputTest {
   public void testAnnoyingTest() {
     Graph expectedGraph = new Graph();
 
-    expectedGraph.addNode("A", 2);
-    expectedGraph.addNode("B", 3);
-    expectedGraph.addNode("C", 1);
-    expectedGraph.addNode("D", 4);
-    expectedGraph.addNode("E", 2);
-    expectedGraph.addNode("F", 3);
-    expectedGraph.addNode("G", 5);
-    expectedGraph.addNode("H", 2);
-    expectedGraph.addNode("I", 2);
-    expectedGraph.addNode("J", 7);
+    expectedGraph.addTask("A", 2);
+    expectedGraph.addTask("B", 3);
+    expectedGraph.addTask("C", 1);
+    expectedGraph.addTask("D", 4);
+    expectedGraph.addTask("E", 2);
+    expectedGraph.addTask("F", 3);
+    expectedGraph.addTask("G", 5);
+    expectedGraph.addTask("H", 2);
+    expectedGraph.addTask("I", 2);
+    expectedGraph.addTask("J", 7);
 
     expectedGraph.addEdge("A", "C", 1);
     expectedGraph.addEdge("B", "C", 2);
@@ -121,11 +102,11 @@ class DotGraphInputTest {
   public void testMultipleParentsTest() {
     Graph expectedGraph = new Graph();
 
-    expectedGraph.addNode("A", 2);
-    expectedGraph.addNode("B", 3);
-    expectedGraph.addNode("C", 1);
-    expectedGraph.addNode("D", 4);
-    expectedGraph.addNode("E", 2);
+    expectedGraph.addTask("A", 2);
+    expectedGraph.addTask("B", 3);
+    expectedGraph.addTask("C", 1);
+    expectedGraph.addTask("D", 4);
+    expectedGraph.addTask("E", 2);
 
     expectedGraph.addEdge("A", "B", 1);
     expectedGraph.addEdge("A", "C", 3);

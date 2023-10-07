@@ -42,4 +42,11 @@ tasks.shadowJar {
 
 tasks.test {
     useJUnitPlatform()
+
+    // https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
+    // This is always set to true when running via GitHub Actions.
+    if (System.getenv("GITHUB_ACTIONS") == "true") {
+        // Don't run the generated tests as this may cause us to run out of GitHub workflow minutes.
+        exclude("**/optimal/**")
+    }
 }

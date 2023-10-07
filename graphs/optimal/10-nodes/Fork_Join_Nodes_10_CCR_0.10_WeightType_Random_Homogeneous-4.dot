@@ -1,0 +1,28 @@
+digraph "Fork_Join_Nodes_10_CCR_0.10_WeightType_Random_Homogeneous-4" {
+0 [Weight=41];
+1 [Weight=137];
+7 [Weight=137];
+3 [Weight=123];
+2 [Weight=110];
+5 [Weight=110];
+6 [Weight=82];
+8 [Weight=55];
+4 [Weight=27];
+9 [Weight=27];
+0 -> 8 [Weight=9];
+0 -> 7 [Weight=3];
+6 -> 9 [Weight=6];
+0 -> 1 [Weight=10];
+3 -> 9 [Weight=10];
+0 -> 6 [Weight=2];
+7 -> 9 [Weight=2];
+0 -> 3 [Weight=2];
+5 -> 9 [Weight=6];
+8 -> 9 [Weight=8];
+2 -> 9 [Weight=6];
+0 -> 5 [Weight=2];
+0 -> 4 [Weight=4];
+4 -> 9 [Weight=2];
+1 -> 9 [Weight=6];
+0 -> 2 [Weight=7];
+}

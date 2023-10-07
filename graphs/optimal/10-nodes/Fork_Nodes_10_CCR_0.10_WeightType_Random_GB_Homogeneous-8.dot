@@ -1,0 +1,21 @@
+digraph "Fork_Nodes_10_CCR_0.10_WeightType_Random_GB_Homogeneous-8" {
+0 [Weight=96];
+3 [Weight=67];
+4 [Weight=67];
+6 [Weight=58];
+7 [Weight=48];
+8 [Weight=48];
+9 [Weight=48];
+5 [Weight=29];
+1 [Weight=19];
+2 [Weight=19];
+0 -> 5 [Weight=6];
+0 -> 4 [Weight=8];
+0 -> 8 [Weight=3];
+0 -> 3 [Weight=4];
+0 -> 7 [Weight=3];
+0 -> 9 [Weight=7];
+0 -> 1 [Weight=8];
+0 -> 2 [Weight=9];
+0 -> 6 [Weight=2];
+}

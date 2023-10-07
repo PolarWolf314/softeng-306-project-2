@@ -1,0 +1,32 @@
+digraph "Random_Nodes_10_Density_2.00_CCR_1.02_WeightType_Random_GB_Homogeneous-4" {
+0 [Weight=12];
+1 [Weight=10];
+2 [Weight=21];
+4 [Weight=14];
+3 [Weight=8];
+7 [Weight=8];
+8 [Weight=8];
+5 [Weight=17];
+9 [Weight=14];
+6 [Weight=12];
+0 -> 8 [Weight=9];
+8 -> 9 [Weight=6];
+0 -> 2 [Weight=4];
+1 -> 4 [Weight=9];
+1 -> 2 [Weight=4];
+4 -> 7 [Weight=6];
+7 -> 8 [Weight=6];
+2 -> 6 [Weight=5];
+0 -> 3 [Weight=6];
+2 -> 7 [Weight=8];
+4 -> 6 [Weight=8];
+2 -> 4 [Weight=7];
+3 -> 8 [Weight=3];
+0 -> 5 [Weight=5];
+0 -> 7 [Weight=10];
+1 -> 9 [Weight=9];
+4 -> 8 [Weight=10];
+3 -> 7 [Weight=7];
+4 -> 9 [Weight=2];
+2 -> 9 [Weight=2];
+}
