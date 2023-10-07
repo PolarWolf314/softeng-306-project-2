@@ -69,7 +69,7 @@ public class TuiVisualizer implements Visualizer {
               .append("       "); // 7 spaces (chart columns are 7ch long, excl. padding)
         } else {
           sb.append(new AnsiEscapeSequenceBuilder().bold()
-                  .foreground(255, 255, 255)
+                  .foreground(AnsiColor.EIGHT_BIT_COLOR_CUBE[5][5][5])
                   .background(AnsiColor.EIGHT_BIT_COLOR_CUBE[activeTaskIndex % 6][0][4]))
               .append(taskRenderStarted[activeTaskIndex]
                   ? "       "
@@ -99,6 +99,7 @@ public class TuiVisualizer implements Visualizer {
   }
 
   private void addDivider() {
+    // Note: 8-bit fallback colour is `AnsiColor.EIGHT_BIT_COLOR_CUBE[2][0][5]`
     sb.append(new AnsiEscapeSequenceBuilder().foreground(125, 86, 243))
         .append("────────────────────────────────────────────────────────────────────────────────")
         .append(new AnsiEscapeSequenceBuilder().reset())
