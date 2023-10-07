@@ -27,7 +27,7 @@ public class Schedule {
   /**
    * A constructor for creating a new schedule
    *
-   * @param taskCount      The number of tasks in the schedule
+   * @param taskGraph      The task graph being scheduled
    * @param processorCount The number of processors in the schedule
    */
 
