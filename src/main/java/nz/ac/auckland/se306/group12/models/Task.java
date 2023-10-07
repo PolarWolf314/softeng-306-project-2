@@ -38,22 +38,42 @@ public class Task {
   /**
    * This method should not be used in performance sensitive areas as it recreates the entire
    * incomingEdges as a new set
-   * 
+   *
    * @return the set of tasks that are parents of this task
    */
 
   public Set<Task> getParentTasks() {
-    return incomingEdges.stream().map(Edge::getSource).collect(Collectors.toUnmodifiableSet());
+    return this.incomingEdges
+        .stream()
+        .map(Edge::getSource)
+        .collect(Collectors.toUnmodifiableSet());
   }
 
   /**
    * This method should not be used in performance sensitive areas as it recreates the entire
    * outgoingEdges as a new set
-   * 
+   *
    * @return the set of tasks that are children of this task
    */
   public Set<Task> getChildTasks() {
-    return outgoingEdges.stream().map(Edge::getDestination).collect(Collectors.toUnmodifiableSet());
+    return this.outgoingEdges
+        .stream()
+        .map(Edge::getDestination)
+        .collect(Collectors.toUnmodifiableSet());
+  }
+
+  /**
+   * @return {@code true} if this task has no parent tasks (dependences), {@code false} otherwise.
+   */
+  public boolean isSource() {
+    return this.incomingEdges.isEmpty();
+  }
+
+  /**
+   * @return {@code true} if this task has no child tasks (dependents), {@code false} otherwise.
+   */
+  public boolean isSink() {
+    return this.outgoingEdges.isEmpty();
   }
 
 }
