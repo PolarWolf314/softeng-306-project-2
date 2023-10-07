@@ -41,6 +41,7 @@ public class TuiVisualizer implements Visualizer {
     // Chart body
     int[][] verticalGantt = this.scheduleToVerticalGantt(schedule);
 
+    boolean[] taskRenderStarted = new boolean[schedule.getScheduledTaskCount()];
     for (int[] unitTime : verticalGantt) {
       for (int activeTaskIndex : unitTime) {
 
@@ -51,7 +52,10 @@ public class TuiVisualizer implements Visualizer {
         } else {
           sb.append(new AnsiEscapeSequenceBuilder().foreground(255, 255, 255)
                   .background(AnsiColor.EIGHT_BIT_COLOR_CUBE[activeTaskIndex % 6][0][4]))
-              .append(String.format(" %-5d ", activeTaskIndex));
+              .append(taskRenderStarted[activeTaskIndex]
+                  ? "       "
+                  : String.format(" %-5d ", activeTaskIndex));
+          taskRenderStarted[activeTaskIndex] = true;
         }
 
         sb.append(new AnsiEscapeSequenceBuilder().reset()).append(" "); // Padding between columns
