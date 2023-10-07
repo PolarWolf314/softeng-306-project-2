@@ -2,6 +2,15 @@ package nz.ac.auckland.se306.group12.visualizer;
 
 import nz.ac.auckland.se306.group12.exceptions.InvalidColorException;
 
+/**
+ * A helper class for building ANSI escape sequences (or control sequences) to be used as in-band
+ * formatting signals when outputting to console. This class has particular focus on <a
+ * href="https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters"
+ * >Select Graphic Rendition</a> (SGA) parameters.
+ * <p>
+ * All methods in this builder class (except {@link AnsiEscapeSequenceBuilder#toString()}) return
+ * the object on which it was called (i.e. {@code this}), so calls may be chained.
+ */
 public class AnsiEscapeSequenceBuilder {
 
   private static final String CONTROL_SEQUENCE_INTRODUCER = "\033[";
