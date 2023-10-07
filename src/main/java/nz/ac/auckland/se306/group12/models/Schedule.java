@@ -22,7 +22,6 @@ public class Schedule {
   private final int[] processorEndTimes;
   private final int latestEndTime;
   private final int scheduledTaskCount;
-  // Could consider storing readyTaskIndex, but only once task lookup is O(1)
   private final List<Task> readyTasks;
 
   /**
@@ -73,6 +72,14 @@ public class Schedule {
     );
   }
 
+  /**
+   * This method returns a list of tasks that are ready to be scheduled based on the current task
+   * being scheduled
+   *
+   * @param task              The task that is being scheduled
+   * @param newScheduledTasks List of scheduled tasks representing the schedule at the next state
+   * @return List of tasks that are ready to be scheduled
+   */
   private List<Task> getNewReadyTasks(Task task, ScheduledTask[] newScheduledTasks) {
     List<Task> newReadyTasks = new ArrayList<>(this.readyTasks);
     for (Edge outEdge : task.getOutgoingEdges()) {
@@ -85,6 +92,17 @@ public class Schedule {
     return newReadyTasks;
   }
 
+  /**
+   * This method checks if a task is ready to be scheduled
+   * <p>
+   * While this method checks through all incoming edges, the profiler shows that this method has
+   * low impact on performance even though there are possible alternatives such as decrementing a
+   * counter that counts the number of parents 1that have not been scheduled yet.
+   *
+   * @param newScheduledTasks List of scheduled tasks representing the schedule at the next state
+   * @param child             Child task to be checked if ready
+   * @return True if the task is ready to be scheduled, false otherwise
+   */
   private boolean isTaskReady(ScheduledTask[] newScheduledTasks, Task child) {
     for (Edge incomingEdge : child.getIncomingEdges()) {
       if (newScheduledTasks[incomingEdge.getSource().getIndex()] == null) {
@@ -97,8 +115,7 @@ public class Schedule {
   /**
    * This method finds the latest start time for a task on each processor
    *
-   * @param processorCount Number of processors
-   * @param task           Task to find the latest start time for
+   * @param task Task to find the latest start time for
    * @return Array of latest start times for the task on each processor
    */
   public int[] getLatestStartTimesOf(Task task) {
@@ -126,6 +143,11 @@ public class Schedule {
     return latestStartTimes;
   }
 
+  /**
+   * This method returns the number of processors in the schedule
+   * 
+   * @return The number of processors in the schedule
+   */
   private int getProcessorCount() {
     return processorEndTimes.length;
   }
