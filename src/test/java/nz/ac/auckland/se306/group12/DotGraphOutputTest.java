@@ -27,6 +27,12 @@ public class DotGraphOutputTest {
     }
   }
 
+  /**
+   * Checks a given graph against the graph parsed from the given file
+   *
+   * @param expectedGraph       The expected graph
+   * @param pathFromProjectRoot The path to the file from the project root
+   */
   private void runTestWithFile(Graph expectedGraph, String pathFromProjectRoot) {
     try {
       Graph graph = this.dotGraphIO.readDotGraph(new File(pathFromProjectRoot));
