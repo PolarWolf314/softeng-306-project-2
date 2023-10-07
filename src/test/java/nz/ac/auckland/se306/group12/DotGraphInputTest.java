@@ -22,7 +22,7 @@ class DotGraphInputTest {
     Assertions.assertEquals(expectedGraph, parsedGraph);
 
     for (Task task : expectedGraph.getTasks()) {
-      Task parsedTask = parsedGraph.getTasks().get(task.getIndex());
+      Task parsedTask = parsedGraph.getTask(task.getIndex());
       Assertions.assertEquals(task.getIncomingEdges(), parsedTask.getIncomingEdges());
       Assertions.assertEquals(task.getOutgoingEdges(), parsedTask.getOutgoingEdges());
     }
@@ -45,11 +45,11 @@ class DotGraphInputTest {
   public void test1Test() {
     Graph expectedGraph = new Graph();
 
-    expectedGraph.addNode("A", 2);
-    expectedGraph.addNode("B", 3);
-    expectedGraph.addNode("C", 1);
-    expectedGraph.addNode("D", 4);
-    expectedGraph.addNode("E", 2);
+    expectedGraph.addTask("A", 2);
+    expectedGraph.addTask("B", 3);
+    expectedGraph.addTask("C", 1);
+    expectedGraph.addTask("D", 4);
+    expectedGraph.addTask("E", 2);
 
     expectedGraph.addEdge("A", "B", 1);
     expectedGraph.addEdge("B", "C", 3);
@@ -66,12 +66,12 @@ class DotGraphInputTest {
   public void test2FileTest() {
     Graph expectedGraph = new Graph();
 
-    expectedGraph.addNode("A", 2);
-    expectedGraph.addNode("B", 3);
-    expectedGraph.addNode("C", 1);
-    expectedGraph.addNode("D", 4);
-    expectedGraph.addNode("E", 2);
-    expectedGraph.addNode("F", 3);
+    expectedGraph.addTask("A", 2);
+    expectedGraph.addTask("B", 3);
+    expectedGraph.addTask("C", 1);
+    expectedGraph.addTask("D", 4);
+    expectedGraph.addTask("E", 2);
+    expectedGraph.addTask("F", 3);
 
     expectedGraph.addEdge("A", "B", 1);
     expectedGraph.addEdge("B", "C", 2);
@@ -89,16 +89,16 @@ class DotGraphInputTest {
   public void testAnnoyingTest() {
     Graph expectedGraph = new Graph();
 
-    expectedGraph.addNode("A", 2);
-    expectedGraph.addNode("B", 3);
-    expectedGraph.addNode("C", 1);
-    expectedGraph.addNode("D", 4);
-    expectedGraph.addNode("E", 2);
-    expectedGraph.addNode("F", 3);
-    expectedGraph.addNode("G", 5);
-    expectedGraph.addNode("H", 2);
-    expectedGraph.addNode("I", 2);
-    expectedGraph.addNode("J", 7);
+    expectedGraph.addTask("A", 2);
+    expectedGraph.addTask("B", 3);
+    expectedGraph.addTask("C", 1);
+    expectedGraph.addTask("D", 4);
+    expectedGraph.addTask("E", 2);
+    expectedGraph.addTask("F", 3);
+    expectedGraph.addTask("G", 5);
+    expectedGraph.addTask("H", 2);
+    expectedGraph.addTask("I", 2);
+    expectedGraph.addTask("J", 7);
 
     expectedGraph.addEdge("A", "C", 1);
     expectedGraph.addEdge("B", "C", 2);
@@ -121,11 +121,11 @@ class DotGraphInputTest {
   public void testMultipleParentsTest() {
     Graph expectedGraph = new Graph();
 
-    expectedGraph.addNode("A", 2);
-    expectedGraph.addNode("B", 3);
-    expectedGraph.addNode("C", 1);
-    expectedGraph.addNode("D", 4);
-    expectedGraph.addNode("E", 2);
+    expectedGraph.addTask("A", 2);
+    expectedGraph.addTask("B", 3);
+    expectedGraph.addTask("C", 1);
+    expectedGraph.addTask("D", 4);
+    expectedGraph.addTask("E", 2);
 
     expectedGraph.addEdge("A", "B", 1);
     expectedGraph.addEdge("A", "C", 3);

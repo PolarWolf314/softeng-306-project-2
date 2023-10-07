@@ -6,7 +6,6 @@ import com.paypal.digraph.parser.GraphParser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
 import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
@@ -33,7 +32,7 @@ public class DotGraphIO {
 
     for (GraphNode graphNode : parser.getNodes().values()) {
       int weight = Integer.parseInt(graphNode.getAttributes().get("Weight").toString());
-      graph.addNode(graphNode.getId(), weight);
+      graph.addTask(graphNode.getId(), weight);
     }
 
     for (GraphEdge graphEdge : parser.getEdges().values()) {
@@ -57,7 +56,7 @@ public class DotGraphIO {
   public void writeDotGraph(CommandLineArguments arguments, Schedule schedule, Graph graph)
       throws IOException {
     String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
-    
+
     String output = this.toDotString(digraphName, schedule, graph);
 
     if (arguments.writeToStdOut()) {
@@ -94,10 +93,9 @@ public class DotGraphIO {
         .append("\" {")
         .append(NEW_LINE);
 
-    List<Task> tasks = graph.getTasks();
     ScheduledTask[] scheduledTasks = schedule.getScheduledTasks();
     for (int i = 0; i < scheduledTasks.length; i++) {
-      Task task = tasks.get(i);
+      Task task = graph.getTask(i);
       ScheduledTask scheduledTask = scheduledTasks[i];
       builder.append(task.getLabel())
           .append(" [Weight=")
@@ -109,7 +107,7 @@ public class DotGraphIO {
           .append("];")
           .append(NEW_LINE);
 
-      for (Edge outgoingEdge : tasks.get(i).getOutgoingEdges()) {
+      for (Edge outgoingEdge : task.getOutgoingEdges()) {
         builder.append(outgoingEdge.getSource().getLabel())
             .append(" -> ")
             .append(outgoingEdge.getDestination().getLabel())
