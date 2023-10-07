@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Graph;
+import nz.ac.auckland.se306.group12.models.Task;
 import nz.ac.auckland.se306.group12.scheduler.DfsScheduler;
 import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 import org.junit.jupiter.api.Assertions;
@@ -36,6 +37,23 @@ public class TestUtil {
    */
   public static List<Scheduler> getOptimalSchedulers() {
     return List.of(new DfsScheduler());
+  }
+
+  /**
+   * Check that the two graphs are equal including the edges and nodes and the incoming and outgoing
+   * edges of all the nodes
+   *
+   * @param expectedGraph The expected graph
+   * @param parsedGraph   The parsed graph
+   */
+  private void checkGraphEquality(Graph expectedGraph, Graph parsedGraph) {
+    Assertions.assertEquals(expectedGraph, parsedGraph);
+
+    for (Task task : expectedGraph.getTasks()) {
+      Task parsedTask = parsedGraph.getTasks().get(task.getIndex());
+      Assertions.assertEquals(task.getIncomingEdges(), parsedTask.getIncomingEdges());
+      Assertions.assertEquals(task.getOutgoingEdges(), parsedTask.getOutgoingEdges());
+    }
   }
 
 }
