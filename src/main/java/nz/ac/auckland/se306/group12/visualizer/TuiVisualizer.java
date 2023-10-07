@@ -50,7 +50,7 @@ public class TuiVisualizer implements Visualizer {
           sb.append(new AnsiEscapeSequenceBuilder().background(7))
               .append("       "); // 7 spaces (chart columns are 7ch long, excl. padding)
         } else {
-          sb.append(new AnsiEscapeSequenceBuilder()
+          sb.append(new AnsiEscapeSequenceBuilder().bold()
                   .foreground(255, 255, 255)
                   .background(AnsiColor.EIGHT_BIT_COLOR_CUBE[activeTaskIndex % 6][0][4]))
               .append(taskRenderStarted[activeTaskIndex]
