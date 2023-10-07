@@ -162,7 +162,7 @@ public class Graph {
    */
   public List<Task> getSourceTasks() {
     return this.tasks.stream()
-        .filter(task -> task.getIncomingEdges().isEmpty())
+        .filter(Task::isSource)
         .collect(Collectors.toList());
   }
 
