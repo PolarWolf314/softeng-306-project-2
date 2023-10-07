@@ -68,7 +68,7 @@ public class TuiVisualizer implements Visualizer {
     sb.append(new AnsiEscapeSequenceBuilder().bold()
             .foreground(255, 255, 255)
             .background(255, 95, 135))
-        .append(String.format("%-14s", " ✔ SCHEDULED ")) // TODO: Re-architect this
+        .append(String.format("%-14s", " SCHEDULED ")) // TODO: Re-architect this
         .append(new AnsiEscapeSequenceBuilder().normalIntensity()
             .foreground(52, 52, 52)
             .background(190, 190, 190))
