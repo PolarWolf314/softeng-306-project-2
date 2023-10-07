@@ -40,15 +40,23 @@ public class AnsiEscapeSequenceBuilder {
     return this.underline(false);
   }
 
+
+  /**
+   * Sets foreground colour with 256-colour mode, based on the pre-defined lookup table (available
+   * <a href="https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit">on Wikipedia</a>).
+   */
   public AnsiEscapeSequenceBuilder foreground(int colorCode8Bit) {
     if (colorCode8Bit < 0 || colorCode8Bit > 255) {
-      throw new InvalidColorException("%d is not a valid colour code in 256-colour mode.");
+      throw new InvalidColorException("SGR code %d is not a valid colour code in 256-colour mode.");
     }
     stringBuilder.append("38").append(SEPARATOR)
         .append(colorCode8Bit).append(SEPARATOR);
     return this;
   }
 
+  /**
+   * Sets RGB foreground colour with 24-bit "true colour" mode.
+   */
   public AnsiEscapeSequenceBuilder foreground(int r, int g, int b) {
     if (r < 0 || g < 0 || b < 0 || r > 255 || g > 255 || b > 255) {
       throw new InvalidColorException("rgb(%d %d %d) is not a valid colour.");
@@ -65,15 +73,22 @@ public class AnsiEscapeSequenceBuilder {
     return this;
   }
 
+  /**
+   * Sets background colour with 256-colour mode, based on the pre-defined lookup table (available
+   * <a href="https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit">on Wikipedia</a>).
+   */
   public AnsiEscapeSequenceBuilder background(int colorCode8Bit) {
     if (colorCode8Bit < 0 || colorCode8Bit > 255) {
-      throw new InvalidColorException("%d is not a valid colour code in 256-colour mode.");
+      throw new InvalidColorException("SGR code %d is not a valid colour code in 256-colour mode.");
     }
     stringBuilder.append("48").append(SEPARATOR)
         .append(colorCode8Bit).append(SEPARATOR);
     return this;
   }
 
+  /**
+   * Sets RGB background colour with 24-bit "true colour" mode.
+   */
   public AnsiEscapeSequenceBuilder background(int r, int g, int b) {
     stringBuilder.append("48").append(SEPARATOR)
         .append(r).append(SEPARATOR)
