@@ -82,13 +82,13 @@ public class Schedule {
    */
   private List<Task> getNewReadyTasks(Task task, ScheduledTask[] newScheduledTasks) {
     List<Task> newReadyTasks = new ArrayList<>(this.readyTasks);
+    newReadyTasks.remove(task);
     for (Edge outEdge : task.getOutgoingEdges()) {
       Task child = outEdge.getDestination();
       if (isTaskReady(newScheduledTasks, child)) {
         newReadyTasks.add(child);
       }
     }
-    newReadyTasks.remove(task);
     return newReadyTasks;
   }
 
