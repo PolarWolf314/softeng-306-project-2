@@ -36,6 +36,13 @@ public class Graph {
   @Exclude
   private final TopologicalSorter topologicalSorter = new TopologicalSorter();
 
+  /**
+   * This is the total weight of all the tasks in the graph. It is used as part of the underestimate
+   * when pruning possible partial schedules.
+   */
+  @Getter
+  private int totalTaskWeights = 0;
+
   public Graph() {
     // Default name, for when the graph name doesn't matter
     this.name = "Graph";
@@ -97,6 +104,7 @@ public class Graph {
     int index = this.tasks.size();
     this.tasks.add(new Task(taskLabel, weight, index));
     this.taskIndexMap.put(taskLabel, index);
+    this.totalTaskWeights += weight;
   }
 
   /**
