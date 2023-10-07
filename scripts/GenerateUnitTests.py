@@ -31,10 +31,10 @@ def create_test_file_headers(graphs: List[Graph], output_path: str) -> None:
         class_name = os.path.basename(file_path).split('.')[0]
         test_file_header = f"""package nz.ac.auckland.se306.group12.optimal;
 
+import nz.ac.auckland.se306.group12.ScheduleValidator;
 import nz.ac.auckland.se306.group12.TestUtil;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
-import nz.ac.auckland.se306.group12.models.ScheduledTask;
 import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -71,15 +71,13 @@ def create_unit_test_files(graphs: List[Graph], output_path: str) -> None:
 
     for file_path in get_test_file_paths(graphs, output_path):
         with open(file_path, 'a') as f:
-            f.write('}\n')
+            f.write('\n}\n')
 
 
 def create_unit_test(graph: Graph) -> str:
     """
     Creates a string representing a single Java unit test for the given graph.
     """
-    scheduled_tasks_array = ', '.join([to_scheduled_task(node) for node in graph.nodes])
-    processor_end_times_array = ', '.join(str(end_time) for end_time in graph.get_processor_end_times())
     method_name = f'testOptimal{to_valid_method_name(graph)}'
 
     return f"""
@@ -93,15 +91,8 @@ def create_unit_test(graph: Graph) -> str:
         Schedule actualSchedule = scheduler.schedule(graph, processorCount);
 
         Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{{{scheduled_tasks_array}}};
-        int[] expectedProcessorEndTimes = new int[]{{{processor_end_times_array}}};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, {len(graph.nodes)});
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }}
-    
+        ScheduleValidator.assertValidSchedule(actualSchedule, graph);
+    }} 
 """
 
 
@@ -111,13 +102,6 @@ def to_valid_method_name(graph: Graph) -> str:
     suitable replacements.
     """
     return graph.name.replace('.', 'dot').replace('-', '_').replace('#', '')
-
-
-def to_scheduled_task(node: Node) -> str: 
-    """
-    Converts the given node into a string representing a new ScheduledTask object in Java.
-    """
-    return f'new ScheduledTask({node.start_time}, {node.finish_time}, {node.processor_index})'
 
 
 def get_gxl_file_paths(path: str, limit = -1) -> List[str]:
@@ -182,12 +166,12 @@ def main():
     to two arguments:
 
     1. The input path of the GXL files to generate the unit tests from. By default, this is the current directory.
-    2. The maximum number of GXL files to generate unit tests for. By default this is 50. Specifying -1 will generate
+    2. The maximum number of GXL files to generate unit tests for. By default this is -1. Specifying -1 will generate
        unit tests for all GXL files in the input directory.
     """
     # By default, use the current directory
     input_path = sys.argv[1] if len(sys.argv) >= 2 else '.'
-    graph_limit = int(sys.argv[2]) if len(sys.argv) >= 3 else 50
+    graph_limit = int(sys.argv[2]) if len(sys.argv) >= 3 else -1
 
     input_dot_graph_path = os.path.join(ROOT_PATH, 'graphs', 'optimal')
     test_path = os.path.join(ROOT_PATH, 'src', 'test', 'java', 'nz', 'ac', 'auckland', 'se306', 'group12', 'optimal')

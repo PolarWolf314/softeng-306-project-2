@@ -49,12 +49,12 @@ public class DotGraphOutputTest {
     ScheduledTask taskD = new ScheduledTask(6, 10, 0);
     ScheduledTask taskE = new ScheduledTask(10, 12, 0);
 
-    Schedule actualSchedule = new Schedule(5, 1);
-    actualSchedule = actualSchedule.extendWithTask(taskA, 0);
-    actualSchedule = actualSchedule.extendWithTask(taskB, 1);
-    actualSchedule = actualSchedule.extendWithTask(taskC, 2);
-    actualSchedule = actualSchedule.extendWithTask(taskD, 3);
-    actualSchedule = actualSchedule.extendWithTask(taskE, 4);
+    Schedule actualSchedule = new Schedule(actualGraph, 1);
+    actualSchedule = actualSchedule.extendWithTask(taskA, actualGraph.getTask(0));
+    actualSchedule = actualSchedule.extendWithTask(taskB, actualGraph.getTask(1));
+    actualSchedule = actualSchedule.extendWithTask(taskC, actualGraph.getTask(2));
+    actualSchedule = actualSchedule.extendWithTask(taskD, actualGraph.getTask(3));
+    actualSchedule = actualSchedule.extendWithTask(taskE, actualGraph.getTask(4));
 
     String actualDotGraph = dotGraphIO.toDotString("test1-output", actualSchedule,
         actualGraph);
@@ -100,12 +100,12 @@ public class DotGraphOutputTest {
     ScheduledTask taskD = new ScheduledTask(11, 15, 2);
     ScheduledTask taskE = new ScheduledTask(16, 18, 3);
 
-    Schedule actualSchedule = new Schedule(5, 4);
-    actualSchedule = actualSchedule.extendWithTask(taskA, 0);
-    actualSchedule = actualSchedule.extendWithTask(taskB, 1);
-    actualSchedule = actualSchedule.extendWithTask(taskC, 2);
-    actualSchedule = actualSchedule.extendWithTask(taskD, 3);
-    actualSchedule = actualSchedule.extendWithTask(taskE, 4);
+    Schedule actualSchedule = new Schedule(actualGraph, 4);
+    actualSchedule = actualSchedule.extendWithTask(taskA, actualGraph.getTask(0));
+    actualSchedule = actualSchedule.extendWithTask(taskB, actualGraph.getTask(1));
+    actualSchedule = actualSchedule.extendWithTask(taskC, actualGraph.getTask(2));
+    actualSchedule = actualSchedule.extendWithTask(taskD, actualGraph.getTask(3));
+    actualSchedule = actualSchedule.extendWithTask(taskE, actualGraph.getTask(4));
 
     String actualDotGraph = dotGraphIO.toDotString("test2-output", actualSchedule, actualGraph);
 
@@ -141,12 +141,12 @@ public class DotGraphOutputTest {
     ScheduledTask taskD = new ScheduledTask(6, 10, 0);
     ScheduledTask taskE = new ScheduledTask(10, 12, 0);
 
-    Schedule actualSchedule = new Schedule(5, 1);
-    actualSchedule = actualSchedule.extendWithTask(taskA, 0);
-    actualSchedule = actualSchedule.extendWithTask(taskB, 1);
-    actualSchedule = actualSchedule.extendWithTask(taskC, 2);
-    actualSchedule = actualSchedule.extendWithTask(taskD, 3);
-    actualSchedule = actualSchedule.extendWithTask(taskE, 4);
+    Schedule actualSchedule = new Schedule(actualGraph, 1);
+    actualSchedule = actualSchedule.extendWithTask(taskA, actualGraph.getTask(0));
+    actualSchedule = actualSchedule.extendWithTask(taskB, actualGraph.getTask(1));
+    actualSchedule = actualSchedule.extendWithTask(taskC, actualGraph.getTask(2));
+    actualSchedule = actualSchedule.extendWithTask(taskD, actualGraph.getTask(3));
+    actualSchedule = actualSchedule.extendWithTask(taskE, actualGraph.getTask(4));
 
     String actualDotGraph = dotGraphIO.toDotString("test3-output", actualSchedule,
         actualGraph);
@@ -183,12 +183,12 @@ public class DotGraphOutputTest {
     ScheduledTask taskD = new ScheduledTask(11, 15, 2);
     ScheduledTask taskE = new ScheduledTask(16, 18, 3);
 
-    Schedule actualSchedule = new Schedule(5, 4);
-    actualSchedule = actualSchedule.extendWithTask(taskA, 0);
-    actualSchedule = actualSchedule.extendWithTask(taskB, 1);
-    actualSchedule = actualSchedule.extendWithTask(taskC, 2);
-    actualSchedule = actualSchedule.extendWithTask(taskD, 3);
-    actualSchedule = actualSchedule.extendWithTask(taskE, 4);
+    Schedule actualSchedule = new Schedule(actualGraph, 4);
+    actualSchedule = actualSchedule.extendWithTask(taskA, actualGraph.getTask(0));
+    actualSchedule = actualSchedule.extendWithTask(taskB, actualGraph.getTask(1));
+    actualSchedule = actualSchedule.extendWithTask(taskC, actualGraph.getTask(2));
+    actualSchedule = actualSchedule.extendWithTask(taskD, actualGraph.getTask(3));
+    actualSchedule = actualSchedule.extendWithTask(taskE, actualGraph.getTask(4));
 
     String actualDotGraph = dotGraphIO.toDotString("test4-output", actualSchedule, actualGraph);
 
@@ -260,17 +260,17 @@ public class DotGraphOutputTest {
     ScheduledTask taskI = new ScheduledTask(13, 15, 0);
     ScheduledTask taskJ = new ScheduledTask(24, 31, 0);
 
-    Schedule actualSchedule = new Schedule(10, 1);
-    actualSchedule = actualSchedule.extendWithTask(taskA, 0);
-    actualSchedule = actualSchedule.extendWithTask(taskB, 1);
-    actualSchedule = actualSchedule.extendWithTask(taskC, 2);
-    actualSchedule = actualSchedule.extendWithTask(taskD, 3);
-    actualSchedule = actualSchedule.extendWithTask(taskE, 4);
-    actualSchedule = actualSchedule.extendWithTask(taskF, 5);
-    actualSchedule = actualSchedule.extendWithTask(taskG, 6);
-    actualSchedule = actualSchedule.extendWithTask(taskH, 7);
-    actualSchedule = actualSchedule.extendWithTask(taskI, 8);
-    actualSchedule = actualSchedule.extendWithTask(taskJ, 9);
+    Schedule actualSchedule = new Schedule(actualGraph, 1);
+    actualSchedule = actualSchedule.extendWithTask(taskA, actualGraph.getTask(0));
+    actualSchedule = actualSchedule.extendWithTask(taskB, actualGraph.getTask(1));
+    actualSchedule = actualSchedule.extendWithTask(taskC, actualGraph.getTask(2));
+    actualSchedule = actualSchedule.extendWithTask(taskD, actualGraph.getTask(3));
+    actualSchedule = actualSchedule.extendWithTask(taskE, actualGraph.getTask(4));
+    actualSchedule = actualSchedule.extendWithTask(taskF, actualGraph.getTask(5));
+    actualSchedule = actualSchedule.extendWithTask(taskG, actualGraph.getTask(6));
+    actualSchedule = actualSchedule.extendWithTask(taskH, actualGraph.getTask(7));
+    actualSchedule = actualSchedule.extendWithTask(taskI, actualGraph.getTask(8));
+    actualSchedule = actualSchedule.extendWithTask(taskJ, actualGraph.getTask(9));
 
     String actualDotGraph = dotGraphIO.toDotString("test5-output", actualSchedule,
         actualGraph);
@@ -343,17 +343,17 @@ public class DotGraphOutputTest {
     ScheduledTask taskI = new ScheduledTask(13, 15, 2);
     ScheduledTask taskJ = new ScheduledTask(11, 18, 3);
 
-    Schedule actualSchedule = new Schedule(10, 4);
-    actualSchedule = actualSchedule.extendWithTask(taskA, 0);
-    actualSchedule = actualSchedule.extendWithTask(taskB, 1);
-    actualSchedule = actualSchedule.extendWithTask(taskC, 2);
-    actualSchedule = actualSchedule.extendWithTask(taskD, 3);
-    actualSchedule = actualSchedule.extendWithTask(taskE, 4);
-    actualSchedule = actualSchedule.extendWithTask(taskF, 5);
-    actualSchedule = actualSchedule.extendWithTask(taskG, 6);
-    actualSchedule = actualSchedule.extendWithTask(taskH, 7);
-    actualSchedule = actualSchedule.extendWithTask(taskI, 8);
-    actualSchedule = actualSchedule.extendWithTask(taskJ, 9);
+    Schedule actualSchedule = new Schedule(actualGraph, 4);
+    actualSchedule = actualSchedule.extendWithTask(taskA, actualGraph.getTask(0));
+    actualSchedule = actualSchedule.extendWithTask(taskB, actualGraph.getTask(1));
+    actualSchedule = actualSchedule.extendWithTask(taskC, actualGraph.getTask(2));
+    actualSchedule = actualSchedule.extendWithTask(taskD, actualGraph.getTask(3));
+    actualSchedule = actualSchedule.extendWithTask(taskE, actualGraph.getTask(4));
+    actualSchedule = actualSchedule.extendWithTask(taskF, actualGraph.getTask(5));
+    actualSchedule = actualSchedule.extendWithTask(taskG, actualGraph.getTask(6));
+    actualSchedule = actualSchedule.extendWithTask(taskH, actualGraph.getTask(7));
+    actualSchedule = actualSchedule.extendWithTask(taskI, actualGraph.getTask(8));
+    actualSchedule = actualSchedule.extendWithTask(taskJ, actualGraph.getTask(9));
 
     String actualDotGraph = dotGraphIO.toDotString("test6-output", actualSchedule,
         actualGraph);
