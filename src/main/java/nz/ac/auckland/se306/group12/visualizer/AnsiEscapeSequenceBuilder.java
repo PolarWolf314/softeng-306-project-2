@@ -29,7 +29,7 @@ public class AnsiEscapeSequenceBuilder {
   }
 
   /**
-   * Sets normal intensity, that is, neither bold nor faint.
+   * Sets normal intensity. That is, neither bold nor faint.
    */
   public AnsiEscapeSequenceBuilder normalIntensity() {
     stringBuilder.append("22").append(SEPARATOR);
