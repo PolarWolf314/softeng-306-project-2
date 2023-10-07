@@ -34,7 +34,6 @@ public class Schedule {
    * @param taskGraph      The task graph being scheduled
    * @param processorCount The number of processors in the schedule
    */
-
   public Schedule(Graph taskGraph, int processorCount) {
     this.scheduledTasks = new ScheduledTask[taskGraph.taskCount()];
     this.processorEndTimes = new int[processorCount];
@@ -161,6 +160,18 @@ public class Schedule {
     return this.processorEndTimes.length;
   }
 
+  /**
+   * Determines the new end time estimate given an added scheduled task and a resulting new total
+   * idle time. This will be the maximum of the current end time estimate, the idle end time
+   * estimate and the bottom level end time estimate.
+   *
+   * @param scheduledTask    The {@link ScheduledTask} that was added to this schedule
+   * @param task             The corresponding {@link Task} for the scheduled task
+   * @param newTotalIdleTime The new total idle time
+   * @return The new end time estimate
+   * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Optimal
+   * Scheduling of Task Graphs on Parallel Systems, Section 3.1</a>
+   */
   private int calculateNewEndTimeEstimate(
       ScheduledTask scheduledTask,
       Task task,
