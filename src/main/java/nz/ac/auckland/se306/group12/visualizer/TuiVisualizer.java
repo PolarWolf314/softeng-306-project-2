@@ -21,11 +21,16 @@ public class TuiVisualizer implements Visualizer {
    */
   @Override
   public void visualize(Schedule schedule) {
+    this.addDivider(); // Top border
+    sb.append(NEW_LINE);
+
     this.populateStatusBar();
     sb.append(NEW_LINE);
 
     this.updateGanttChart(schedule);
     sb.append(NEW_LINE);
+
+    this.addDivider(); // Buttom border
 
     System.out.println(sb);
   }
@@ -61,7 +66,6 @@ public class TuiVisualizer implements Visualizer {
         }
 
         sb.append(new AnsiEscapeSequenceBuilder().reset()).append(" "); // Padding between columns
-
       }
 
       sb.append(NEW_LINE);
@@ -77,6 +81,13 @@ public class TuiVisualizer implements Visualizer {
             .foreground(52, 52, 52)
             .background(190, 190, 190))
         .append(String.format(" %-64s ", taskGraph.getName()))
+        .append(new AnsiEscapeSequenceBuilder().reset())
+        .append(NEW_LINE);
+  }
+
+  private void addDivider() {
+    sb.append(new AnsiEscapeSequenceBuilder().foreground(125, 86, 243))
+        .append("────────────────────────────────────────────────────────────────────────────────")
         .append(new AnsiEscapeSequenceBuilder().reset())
         .append(NEW_LINE);
   }
