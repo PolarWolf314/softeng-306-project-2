@@ -22,7 +22,7 @@ class DotGraphInputTest {
     Assertions.assertEquals(expectedGraph, parsedGraph);
 
     for (Task task : expectedGraph.getTasks()) {
-      Task parsedTask = parsedGraph.getTasks().get(task.getIndex());
+      Task parsedTask = parsedGraph.getTask(task.getIndex());
       Assertions.assertEquals(task.getIncomingEdges(), parsedTask.getIncomingEdges());
       Assertions.assertEquals(task.getOutgoingEdges(), parsedTask.getOutgoingEdges());
     }
