@@ -23,6 +23,11 @@ public class Schedule {
   private final int scheduledTaskCount;
   private final List<Task> readyTasks;
 
+  // Estimation variables
+  private final int totalTaskWeights;
+  private final int endTimeEstimate;
+  private final int totalIdleTime;
+
   /**
    * A constructor for creating a new schedule
    *
@@ -35,13 +40,10 @@ public class Schedule {
     this.processorEndTimes = new int[processorCount];
     this.scheduledTaskCount = 0;
     this.latestEndTime = 0;
-    this.readyTasks = new ArrayList<>();
-    // Add all source tasks as a ready task
-    for (Task task : taskGraph.getTasks()) {
-      if (task.getParentTasks().size() == 0) {
-        readyTasks.add(task);
-      }
-    }
+    this.readyTasks = taskGraph.getSourceTasks();
+    this.totalTaskWeights = taskGraph.getTotalTaskWeights();
+    this.totalIdleTime = 0;
+    this.endTimeEstimate = this.getIdleEndTimeEstimate(this.totalIdleTime);
   }
 
   /**
@@ -58,16 +60,24 @@ public class Schedule {
         this.processorEndTimes.length);
 
     newScheduledTasks[task.getIndex()] = scheduledTask;
-    newProcessorEndTimes[scheduledTask.getProcessorIndex()] = scheduledTask.getEndTime();
+    int processorIndex = scheduledTask.getProcessorIndex();
+    int taskIdleTime = scheduledTask.getStartTime() - newProcessorEndTimes[processorIndex];
+    newProcessorEndTimes[processorIndex] = scheduledTask.getEndTime();
 
+    int newTotalIdleTime = this.totalIdleTime + taskIdleTime;
     int newLatestEndTime = Math.max(this.latestEndTime, scheduledTask.getEndTime());
+    int newEndTimeEstimate = this.calculateNewEndTimeEstimate(
+        scheduledTask, task, newTotalIdleTime);
 
     return new Schedule(
         newScheduledTasks,
         newProcessorEndTimes,
         newLatestEndTime,
         this.scheduledTaskCount + 1,
-        getNewReadyTasks(task, newScheduledTasks)
+        this.getNewReadyTasks(task, newScheduledTasks),
+        this.totalTaskWeights,
+        newEndTimeEstimate,
+        newTotalIdleTime
     );
   }
 
@@ -84,7 +94,7 @@ public class Schedule {
     newReadyTasks.remove(task);
     for (Edge outEdge : task.getOutgoingEdges()) {
       Task child = outEdge.getDestination();
-      if (isTaskReady(newScheduledTasks, child)) {
+      if (this.isTaskReady(newScheduledTasks, child)) {
         newReadyTasks.add(child);
       }
     }
@@ -118,13 +128,13 @@ public class Schedule {
    * @return Array of latest start times for the task on each processor
    */
   public int[] getLatestStartTimesOf(Task task) {
-    int processorCount = getProcessorCount();
+    int processorCount = this.getProcessorCount();
     int[] latestStartTimes = new int[processorCount];
 
     // Loop through all parent tasks
     for (Edge incomingEdge : task.getIncomingEdges()) {
       int taskIndex = incomingEdge.getSource().getIndex();
-      ScheduledTask parentScheduledTask = getScheduledTasks()[taskIndex];
+      ScheduledTask parentScheduledTask = this.getScheduledTasks()[taskIndex];
 
       // Loop through all processors for latest start time
       for (int processorIndex = 0; processorIndex < processorCount; processorIndex++) {
@@ -149,6 +159,48 @@ public class Schedule {
    */
   public int getProcessorCount() {
     return this.processorEndTimes.length;
+  }
+
+  private int calculateNewEndTimeEstimate(
+      ScheduledTask scheduledTask,
+      Task task,
+      int newTotalIdleTime
+  ) {
+    return Math.max(
+        Math.max(this.endTimeEstimate, this.getIdleEndTimeEstimate(newTotalIdleTime)),
+        this.getBottomLevelEndTimeEstimate(scheduledTask, task));
+  }
+
+  /**
+   * A possible underestimate of the end time of this schedule is the total weight of all the tasks
+   * and the new accumulated idle time divided by the number of processors. We know this will be an
+   * underestimate because it assumes all tasks can be evenly divided between processors, and it
+   * doesn't factor in transfer time between processors.
+   * <p>
+   * This type of underestimate is beneficial task graphs with few edges.
+   *
+   * @param newTotalIdleTime The new total idle time
+   * @return The idle underestimate of the end time
+   * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Optimal
+   * Scheduling of Task Graphs on Parallel Systems, Section 3.1</a>
+   */
+  private int getIdleEndTimeEstimate(int newTotalIdleTime) {
+    return (newTotalIdleTime + this.totalTaskWeights) / this.getProcessorCount();
+  }
+
+  /**
+   * This method returns the bottom level estimate of the end time of this scheduled task. This
+   * estimate is determined by the start time and the bottom level of the task. This will always be
+   * an underestimate because it doesn't factor in transfer time between processors.
+   *
+   * @param scheduledTask The {@link ScheduledTask} to get the bottom level estimate for
+   * @param task          The corresponding {@link Task} for the scheduled task
+   * @return The bottom level estimate of this scheduled task
+   * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Optimal
+   * Scheduling of Task Graphs on Parallel Systems, Section 3.1</a>
+   */
+  private int getBottomLevelEndTimeEstimate(ScheduledTask scheduledTask, Task task) {
+    return scheduledTask.getEndTime() + task.getBottomLevel();
   }
 
 }

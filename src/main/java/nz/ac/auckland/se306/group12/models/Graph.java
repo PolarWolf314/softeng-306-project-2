@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.EqualsAndHashCode.Exclude;
 import lombok.Getter;
@@ -139,7 +140,7 @@ public class Graph {
    * bottom level is the maximum distance from the task to a sink task (task without children)
    */
   public void setBottomLevels() {
-    List<Task> topologicalOrder = topologicalSorter.getAReverseTopologicalOrder(this);
+    List<Task> topologicalOrder = this.topologicalSorter.getAReverseTopologicalOrder(this);
 
     for (Task task : topologicalOrder) {
       if (task.isSink()) {
@@ -153,4 +154,16 @@ public class Graph {
       }
     }
   }
+
+  /**
+   * A list of all the source tasks in the graph. A source task is one that has no incoming edges.
+   *
+   * @return A list of all the source tasks in the graph
+   */
+  public List<Task> getSourceTasks() {
+    return this.tasks.stream()
+        .filter(task -> task.getIncomingEdges().isEmpty())
+        .collect(Collectors.toList());
+  }
+
 }

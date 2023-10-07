@@ -45,7 +45,6 @@ public class Task {
    *
    * @return the set of tasks that are parents of this task
    */
-
   public Set<Task> getParentTasks() {
     return this.incomingEdges
         .stream()
