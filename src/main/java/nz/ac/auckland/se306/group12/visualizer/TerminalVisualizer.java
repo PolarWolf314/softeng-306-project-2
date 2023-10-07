@@ -81,7 +81,7 @@ public class TerminalVisualizer implements Visualizer {
     sb.append(NEW_LINE);
 
     // Chart body
-    int[][] verticalGantt = this.scheduleToVerticalGantt(schedule);
+    int[][] verticalGantt = this.scheduleToGantt(schedule);
 
     boolean[] taskRenderStarted = new boolean[schedule.getScheduledTaskCount()];
     for (int[] unitTime : verticalGantt) {
@@ -133,18 +133,29 @@ public class TerminalVisualizer implements Visualizer {
         .append(NEW_LINE);
   }
 
-  private int[][] scheduleToVerticalGantt(Schedule schedule) {
-    return scheduleToGantt(schedule, true);
-  }
-
-  private int[][] scheduleToGantt(Schedule schedule, boolean transpose) {
+  /**
+   * "Flattens" a {@link Schedule} into a 2D matrix which may be interpreted as a
+   * <strong>vertical</strong> Gantt chart. Each column represents a processor, and each row
+   * represents one unit time in the schedule. (Time advances <em>down</em> the columns.)
+   * <p>
+   * The element in position (t, P) of the matrix is the index of the task that is active on
+   * processor P at time t.
+   * <p>
+   * A negative value (such as {@code PROCESSOR_IDLE}) indicates that processor is idle at that
+   * moment in the schedule. The behaviour when an element has a value greater than the index of any
+   * task in the task graph is undefined.
+   *
+   * @param schedule The schedule to be "flattened" into a Gantt matrix.
+   * @return The 2D Gantt matrix representation of the given schedule.
+   * @see Schedule
+   * @see ScheduledTask
+   */
+  private int[][] scheduleToGantt(Schedule schedule) {
     int processorCount = schedule.getProcessorEndTimes().length;
     int makespan = schedule.getLatestEndTime();
 
     // Initialise Gantt matrix where all cores idle for the entire makespan
-    int[][] scheduleMatrix = transpose
-        ? new int[makespan][processorCount]
-        : new int[processorCount][makespan];
+    int[][] scheduleMatrix = new int[makespan][processorCount];
     for (int[] row : scheduleMatrix) {
       Arrays.fill(row, PROCESSOR_IDLE);
     }
@@ -154,11 +165,8 @@ public class TerminalVisualizer implements Visualizer {
       ScheduledTask task = tasks[i];
       int processorIndex = task.getProcessorIndex();
       for (int time = task.getStartTime(); time < task.getEndTime(); time++) {
-        if (transpose) {
-          scheduleMatrix[time][processorIndex] = i;
-        } else {
-          scheduleMatrix[processorIndex][time] = i;
-        }
+        // "Vertical" Gantt matrix, so columns represent processors
+        scheduleMatrix[time][processorIndex] = i;
       }
     }
 
