@@ -43,7 +43,10 @@ public class Task {
    */
 
   public Set<Task> getParentTasks() {
-    return incomingEdges.stream().map(Edge::getSource).collect(Collectors.toUnmodifiableSet());
+    return this.incomingEdges
+        .stream()
+        .map(Edge::getSource)
+        .collect(Collectors.toUnmodifiableSet());
   }
 
   /**
@@ -53,7 +56,10 @@ public class Task {
    * @return the set of tasks that are children of this task
    */
   public Set<Task> getChildTasks() {
-    return outgoingEdges.stream().map(Edge::getDestination).collect(Collectors.toUnmodifiableSet());
+    return this.outgoingEdges
+        .stream()
+        .map(Edge::getDestination)
+        .collect(Collectors.toUnmodifiableSet());
   }
 
   /**
