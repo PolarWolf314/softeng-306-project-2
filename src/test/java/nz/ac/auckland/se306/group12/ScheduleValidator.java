@@ -1,5 +1,6 @@
 package nz.ac.auckland.se306.group12;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
@@ -74,13 +76,21 @@ public class ScheduleValidator {
         .sorted(Comparator
             .comparingInt(entry -> entry.getValue().getStartTime()))
         .map(Entry::getKey)
-        .toList();
+        .collect(Collectors.collectingAndThen(
+            Collectors.toList(),
+            Collections::unmodifiableList
+        ));
+    ;
 
     final List<ScheduledTask> scheduledTasks = taskMapper.values()
         .stream()
         .sorted(Comparator
             .comparingInt(ScheduledTask::getStartTime))
-        .toList();
+        .collect(Collectors.collectingAndThen(
+            Collectors.toList(),
+            Collections::unmodifiableList
+        ));
+    ;
 
     Assertions.assertEquals(taskGraph.getTasks().size(), scheduledTasks.size(),
         String.format(
