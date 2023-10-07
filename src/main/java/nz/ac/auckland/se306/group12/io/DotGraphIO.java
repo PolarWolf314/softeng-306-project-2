@@ -33,7 +33,7 @@ public class DotGraphIO {
 
     for (GraphNode graphNode : parser.getNodes().values()) {
       int weight = Integer.parseInt(graphNode.getAttributes().get("Weight").toString());
-      graph.addNode(graphNode.getId(), weight);
+      graph.addTask(graphNode.getId(), weight);
     }
 
     for (GraphEdge graphEdge : parser.getEdges().values()) {
@@ -57,7 +57,7 @@ public class DotGraphIO {
   public void writeDotGraph(CommandLineArguments arguments, Schedule schedule, Graph graph)
       throws IOException {
     String digraphName = FileIO.withoutDotExtension(arguments.outputDotGraph().getName());
-    
+
     String output = this.toDotString(digraphName, schedule, graph);
 
     if (arguments.writeToStdOut()) {
