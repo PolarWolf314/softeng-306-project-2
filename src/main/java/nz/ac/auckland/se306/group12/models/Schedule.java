@@ -161,9 +161,10 @@ public class Schedule {
   }
 
   /**
-   * Determines the new end time estimate given an added scheduled task and a resulting new total
-   * idle time. This will be the maximum of the current end time estimate, the idle end time
-   * estimate and the bottom level end time estimate.
+   * Determines the new end time estimate for the resulting schedule after adding a new scheduled
+   * task. The estimate is admissible, which means that it will always be an underestimate of the
+   * actual time of the resulting schedule. This ensures that we will not accidentally prune any
+   * optimal schedules by thinking it will take longer than it actually does.
    *
    * @param scheduledTask    The {@link ScheduledTask} that was added to this schedule
    * @param task             The corresponding {@link Task} for the scheduled task
