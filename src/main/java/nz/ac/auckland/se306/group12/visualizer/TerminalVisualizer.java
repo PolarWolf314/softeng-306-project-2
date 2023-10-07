@@ -9,7 +9,7 @@ import nz.ac.auckland.se306.group12.models.ScheduledTask;
  * A terminal-based class for visualising parallel schedules on systems with multiple homogenous
  * processors.
  */
-public class TuiVisualizer implements Visualizer {
+public class TerminalVisualizer implements Visualizer {
 
   private static final String NEW_LINE = System.getProperty("line.separator");
 
@@ -25,7 +25,7 @@ public class TuiVisualizer implements Visualizer {
    */
   private final StringBuilder sb = new StringBuilder(2000);
 
-  public TuiVisualizer(Graph taskGraph) {
+  public TerminalVisualizer(Graph taskGraph) {
     this.taskGraph = taskGraph;
   }
 
