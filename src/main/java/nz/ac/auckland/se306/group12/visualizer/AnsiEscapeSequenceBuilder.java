@@ -10,6 +10,9 @@ public class AnsiEscapeSequenceBuilder {
 
   private final StringBuilder stringBuilder = new StringBuilder();
 
+  /**
+   * Resets (disables) all display attributes.
+   */
   public AnsiEscapeSequenceBuilder reset() {
     stringBuilder.append("0").append(SEPARATOR);
     return this;
@@ -23,6 +26,20 @@ public class AnsiEscapeSequenceBuilder {
     return this;
   }
 
+  /**
+   * Set single underline, or disable underline (single or double).
+   * <p>
+   * Further styling is supported by Kitty, VTE, mintty, iTerm2 and Konsole, but this class does not
+   * take advantage of their style extensions.
+   * <p>
+   * SGR code {@code 21} may be used to set double underline in ECMA-48 compliant terminals.
+   * However, "several" terminals <a
+   * href="https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters">reportedly</a>
+   * instead use this code to disable bold (or increased intensity). Hence, this class intentionally
+   * discourages use of code {@code 21} by not providing a method for it.
+   *
+   * @param enable {@code true} to enable underline; {@code false} to disable underline.
+   */
   public AnsiEscapeSequenceBuilder underline(boolean enable) {
     stringBuilder.append(enable ? "4" : "24").append(SEPARATOR);
     return this;
@@ -36,6 +53,9 @@ public class AnsiEscapeSequenceBuilder {
     return this;
   }
 
+  /**
+   * Sets no underline. That is, neither singly nor doubly underlined.
+   */
   public AnsiEscapeSequenceBuilder noUnderline() {
     return this.underline(false);
   }
