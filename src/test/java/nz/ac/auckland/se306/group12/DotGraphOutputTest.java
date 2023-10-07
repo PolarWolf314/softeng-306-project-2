@@ -32,11 +32,11 @@ public class DotGraphOutputTest {
         """;
 
     Graph actualGraph = new Graph();
-    actualGraph.addNode("A", 2);
-    actualGraph.addNode("B", 3);
-    actualGraph.addNode("C", 1);
-    actualGraph.addNode("D", 4);
-    actualGraph.addNode("E", 2);
+    actualGraph.addTask("A", 2);
+    actualGraph.addTask("B", 3);
+    actualGraph.addTask("C", 1);
+    actualGraph.addTask("D", 4);
+    actualGraph.addTask("E", 2);
 
     actualGraph.addEdge("A", "B", 1);
     actualGraph.addEdge("B", "C", 3);
@@ -83,11 +83,11 @@ public class DotGraphOutputTest {
         """;
 
     Graph actualGraph = new Graph();
-    actualGraph.addNode("A", 2);
-    actualGraph.addNode("B", 3);
-    actualGraph.addNode("C", 1);
-    actualGraph.addNode("D", 4);
-    actualGraph.addNode("E", 2);
+    actualGraph.addTask("A", 2);
+    actualGraph.addTask("B", 3);
+    actualGraph.addTask("C", 1);
+    actualGraph.addTask("D", 4);
+    actualGraph.addTask("E", 2);
 
     actualGraph.addEdge("A", "B", 1);
     actualGraph.addEdge("B", "C", 3);
@@ -129,11 +129,11 @@ public class DotGraphOutputTest {
         """;
 
     Graph actualGraph = new Graph();
-    actualGraph.addNode("A", 2);
-    actualGraph.addNode("B", 3);
-    actualGraph.addNode("C", 1);
-    actualGraph.addNode("D", 4);
-    actualGraph.addNode("E", 2);
+    actualGraph.addTask("A", 2);
+    actualGraph.addTask("B", 3);
+    actualGraph.addTask("C", 1);
+    actualGraph.addTask("D", 4);
+    actualGraph.addTask("E", 2);
 
     ScheduledTask taskA = new ScheduledTask(0, 2, 0);
     ScheduledTask taskB = new ScheduledTask(2, 5, 0);
@@ -171,11 +171,11 @@ public class DotGraphOutputTest {
         """;
 
     Graph actualGraph = new Graph();
-    actualGraph.addNode("A", 2);
-    actualGraph.addNode("B", 3);
-    actualGraph.addNode("C", 1);
-    actualGraph.addNode("D", 4);
-    actualGraph.addNode("E", 2);
+    actualGraph.addTask("A", 2);
+    actualGraph.addTask("B", 3);
+    actualGraph.addTask("C", 1);
+    actualGraph.addTask("D", 4);
+    actualGraph.addTask("E", 2);
 
     ScheduledTask taskA = new ScheduledTask(0, 2, 0);
     ScheduledTask taskB = new ScheduledTask(2, 5, 0);
@@ -227,16 +227,16 @@ public class DotGraphOutputTest {
         """;
 
     Graph actualGraph = new Graph();
-    actualGraph.addNode("A", 2);
-    actualGraph.addNode("B", 3);
-    actualGraph.addNode("C", 1);
-    actualGraph.addNode("D", 4);
-    actualGraph.addNode("E", 2);
-    actualGraph.addNode("F", 3);
-    actualGraph.addNode("G", 5);
-    actualGraph.addNode("H", 2);
-    actualGraph.addNode("I", 2);
-    actualGraph.addNode("J", 7);
+    actualGraph.addTask("A", 2);
+    actualGraph.addTask("B", 3);
+    actualGraph.addTask("C", 1);
+    actualGraph.addTask("D", 4);
+    actualGraph.addTask("E", 2);
+    actualGraph.addTask("F", 3);
+    actualGraph.addTask("G", 5);
+    actualGraph.addTask("H", 2);
+    actualGraph.addTask("I", 2);
+    actualGraph.addTask("J", 7);
 
     actualGraph.addEdge("A", "C", 1);
     actualGraph.addEdge("B", "C", 2);
@@ -310,16 +310,16 @@ public class DotGraphOutputTest {
         """;
 
     Graph actualGraph = new Graph();
-    actualGraph.addNode("A", 2);
-    actualGraph.addNode("B", 3);
-    actualGraph.addNode("C", 1);
-    actualGraph.addNode("D", 4);
-    actualGraph.addNode("E", 2);
-    actualGraph.addNode("F", 3);
-    actualGraph.addNode("G", 5);
-    actualGraph.addNode("H", 2);
-    actualGraph.addNode("I", 2);
-    actualGraph.addNode("J", 7);
+    actualGraph.addTask("A", 2);
+    actualGraph.addTask("B", 3);
+    actualGraph.addTask("C", 1);
+    actualGraph.addTask("D", 4);
+    actualGraph.addTask("E", 2);
+    actualGraph.addTask("F", 3);
+    actualGraph.addTask("G", 5);
+    actualGraph.addTask("H", 2);
+    actualGraph.addTask("I", 2);
+    actualGraph.addTask("J", 7);
 
     actualGraph.addEdge("A", "C", 1);
     actualGraph.addEdge("B", "C", 2);
