@@ -2,8 +2,6 @@ package nz.ac.auckland.se306.group12.scheduler;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-
-import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
@@ -29,13 +27,14 @@ public class DfsScheduler implements Scheduler {
       Schedule currentSchedule = stack.pop();
 
       // Prune if current schedule is worse than current best
-      if (currentSchedule.getLatestEndTime() >= currentMinMakespan) {
+      if (currentSchedule.getEndTimeEstimate() >= this.currentMinMakespan ||
+          currentSchedule.getLatestEndTime() >= this.currentMinMakespan) {
         continue;
       }
 
       // Check if current schedule is complete
       if (currentSchedule.getScheduledTaskCount() == taskGraph.taskCount()) {
-        currentMinMakespan = currentSchedule.getLatestEndTime();
+        this.currentMinMakespan = currentSchedule.getLatestEndTime();
         this.bestSchedule = currentSchedule;
         continue;
       }
