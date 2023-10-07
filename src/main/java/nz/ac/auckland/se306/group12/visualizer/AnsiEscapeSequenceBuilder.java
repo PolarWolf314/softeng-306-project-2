@@ -106,7 +106,8 @@ public class AnsiEscapeSequenceBuilder {
     return this;
   }
 
-  public String build() {
+  @Override
+  public String toString() {
     // Remove trailing separator
     stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 
