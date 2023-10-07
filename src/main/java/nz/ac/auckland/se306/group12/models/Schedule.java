@@ -162,9 +162,9 @@ public class Schedule {
 
   /**
    * Determines the new end time estimate for the resulting schedule after adding a new scheduled
-   * task. The estimate is admissible, which means that it will always be an underestimate of the
-   * actual time of the resulting schedule. This ensures that we will not accidentally prune any
-   * optimal schedules by thinking it will take longer than it actually does.
+   * task. The estimate is admissible, which means that it will always be less than the actual time
+   * of the resulting schedule. This ensures that we don't accidentally prune any optimal schedules
+   * by thinking it will take longer than it actually does.
    *
    * @param scheduledTask    The {@link ScheduledTask} that was added to this schedule
    * @param task             The corresponding {@link Task} for the scheduled task
@@ -189,7 +189,7 @@ public class Schedule {
    * underestimate because it assumes all tasks can be evenly divided between processors, and it
    * doesn't factor in transfer time between processors.
    * <p>
-   * This type of underestimate is beneficial task graphs with few edges.
+   * This type of underestimate is beneficial with task graphs that have few edges.
    *
    * @param newTotalIdleTime The new total idle time
    * @return The idle underestimate of the end time
@@ -203,7 +203,7 @@ public class Schedule {
   /**
    * This method returns the bottom level estimate of the end time of this scheduled task. This
    * estimate is determined by the start time and the bottom level of the task. This will always be
-   * an underestimate because it doesn't factor in transfer time between processors.
+   * an underestimate because it doesn't factor in the transfer time between processors.
    *
    * @param scheduledTask The {@link ScheduledTask} to get the bottom level estimate for
    * @param task          The corresponding {@link Task} for the scheduled task
