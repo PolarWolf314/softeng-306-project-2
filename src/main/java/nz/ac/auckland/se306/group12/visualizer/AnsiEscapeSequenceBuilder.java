@@ -32,7 +32,7 @@ public class AnsiEscapeSequenceBuilder {
    * Sets normal intensity, that is, neither bold nor faint.
    */
   public AnsiEscapeSequenceBuilder normalIntensity() {
-    stringBuilder.append("21").append(SEPARATOR);
+    stringBuilder.append("22").append(SEPARATOR);
     return this;
   }
 
@@ -50,6 +50,7 @@ public class AnsiEscapeSequenceBuilder {
       throw new InvalidColorException("SGR code %d is not a valid colour code in 256-colour mode.");
     }
     stringBuilder.append("38").append(SEPARATOR)
+        .append("5").append(SEPARATOR)
         .append(colorCode8Bit).append(SEPARATOR);
     return this;
   }
@@ -62,6 +63,7 @@ public class AnsiEscapeSequenceBuilder {
       throw new InvalidColorException("rgb(%d %d %d) is not a valid colour.");
     }
     stringBuilder.append("38").append(SEPARATOR)
+        .append("2").append(SEPARATOR)
         .append(r).append(SEPARATOR)
         .append(g).append(SEPARATOR)
         .append(b).append(SEPARATOR);
@@ -82,6 +84,7 @@ public class AnsiEscapeSequenceBuilder {
       throw new InvalidColorException("SGR code %d is not a valid colour code in 256-colour mode.");
     }
     stringBuilder.append("48").append(SEPARATOR)
+        .append("5").append(SEPARATOR)
         .append(colorCode8Bit).append(SEPARATOR);
     return this;
   }
@@ -91,6 +94,7 @@ public class AnsiEscapeSequenceBuilder {
    */
   public AnsiEscapeSequenceBuilder background(int r, int g, int b) {
     stringBuilder.append("48").append(SEPARATOR)
+        .append("2").append(SEPARATOR)
         .append(r).append(SEPARATOR)
         .append(g).append(SEPARATOR)
         .append(b).append(SEPARATOR);
