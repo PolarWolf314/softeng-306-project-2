@@ -17,7 +17,7 @@ public class TerminalVisualizer implements Visualizer {
    * Used to indicate processor idle time in the 2D matrix representing the Gantt chart of a
    * {@link Schedule}.
    *
-   * @see TerminalVisualizer#scheduleToGantt(Schedule, boolean)
+   * @see TerminalVisualizer#scheduleToGantt(Schedule)
    */
   private static final int PROCESSOR_IDLE = -1;
 
