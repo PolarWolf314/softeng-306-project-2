@@ -14,6 +14,14 @@ public class TerminalVisualizer implements Visualizer {
   private static final String NEW_LINE = System.getProperty("line.separator");
 
   /**
+   * Used to indicate processor idle time in the 2D matrix representing the Gantt chart of a
+   * {@link Schedule}.
+   *
+   * @see TerminalVisualizer#scheduleToGantt(Schedule, boolean)
+   */
+  private static final int PROCESSOR_IDLE = -1;
+
+  /**
    * The task graph whose schedules (partial or complete) are to be visualised.
    */
   private final Graph taskGraph;
@@ -79,7 +87,7 @@ public class TerminalVisualizer implements Visualizer {
     for (int[] unitTime : verticalGantt) {
       for (int activeTaskIndex : unitTime) {
 
-        if (activeTaskIndex == -1) {
+        if (activeTaskIndex == PROCESSOR_IDLE) {
           // Processor idling
           sb.append(new AnsiEscapeSequenceBuilder().background(7))
               .append("       "); // 7 spaces (chart columns are 7ch long, excl. padding)
@@ -130,8 +138,6 @@ public class TerminalVisualizer implements Visualizer {
   }
 
   private int[][] scheduleToGantt(Schedule schedule, boolean transpose) {
-    final int IDLE = -1;
-
     int processorCount = schedule.getProcessorEndTimes().length;
     int makespan = schedule.getLatestEndTime();
 
@@ -140,7 +146,7 @@ public class TerminalVisualizer implements Visualizer {
         ? new int[makespan][processorCount]
         : new int[processorCount][makespan];
     for (int[] row : scheduleMatrix) {
-      Arrays.fill(row, IDLE);
+      Arrays.fill(row, PROCESSOR_IDLE);
     }
 
     ScheduledTask[] tasks = schedule.getScheduledTasks();
