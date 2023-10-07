@@ -123,9 +123,12 @@ public class Graph {
     return this.tasks.get(index);
   }
 
+  /**
+   * Sets each task's bottom level used for underestimates.
+   */
   public void setBottomLevels() {
     for (Task task : this.getTasks()) {
-      System.out.println(task.getLabel() + ": " + task.findBottomLevel());
+      task.setBottomLevel(task.findBottomLevel());
     }
   }
 }

@@ -36,6 +36,7 @@ public class Task {
   private final Set<Edge> outgoingEdges = new HashSet<>();
 
   private final int index;
+
   @Setter
   private int bottomLevel = 0;
 
