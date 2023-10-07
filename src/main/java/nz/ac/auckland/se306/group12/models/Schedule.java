@@ -97,7 +97,7 @@ public class Schedule {
    * <p>
    * While this method checks through all incoming edges, the profiler shows that this method has
    * low impact on performance even though there are possible alternatives such as decrementing a
-   * counter that counts the number of parents 1that have not been scheduled yet.
+   * counter that counts the number of parents that have not been scheduled yet.
    *
    * @param newScheduledTasks List of scheduled tasks representing the schedule at the next state
    * @param child             Child task to be checked if ready
