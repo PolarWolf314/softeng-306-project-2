@@ -30,7 +30,15 @@ public class TerminalVisualizer implements Visualizer {
   }
 
   /**
-   * @inheritDoc
+   * Renders the given {@link Schedule}, and prints it to system out.
+   * <p>
+   * The output produced is intended for a window of width 80 characters. If the terminal window
+   * display the visualiser output is any narrower, soft wrapping will break its comprehensibility.
+   * Wider windows will simply not fill the available width.
+   * <p>
+   * If given a schedule for more than 10 processors, the output will be wider than 80 characters.
+   * For now, at least, just widen the terminal window to make the output look acceptable. A future
+   * release may dynamically adapt to different window widths.
    */
   @Override
   public void visualize(Schedule schedule) {
@@ -109,7 +117,7 @@ public class TerminalVisualizer implements Visualizer {
   private void addDivider() {
     // Note: 8-bit fallback colour is `AnsiColor.EIGHT_BIT_COLOR_CUBE[2][0][5]`
     sb.append(new AnsiEscapeSequenceBuilder().foreground(125, 86, 243))
-        .append("────────────────────────────────────────────────────────────────────────────────")
+        .append("─".repeat(80))
         .append(new AnsiEscapeSequenceBuilder().reset())
         .append(NEW_LINE);
   }
