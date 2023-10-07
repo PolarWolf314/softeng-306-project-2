@@ -19,7 +19,7 @@ public class TerminalVisualizer implements Visualizer {
   private final Graph taskGraph;
 
   /**
-   * This visualiser’s output is just a massive string. This is where the heavy lifing gets done.
+   * This visualiser’s output is just a massive string. This is where the heavy lifting gets done.
    * Initial capacity of 2000 is actually conservative, but already miles more appropriate than the
    * default 16.
    */
