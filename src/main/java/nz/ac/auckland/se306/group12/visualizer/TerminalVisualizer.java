@@ -48,6 +48,14 @@ public class TerminalVisualizer implements Visualizer {
     System.out.println(sb);
   }
 
+  /**
+   * Takes a {@link Schedule}, and creates a Gantt Chart representation of it in plaintext (with
+   * some in-band formatting using ANSI control sequences). The plaintext chart is then appended to
+   * this visualiser's string builder to be drawing (printing) in
+   * {@link TerminalVisualizer#visualize(Schedule)}.
+   *
+   * @param schedule The schedule to be rendered graphically (or... terminally?).
+   */
   private void drawGanttChart(Schedule schedule) {
     // Chart header
     for (int processorIndex = 1; processorIndex <= schedule.getProcessorEndTimes().length;
