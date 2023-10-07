@@ -12,10 +12,11 @@ public class DotGraphOutputTest {
   private final DotGraphIO dotGraphIO = new DotGraphIO();
 
   /**
-   * Test that the dot graph output is correct for a single processor
+   * Test that the dot graph output is correct for a single processor when given a linear graph (a
+   * graph with no branches)
    */
   @Test
-  public void testSingleProcessorTest() {
+  public void testSingleProcessorLinearGraphTest() {
     String expectedDotGraph = """
         digraph "test1-output" {
         A [Weight=2,Start=0,Processor=1];
@@ -30,17 +31,17 @@ public class DotGraphOutputTest {
         }
         """;
 
-    Graph testGraph = new Graph();
-    testGraph.addNode("A", 2);
-    testGraph.addNode("B", 3);
-    testGraph.addNode("C", 1);
-    testGraph.addNode("D", 4);
-    testGraph.addNode("E", 2);
+    Graph actualGraph = new Graph();
+    actualGraph.addNode("A", 2);
+    actualGraph.addNode("B", 3);
+    actualGraph.addNode("C", 1);
+    actualGraph.addNode("D", 4);
+    actualGraph.addNode("E", 2);
 
-    testGraph.addEdge("A", "B", 1);
-    testGraph.addEdge("B", "C", 3);
-    testGraph.addEdge("C", "D", 2);
-    testGraph.addEdge("D", "E", 1);
+    actualGraph.addEdge("A", "B", 1);
+    actualGraph.addEdge("B", "C", 3);
+    actualGraph.addEdge("C", "D", 2);
+    actualGraph.addEdge("D", "E", 1);
 
     ScheduledTask taskA = new ScheduledTask(0, 2, 0);
     ScheduledTask taskB = new ScheduledTask(2, 5, 0);
@@ -48,23 +49,25 @@ public class DotGraphOutputTest {
     ScheduledTask taskD = new ScheduledTask(6, 10, 0);
     ScheduledTask taskE = new ScheduledTask(10, 12, 0);
 
-    Schedule testSchedule = new Schedule(5, 1);
-    testSchedule = testSchedule.extendWithTask(taskA, 0);
-    testSchedule = testSchedule.extendWithTask(taskB, 1);
-    testSchedule = testSchedule.extendWithTask(taskC, 2);
-    testSchedule = testSchedule.extendWithTask(taskD, 3);
-    testSchedule = testSchedule.extendWithTask(taskE, 4);
+    Schedule actualSchedule = new Schedule(5, 1);
+    actualSchedule = actualSchedule.extendWithTask(taskA, 0);
+    actualSchedule = actualSchedule.extendWithTask(taskB, 1);
+    actualSchedule = actualSchedule.extendWithTask(taskC, 2);
+    actualSchedule = actualSchedule.extendWithTask(taskD, 3);
+    actualSchedule = actualSchedule.extendWithTask(taskE, 4);
 
-    String actualDotGraph = dotGraphIO.toDotString("test1-output", testSchedule, testGraph);
+    String actualDotGraph = dotGraphIO.toDotString("test1-output", actualSchedule,
+        actualGraph);
 
     Assertions.assertEquals(expectedDotGraph, actualDotGraph);
   }
 
   /**
-   * Test that the dot graph output is correct for multiple processors
+   * Test that the dot graph output is correct for multiple processors when given a linear graph (a
+   * graph with no branches)
    */
   @Test
-  public void testMultiProcessorTest() {
+  public void testMultiProcessorLinearGraphTest() {
     String expectedDotGraph = """
         digraph "test2-output" {
         A [Weight=2,Start=0,Processor=1];
@@ -79,17 +82,17 @@ public class DotGraphOutputTest {
         }
         """;
 
-    Graph testGraph = new Graph();
-    testGraph.addNode("A", 2);
-    testGraph.addNode("B", 3);
-    testGraph.addNode("C", 1);
-    testGraph.addNode("D", 4);
-    testGraph.addNode("E", 2);
+    Graph actualGraph = new Graph();
+    actualGraph.addNode("A", 2);
+    actualGraph.addNode("B", 3);
+    actualGraph.addNode("C", 1);
+    actualGraph.addNode("D", 4);
+    actualGraph.addNode("E", 2);
 
-    testGraph.addEdge("A", "B", 1);
-    testGraph.addEdge("B", "C", 3);
-    testGraph.addEdge("C", "D", 2);
-    testGraph.addEdge("D", "E", 1);
+    actualGraph.addEdge("A", "B", 1);
+    actualGraph.addEdge("B", "C", 3);
+    actualGraph.addEdge("C", "D", 2);
+    actualGraph.addEdge("D", "E", 1);
 
     ScheduledTask taskA = new ScheduledTask(0, 2, 0);
     ScheduledTask taskB = new ScheduledTask(2, 5, 0);
@@ -97,14 +100,14 @@ public class DotGraphOutputTest {
     ScheduledTask taskD = new ScheduledTask(11, 15, 2);
     ScheduledTask taskE = new ScheduledTask(16, 18, 3);
 
-    Schedule testSchedule = new Schedule(5, 4);
-    testSchedule = testSchedule.extendWithTask(taskA, 0);
-    testSchedule = testSchedule.extendWithTask(taskB, 1);
-    testSchedule = testSchedule.extendWithTask(taskC, 2);
-    testSchedule = testSchedule.extendWithTask(taskD, 3);
-    testSchedule = testSchedule.extendWithTask(taskE, 4);
+    Schedule actualSchedule = new Schedule(5, 4);
+    actualSchedule = actualSchedule.extendWithTask(taskA, 0);
+    actualSchedule = actualSchedule.extendWithTask(taskB, 1);
+    actualSchedule = actualSchedule.extendWithTask(taskC, 2);
+    actualSchedule = actualSchedule.extendWithTask(taskD, 3);
+    actualSchedule = actualSchedule.extendWithTask(taskE, 4);
 
-    String actualDotGraph = dotGraphIO.toDotString("test2-output", testSchedule, testGraph);
+    String actualDotGraph = dotGraphIO.toDotString("test2-output", actualSchedule, actualGraph);
 
     Assertions.assertEquals(expectedDotGraph, actualDotGraph);
   }
