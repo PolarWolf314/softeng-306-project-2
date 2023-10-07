@@ -40,7 +40,7 @@ public class TuiVisualizer implements Visualizer {
     this.populateStatusBar();
     sb.append(NEW_LINE);
 
-    this.updateGanttChart(schedule);
+    this.drawGanttChart(schedule);
     sb.append(NEW_LINE);
 
     this.addDivider(); // Bottom border
@@ -48,7 +48,7 @@ public class TuiVisualizer implements Visualizer {
     System.out.println(sb);
   }
 
-  private void updateGanttChart(Schedule schedule) {
+  private void drawGanttChart(Schedule schedule) {
     // Chart header
     for (int processorIndex = 1; processorIndex <= schedule.getProcessorEndTimes().length;
         processorIndex++) {
