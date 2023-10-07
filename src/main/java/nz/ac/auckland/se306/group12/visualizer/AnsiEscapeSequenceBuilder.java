@@ -75,6 +75,15 @@ public class AnsiEscapeSequenceBuilder {
   }
 
   /**
+   * Resets foreground colour to default. This is terminal-implementation-dependent, and may vary
+   * with user configuration.
+   */
+  public AnsiEscapeSequenceBuilder defaultForeground() {
+    stringBuilder.append("39").append(SEPARATOR);
+    return this;
+  }
+
+  /**
    * Sets RGB foreground colour with 24-bit "true colour" mode.
    */
   public AnsiEscapeSequenceBuilder foreground(int r, int g, int b) {
@@ -86,11 +95,6 @@ public class AnsiEscapeSequenceBuilder {
         .append(r).append(SEPARATOR)
         .append(g).append(SEPARATOR)
         .append(b).append(SEPARATOR);
-    return this;
-  }
-
-  public AnsiEscapeSequenceBuilder defaultForeground() {
-    stringBuilder.append("39").append(SEPARATOR);
     return this;
   }
 
@@ -120,11 +124,31 @@ public class AnsiEscapeSequenceBuilder {
     return this;
   }
 
+
+  /**
+   * Resets background colour to default. This is terminal-implementation-dependent, and may vary
+   * with user configuration.
+   */
   public AnsiEscapeSequenceBuilder defaultBackground() {
     stringBuilder.append("49").append(SEPARATOR);
     return this;
   }
 
+  /**
+   * Delimits the control sequence in proper delimiters ({@code ESC[}...{@code m}) and returns it in
+   * {@link String} form.
+   * <p>
+   * If called without any of the "optional" methods defined above, its behaviour is equivalent to
+   * {@code this.reset().toString()}. This the control sequence with no parameters (that is,
+   * {@code ESC[m}) is equivalent to that with the reset code {@code ESC[0m}.
+   * <p>
+   * This method takes the place of what would've been the `{@code build()} method, whose behaviour
+   * would've been identical. This takes advantage of times when Java automatically calls
+   * {@link Object#toString()}, so the programmer need not always end the call chain with
+   * {@code .build()}.
+   *
+   * @return The delimited ANSI control sequence, as a string.
+   */
   @Override
   public String toString() {
     // Remove trailing separator
