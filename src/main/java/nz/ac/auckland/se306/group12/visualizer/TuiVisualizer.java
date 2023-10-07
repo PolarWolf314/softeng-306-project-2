@@ -5,12 +5,25 @@ import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
 
+/**
+ * A terminal-based class for visualising parallel schedules on systems with multiple homogenous
+ * processors.
+ */
 public class TuiVisualizer implements Visualizer {
 
   private static final String NEW_LINE = System.getProperty("line.separator");
 
+  /**
+   * The task graph whose schedules (partial or complete) are to be visualised.
+   */
   private final Graph taskGraph;
-  private final StringBuilder sb = new StringBuilder(800);
+
+  /**
+   * This visualiser’s output is just a massive string. This is where the heavy lifing gets done.
+   * Initial capacity of 2000 is actually conservative, but already miles more appropriate than the
+   * default 16.
+   */
+  private final StringBuilder sb = new StringBuilder(2000);
 
   public TuiVisualizer(Graph taskGraph) {
     this.taskGraph = taskGraph;
