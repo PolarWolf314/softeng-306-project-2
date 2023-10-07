@@ -40,7 +40,6 @@ public class AnsiEscapeSequenceBuilder {
     return this.underline(false);
   }
 
-
   /**
    * Sets foreground colour with 256-colour mode, based on the pre-defined lookup table (available
    * <a href="https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit">on Wikipedia</a>).
