@@ -21,66 +21,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Join_Nodes_30_CCR_0dot10_WeightType_Random2_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Join_Nodes_30_CCR_0.10_WeightType_Random#2_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 246400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 181, 0), new ScheduledTask(166700, 166881, 0), new ScheduledTask(90600, 90781, 0), new ScheduledTask(199300, 199481, 0), new ScheduledTask(150400, 150563, 0), new ScheduledTask(83700, 83845, 1), new ScheduledTask(184800, 184945, 0), new ScheduledTask(139100, 139245, 2), new ScheduledTask(50700, 50845, 0), new ScheduledTask(19100, 19227, 2), new ScheduledTask(65200, 65327, 0), new ScheduledTask(32600, 32727, 0), new ScheduledTask(137700, 137827, 0), new ScheduledTask(77900, 78027, 0), new ScheduledTask(217400, 217527, 0), new ScheduledTask(108700, 108827, 0), new ScheduledTask(18300, 18409, 1), new ScheduledTask(121400, 121509, 0), new ScheduledTask(73700, 73791, 3), new ScheduledTask(19100, 19191, 3), new ScheduledTask(172100, 172191, 3), new ScheduledTask(170700, 170791, 1), new ScheduledTask(18100, 18191, 0), new ScheduledTask(128300, 128373, 3), new ScheduledTask(95300, 95373, 2), new ScheduledTask(27200, 27254, 0), new ScheduledTask(45300, 45354, 0), new ScheduledTask(132300, 132354, 0), new ScheduledTask(230100, 230136, 0), new ScheduledTask(233700, 233827, 0)};
-        int[] expectedProcessorEndTimes = new int[]{233827, 170791, 139245, 172191};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Join_Nodes_30_CCR_0dot10_WeightType_Random4_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Join_Nodes_30_CCR_0.10_WeightType_Random#4_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 245900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 115, 0), new ScheduledTask(30700, 30892, 0), new ScheduledTask(169000, 169192, 0), new ScheduledTask(65300, 65473, 0), new ScheduledTask(140200, 140373, 0), new ScheduledTask(122900, 123073, 0), new ScheduledTask(128000, 128173, 1), new ScheduledTask(82600, 82773, 0), new ScheduledTask(188200, 188354, 0), new ScheduledTask(12400, 12554, 2), new ScheduledTask(47300, 47454, 3), new ScheduledTask(139700, 139854, 3), new ScheduledTask(139600, 139754, 2), new ScheduledTask(47000, 47135, 1), new ScheduledTask(220900, 221015, 0), new ScheduledTask(21100, 21196, 0), new ScheduledTask(113300, 113396, 0), new ScheduledTask(211300, 211396, 0), new ScheduledTask(103700, 103796, 0), new ScheduledTask(11500, 11596, 0), new ScheduledTask(57600, 57677, 0), new ScheduledTask(49900, 49977, 0), new ScheduledTask(157500, 157577, 0), new ScheduledTask(203600, 203677, 0), new ScheduledTask(12500, 12558, 3), new ScheduledTask(104800, 104858, 2), new ScheduledTask(12200, 12258, 1), new ScheduledTask(165200, 165238, 0), new ScheduledTask(99900, 99938, 0), new ScheduledTask(232400, 232535, 0)};
-        int[] expectedProcessorEndTimes = new int[]{232535, 128173, 139754, 139854};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Join_Nodes_30_CCR_0dot10_WeightType_Random8_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Join_Nodes_30_CCR_0.10_WeightType_Random#8_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 250200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 166, 0), new ScheduledTask(103000, 103184, 0), new ScheduledTask(163700, 163884, 0), new ScheduledTask(84600, 84784, 0), new ScheduledTask(134300, 134484, 0), new ScheduledTask(17600, 17766, 1), new ScheduledTask(69900, 70047, 0), new ScheduledTask(206000, 206147, 0), new ScheduledTask(22100, 22247, 0), new ScheduledTask(139200, 139347, 2), new ScheduledTask(72800, 72929, 3), new ScheduledTask(150200, 150329, 3), new ScheduledTask(61800, 61929, 2), new ScheduledTask(57000, 57129, 0), new ScheduledTask(220700, 220829, 0), new ScheduledTask(121400, 121529, 0), new ScheduledTask(182100, 182229, 0), new ScheduledTask(195000, 195110, 0), new ScheduledTask(152700, 152810, 0), new ScheduledTask(36800, 36910, 0), new ScheduledTask(17600, 17692, 3), new ScheduledTask(17400, 17474, 2), new ScheduledTask(183800, 183874, 1), new ScheduledTask(16600, 16655, 0), new ScheduledTask(51500, 51555, 0), new ScheduledTask(117200, 117237, 1), new ScheduledTask(161600, 161637, 1), new ScheduledTask(139400, 139437, 1), new ScheduledTask(47800, 47837, 0), new ScheduledTask(233600, 233766, 0)};
-        int[] expectedProcessorEndTimes = new int[]{233766, 183874, 139347, 150329};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Join_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Join_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
@@ -121,26 +61,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 123300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 91, 0), new ScheduledTask(17300, 17391, 0), new ScheduledTask(70300, 70391, 0), new ScheduledTask(9300, 9391, 1), new ScheduledTask(33800, 33891, 0), new ScheduledTask(42300, 42391, 2), new ScheduledTask(70200, 70282, 3), new ScheduledTask(42900, 42982, 0), new ScheduledTask(9100, 9182, 0), new ScheduledTask(84000, 84082, 0), new ScheduledTask(92200, 92273, 0), new ScheduledTask(51100, 51173, 0), new ScheduledTask(99500, 99573, 0), new ScheduledTask(58400, 58473, 0), new ScheduledTask(106800, 106873, 0), new ScheduledTask(37200, 37255, 3), new ScheduledTask(9300, 9355, 2), new ScheduledTask(9600, 9646, 3), new ScheduledTask(114100, 114146, 0), new ScheduledTask(118700, 118746, 0), new ScheduledTask(65700, 65746, 0), new ScheduledTask(79400, 79446, 0), new ScheduledTask(26400, 26437, 0), new ScheduledTask(96900, 96937, 2), new ScheduledTask(30100, 30137, 0), new ScheduledTask(74700, 74727, 1), new ScheduledTask(90900, 90918, 1), new ScheduledTask(101700, 101718, 1), new ScheduledTask(63900, 63918, 1), new ScheduledTask(112500, 112518, 1)};
-        int[] expectedProcessorEndTimes = new int[]{118746, 112518, 96937, 70282};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
@@ -152,26 +72,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 91, 0), new ScheduledTask(164, 255, 0), new ScheduledTask(566, 657, 0), new ScheduledTask(93, 184, 1), new ScheduledTask(266, 357, 1), new ScheduledTask(255, 346, 0), new ScheduledTask(631, 713, 1), new ScheduledTask(357, 439, 1), new ScheduledTask(184, 266, 1), new ScheduledTask(713, 795, 1), new ScheduledTask(795, 868, 1), new ScheduledTask(485, 558, 1), new ScheduledTask(776, 849, 0), new ScheduledTask(558, 631, 1), new ScheduledTask(868, 941, 1), new ScheduledTask(465, 520, 0), new ScheduledTask(91, 146, 0), new ScheduledTask(439, 485, 1), new ScheduledTask(849, 895, 0), new ScheduledTask(895, 941, 0), new ScheduledTask(520, 566, 0), new ScheduledTask(657, 703, 0), new ScheduledTask(346, 383, 0), new ScheduledTask(721, 758, 0), new ScheduledTask(383, 420, 0), new ScheduledTask(420, 447, 0), new ScheduledTask(447, 465, 0), new ScheduledTask(703, 721, 0), new ScheduledTask(146, 164, 0), new ScheduledTask(758, 776, 0)};
         int[] expectedProcessorEndTimes = new int[]{941, 941};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random2_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random#2_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 129300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 23, 0), new ScheduledTask(26500, 26616, 0), new ScheduledTask(96900, 97004, 0), new ScheduledTask(44800, 44904, 1), new ScheduledTask(51200, 51293, 2), new ScheduledTask(72500, 72593, 3), new ScheduledTask(2900, 2981, 3), new ScheduledTask(2600, 2681, 2), new ScheduledTask(81900, 81981, 0), new ScheduledTask(38100, 38181, 0), new ScheduledTask(2300, 2381, 0), new ScheduledTask(107300, 107381, 0), new ScheduledTask(115400, 115481, 0), new ScheduledTask(12700, 12769, 0), new ScheduledTask(90000, 90069, 0), new ScheduledTask(60000, 60069, 0), new ScheduledTask(19600, 19669, 0), new ScheduledTask(123500, 123558, 0), new ScheduledTask(66900, 66958, 0), new ScheduledTask(50800, 50846, 0), new ScheduledTask(46200, 46246, 0), new ScheduledTask(55400, 55446, 0), new ScheduledTask(72700, 72746, 0), new ScheduledTask(77300, 77346, 0), new ScheduledTask(51500, 51535, 3), new ScheduledTask(107000, 107035, 2), new ScheduledTask(2800, 2835, 1), new ScheduledTask(23800, 23835, 1), new ScheduledTask(107200, 107235, 1), new ScheduledTask(10400, 10423, 0)};
-        int[] expectedProcessorEndTimes = new int[]{123558, 107235, 107035, 72593};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -212,26 +112,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 51, 0), new ScheduledTask(798, 900, 1), new ScheduledTask(696, 798, 1), new ScheduledTask(461, 563, 1), new ScheduledTask(216, 318, 1), new ScheduledTask(563, 655, 1), new ScheduledTask(53, 134, 1), new ScheduledTask(264, 345, 0), new ScheduledTask(183, 264, 0), new ScheduledTask(345, 426, 0), new ScheduledTask(771, 842, 0), new ScheduledTask(426, 497, 0), new ScheduledTask(51, 122, 0), new ScheduledTask(842, 913, 0), new ScheduledTask(318, 379, 1), new ScheduledTask(537, 598, 0), new ScheduledTask(122, 183, 0), new ScheduledTask(134, 185, 1), new ScheduledTask(669, 720, 0), new ScheduledTask(410, 461, 1), new ScheduledTask(598, 649, 0), new ScheduledTask(720, 771, 0), new ScheduledTask(655, 696, 1), new ScheduledTask(379, 410, 1), new ScheduledTask(185, 216, 1), new ScheduledTask(900, 931, 1), new ScheduledTask(649, 669, 0), new ScheduledTask(913, 933, 0), new ScheduledTask(517, 537, 0), new ScheduledTask(497, 517, 0)};
         int[] expectedProcessorEndTimes = new int[]{933, 931};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random4_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random#4_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 101600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 15, 0), new ScheduledTask(1500, 1577, 0), new ScheduledTask(9200, 9277, 0), new ScheduledTask(16900, 16977, 0), new ScheduledTask(20500, 20577, 1), new ScheduledTask(1900, 1977, 2), new ScheduledTask(57100, 57169, 3), new ScheduledTask(48100, 48169, 2), new ScheduledTask(44400, 44469, 0), new ScheduledTask(1900, 1969, 3), new ScheduledTask(51300, 51361, 0), new ScheduledTask(68100, 68161, 0), new ScheduledTask(74200, 74261, 0), new ScheduledTask(57400, 57461, 0), new ScheduledTask(95500, 95561, 0), new ScheduledTask(80300, 80361, 0), new ScheduledTask(66700, 66754, 1), new ScheduledTask(63500, 63546, 0), new ScheduledTask(33000, 33038, 0), new ScheduledTask(36800, 36838, 0), new ScheduledTask(40600, 40638, 0), new ScheduledTask(86400, 86438, 0), new ScheduledTask(24600, 24638, 0), new ScheduledTask(90200, 90238, 0), new ScheduledTask(1900, 1931, 1), new ScheduledTask(28400, 28431, 0), new ScheduledTask(43300, 43323, 3), new ScheduledTask(89500, 89515, 2), new ScheduledTask(94000, 94015, 0), new ScheduledTask(31500, 31515, 0)};
-        int[] expectedProcessorEndTimes = new int[]{95561, 66754, 89515, 57169};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -321,26 +201,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random8_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random#8_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 123000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 88, 0), new ScheduledTask(19400, 19488, 0), new ScheduledTask(101900, 101988, 0), new ScheduledTask(110700, 110788, 0), new ScheduledTask(28200, 28288, 0), new ScheduledTask(93100, 93188, 0), new ScheduledTask(73800, 73879, 0), new ScheduledTask(40500, 40579, 0), new ScheduledTask(48400, 48479, 0), new ScheduledTask(56300, 56379, 0), new ScheduledTask(81700, 81779, 0), new ScheduledTask(9500, 9571, 1), new ScheduledTask(9100, 9171, 2), new ScheduledTask(41300, 41362, 3), new ScheduledTask(83500, 83562, 2), new ScheduledTask(78500, 78553, 3), new ScheduledTask(9500, 9553, 3), new ScheduledTask(51700, 51753, 2), new ScheduledTask(52100, 52153, 1), new ScheduledTask(8800, 8853, 0), new ScheduledTask(14100, 14153, 0), new ScheduledTask(83900, 83944, 1), new ScheduledTask(66800, 66844, 0), new ScheduledTask(119500, 119535, 0), new ScheduledTask(37000, 37035, 0), new ScheduledTask(89600, 89635, 0), new ScheduledTask(71200, 71226, 0), new ScheduledTask(64200, 64226, 0), new ScheduledTask(110300, 110318, 3), new ScheduledTask(110300, 110318, 1)};
-        int[] expectedProcessorEndTimes = new int[]{119535, 110318, 83562, 110318};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random8_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random#8_Homogeneous-2.dot");
         int processorCount = 2;
@@ -352,26 +212,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 88, 0), new ScheduledTask(194, 282, 0), new ScheduledTask(773, 861, 0), new ScheduledTask(762, 850, 1), new ScheduledTask(91, 179, 1), new ScheduledTask(685, 773, 0), new ScheduledTask(571, 650, 0), new ScheduledTask(317, 396, 0), new ScheduledTask(396, 475, 0), new ScheduledTask(365, 444, 1), new ScheduledTask(444, 523, 1), new ScheduledTask(523, 594, 1), new ScheduledTask(179, 250, 1), new ScheduledTask(647, 709, 1), new ScheduledTask(303, 365, 1), new ScheduledTask(709, 762, 1), new ScheduledTask(594, 647, 1), new ScheduledTask(250, 303, 1), new ScheduledTask(850, 903, 1), new ScheduledTask(88, 141, 0), new ScheduledTask(141, 194, 0), new ScheduledTask(896, 940, 0), new ScheduledTask(501, 545, 0), new ScheduledTask(861, 896, 0), new ScheduledTask(282, 317, 0), new ScheduledTask(650, 685, 0), new ScheduledTask(545, 571, 0), new ScheduledTask(475, 501, 0), new ScheduledTask(903, 921, 1), new ScheduledTask(921, 939, 1)};
         int[] expectedProcessorEndTimes = new int[]{940, 939};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random9_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random#9_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 124600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 83, 0), new ScheduledTask(21700, 21803, 0), new ScheduledTask(8300, 8403, 0), new ScheduledTask(107100, 107203, 0), new ScheduledTask(33700, 33793, 1), new ScheduledTask(8700, 8793, 2), new ScheduledTask(52000, 52083, 3), new ScheduledTask(35100, 35172, 0), new ScheduledTask(42300, 42372, 0), new ScheduledTask(8800, 8872, 3), new ScheduledTask(49500, 49572, 0), new ScheduledTask(56700, 56772, 0), new ScheduledTask(63900, 63972, 0), new ScheduledTask(74200, 74272, 0), new ScheduledTask(87600, 87672, 0), new ScheduledTask(64500, 64562, 2), new ScheduledTask(81400, 81462, 0), new ScheduledTask(89500, 89552, 1), new ScheduledTask(94800, 94841, 0), new ScheduledTask(98900, 98941, 0), new ScheduledTask(103000, 103041, 0), new ScheduledTask(117400, 117441, 0), new ScheduledTask(101800, 101831, 3), new ScheduledTask(71100, 71131, 0), new ScheduledTask(101700, 101731, 2), new ScheduledTask(18600, 18631, 0), new ScheduledTask(32000, 32031, 0), new ScheduledTask(121500, 121531, 0), new ScheduledTask(8500, 8521, 1), new ScheduledTask(21100, 21121, 1)};
-        int[] expectedProcessorEndTimes = new int[]{121531, 89552, 101731, 101831};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -441,26 +281,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 117200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 56, 0), new ScheduledTask(67400, 67494, 0), new ScheduledTask(107800, 107894, 0), new ScheduledTask(76800, 76894, 0), new ScheduledTask(45500, 45594, 1), new ScheduledTask(40000, 40085, 2), new ScheduledTask(17400, 17485, 3), new ScheduledTask(92800, 92875, 0), new ScheduledTask(17800, 17875, 0), new ScheduledTask(42100, 42175, 0), new ScheduledTask(49600, 49675, 0), new ScheduledTask(100300, 100375, 0), new ScheduledTask(5900, 5966, 1), new ScheduledTask(86200, 86266, 0), new ScheduledTask(25300, 25356, 0), new ScheduledTask(30900, 30956, 0), new ScheduledTask(36500, 36556, 0), new ScheduledTask(5600, 5656, 0), new ScheduledTask(59900, 59956, 0), new ScheduledTask(11200, 11247, 0), new ScheduledTask(68400, 68438, 3), new ScheduledTask(91000, 91038, 2), new ScheduledTask(5800, 5838, 2), new ScheduledTask(91200, 91238, 3), new ScheduledTask(57100, 57128, 0), new ScheduledTask(6000, 6019, 3), new ScheduledTask(28600, 28619, 2), new ScheduledTask(101900, 101919, 1), new ScheduledTask(15900, 15919, 0), new ScheduledTask(65500, 65519, 0)};
-        int[] expectedProcessorEndTimes = new int[]{107894, 101919, 91038, 91238};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -472,26 +292,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 56, 0), new ScheduledTask(572, 666, 0), new ScheduledTask(791, 885, 1), new ScheduledTask(481, 575, 1), new ScheduledTask(384, 478, 0), new ScheduledTask(742, 827, 0), new ScheduledTask(396, 481, 1), new ScheduledTask(641, 716, 1), new ScheduledTask(105, 180, 1), new ScheduledTask(246, 321, 1), new ScheduledTask(321, 396, 1), new ScheduledTask(716, 791, 1), new ScheduledTask(180, 246, 1), new ScheduledTask(575, 641, 1), new ScheduledTask(169, 225, 0), new ScheduledTask(225, 281, 0), new ScheduledTask(281, 337, 0), new ScheduledTask(56, 112, 0), new ScheduledTask(497, 553, 0), new ScheduledTask(58, 105, 1), new ScheduledTask(666, 704, 0), new ScheduledTask(827, 865, 0), new ScheduledTask(112, 150, 0), new ScheduledTask(704, 742, 0), new ScheduledTask(356, 384, 0), new ScheduledTask(337, 356, 0), new ScheduledTask(478, 497, 0), new ScheduledTask(865, 884, 0), new ScheduledTask(150, 169, 0), new ScheduledTask(553, 572, 0)};
         int[] expectedProcessorEndTimes = new int[]{884, 885};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_0dot95_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.95_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 0), new ScheduledTask(7700, 7710, 0), new ScheduledTask(3600, 3610, 0), new ScheduledTask(2200, 2209, 0), new ScheduledTask(4600, 4609, 0), new ScheduledTask(1100, 1108, 1), new ScheduledTask(8700, 8708, 0), new ScheduledTask(3400, 3408, 2), new ScheduledTask(1200, 1207, 3), new ScheduledTask(7700, 7707, 1), new ScheduledTask(7800, 7807, 3), new ScheduledTask(9500, 9506, 0), new ScheduledTask(8200, 8206, 2), new ScheduledTask(10600, 10606, 0), new ScheduledTask(5500, 5506, 0), new ScheduledTask(6100, 6106, 0), new ScheduledTask(800, 806, 0), new ScheduledTask(11200, 11206, 0), new ScheduledTask(10100, 10105, 0), new ScheduledTask(6700, 6705, 0), new ScheduledTask(3100, 3105, 0), new ScheduledTask(5400, 5404, 3), new ScheduledTask(1000, 1004, 2), new ScheduledTask(5900, 5903, 1), new ScheduledTask(7200, 7203, 0), new ScheduledTask(1400, 1403, 0), new ScheduledTask(11800, 11803, 0), new ScheduledTask(1700, 1703, 0), new ScheduledTask(2000, 2002, 0), new ScheduledTask(7500, 7502, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11803, 7707, 8206, 7807};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -521,26 +321,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_0dot96_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.96_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12700;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(6300, 6309, 0), new ScheduledTask(10000, 10009, 0), new ScheduledTask(500, 509, 0), new ScheduledTask(7900, 7909, 0), new ScheduledTask(700, 709, 1), new ScheduledTask(5500, 5509, 2), new ScheduledTask(700, 708, 2), new ScheduledTask(6100, 6108, 1), new ScheduledTask(700, 708, 3), new ScheduledTask(5500, 5508, 3), new ScheduledTask(2000, 2008, 0), new ScheduledTask(4900, 4907, 0), new ScheduledTask(7200, 7207, 0), new ScheduledTask(4200, 4207, 0), new ScheduledTask(8800, 8807, 0), new ScheduledTask(10900, 10906, 0), new ScheduledTask(1400, 1406, 0), new ScheduledTask(2800, 2806, 0), new ScheduledTask(3400, 3406, 0), new ScheduledTask(5600, 5605, 0), new ScheduledTask(9500, 9505, 0), new ScheduledTask(11500, 11504, 0), new ScheduledTask(10300, 10304, 3), new ScheduledTask(11900, 11904, 0), new ScheduledTask(10900, 10903, 2), new ScheduledTask(10900, 10903, 1), new ScheduledTask(12300, 12303, 0), new ScheduledTask(4000, 4002, 0), new ScheduledTask(6100, 6102, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12303, 10903, 10903, 10304};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot96_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.96_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -552,26 +332,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(5, 14, 0), new ScheduledTask(14, 23, 0), new ScheduledTask(7, 16, 1), new ScheduledTask(16, 25, 1), new ScheduledTask(23, 32, 0), new ScheduledTask(25, 34, 1), new ScheduledTask(32, 40, 0), new ScheduledTask(34, 42, 1), new ScheduledTask(40, 48, 0), new ScheduledTask(42, 50, 1), new ScheduledTask(48, 56, 0), new ScheduledTask(50, 57, 1), new ScheduledTask(56, 63, 0), new ScheduledTask(57, 64, 1), new ScheduledTask(63, 70, 0), new ScheduledTask(64, 70, 1), new ScheduledTask(70, 76, 0), new ScheduledTask(70, 76, 1), new ScheduledTask(76, 82, 0), new ScheduledTask(76, 81, 1), new ScheduledTask(81, 86, 1), new ScheduledTask(82, 86, 0), new ScheduledTask(86, 90, 0), new ScheduledTask(86, 90, 1), new ScheduledTask(90, 93, 0), new ScheduledTask(90, 93, 1), new ScheduledTask(93, 96, 0), new ScheduledTask(93, 95, 1), new ScheduledTask(95, 97, 1)};
         int[] expectedProcessorEndTimes = new int[]{96, 97};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_1dot01_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.01_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(8900, 8910, 0), new ScheduledTask(5400, 5410, 0), new ScheduledTask(2500, 2510, 0), new ScheduledTask(6800, 6810, 0), new ScheduledTask(9900, 9909, 0), new ScheduledTask(11300, 11309, 0), new ScheduledTask(7400, 7409, 1), new ScheduledTask(3000, 3009, 2), new ScheduledTask(2600, 2608, 1), new ScheduledTask(7800, 7808, 3), new ScheduledTask(1200, 1208, 3), new ScheduledTask(8400, 8407, 2), new ScheduledTask(1000, 1007, 0), new ScheduledTask(3500, 3507, 0), new ScheduledTask(7800, 7805, 0), new ScheduledTask(10800, 10805, 0), new ScheduledTask(12400, 12404, 0), new ScheduledTask(4600, 4604, 0), new ScheduledTask(5000, 5004, 0), new ScheduledTask(1700, 1704, 0), new ScheduledTask(4200, 4204, 0), new ScheduledTask(6400, 6404, 0), new ScheduledTask(2100, 2104, 0), new ScheduledTask(6000, 6003, 3), new ScheduledTask(1200, 1203, 2), new ScheduledTask(8300, 8303, 0), new ScheduledTask(8600, 8603, 0), new ScheduledTask(1400, 1402, 1), new ScheduledTask(12200, 12202, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12404, 7409, 8407, 7808};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -601,26 +361,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_1dot01_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.01_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 0), new ScheduledTask(5000, 5010, 0), new ScheduledTask(1200, 1210, 0), new ScheduledTask(1100, 1110, 1), new ScheduledTask(9200, 9210, 0), new ScheduledTask(7000, 7009, 2), new ScheduledTask(6600, 6609, 3), new ScheduledTask(1200, 1209, 3), new ScheduledTask(2200, 2208, 2), new ScheduledTask(7100, 7108, 1), new ScheduledTask(2200, 2207, 0), new ScheduledTask(10200, 10207, 0), new ScheduledTask(2900, 2907, 0), new ScheduledTask(3600, 3606, 0), new ScheduledTask(7800, 7806, 0), new ScheduledTask(6500, 6505, 0), new ScheduledTask(6000, 6005, 0), new ScheduledTask(7000, 7005, 0), new ScheduledTask(4500, 4505, 0), new ScheduledTask(10900, 10904, 0), new ScheduledTask(800, 804, 0), new ScheduledTask(11600, 11604, 0), new ScheduledTask(8400, 8404, 0), new ScheduledTask(12000, 12003, 0), new ScheduledTask(7500, 7503, 0), new ScheduledTask(4200, 4203, 0), new ScheduledTask(11300, 11303, 0), new ScheduledTask(8800, 8802, 0), new ScheduledTask(1000, 1002, 2), new ScheduledTask(9000, 9002, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12003, 7108, 7009, 6609};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_1dot01_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.01_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -632,26 +372,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 0), new ScheduledTask(38, 48, 0), new ScheduledTask(10, 20, 0), new ScheduledTask(20, 30, 0), new ScheduledTask(74, 84, 0), new ScheduledTask(68, 77, 1), new ScheduledTask(77, 86, 1), new ScheduledTask(34, 43, 1), new ScheduledTask(43, 51, 1), new ScheduledTask(86, 94, 1), new ScheduledTask(14, 21, 1), new ScheduledTask(57, 64, 1), new ScheduledTask(21, 28, 1), new ScheduledTask(28, 34, 1), new ScheduledTask(51, 57, 1), new ScheduledTask(53, 58, 0), new ScheduledTask(48, 53, 0), new ScheduledTask(58, 63, 0), new ScheduledTask(33, 38, 0), new ScheduledTask(64, 68, 1), new ScheduledTask(10, 14, 1), new ScheduledTask(87, 91, 0), new ScheduledTask(66, 70, 0), new ScheduledTask(91, 94, 0), new ScheduledTask(63, 66, 0), new ScheduledTask(30, 33, 0), new ScheduledTask(84, 87, 0), new ScheduledTask(70, 72, 0), new ScheduledTask(8, 10, 0), new ScheduledTask(72, 74, 0)};
         int[] expectedProcessorEndTimes = new int[]{94, 94};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_1dot02_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.02_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 11900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 3, 0), new ScheduledTask(4300, 4310, 0), new ScheduledTask(6100, 6109, 0), new ScheduledTask(3400, 3409, 0), new ScheduledTask(7000, 7008, 0), new ScheduledTask(8000, 8008, 0), new ScheduledTask(300, 308, 0), new ScheduledTask(8800, 8808, 0), new ScheduledTask(2300, 2308, 1), new ScheduledTask(700, 707, 2), new ScheduledTask(3500, 3507, 3), new ScheduledTask(7700, 7707, 3), new ScheduledTask(7100, 7107, 1), new ScheduledTask(9600, 9607, 0), new ScheduledTask(4900, 4907, 2), new ScheduledTask(10300, 10307, 0), new ScheduledTask(1400, 1407, 0), new ScheduledTask(5300, 5306, 0), new ScheduledTask(11000, 11005, 0), new ScheduledTask(500, 505, 3), new ScheduledTask(2900, 2905, 0), new ScheduledTask(9100, 9104, 2), new ScheduledTask(1100, 1103, 0), new ScheduledTask(500, 503, 1), new ScheduledTask(2100, 2103, 0), new ScheduledTask(11500, 11503, 0), new ScheduledTask(2400, 2403, 0), new ScheduledTask(5900, 5902, 0), new ScheduledTask(2700, 2702, 0), new ScheduledTask(7800, 7802, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11503, 7107, 9104, 7707};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -721,26 +441,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_1dot02_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.02_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(12300, 12310, 0), new ScheduledTask(4000, 4010, 0), new ScheduledTask(1800, 1810, 0), new ScheduledTask(5000, 5010, 0), new ScheduledTask(2800, 2809, 0), new ScheduledTask(10700, 10709, 0), new ScheduledTask(7500, 7509, 1), new ScheduledTask(1000, 1008, 2), new ScheduledTask(1000, 1008, 3), new ScheduledTask(8200, 8208, 3), new ScheduledTask(5800, 5808, 2), new ScheduledTask(900, 908, 1), new ScheduledTask(600, 607, 0), new ScheduledTask(10000, 10007, 0), new ScheduledTask(8200, 8206, 0), new ScheduledTask(6000, 6006, 0), new ScheduledTask(7600, 7606, 0), new ScheduledTask(6600, 6605, 0), new ScheduledTask(1300, 1305, 0), new ScheduledTask(8800, 8805, 0), new ScheduledTask(7100, 7105, 0), new ScheduledTask(11600, 11605, 0), new ScheduledTask(9300, 9305, 0), new ScheduledTask(5800, 5804, 3), new ScheduledTask(10600, 10604, 2), new ScheduledTask(5700, 5703, 1), new ScheduledTask(3700, 3703, 0), new ScheduledTask(9800, 9802, 0), new ScheduledTask(12100, 12102, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12310, 7509, 10604, 8208};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_1dot02_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.02_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -761,26 +461,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_1dot04_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.04_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(5800, 5810, 1), new ScheduledTask(6800, 6809, 2), new ScheduledTask(1300, 1309, 3), new ScheduledTask(6700, 6709, 3), new ScheduledTask(6600, 6608, 0), new ScheduledTask(2000, 2008, 2), new ScheduledTask(7400, 7408, 0), new ScheduledTask(1000, 1008, 1), new ScheduledTask(8200, 8208, 0), new ScheduledTask(9000, 9007, 0), new ScheduledTask(4400, 4407, 0), new ScheduledTask(9700, 9707, 0), new ScheduledTask(2100, 2107, 0), new ScheduledTask(600, 607, 0), new ScheduledTask(10800, 10806, 0), new ScheduledTask(3700, 3705, 0), new ScheduledTask(5100, 5105, 0), new ScheduledTask(5600, 5605, 0), new ScheduledTask(11400, 11405, 0), new ScheduledTask(1300, 1305, 0), new ScheduledTask(6100, 6105, 0), new ScheduledTask(2800, 2804, 0), new ScheduledTask(10400, 10404, 0), new ScheduledTask(11900, 11904, 0), new ScheduledTask(3200, 3203, 0), new ScheduledTask(1800, 1803, 0), new ScheduledTask(4200, 4202, 0), new ScheduledTask(3500, 3502, 0), new ScheduledTask(800, 802, 2)};
-        int[] expectedProcessorEndTimes = new int[]{11904, 5810, 6809, 6709};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_1dot04_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.04_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
@@ -792,26 +472,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(74, 84, 1), new ScheduledTask(35, 44, 1), new ScheduledTask(26, 35, 1), new ScheduledTask(84, 93, 1), new ScheduledTask(44, 52, 1), new ScheduledTask(18, 26, 1), new ScheduledTask(52, 60, 1), new ScheduledTask(10, 18, 1), new ScheduledTask(60, 68, 1), new ScheduledTask(66, 73, 0), new ScheduledTask(44, 51, 0), new ScheduledTask(73, 80, 0), new ScheduledTask(21, 28, 0), new ScheduledTask(6, 13, 0), new ScheduledTask(68, 74, 1), new ScheduledTask(37, 42, 0), new ScheduledTask(51, 56, 0), new ScheduledTask(56, 61, 0), new ScheduledTask(84, 89, 0), new ScheduledTask(13, 18, 0), new ScheduledTask(61, 66, 0), new ScheduledTask(28, 32, 0), new ScheduledTask(80, 84, 0), new ScheduledTask(89, 93, 0), new ScheduledTask(32, 35, 0), new ScheduledTask(18, 21, 0), new ScheduledTask(42, 44, 0), new ScheduledTask(35, 37, 0), new ScheduledTask(8, 10, 1)};
         int[] expectedProcessorEndTimes = new int[]{93, 93};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_1dot04_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.04_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(3000, 3010, 0), new ScheduledTask(1000, 1010, 0), new ScheduledTask(6700, 6709, 0), new ScheduledTask(7600, 7609, 0), new ScheduledTask(8500, 8509, 0), new ScheduledTask(4700, 4709, 0), new ScheduledTask(9400, 9408, 0), new ScheduledTask(4300, 4308, 1), new ScheduledTask(3100, 3108, 2), new ScheduledTask(7900, 7907, 3), new ScheduledTask(4300, 4306, 3), new ScheduledTask(7900, 7906, 2), new ScheduledTask(700, 706, 1), new ScheduledTask(10200, 10206, 0), new ScheduledTask(700, 706, 3), new ScheduledTask(11400, 11406, 0), new ScheduledTask(2000, 2006, 0), new ScheduledTask(9100, 9105, 1), new ScheduledTask(5600, 5604, 0), new ScheduledTask(700, 704, 2), new ScheduledTask(10800, 10804, 0), new ScheduledTask(6000, 6004, 0), new ScheduledTask(4000, 4004, 0), new ScheduledTask(2600, 2604, 0), new ScheduledTask(500, 503, 0), new ScheduledTask(6400, 6403, 0), new ScheduledTask(4400, 4403, 0), new ScheduledTask(800, 802, 0), new ScheduledTask(11200, 11202, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11406, 9105, 7906, 7907};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -881,66 +541,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 14100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(5900, 5910, 0), new ScheduledTask(3400, 3410, 0), new ScheduledTask(10200, 10210, 0), new ScheduledTask(2100, 2109, 0), new ScheduledTask(9300, 9309, 0), new ScheduledTask(11200, 11209, 0), new ScheduledTask(12800, 12809, 0), new ScheduledTask(6900, 6909, 0), new ScheduledTask(7800, 7809, 0), new ScheduledTask(4500, 4509, 1), new ScheduledTask(3300, 3308, 2), new ScheduledTask(8100, 8108, 2), new ScheduledTask(9800, 9807, 3), new ScheduledTask(5600, 5607, 3), new ScheduledTask(9900, 9906, 1), new ScheduledTask(900, 906, 0), new ScheduledTask(5300, 5306, 0), new ScheduledTask(1500, 1506, 0), new ScheduledTask(4400, 4405, 0), new ScheduledTask(12100, 12105, 0), new ScheduledTask(8700, 8704, 0), new ScheduledTask(4900, 4904, 0), new ScheduledTask(13700, 13704, 0), new ScheduledTask(3000, 3004, 0), new ScheduledTask(3300, 3303, 3), new ScheduledTask(12900, 12902, 2), new ScheduledTask(3300, 3302, 1), new ScheduledTask(9100, 9102, 0), new ScheduledTask(12600, 12602, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13704, 9906, 12902, 9807};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random1_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random#1_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(900, 910, 0), new ScheduledTask(7100, 7110, 1), new ScheduledTask(5700, 5710, 0), new ScheduledTask(4500, 4509, 1), new ScheduledTask(4800, 4809, 0), new ScheduledTask(6700, 6709, 0), new ScheduledTask(8300, 8309, 0), new ScheduledTask(1900, 1909, 0), new ScheduledTask(2800, 2809, 0), new ScheduledTask(4900, 4909, 2), new ScheduledTask(3300, 3308, 3), new ScheduledTask(5600, 5608, 3), new ScheduledTask(3700, 3707, 0), new ScheduledTask(7200, 7207, 3), new ScheduledTask(8600, 8606, 3), new ScheduledTask(3300, 3306, 1), new ScheduledTask(8500, 8506, 2), new ScheduledTask(3300, 3306, 2), new ScheduledTask(6700, 6705, 2), new ScheduledTask(7600, 7605, 0), new ScheduledTask(4400, 4404, 0), new ScheduledTask(7700, 7704, 2), new ScheduledTask(9200, 9204, 0), new ScheduledTask(6300, 6304, 1), new ScheduledTask(4900, 4903, 3), new ScheduledTask(9600, 9602, 0), new ScheduledTask(4500, 4502, 2), new ScheduledTask(9200, 9202, 1), new ScheduledTask(8100, 8102, 0)};
-        int[] expectedProcessorEndTimes = new int[]{9602, 9202, 8506, 8606};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random1_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random#1_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(8000, 8010, 1), new ScheduledTask(7100, 7110, 3), new ScheduledTask(4900, 4910, 0), new ScheduledTask(4650, 4659, 2), new ScheduledTask(4000, 4009, 0), new ScheduledTask(5900, 5909, 0), new ScheduledTask(7500, 7509, 0), new ScheduledTask(900, 909, 0), new ScheduledTask(1800, 1809, 0), new ScheduledTask(5300, 5309, 3), new ScheduledTask(3300, 3308, 3), new ScheduledTask(6000, 6008, 2), new ScheduledTask(2700, 2707, 0), new ScheduledTask(7200, 7207, 2), new ScheduledTask(8250, 8256, 2), new ScheduledTask(3300, 3306, 1), new ScheduledTask(6800, 6806, 1), new ScheduledTask(3300, 3306, 2), new ScheduledTask(5600, 5605, 1), new ScheduledTask(6800, 6805, 0), new ScheduledTask(3400, 3404, 0), new ScheduledTask(6200, 6204, 1), new ScheduledTask(8400, 8404, 0), new ScheduledTask(4500, 4504, 1), new ScheduledTask(4200, 4203, 2), new ScheduledTask(8800, 8802, 0), new ScheduledTask(4900, 4902, 3), new ScheduledTask(3800, 3802, 0), new ScheduledTask(7300, 7302, 0)};
-        int[] expectedProcessorEndTimes = new int[]{8802, 8010, 8256, 7110};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
@@ -992,66 +592,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(80, 90, 1), new ScheduledTask(56, 66, 2), new ScheduledTask(49, 59, 0), new ScheduledTask(45, 54, 3), new ScheduledTask(40, 49, 0), new ScheduledTask(59, 68, 0), new ScheduledTask(75, 84, 0), new ScheduledTask(9, 18, 0), new ScheduledTask(18, 27, 0), new ScheduledTask(45, 54, 4), new ScheduledTask(33, 41, 5), new ScheduledTask(57, 65, 5), new ScheduledTask(27, 34, 0), new ScheduledTask(65, 72, 5), new ScheduledTask(72, 78, 5), new ScheduledTask(41, 47, 5), new ScheduledTask(83, 89, 5), new ScheduledTask(47, 53, 5), new ScheduledTask(78, 83, 5), new ScheduledTask(68, 73, 0), new ScheduledTask(34, 38, 0), new ScheduledTask(56, 60, 4), new ScheduledTask(84, 88, 0), new ScheduledTask(53, 57, 5), new ScheduledTask(33, 36, 4), new ScheduledTask(88, 90, 0), new ScheduledTask(36, 38, 4), new ScheduledTask(38, 40, 0), new ScheduledTask(73, 75, 0)};
         int[] expectedProcessorEndTimes = new int[]{90, 90, 66, 54, 60, 89};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random2_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random#2_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 3, 0), new ScheduledTask(6300, 6310, 0), new ScheduledTask(7300, 7310, 0), new ScheduledTask(9600, 9609, 0), new ScheduledTask(1400, 1409, 0), new ScheduledTask(2700, 2709, 0), new ScheduledTask(300, 309, 0), new ScheduledTask(4300, 4308, 0), new ScheduledTask(10500, 10508, 0), new ScheduledTask(8300, 8308, 0), new ScheduledTask(3600, 3607, 0), new ScheduledTask(11300, 11307, 0), new ScheduledTask(5000, 5007, 1), new ScheduledTask(12000, 12007, 0), new ScheduledTask(3200, 3207, 2), new ScheduledTask(8600, 8607, 3), new ScheduledTask(9200, 9206, 2), new ScheduledTask(9200, 9206, 1), new ScheduledTask(3200, 3205, 3), new ScheduledTask(5100, 5105, 0), new ScheduledTask(5800, 5805, 0), new ScheduledTask(9100, 9105, 0), new ScheduledTask(12700, 12705, 0), new ScheduledTask(6200, 6204, 3), new ScheduledTask(3200, 3203, 1), new ScheduledTask(7400, 7403, 2), new ScheduledTask(5600, 5602, 0), new ScheduledTask(1200, 1202, 0), new ScheduledTask(2300, 2302, 0), new ScheduledTask(2500, 2502, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12705, 9206, 9206, 8607};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random2_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random#2_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 3, 0), new ScheduledTask(2300, 2310, 0), new ScheduledTask(3300, 3310, 0), new ScheduledTask(5600, 5609, 0), new ScheduledTask(4200, 4209, 1), new ScheduledTask(6100, 6109, 1), new ScheduledTask(3200, 3209, 2), new ScheduledTask(7500, 7508, 3), new ScheduledTask(6500, 6508, 0), new ScheduledTask(4300, 4308, 0), new ScheduledTask(6600, 6607, 2), new ScheduledTask(7300, 7307, 0), new ScheduledTask(4600, 4607, 3), new ScheduledTask(8000, 8007, 0), new ScheduledTask(3200, 3207, 3), new ScheduledTask(6100, 6107, 3), new ScheduledTask(8000, 8006, 2), new ScheduledTask(7900, 7906, 1), new ScheduledTask(5000, 5005, 2), new ScheduledTask(1100, 1105, 0), new ScheduledTask(1800, 1805, 0), new ScheduledTask(5100, 5105, 0), new ScheduledTask(8700, 8705, 0), new ScheduledTask(300, 304, 0), new ScheduledTask(3200, 3203, 1), new ScheduledTask(6000, 6003, 2), new ScheduledTask(1600, 1602, 0), new ScheduledTask(3800, 3802, 1), new ScheduledTask(700, 702, 0), new ScheduledTask(900, 902, 0)};
-        int[] expectedProcessorEndTimes = new int[]{8705, 7906, 8006, 7508};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random2_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random#2_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8420;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 3, 0), new ScheduledTask(1400, 1410, 0), new ScheduledTask(2400, 2410, 0), new ScheduledTask(4700, 4709, 0), new ScheduledTask(4200, 4209, 3), new ScheduledTask(6100, 6109, 3), new ScheduledTask(3200, 3209, 2), new ScheduledTask(7150, 7158, 2), new ScheduledTask(5600, 5608, 0), new ScheduledTask(3400, 3408, 0), new ScheduledTask(6100, 6107, 1), new ScheduledTask(6400, 6407, 0), new ScheduledTask(5000, 5007, 2), new ScheduledTask(7100, 7107, 0), new ScheduledTask(3200, 3207, 1), new ScheduledTask(6100, 6107, 2), new ScheduledTask(300, 306, 0), new ScheduledTask(7100, 7106, 1), new ScheduledTask(3200, 3205, 3), new ScheduledTask(7820, 7825, 1), new ScheduledTask(900, 905, 0), new ScheduledTask(4200, 4205, 0), new ScheduledTask(7800, 7805, 0), new ScheduledTask(4640, 4644, 1), new ScheduledTask(4040, 4043, 1), new ScheduledTask(4550, 4553, 2), new ScheduledTask(7900, 7902, 3), new ScheduledTask(4400, 4402, 1), new ScheduledTask(5120, 5122, 1), new ScheduledTask(5360, 5362, 1)};
-        int[] expectedProcessorEndTimes = new int[]{7805, 7825, 7158, 7902};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -1121,66 +661,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(1900, 1910, 0), new ScheduledTask(8100, 8109, 0), new ScheduledTask(4600, 4609, 0), new ScheduledTask(6800, 6809, 0), new ScheduledTask(900, 908, 0), new ScheduledTask(11300, 11308, 0), new ScheduledTask(2900, 2907, 0), new ScheduledTask(9000, 9007, 0), new ScheduledTask(5900, 5907, 0), new ScheduledTask(2700, 2706, 1), new ScheduledTask(9700, 9706, 0), new ScheduledTask(6600, 6606, 2), new ScheduledTask(10300, 10306, 0), new ScheduledTask(8100, 8105, 3), new ScheduledTask(6300, 6305, 1), new ScheduledTask(3600, 3605, 2), new ScheduledTask(9300, 9305, 1), new ScheduledTask(5100, 5105, 3), new ScheduledTask(3600, 3605, 0), new ScheduledTask(4100, 4105, 0), new ScheduledTask(2700, 2704, 3), new ScheduledTask(5500, 5504, 0), new ScheduledTask(10900, 10904, 0), new ScheduledTask(7700, 7704, 0), new ScheduledTask(10200, 10203, 2), new ScheduledTask(11100, 11102, 3), new ScheduledTask(6600, 6602, 0), new ScheduledTask(12100, 12102, 0), new ScheduledTask(1700, 1702, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12102, 9305, 10203, 11102};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(900, 910, 0), new ScheduledTask(4400, 4409, 0), new ScheduledTask(1900, 1909, 0), new ScheduledTask(3000, 3009, 0), new ScheduledTask(4500, 4508, 1), new ScheduledTask(7900, 7908, 0), new ScheduledTask(5400, 5407, 2), new ScheduledTask(5300, 5307, 0), new ScheduledTask(7600, 7607, 2), new ScheduledTask(2700, 2706, 3), new ScheduledTask(6000, 6006, 0), new ScheduledTask(6400, 6406, 3), new ScheduledTask(6600, 6606, 0), new ScheduledTask(3900, 3905, 0), new ScheduledTask(7100, 7105, 1), new ScheduledTask(3600, 3605, 2), new ScheduledTask(7600, 7605, 3), new ScheduledTask(3900, 3905, 3), new ScheduledTask(6100, 6105, 1), new ScheduledTask(5400, 5405, 3), new ScheduledTask(2700, 2704, 2), new ScheduledTask(6800, 6804, 2), new ScheduledTask(7200, 7204, 0), new ScheduledTask(8100, 8104, 1), new ScheduledTask(7600, 7603, 0), new ScheduledTask(8600, 8602, 3), new ScheduledTask(2800, 2802, 0), new ScheduledTask(8700, 8702, 0), new ScheduledTask(4900, 4902, 3)};
-        int[] expectedProcessorEndTimes = new int[]{8702, 8104, 7607, 8602};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(5400, 5410, 3), new ScheduledTask(3800, 3809, 0), new ScheduledTask(6900, 6909, 2), new ScheduledTask(1800, 1809, 0), new ScheduledTask(4500, 4508, 1), new ScheduledTask(7300, 7308, 0), new ScheduledTask(5460, 5467, 1), new ScheduledTask(4700, 4707, 0), new ScheduledTask(900, 907, 0), new ScheduledTask(2700, 2706, 3), new ScheduledTask(5400, 5406, 0), new ScheduledTask(6300, 6306, 1), new ScheduledTask(6000, 6006, 0), new ScheduledTask(2700, 2705, 0), new ScheduledTask(7020, 7025, 1), new ScheduledTask(3600, 3605, 2), new ScheduledTask(7620, 7625, 1), new ScheduledTask(3900, 3905, 3), new ScheduledTask(5400, 5405, 2), new ScheduledTask(6150, 6155, 2), new ScheduledTask(2700, 2704, 2), new ScheduledTask(7400, 7404, 3), new ScheduledTask(6600, 6604, 0), new ScheduledTask(3200, 3204, 0), new ScheduledTask(7000, 7003, 0), new ScheduledTask(3600, 3602, 0), new ScheduledTask(1600, 1602, 0), new ScheduledTask(8100, 8102, 0), new ScheduledTask(4900, 4902, 3)};
-        int[] expectedProcessorEndTimes = new int[]{8102, 7625, 6909, 7404};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -1232,66 +712,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(54, 64, 1), new ScheduledTask(29, 38, 0), new ScheduledTask(63, 72, 2), new ScheduledTask(9, 18, 0), new ScheduledTask(45, 53, 3), new ScheduledTask(64, 72, 0), new ScheduledTask(54, 61, 4), new ScheduledTask(38, 45, 0), new ScheduledTask(72, 79, 5), new ScheduledTask(27, 33, 5), new ScheduledTask(45, 51, 0), new ScheduledTask(64, 70, 5), new ScheduledTask(51, 57, 0), new ScheduledTask(18, 23, 0), new ScheduledTask(63, 68, 4), new ScheduledTask(37, 42, 5), new ScheduledTask(68, 73, 4), new ScheduledTask(42, 47, 5), new ScheduledTask(54, 59, 5), new ScheduledTask(59, 64, 5), new ScheduledTask(33, 37, 5), new ScheduledTask(73, 77, 4), new ScheduledTask(57, 61, 0), new ScheduledTask(23, 27, 0), new ScheduledTask(61, 64, 0), new ScheduledTask(27, 29, 0), new ScheduledTask(77, 79, 4), new ScheduledTask(72, 74, 0), new ScheduledTask(47, 49, 5)};
         int[] expectedProcessorEndTimes = new int[]{74, 64, 72, 53, 79, 79};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_10dot02_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.02_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 14100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(9800, 9810, 0), new ScheduledTask(10800, 10810, 0), new ScheduledTask(700, 710, 0), new ScheduledTask(2700, 2710, 0), new ScheduledTask(6500, 6510, 1), new ScheduledTask(7600, 7610, 2), new ScheduledTask(12300, 12309, 0), new ScheduledTask(5000, 5009, 3), new ScheduledTask(5100, 5109, 0), new ScheduledTask(6000, 6008, 0), new ScheduledTask(6800, 6808, 0), new ScheduledTask(7600, 7608, 0), new ScheduledTask(3700, 3708, 0), new ScheduledTask(10400, 10406, 3), new ScheduledTask(4000, 4006, 2), new ScheduledTask(2900, 2906, 1), new ScheduledTask(8400, 8406, 0), new ScheduledTask(4500, 4506, 0), new ScheduledTask(13200, 13205, 0), new ScheduledTask(11800, 11805, 0), new ScheduledTask(9000, 9004, 0), new ScheduledTask(1700, 1704, 0), new ScheduledTask(13700, 13704, 0), new ScheduledTask(2100, 2103, 0), new ScheduledTask(2400, 2403, 0), new ScheduledTask(2900, 2903, 3), new ScheduledTask(9400, 9402, 0), new ScheduledTask(12500, 12502, 1), new ScheduledTask(9600, 9602, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13704, 12502, 7610, 10406};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_10dot02_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.02_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(5500, 5510, 0), new ScheduledTask(6500, 6510, 0), new ScheduledTask(4000, 4010, 1), new ScheduledTask(6600, 6610, 1), new ScheduledTask(4100, 4110, 2), new ScheduledTask(6000, 6010, 3), new ScheduledTask(8000, 8009, 0), new ScheduledTask(8000, 8009, 3), new ScheduledTask(1000, 1009, 0), new ScheduledTask(1900, 1908, 0), new ScheduledTask(2700, 2708, 0), new ScheduledTask(3500, 3508, 0), new ScheduledTask(6500, 6508, 2), new ScheduledTask(8100, 8106, 2), new ScheduledTask(4000, 4006, 3), new ScheduledTask(2900, 2906, 2), new ScheduledTask(4300, 4306, 0), new ScheduledTask(8600, 8606, 1), new ScheduledTask(8900, 8905, 0), new ScheduledTask(7500, 7505, 0), new ScheduledTask(4900, 4904, 0), new ScheduledTask(5200, 5204, 3), new ScheduledTask(9400, 9404, 0), new ScheduledTask(6000, 6003, 1), new ScheduledTask(700, 703, 0), new ScheduledTask(2900, 2903, 3), new ScheduledTask(5300, 5302, 0), new ScheduledTask(6100, 6102, 2), new ScheduledTask(9400, 9402, 2)};
-        int[] expectedProcessorEndTimes = new int[]{9404, 8606, 9402, 8009};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_10dot02_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.02_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9640;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(5200, 5210, 0), new ScheduledTask(6200, 6210, 0), new ScheduledTask(4000, 4010, 2), new ScheduledTask(6100, 6110, 3), new ScheduledTask(4100, 4110, 3), new ScheduledTask(5500, 5510, 2), new ScheduledTask(7700, 7709, 0), new ScheduledTask(7000, 7009, 2), new ScheduledTask(700, 709, 0), new ScheduledTask(1600, 1608, 0), new ScheduledTask(2400, 2408, 0), new ScheduledTask(3200, 3208, 0), new ScheduledTask(8350, 8358, 2), new ScheduledTask(8100, 8106, 3), new ScheduledTask(4000, 4006, 1), new ScheduledTask(2900, 2906, 3), new ScheduledTask(4000, 4006, 0), new ScheduledTask(8300, 8306, 1), new ScheduledTask(8600, 8605, 0), new ScheduledTask(7200, 7205, 0), new ScheduledTask(4600, 4604, 0), new ScheduledTask(4720, 4724, 1), new ScheduledTask(9100, 9104, 0), new ScheduledTask(5200, 5203, 1), new ScheduledTask(5800, 5803, 1), new ScheduledTask(2900, 2903, 2), new ScheduledTask(5000, 5002, 0), new ScheduledTask(5560, 5562, 1), new ScheduledTask(9400, 9402, 1)};
-        int[] expectedProcessorEndTimes = new int[]{9104, 9402, 8358, 8106};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -1461,66 +881,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot98_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.98_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(4000, 4010, 0), new ScheduledTask(2700, 2710, 1), new ScheduledTask(9300, 9310, 0), new ScheduledTask(2300, 2310, 0), new ScheduledTask(6300, 6310, 2), new ScheduledTask(6900, 6909, 3), new ScheduledTask(5000, 5008, 0), new ScheduledTask(5800, 5808, 0), new ScheduledTask(700, 707, 0), new ScheduledTask(1400, 1407, 0), new ScheduledTask(8600, 8607, 0), new ScheduledTask(2700, 2707, 3), new ScheduledTask(8700, 8706, 1), new ScheduledTask(11400, 11406, 0), new ScheduledTask(7100, 7106, 0), new ScheduledTask(3500, 3505, 0), new ScheduledTask(6600, 6605, 0), new ScheduledTask(10300, 10305, 0), new ScheduledTask(3900, 3904, 2), new ScheduledTask(7700, 7704, 0), new ScheduledTask(10800, 10804, 0), new ScheduledTask(8100, 8103, 0), new ScheduledTask(11200, 11202, 0), new ScheduledTask(12000, 12002, 0), new ScheduledTask(2100, 2102, 0), new ScheduledTask(3300, 3302, 0), new ScheduledTask(12200, 12202, 0), new ScheduledTask(8400, 8402, 0), new ScheduledTask(2700, 2702, 2)};
-        int[] expectedProcessorEndTimes = new int[]{12202, 8706, 6310, 6909};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot98_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.98_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(1600, 1610, 0), new ScheduledTask(2700, 2710, 1), new ScheduledTask(5400, 5410, 0), new ScheduledTask(4900, 4910, 2), new ScheduledTask(4900, 4910, 3), new ScheduledTask(700, 709, 0), new ScheduledTask(6900, 6908, 2), new ScheduledTask(6900, 6908, 3), new ScheduledTask(4700, 4707, 1), new ScheduledTask(2700, 2707, 2), new ScheduledTask(4100, 4107, 0), new ScheduledTask(2700, 2707, 3), new ScheduledTask(4800, 4806, 0), new ScheduledTask(7500, 7506, 0), new ScheduledTask(2600, 2606, 0), new ScheduledTask(6500, 6505, 1), new ScheduledTask(7500, 7505, 1), new ScheduledTask(6400, 6405, 0), new ScheduledTask(4100, 4104, 3), new ScheduledTask(3200, 3204, 0), new ScheduledTask(6900, 6904, 0), new ScheduledTask(3600, 3603, 0), new ScheduledTask(7300, 7302, 0), new ScheduledTask(8100, 8102, 0), new ScheduledTask(4500, 4502, 2), new ScheduledTask(6100, 6102, 1), new ScheduledTask(8300, 8302, 0), new ScheduledTask(3900, 3902, 0), new ScheduledTask(4100, 4102, 2)};
-        int[] expectedProcessorEndTimes = new int[]{8302, 7505, 6908, 6908};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot98_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.98_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 7900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(6700, 6710, 1), new ScheduledTask(2700, 2710, 3), new ScheduledTask(4800, 4810, 0), new ScheduledTask(5100, 5110, 2), new ScheduledTask(4700, 4710, 3), new ScheduledTask(4700, 4709, 1), new ScheduledTask(700, 708, 0), new ScheduledTask(6700, 6708, 2), new ScheduledTask(2700, 2707, 1), new ScheduledTask(2700, 2707, 2), new ScheduledTask(3500, 3507, 0), new ScheduledTask(3750, 3757, 2), new ScheduledTask(4200, 4206, 0), new ScheduledTask(6900, 6906, 0), new ScheduledTask(2000, 2006, 0), new ScheduledTask(6700, 6705, 3), new ScheduledTask(1500, 1505, 0), new ScheduledTask(5800, 5805, 0), new ScheduledTask(3780, 3784, 1), new ScheduledTask(2600, 2604, 0), new ScheduledTask(6300, 6304, 0), new ScheduledTask(3000, 3003, 0), new ScheduledTask(6700, 6702, 0), new ScheduledTask(7500, 7502, 0), new ScheduledTask(4800, 4802, 2), new ScheduledTask(5780, 5782, 1), new ScheduledTask(7700, 7702, 0), new ScheduledTask(3300, 3302, 0), new ScheduledTask(3540, 3542, 1)};
-        int[] expectedProcessorEndTimes = new int[]{7702, 6710, 6708, 6705};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot98_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.98_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -1572,66 +932,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(7, 17, 0), new ScheduledTask(27, 37, 1), new ScheduledTask(45, 55, 0), new ScheduledTask(47, 57, 1), new ScheduledTask(47, 57, 2), new ScheduledTask(47, 56, 3), new ScheduledTask(67, 75, 4), new ScheduledTask(67, 75, 5), new ScheduledTask(27, 34, 5), new ScheduledTask(34, 41, 5), new ScheduledTask(32, 39, 0), new ScheduledTask(41, 48, 5), new ScheduledTask(39, 45, 0), new ScheduledTask(66, 72, 0), new ScheduledTask(17, 23, 0), new ScheduledTask(58, 63, 5), new ScheduledTask(67, 72, 3), new ScheduledTask(55, 60, 0), new ScheduledTask(50, 54, 5), new ScheduledTask(23, 27, 0), new ScheduledTask(60, 64, 0), new ScheduledTask(27, 30, 0), new ScheduledTask(64, 66, 0), new ScheduledTask(72, 74, 0), new ScheduledTask(54, 56, 5), new ScheduledTask(56, 58, 5), new ScheduledTask(74, 76, 0), new ScheduledTask(30, 32, 0), new ScheduledTask(48, 50, 5)};
         int[] expectedProcessorEndTimes = new int[]{76, 57, 57, 72, 75, 75};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 14200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(10800, 10810, 0), new ScheduledTask(4900, 4910, 0), new ScheduledTask(11800, 11810, 0), new ScheduledTask(700, 710, 0), new ScheduledTask(1700, 1710, 0), new ScheduledTask(2700, 2709, 0), new ScheduledTask(8300, 8309, 1), new ScheduledTask(5900, 5909, 0), new ScheduledTask(7100, 7109, 2), new ScheduledTask(8300, 8309, 3), new ScheduledTask(6800, 6808, 0), new ScheduledTask(3500, 3508, 3), new ScheduledTask(8300, 8308, 0), new ScheduledTask(13000, 13007, 0), new ScheduledTask(9100, 9107, 0), new ScheduledTask(3500, 3506, 2), new ScheduledTask(3600, 3605, 0), new ScheduledTask(13700, 13705, 0), new ScheduledTask(3500, 3505, 1), new ScheduledTask(9800, 9804, 0), new ScheduledTask(4100, 4104, 0), new ScheduledTask(4500, 4504, 0), new ScheduledTask(7600, 7604, 0), new ScheduledTask(10200, 10203, 0), new ScheduledTask(6500, 6503, 1), new ScheduledTask(10500, 10503, 0), new ScheduledTask(8000, 8003, 0), new ScheduledTask(12800, 12802, 0), new ScheduledTask(12500, 12502, 2)};
-        int[] expectedProcessorEndTimes = new int[]{13705, 8309, 12502, 8309};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random1_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#1_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(6400, 6410, 0), new ScheduledTask(2000, 2010, 0), new ScheduledTask(7400, 7410, 0), new ScheduledTask(700, 710, 0), new ScheduledTask(3500, 3510, 1), new ScheduledTask(5500, 5509, 1), new ScheduledTask(6300, 6309, 2), new ScheduledTask(8100, 8109, 3), new ScheduledTask(8100, 8109, 2), new ScheduledTask(6300, 6309, 3), new ScheduledTask(8100, 8108, 1), new ScheduledTask(3500, 3508, 3), new ScheduledTask(3900, 3908, 0), new ScheduledTask(8600, 8607, 0), new ScheduledTask(4700, 4707, 0), new ScheduledTask(5100, 5106, 3), new ScheduledTask(3500, 3505, 2), new ScheduledTask(9300, 9305, 0), new ScheduledTask(4500, 4505, 2), new ScheduledTask(5400, 5404, 0), new ScheduledTask(7300, 7304, 1), new ScheduledTask(5500, 5504, 2), new ScheduledTask(3000, 3004, 0), new ScheduledTask(5800, 5803, 0), new ScheduledTask(1700, 1703, 0), new ScheduledTask(6100, 6103, 0), new ScheduledTask(3400, 3403, 0), new ScheduledTask(8400, 8402, 0), new ScheduledTask(3700, 3702, 0)};
-        int[] expectedProcessorEndTimes = new int[]{9305, 8108, 8109, 8109};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random1_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#1_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(5400, 5410, 0), new ScheduledTask(700, 710, 0), new ScheduledTask(6400, 6410, 0), new ScheduledTask(3500, 3510, 2), new ScheduledTask(5000, 5010, 2), new ScheduledTask(3500, 3509, 3), new ScheduledTask(6620, 6629, 1), new ScheduledTask(7700, 7709, 1), new ScheduledTask(6950, 6959, 2), new ScheduledTask(6500, 6509, 3), new ScheduledTask(1700, 1708, 0), new ScheduledTask(3500, 3508, 1), new ScheduledTask(2900, 2908, 0), new ScheduledTask(7600, 7607, 0), new ScheduledTask(3700, 3707, 0), new ScheduledTask(5300, 5306, 3), new ScheduledTask(4460, 4465, 1), new ScheduledTask(8300, 8305, 0), new ScheduledTask(5060, 5065, 1), new ScheduledTask(4400, 4404, 0), new ScheduledTask(5660, 5664, 1), new ScheduledTask(6140, 6144, 1), new ScheduledTask(2500, 2504, 0), new ScheduledTask(4800, 4803, 0), new ScheduledTask(6500, 6503, 2), new ScheduledTask(5100, 5103, 0), new ScheduledTask(8300, 8303, 2), new ScheduledTask(7400, 7402, 0), new ScheduledTask(8300, 8302, 3)};
-        int[] expectedProcessorEndTimes = new int[]{8305, 7709, 8303, 8302};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -1701,66 +1001,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random2_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#2_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12700;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(6300, 6310, 0), new ScheduledTask(2800, 2810, 0), new ScheduledTask(600, 609, 0), new ScheduledTask(9900, 9909, 0), new ScheduledTask(1700, 1708, 0), new ScheduledTask(3800, 3808, 0), new ScheduledTask(7300, 7308, 0), new ScheduledTask(8100, 8107, 0), new ScheduledTask(4600, 4607, 0), new ScheduledTask(6400, 6407, 1), new ScheduledTask(4800, 4807, 2), new ScheduledTask(3100, 3107, 3), new ScheduledTask(7300, 7307, 3), new ScheduledTask(8800, 8807, 0), new ScheduledTask(9000, 9006, 2), new ScheduledTask(10800, 10806, 0), new ScheduledTask(5300, 5306, 0), new ScheduledTask(11400, 11405, 0), new ScheduledTask(11900, 11904, 0), new ScheduledTask(5900, 5904, 0), new ScheduledTask(12300, 12304, 0), new ScheduledTask(4000, 4004, 1), new ScheduledTask(10600, 10603, 1), new ScheduledTask(2500, 2503, 0), new ScheduledTask(3100, 3102, 2), new ScheduledTask(11500, 11502, 3), new ScheduledTask(9500, 9502, 0), new ScheduledTask(1500, 1502, 0), new ScheduledTask(9700, 9702, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12304, 10603, 9006, 11502};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random2_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#2_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(2900, 2910, 0), new ScheduledTask(600, 610, 0), new ScheduledTask(4800, 4809, 1), new ScheduledTask(5700, 5709, 0), new ScheduledTask(6600, 6608, 1), new ScheduledTask(6900, 6908, 2), new ScheduledTask(7500, 7508, 3), new ScheduledTask(3900, 3907, 0), new ScheduledTask(1600, 1607, 0), new ScheduledTask(5700, 5707, 3), new ScheduledTask(4900, 4907, 2), new ScheduledTask(3100, 3107, 2), new ScheduledTask(3100, 3107, 3), new ScheduledTask(4600, 4607, 0), new ScheduledTask(6600, 6606, 0), new ScheduledTask(7200, 7206, 0), new ScheduledTask(2300, 2306, 0), new ScheduledTask(7800, 7805, 0), new ScheduledTask(8300, 8304, 0), new ScheduledTask(8200, 8204, 1), new ScheduledTask(8700, 8704, 0), new ScheduledTask(4500, 4504, 3), new ScheduledTask(8500, 8503, 2), new ScheduledTask(6300, 6303, 2), new ScheduledTask(4500, 4502, 2), new ScheduledTask(7100, 7102, 3), new ScheduledTask(5300, 5302, 0), new ScheduledTask(5300, 5302, 3), new ScheduledTask(5500, 5502, 0)};
-        int[] expectedProcessorEndTimes = new int[]{8704, 8204, 8503, 7508};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random2_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#2_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(1300, 1310, 0), new ScheduledTask(6720, 6730, 1), new ScheduledTask(4800, 4809, 1), new ScheduledTask(4700, 4709, 0), new ScheduledTask(5700, 5708, 2), new ScheduledTask(6800, 6808, 3), new ScheduledTask(2300, 2308, 0), new ScheduledTask(3100, 3107, 0), new ScheduledTask(600, 607, 0), new ScheduledTask(5880, 5887, 1), new ScheduledTask(4800, 4807, 3), new ScheduledTask(3100, 3107, 2), new ScheduledTask(3100, 3107, 3), new ScheduledTask(3800, 3807, 0), new ScheduledTask(5600, 5606, 0), new ScheduledTask(6500, 6506, 0), new ScheduledTask(6900, 6906, 2), new ScheduledTask(7100, 7105, 0), new ScheduledTask(7600, 7604, 0), new ScheduledTask(7800, 7804, 2), new ScheduledTask(8000, 8004, 0), new ScheduledTask(4450, 4454, 2), new ScheduledTask(6200, 6203, 0), new ScheduledTask(6200, 6203, 3), new ScheduledTask(4150, 4152, 2), new ScheduledTask(7920, 7922, 1), new ScheduledTask(4500, 4502, 0), new ScheduledTask(5050, 5052, 2), new ScheduledTask(8160, 8162, 1)};
-        int[] expectedProcessorEndTimes = new int[]{8004, 8162, 7804, 6808};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random2_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#2_Homogeneous-2.dot");
         int processorCount = 2;
@@ -1812,66 +1052,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(6, 16, 0), new ScheduledTask(65, 75, 1), new ScheduledTask(48, 57, 1), new ScheduledTask(38, 47, 0), new ScheduledTask(57, 65, 2), new ScheduledTask(65, 73, 3), new ScheduledTask(16, 24, 0), new ScheduledTask(24, 31, 0), new ScheduledTask(65, 72, 4), new ScheduledTask(58, 65, 5), new ScheduledTask(51, 58, 5), new ScheduledTask(31, 38, 5), new ScheduledTask(38, 45, 5), new ScheduledTask(31, 38, 0), new ScheduledTask(47, 53, 0), new ScheduledTask(56, 62, 0), new ScheduledTask(65, 71, 5), new ScheduledTask(62, 67, 0), new ScheduledTask(67, 71, 0), new ScheduledTask(71, 75, 5), new ScheduledTask(71, 75, 0), new ScheduledTask(47, 51, 5), new ScheduledTask(53, 56, 0), new ScheduledTask(57, 60, 4), new ScheduledTask(45, 47, 5), new ScheduledTask(72, 74, 4), new ScheduledTask(74, 76, 3), new ScheduledTask(48, 50, 4), new ScheduledTask(74, 76, 4)};
         int[] expectedProcessorEndTimes = new int[]{75, 75, 65, 76, 76, 75};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random3_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#3_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 11800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 3, 0), new ScheduledTask(1200, 1210, 0), new ScheduledTask(4000, 4010, 0), new ScheduledTask(10100, 10110, 0), new ScheduledTask(2200, 2209, 1), new ScheduledTask(7300, 7309, 0), new ScheduledTask(5000, 5009, 0), new ScheduledTask(300, 309, 0), new ScheduledTask(2200, 2208, 0), new ScheduledTask(8200, 8208, 0), new ScheduledTask(6300, 6307, 0), new ScheduledTask(7600, 7606, 1), new ScheduledTask(3400, 3406, 2), new ScheduledTask(5200, 5206, 3), new ScheduledTask(8800, 8805, 3), new ScheduledTask(2200, 2205, 3), new ScheduledTask(7000, 7004, 2), new ScheduledTask(3000, 3004, 0), new ScheduledTask(9400, 9404, 2), new ScheduledTask(9000, 9004, 0), new ScheduledTask(5900, 5904, 0), new ScheduledTask(3400, 3404, 0), new ScheduledTask(9600, 9603, 0), new ScheduledTask(11100, 11103, 0), new ScheduledTask(11400, 11403, 0), new ScheduledTask(7000, 7003, 0), new ScheduledTask(3800, 3802, 0), new ScheduledTask(9900, 9902, 0), new ScheduledTask(9400, 9402, 0), new ScheduledTask(2200, 2202, 2)};
-        int[] expectedProcessorEndTimes = new int[]{11403, 7606, 9404, 8805};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random3_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#3_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 3, 0), new ScheduledTask(300, 310, 0), new ScheduledTask(5100, 5110, 1), new ScheduledTask(6400, 6410, 0), new ScheduledTask(2200, 2209, 2), new ScheduledTask(3100, 3109, 0), new ScheduledTask(5000, 5009, 3), new ScheduledTask(3200, 3209, 3), new ScheduledTask(4100, 4108, 2), new ScheduledTask(4000, 4008, 0), new ScheduledTask(2100, 2107, 0), new ScheduledTask(6100, 6106, 2), new ScheduledTask(3100, 3106, 1), new ScheduledTask(6800, 6806, 3), new ScheduledTask(5400, 5405, 0), new ScheduledTask(2200, 2205, 3), new ScheduledTask(7100, 7104, 1), new ScheduledTask(1300, 1304, 0), new ScheduledTask(7300, 7304, 2), new ScheduledTask(4800, 4804, 0), new ScheduledTask(1700, 1704, 0), new ScheduledTask(4300, 4304, 1), new ScheduledTask(5900, 5903, 0), new ScheduledTask(7400, 7403, 0), new ScheduledTask(7700, 7703, 0), new ScheduledTask(2800, 2803, 0), new ScheduledTask(5700, 5702, 2), new ScheduledTask(6200, 6202, 0), new ScheduledTask(5200, 5202, 0), new ScheduledTask(2200, 2202, 1)};
-        int[] expectedProcessorEndTimes = new int[]{7703, 7104, 7304, 6806};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random3_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#3_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 7300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 3, 0), new ScheduledTask(4100, 4110, 3), new ScheduledTask(5800, 5810, 2), new ScheduledTask(5700, 5710, 0), new ScheduledTask(2200, 2209, 3), new ScheduledTask(2400, 2409, 0), new ScheduledTask(5060, 5069, 1), new ScheduledTask(3250, 3259, 2), new ScheduledTask(4600, 4608, 2), new ScheduledTask(3300, 3308, 0), new ScheduledTask(900, 907, 0), new ScheduledTask(6140, 6146, 1), new ScheduledTask(3100, 3106, 1), new ScheduledTask(6100, 6106, 3), new ScheduledTask(4700, 4705, 0), new ScheduledTask(2200, 2205, 2), new ScheduledTask(1600, 1604, 0), new ScheduledTask(4100, 4104, 1), new ScheduledTask(2000, 2004, 0), new ScheduledTask(4100, 4104, 0), new ScheduledTask(500, 504, 0), new ScheduledTask(4580, 4584, 1), new ScheduledTask(5200, 5203, 0), new ScheduledTask(6700, 6703, 0), new ScheduledTask(7000, 7003, 0), new ScheduledTask(6900, 6903, 1), new ScheduledTask(300, 302, 0), new ScheduledTask(5500, 5502, 0), new ScheduledTask(4500, 4502, 0), new ScheduledTask(2950, 2952, 2)};
-        int[] expectedProcessorEndTimes = new int[]{7003, 6903, 5810, 6106};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -1941,66 +1121,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random4_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#4_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 4, 0), new ScheduledTask(400, 410, 0), new ScheduledTask(10500, 10510, 0), new ScheduledTask(11500, 11509, 0), new ScheduledTask(3600, 3609, 0), new ScheduledTask(4500, 4509, 0), new ScheduledTask(6700, 6709, 0), new ScheduledTask(1400, 1408, 0), new ScheduledTask(2500, 2508, 1), new ScheduledTask(3700, 3708, 2), new ScheduledTask(8800, 8808, 0), new ScheduledTask(7600, 7608, 0), new ScheduledTask(2500, 2508, 3), new ScheduledTask(8500, 8507, 2), new ScheduledTask(6000, 6007, 0), new ScheduledTask(8500, 8507, 3), new ScheduledTask(9600, 9606, 0), new ScheduledTask(7300, 7306, 1), new ScheduledTask(3100, 3105, 0), new ScheduledTask(2200, 2205, 0), new ScheduledTask(2700, 2704, 0), new ScheduledTask(8400, 8404, 0), new ScheduledTask(12400, 12404, 0), new ScheduledTask(10900, 10903, 1), new ScheduledTask(12800, 12803, 0), new ScheduledTask(10200, 10203, 0), new ScheduledTask(5400, 5403, 0), new ScheduledTask(5700, 5703, 0), new ScheduledTask(2500, 2502, 2), new ScheduledTask(7300, 7302, 3)};
-        int[] expectedProcessorEndTimes = new int[]{12803, 10903, 8507, 8507};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random4_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#4_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 4, 0), new ScheduledTask(2500, 2510, 1), new ScheduledTask(6200, 6210, 0), new ScheduledTask(7200, 7209, 0), new ScheduledTask(5700, 5709, 2), new ScheduledTask(6900, 6909, 3), new ScheduledTask(2100, 2109, 0), new ScheduledTask(2500, 2508, 2), new ScheduledTask(2500, 2508, 3), new ScheduledTask(4100, 4108, 2), new ScheduledTask(4500, 4508, 0), new ScheduledTask(3000, 3008, 0), new ScheduledTask(4100, 4108, 3), new ScheduledTask(7300, 7307, 1), new ScheduledTask(1400, 1407, 0), new ScheduledTask(7500, 7507, 2), new ScheduledTask(5300, 5306, 0), new ScheduledTask(5700, 5706, 3), new ScheduledTask(6300, 6305, 1), new ScheduledTask(4500, 4505, 1), new ScheduledTask(5500, 5504, 1), new ScheduledTask(3800, 3804, 0), new ScheduledTask(8100, 8104, 0), new ScheduledTask(4200, 4203, 0), new ScheduledTask(8500, 8503, 0), new ScheduledTask(5900, 5903, 0), new ScheduledTask(800, 803, 0), new ScheduledTask(1100, 1103, 0), new ScheduledTask(400, 402, 0), new ScheduledTask(600, 602, 0)};
-        int[] expectedProcessorEndTimes = new int[]{8503, 7307, 7507, 6909};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random4_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#4_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 4, 0), new ScheduledTask(2500, 2510, 1), new ScheduledTask(5500, 5510, 0), new ScheduledTask(6500, 6509, 0), new ScheduledTask(5700, 5709, 1), new ScheduledTask(6850, 6859, 2), new ScheduledTask(1400, 1409, 0), new ScheduledTask(2500, 2508, 2), new ScheduledTask(2500, 2508, 3), new ScheduledTask(4000, 4008, 2), new ScheduledTask(3800, 3808, 0), new ScheduledTask(2300, 2308, 0), new ScheduledTask(4100, 4108, 3), new ScheduledTask(6800, 6807, 1), new ScheduledTask(700, 707, 0), new ScheduledTask(6800, 6807, 3), new ScheduledTask(4600, 4606, 0), new ScheduledTask(5950, 5956, 2), new ScheduledTask(5700, 5705, 3), new ScheduledTask(5200, 5205, 2), new ScheduledTask(3700, 3704, 1), new ScheduledTask(3100, 3104, 0), new ScheduledTask(7400, 7404, 0), new ScheduledTask(3500, 3503, 0), new ScheduledTask(7800, 7803, 0), new ScheduledTask(5200, 5203, 0), new ScheduledTask(400, 403, 0), new ScheduledTask(7640, 7643, 1), new ScheduledTask(3700, 3702, 2), new ScheduledTask(4180, 4182, 1)};
-        int[] expectedProcessorEndTimes = new int[]{7803, 7643, 6859, 6807};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random4_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#4_Homogeneous-2.dot");
         int processorCount = 2;
@@ -2061,66 +1181,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(500, 510, 0), new ScheduledTask(1500, 1510, 0), new ScheduledTask(2500, 2509, 0), new ScheduledTask(7600, 7608, 1), new ScheduledTask(9600, 9608, 0), new ScheduledTask(4600, 4608, 2), new ScheduledTask(10400, 10407, 0), new ScheduledTask(7900, 7907, 3), new ScheduledTask(11100, 11107, 0), new ScheduledTask(6300, 6306, 0), new ScheduledTask(4000, 4006, 0), new ScheduledTask(4600, 4606, 0), new ScheduledTask(2500, 2506, 3), new ScheduledTask(6900, 6906, 0), new ScheduledTask(8300, 8306, 0), new ScheduledTask(7500, 7506, 0), new ScheduledTask(11800, 11806, 0), new ScheduledTask(3400, 3406, 0), new ScheduledTask(9400, 9405, 2), new ScheduledTask(8900, 8905, 0), new ScheduledTask(5200, 5205, 0), new ScheduledTask(5200, 5204, 1), new ScheduledTask(5700, 5703, 0), new ScheduledTask(3400, 3403, 1), new ScheduledTask(6100, 6103, 3), new ScheduledTask(6000, 6003, 0), new ScheduledTask(3400, 3402, 2), new ScheduledTask(9400, 9402, 0), new ScheduledTask(8100, 8102, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11806, 7608, 9405, 7907};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(500, 510, 0), new ScheduledTask(1500, 1510, 0), new ScheduledTask(4400, 4409, 1), new ScheduledTask(2800, 2808, 0), new ScheduledTask(6200, 6208, 0), new ScheduledTask(4400, 4408, 2), new ScheduledTask(7000, 7007, 0), new ScheduledTask(7600, 7607, 3), new ScheduledTask(7700, 7707, 0), new ScheduledTask(6400, 6406, 3), new ScheduledTask(6000, 6006, 2), new ScheduledTask(7200, 7206, 2), new ScheduledTask(2500, 2506, 3), new ScheduledTask(3600, 3606, 0), new ScheduledTask(4900, 4906, 0), new ScheduledTask(7800, 7806, 1), new ScheduledTask(8400, 8406, 0), new ScheduledTask(4400, 4406, 3), new ScheduledTask(4200, 4205, 0), new ScheduledTask(5500, 5505, 0), new ScheduledTask(6200, 6205, 1), new ScheduledTask(5600, 5604, 3), new ScheduledTask(7200, 7203, 1), new ScheduledTask(3700, 3703, 3), new ScheduledTask(2500, 2503, 0), new ScheduledTask(8400, 8403, 2), new ScheduledTask(3400, 3402, 2), new ScheduledTask(6000, 6002, 0), new ScheduledTask(4700, 4702, 0)};
-        int[] expectedProcessorEndTimes = new int[]{8406, 7806, 8403, 7607};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(4400, 4410, 2), new ScheduledTask(4400, 4410, 3), new ScheduledTask(6400, 6409, 3), new ScheduledTask(7300, 7308, 1), new ScheduledTask(5400, 5408, 0), new ScheduledTask(5900, 5908, 2), new ScheduledTask(6200, 6207, 0), new ScheduledTask(1700, 1707, 0), new ScheduledTask(6900, 6907, 0), new ScheduledTask(7100, 7106, 2), new ScheduledTask(5480, 5486, 1), new ScheduledTask(6200, 6206, 1), new ScheduledTask(2500, 2506, 3), new ScheduledTask(2400, 2406, 0), new ScheduledTask(4100, 4106, 0), new ScheduledTask(3000, 3006, 0), new ScheduledTask(7600, 7606, 0), new ScheduledTask(4400, 4406, 1), new ScheduledTask(3600, 3605, 0), new ScheduledTask(4700, 4705, 0), new ScheduledTask(900, 905, 0), new ScheduledTask(500, 504, 0), new ScheduledTask(1400, 1403, 0), new ScheduledTask(3700, 3703, 3), new ScheduledTask(5120, 5123, 1), new ScheduledTask(6920, 6923, 1), new ScheduledTask(3400, 3402, 2), new ScheduledTask(5200, 5202, 0), new ScheduledTask(8000, 8002, 2)};
-        int[] expectedProcessorEndTimes = new int[]{7606, 7308, 8002, 6409};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -2152,66 +1212,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(44, 54, 1), new ScheduledTask(54, 64, 1), new ScheduledTask(44, 53, 2), new ScheduledTask(5, 13, 0), new ScheduledTask(45, 53, 0), new ScheduledTask(44, 52, 3), new ScheduledTask(53, 60, 0), new ScheduledTask(13, 20, 0), new ScheduledTask(60, 67, 0), new ScheduledTask(70, 76, 3), new ScheduledTask(58, 64, 3), new ScheduledTask(64, 70, 3), new ScheduledTask(25, 31, 3), new ScheduledTask(20, 26, 0), new ScheduledTask(32, 38, 0), new ScheduledTask(26, 32, 0), new ScheduledTask(67, 73, 0), new ScheduledTask(52, 58, 3), new ScheduledTask(73, 78, 2), new ScheduledTask(38, 43, 0), new ScheduledTask(60, 65, 2), new ScheduledTask(53, 57, 2), new ScheduledTask(65, 68, 2), new ScheduledTask(34, 37, 3), new ScheduledTask(57, 60, 2), new ScheduledTask(68, 71, 2), new ScheduledTask(37, 39, 3), new ScheduledTask(43, 45, 0), new ScheduledTask(76, 78, 3)};
         int[] expectedProcessorEndTimes = new int[]{73, 64, 78, 78};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12700;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1010, 0), new ScheduledTask(2000, 2010, 0), new ScheduledTask(3000, 3010, 0), new ScheduledTask(4000, 4010, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(5000, 5009, 0), new ScheduledTask(6000, 6009, 1), new ScheduledTask(5900, 5908, 0), new ScheduledTask(0, 8, 2), new ScheduledTask(4800, 4808, 2), new ScheduledTask(0, 8, 3), new ScheduledTask(4800, 4808, 3), new ScheduledTask(6700, 6707, 0), new ScheduledTask(7400, 7407, 0), new ScheduledTask(8100, 8107, 0), new ScheduledTask(8800, 8806, 0), new ScheduledTask(9400, 9405, 0), new ScheduledTask(9600, 9605, 2), new ScheduledTask(9600, 9605, 3), new ScheduledTask(9900, 9904, 0), new ScheduledTask(10300, 10304, 0), new ScheduledTask(10700, 10704, 0), new ScheduledTask(11100, 11103, 0), new ScheduledTask(11400, 11403, 0), new ScheduledTask(11700, 11703, 0), new ScheduledTask(12000, 12003, 0), new ScheduledTask(12300, 12302, 0), new ScheduledTask(12500, 12502, 0), new ScheduledTask(11400, 11402, 1)};
-        int[] expectedProcessorEndTimes = new int[]{12502, 11402, 9605, 9605};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random1_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#1_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 7600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1010, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(0, 10, 2), new ScheduledTask(2000, 2010, 2), new ScheduledTask(0, 10, 3), new ScheduledTask(2000, 2009, 3), new ScheduledTask(3800, 3809, 3), new ScheduledTask(2000, 2008, 1), new ScheduledTask(3600, 3608, 1), new ScheduledTask(4000, 4008, 2), new ScheduledTask(5600, 5608, 2), new ScheduledTask(5600, 5608, 3), new ScheduledTask(2000, 2007, 0), new ScheduledTask(2700, 2707, 0), new ScheduledTask(5200, 5207, 1), new ScheduledTask(3400, 3406, 0), new ScheduledTask(4000, 4005, 0), new ScheduledTask(4500, 4505, 0), new ScheduledTask(6600, 6605, 1), new ScheduledTask(5000, 5004, 0), new ScheduledTask(5400, 5404, 0), new ScheduledTask(5800, 5804, 0), new ScheduledTask(6200, 6203, 0), new ScheduledTask(6500, 6503, 0), new ScheduledTask(6800, 6803, 0), new ScheduledTask(7100, 7103, 0), new ScheduledTask(7400, 7402, 0), new ScheduledTask(7200, 7202, 2), new ScheduledTask(7200, 7202, 3)};
-        int[] expectedProcessorEndTimes = new int[]{7402, 6605, 7202, 7202};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random1_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#1_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 6400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1010, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(0, 10, 2), new ScheduledTask(0, 10, 3), new ScheduledTask(2000, 2010, 3), new ScheduledTask(2000, 2009, 0), new ScheduledTask(4000, 4009, 3), new ScheduledTask(1200, 1208, 1), new ScheduledTask(1500, 1508, 2), new ScheduledTask(2700, 2708, 2), new ScheduledTask(3900, 3908, 2), new ScheduledTask(5100, 5108, 2), new ScheduledTask(2160, 2167, 1), new ScheduledTask(3000, 3007, 1), new ScheduledTask(3840, 3847, 1), new ScheduledTask(4680, 4686, 1), new ScheduledTask(2900, 2905, 0), new ScheduledTask(3400, 3405, 0), new ScheduledTask(5400, 5405, 1), new ScheduledTask(3900, 3904, 0), new ScheduledTask(4300, 4304, 0), new ScheduledTask(4700, 4704, 0), new ScheduledTask(5100, 5103, 0), new ScheduledTask(5400, 5403, 0), new ScheduledTask(6000, 6003, 1), new ScheduledTask(5800, 5803, 3), new ScheduledTask(5700, 5702, 0), new ScheduledTask(5900, 5902, 0), new ScheduledTask(6100, 6102, 0)};
-        int[] expectedProcessorEndTimes = new int[]{6102, 6003, 5108, 5803};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -2281,46 +1281,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random2_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#2_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 11400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1010, 0), new ScheduledTask(2000, 2010, 0), new ScheduledTask(3000, 3009, 0), new ScheduledTask(3900, 3909, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(0, 9, 2), new ScheduledTask(4800, 4808, 0), new ScheduledTask(0, 8, 3), new ScheduledTask(5600, 5607, 0), new ScheduledTask(5400, 5407, 1), new ScheduledTask(5400, 5407, 2), new ScheduledTask(4800, 4807, 3), new ScheduledTask(6300, 6306, 0), new ScheduledTask(6900, 6906, 0), new ScheduledTask(7500, 7506, 0), new ScheduledTask(8100, 8105, 0), new ScheduledTask(8600, 8605, 0), new ScheduledTask(9100, 9104, 0), new ScheduledTask(9000, 9004, 3), new ScheduledTask(9500, 9503, 0), new ScheduledTask(9800, 9803, 0), new ScheduledTask(10100, 10103, 0), new ScheduledTask(9600, 9603, 1), new ScheduledTask(9600, 9603, 2), new ScheduledTask(10400, 10402, 0), new ScheduledTask(10600, 10602, 0), new ScheduledTask(10800, 10802, 0), new ScheduledTask(11000, 11002, 0), new ScheduledTask(11200, 11202, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11202, 9603, 9603, 9004};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random2_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#2_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 6900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1010, 0), new ScheduledTask(2000, 2010, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(0, 9, 2), new ScheduledTask(0, 9, 3), new ScheduledTask(1800, 1809, 3), new ScheduledTask(3600, 3608, 3), new ScheduledTask(5200, 5208, 3), new ScheduledTask(1800, 1807, 1), new ScheduledTask(1800, 1807, 2), new ScheduledTask(3200, 3207, 2), new ScheduledTask(4600, 4607, 2), new ScheduledTask(3200, 3206, 1), new ScheduledTask(4400, 4406, 1), new ScheduledTask(5600, 5606, 1), new ScheduledTask(3000, 3005, 0), new ScheduledTask(3500, 3505, 0), new ScheduledTask(4000, 4004, 0), new ScheduledTask(6000, 6004, 2), new ScheduledTask(4400, 4403, 0), new ScheduledTask(4700, 4703, 0), new ScheduledTask(5000, 5003, 0), new ScheduledTask(5300, 5303, 0), new ScheduledTask(5600, 5603, 0), new ScheduledTask(5900, 5902, 0), new ScheduledTask(6100, 6102, 0), new ScheduledTask(6300, 6302, 0), new ScheduledTask(6500, 6502, 0), new ScheduledTask(6700, 6702, 0)};
-        int[] expectedProcessorEndTimes = new int[]{6702, 5606, 6004, 5208};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random2_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#2_Homogeneous-2.dot");
         int processorCount = 2;
@@ -2352,66 +1312,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(0, 10, 2), new ScheduledTask(10, 19, 0), new ScheduledTask(10, 19, 1), new ScheduledTask(0, 9, 3), new ScheduledTask(9, 18, 3), new ScheduledTask(18, 26, 3), new ScheduledTask(26, 34, 3), new ScheduledTask(10, 17, 2), new ScheduledTask(17, 24, 2), new ScheduledTask(24, 31, 2), new ScheduledTask(34, 41, 3), new ScheduledTask(19, 25, 1), new ScheduledTask(31, 37, 2), new ScheduledTask(37, 43, 2), new ScheduledTask(25, 30, 1), new ScheduledTask(30, 35, 1), new ScheduledTask(35, 39, 1), new ScheduledTask(39, 43, 1), new ScheduledTask(19, 22, 0), new ScheduledTask(22, 25, 0), new ScheduledTask(25, 28, 0), new ScheduledTask(28, 31, 0), new ScheduledTask(31, 34, 0), new ScheduledTask(34, 36, 0), new ScheduledTask(36, 38, 0), new ScheduledTask(38, 40, 0), new ScheduledTask(40, 42, 0), new ScheduledTask(41, 43, 3)};
         int[] expectedProcessorEndTimes = new int[]{42, 43, 43, 43};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random3_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#3_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 10200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1009, 0), new ScheduledTask(1900, 1909, 0), new ScheduledTask(2800, 2809, 0), new ScheduledTask(3700, 3709, 0), new ScheduledTask(4600, 4609, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(0, 9, 2), new ScheduledTask(0, 9, 3), new ScheduledTask(5500, 5506, 0), new ScheduledTask(5400, 5405, 1), new ScheduledTask(5400, 5405, 2), new ScheduledTask(6100, 6104, 0), new ScheduledTask(6500, 6504, 0), new ScheduledTask(6900, 6904, 0), new ScheduledTask(5400, 5404, 3), new ScheduledTask(7800, 7804, 3), new ScheduledTask(7300, 7303, 0), new ScheduledTask(7600, 7603, 0), new ScheduledTask(7900, 7903, 0), new ScheduledTask(8200, 8203, 0), new ScheduledTask(8500, 8503, 0), new ScheduledTask(8800, 8803, 0), new ScheduledTask(9100, 9103, 0), new ScheduledTask(8400, 8403, 1), new ScheduledTask(8400, 8403, 2), new ScheduledTask(9400, 9402, 0), new ScheduledTask(9600, 9602, 0), new ScheduledTask(9800, 9802, 0), new ScheduledTask(10000, 10002, 0)};
-        int[] expectedProcessorEndTimes = new int[]{10002, 8403, 8403, 7804};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random3_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#3_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 6200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1009, 0), new ScheduledTask(1900, 1909, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(0, 9, 2), new ScheduledTask(1800, 1809, 2), new ScheduledTask(0, 9, 3), new ScheduledTask(1800, 1809, 3), new ScheduledTask(3600, 3609, 3), new ScheduledTask(3600, 3606, 2), new ScheduledTask(1800, 1805, 1), new ScheduledTask(4800, 4805, 2), new ScheduledTask(2800, 2804, 1), new ScheduledTask(3600, 3604, 1), new ScheduledTask(4400, 4404, 1), new ScheduledTask(5200, 5204, 1), new ScheduledTask(5400, 5404, 3), new ScheduledTask(2800, 2803, 0), new ScheduledTask(3100, 3103, 0), new ScheduledTask(3400, 3403, 0), new ScheduledTask(3700, 3703, 0), new ScheduledTask(4000, 4003, 0), new ScheduledTask(4300, 4303, 0), new ScheduledTask(4600, 4603, 0), new ScheduledTask(4900, 4903, 0), new ScheduledTask(5200, 5203, 0), new ScheduledTask(5500, 5502, 0), new ScheduledTask(5700, 5702, 0), new ScheduledTask(5900, 5902, 0), new ScheduledTask(5800, 5802, 2)};
-        int[] expectedProcessorEndTimes = new int[]{5902, 5204, 5802, 5404};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random3_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#3_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 5160;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 2), new ScheduledTask(0, 9, 0), new ScheduledTask(900, 909, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(1080, 1089, 1), new ScheduledTask(2160, 2169, 1), new ScheduledTask(3240, 3249, 1), new ScheduledTask(1500, 1509, 2), new ScheduledTask(0, 9, 3), new ScheduledTask(1800, 1806, 3), new ScheduledTask(3000, 3005, 3), new ScheduledTask(4000, 4005, 3), new ScheduledTask(1800, 1804, 0), new ScheduledTask(4320, 4324, 1), new ScheduledTask(2850, 2854, 2), new ScheduledTask(3450, 3454, 2), new ScheduledTask(4050, 4054, 2), new ScheduledTask(2200, 2203, 0), new ScheduledTask(2500, 2503, 0), new ScheduledTask(2800, 2803, 0), new ScheduledTask(3100, 3103, 0), new ScheduledTask(3400, 3403, 0), new ScheduledTask(3700, 3703, 0), new ScheduledTask(4000, 4003, 0), new ScheduledTask(4800, 4803, 1), new ScheduledTask(4650, 4653, 2), new ScheduledTask(4300, 4302, 0), new ScheduledTask(4500, 4502, 0), new ScheduledTask(4700, 4702, 0), new ScheduledTask(4900, 4902, 0)};
-        int[] expectedProcessorEndTimes = new int[]{4902, 4803, 4653, 4005};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -2481,66 +1381,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random4_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#4_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(1000, 1009, 0), new ScheduledTask(1900, 1909, 0), new ScheduledTask(0, 9, 2), new ScheduledTask(2800, 2808, 0), new ScheduledTask(3600, 3608, 0), new ScheduledTask(4400, 4408, 0), new ScheduledTask(6000, 6008, 1), new ScheduledTask(5400, 5408, 2), new ScheduledTask(0, 8, 3), new ScheduledTask(4800, 4808, 3), new ScheduledTask(5200, 5207, 0), new ScheduledTask(5900, 5907, 0), new ScheduledTask(6600, 6607, 0), new ScheduledTask(7300, 7307, 0), new ScheduledTask(8000, 8007, 0), new ScheduledTask(8700, 8707, 0), new ScheduledTask(9400, 9407, 0), new ScheduledTask(10100, 10106, 0), new ScheduledTask(10700, 10706, 0), new ScheduledTask(11300, 11306, 0), new ScheduledTask(11900, 11906, 0), new ScheduledTask(9600, 9606, 3), new ScheduledTask(10200, 10205, 2), new ScheduledTask(12500, 12504, 0), new ScheduledTask(10800, 10804, 1), new ScheduledTask(12900, 12903, 0), new ScheduledTask(13200, 13202, 0), new ScheduledTask(13400, 13402, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13402, 10804, 10205, 9606};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random4_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#4_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1010, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(0, 9, 2), new ScheduledTask(0, 9, 3), new ScheduledTask(2000, 2008, 0), new ScheduledTask(1800, 1808, 1), new ScheduledTask(1800, 1808, 2), new ScheduledTask(1800, 1808, 3), new ScheduledTask(2800, 2808, 0), new ScheduledTask(3600, 3608, 0), new ScheduledTask(3400, 3408, 1), new ScheduledTask(3400, 3407, 2), new ScheduledTask(3400, 3407, 3), new ScheduledTask(4400, 4407, 0), new ScheduledTask(5100, 5107, 0), new ScheduledTask(4800, 4807, 2), new ScheduledTask(4800, 4807, 3), new ScheduledTask(5000, 5007, 1), new ScheduledTask(5800, 5806, 0), new ScheduledTask(6400, 6406, 0), new ScheduledTask(6200, 6206, 2), new ScheduledTask(6200, 6206, 3), new ScheduledTask(7000, 7006, 0), new ScheduledTask(6400, 6405, 1), new ScheduledTask(7600, 7604, 0), new ScheduledTask(7400, 7404, 1), new ScheduledTask(7400, 7403, 2), new ScheduledTask(7400, 7402, 3), new ScheduledTask(8000, 8002, 0)};
-        int[] expectedProcessorEndTimes = new int[]{8002, 7404, 7403, 7402};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random4_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#4_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 6800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(0, 9, 2), new ScheduledTask(0, 9, 3), new ScheduledTask(1000, 1009, 0), new ScheduledTask(1200, 1208, 1), new ScheduledTask(1350, 1358, 2), new ScheduledTask(1900, 1908, 0), new ScheduledTask(2160, 2168, 1), new ScheduledTask(1800, 1808, 3), new ScheduledTask(2700, 2708, 0), new ScheduledTask(2550, 2558, 2), new ScheduledTask(3120, 3127, 1), new ScheduledTask(3500, 3507, 0), new ScheduledTask(3960, 3967, 1), new ScheduledTask(3750, 3757, 2), new ScheduledTask(3400, 3407, 3), new ScheduledTask(4200, 4207, 0), new ScheduledTask(4900, 4907, 0), new ScheduledTask(4800, 4806, 1), new ScheduledTask(4800, 4806, 2), new ScheduledTask(4800, 4806, 3), new ScheduledTask(5600, 5606, 0), new ScheduledTask(5520, 5526, 1), new ScheduledTask(5700, 5705, 2), new ScheduledTask(6200, 6204, 0), new ScheduledTask(6240, 6244, 1), new ScheduledTask(6000, 6003, 3), new ScheduledTask(6450, 6452, 2), new ScheduledTask(6600, 6602, 0)};
-        int[] expectedProcessorEndTimes = new int[]{6602, 6244, 6452, 6003};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random4_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#4_Homogeneous-2.dot");
         int processorCount = 2;
@@ -2592,66 +1432,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(0, 9, 2), new ScheduledTask(0, 9, 3), new ScheduledTask(0, 9, 4), new ScheduledTask(10, 18, 0), new ScheduledTask(9, 17, 4), new ScheduledTask(17, 25, 4), new ScheduledTask(25, 33, 4), new ScheduledTask(0, 8, 5), new ScheduledTask(8, 16, 5), new ScheduledTask(16, 24, 5), new ScheduledTask(9, 16, 2), new ScheduledTask(16, 23, 2), new ScheduledTask(23, 30, 2), new ScheduledTask(9, 16, 3), new ScheduledTask(16, 23, 3), new ScheduledTask(23, 30, 3), new ScheduledTask(24, 31, 5), new ScheduledTask(18, 24, 0), new ScheduledTask(10, 16, 1), new ScheduledTask(16, 22, 1), new ScheduledTask(22, 28, 1), new ScheduledTask(28, 34, 1), new ScheduledTask(24, 29, 0), new ScheduledTask(30, 34, 2), new ScheduledTask(30, 34, 3), new ScheduledTask(31, 34, 5), new ScheduledTask(29, 31, 0), new ScheduledTask(31, 33, 0)};
         int[] expectedProcessorEndTimes = new int[]{33, 34, 34, 34, 33, 34};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random5_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#5_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1010, 0), new ScheduledTask(2000, 2010, 0), new ScheduledTask(3000, 3010, 0), new ScheduledTask(4000, 4010, 0), new ScheduledTask(5000, 5010, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(0, 9, 2), new ScheduledTask(0, 9, 3), new ScheduledTask(6000, 6009, 0), new ScheduledTask(6900, 6908, 0), new ScheduledTask(7700, 7708, 0), new ScheduledTask(8500, 8508, 0), new ScheduledTask(5400, 5407, 2), new ScheduledTask(5400, 5407, 3), new ScheduledTask(6000, 6006, 1), new ScheduledTask(9300, 9306, 0), new ScheduledTask(9900, 9906, 0), new ScheduledTask(10500, 10506, 0), new ScheduledTask(11100, 11105, 0), new ScheduledTask(11600, 11605, 0), new ScheduledTask(12100, 12105, 0), new ScheduledTask(9600, 9604, 1), new ScheduledTask(9600, 9604, 2), new ScheduledTask(9600, 9603, 3), new ScheduledTask(12600, 12603, 0), new ScheduledTask(12900, 12903, 0), new ScheduledTask(11400, 11403, 3), new ScheduledTask(12000, 12002, 1), new ScheduledTask(12000, 12002, 2)};
-        int[] expectedProcessorEndTimes = new int[]{12903, 12002, 12002, 11403};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random5_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#5_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1010, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(0, 10, 2), new ScheduledTask(0, 10, 3), new ScheduledTask(2000, 2010, 0), new ScheduledTask(3000, 3010, 0), new ScheduledTask(2000, 2009, 1), new ScheduledTask(2000, 2009, 2), new ScheduledTask(2000, 2009, 3), new ScheduledTask(4000, 4008, 0), new ScheduledTask(3800, 3808, 1), new ScheduledTask(3800, 3808, 2), new ScheduledTask(3800, 3807, 3), new ScheduledTask(4800, 4807, 0), new ScheduledTask(5500, 5506, 0), new ScheduledTask(5200, 5206, 3), new ScheduledTask(5400, 5406, 1), new ScheduledTask(5400, 5406, 2), new ScheduledTask(6100, 6105, 0), new ScheduledTask(6600, 6605, 0), new ScheduledTask(6400, 6405, 3), new ScheduledTask(6600, 6604, 1), new ScheduledTask(6600, 6604, 2), new ScheduledTask(7100, 7103, 0), new ScheduledTask(7400, 7403, 0), new ScheduledTask(7700, 7703, 0), new ScheduledTask(7400, 7403, 1), new ScheduledTask(7400, 7402, 2), new ScheduledTask(7400, 7402, 3)};
-        int[] expectedProcessorEndTimes = new int[]{7703, 7403, 7402, 7402};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random5_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#5_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 6600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(0, 10, 2), new ScheduledTask(1000, 1010, 0), new ScheduledTask(0, 10, 3), new ScheduledTask(1200, 1210, 1), new ScheduledTask(2000, 2010, 0), new ScheduledTask(1500, 1509, 2), new ScheduledTask(2400, 2409, 1), new ScheduledTask(2000, 2009, 3), new ScheduledTask(3000, 3008, 0), new ScheduledTask(2850, 2858, 2), new ScheduledTask(3480, 3488, 1), new ScheduledTask(3800, 3807, 0), new ScheduledTask(4050, 4057, 2), new ScheduledTask(3800, 3806, 3), new ScheduledTask(4500, 4506, 0), new ScheduledTask(4440, 4446, 1), new ScheduledTask(5100, 5106, 0), new ScheduledTask(5160, 5165, 1), new ScheduledTask(5100, 5105, 2), new ScheduledTask(5000, 5005, 3), new ScheduledTask(5700, 5704, 0), new ScheduledTask(5760, 5764, 1), new ScheduledTask(5850, 5853, 2), new ScheduledTask(6100, 6103, 0), new ScheduledTask(6240, 6243, 1), new ScheduledTask(6000, 6003, 3), new ScheduledTask(6400, 6402, 0), new ScheduledTask(6300, 6302, 2)};
-        int[] expectedProcessorEndTimes = new int[]{6402, 6243, 6302, 6003};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -2721,66 +1501,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random6_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#6_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1010, 0), new ScheduledTask(2000, 2010, 0), new ScheduledTask(3000, 3010, 0), new ScheduledTask(4000, 4009, 0), new ScheduledTask(4900, 4909, 0), new ScheduledTask(5800, 5809, 0), new ScheduledTask(6700, 6709, 0), new ScheduledTask(7600, 7608, 0), new ScheduledTask(0, 8, 1), new ScheduledTask(0, 8, 2), new ScheduledTask(4800, 4808, 2), new ScheduledTask(0, 8, 3), new ScheduledTask(4800, 4808, 3), new ScheduledTask(4800, 4807, 1), new ScheduledTask(8400, 8406, 0), new ScheduledTask(9000, 9005, 0), new ScheduledTask(9500, 9505, 0), new ScheduledTask(9000, 9005, 1), new ScheduledTask(9600, 9604, 2), new ScheduledTask(9600, 9604, 3), new ScheduledTask(10000, 10003, 0), new ScheduledTask(10300, 10303, 0), new ScheduledTask(10600, 10603, 0), new ScheduledTask(10900, 10903, 0), new ScheduledTask(11200, 11203, 0), new ScheduledTask(11500, 11502, 0), new ScheduledTask(11700, 11702, 0), new ScheduledTask(11900, 11902, 0), new ScheduledTask(12100, 12102, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12102, 9005, 9604, 9604};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random6_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#6_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 7400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(0, 10, 2), new ScheduledTask(2000, 2010, 2), new ScheduledTask(0, 9, 3), new ScheduledTask(1800, 1809, 3), new ScheduledTask(3600, 3609, 3), new ScheduledTask(5400, 5409, 3), new ScheduledTask(1000, 1008, 0), new ScheduledTask(2000, 2008, 1), new ScheduledTask(3600, 3608, 1), new ScheduledTask(5200, 5208, 1), new ScheduledTask(4000, 4008, 2), new ScheduledTask(5600, 5608, 2), new ScheduledTask(1800, 1807, 0), new ScheduledTask(2500, 2506, 0), new ScheduledTask(3100, 3105, 0), new ScheduledTask(3600, 3605, 0), new ScheduledTask(4100, 4105, 0), new ScheduledTask(4600, 4604, 0), new ScheduledTask(5000, 5004, 0), new ScheduledTask(5400, 5403, 0), new ScheduledTask(5700, 5703, 0), new ScheduledTask(6000, 6003, 0), new ScheduledTask(6300, 6303, 0), new ScheduledTask(6800, 6803, 1), new ScheduledTask(6600, 6602, 0), new ScheduledTask(6800, 6802, 0), new ScheduledTask(7000, 7002, 0), new ScheduledTask(7200, 7202, 0)};
-        int[] expectedProcessorEndTimes = new int[]{7202, 6803, 5608, 5409};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random6_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#6_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 6150;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1010, 0), new ScheduledTask(2000, 2010, 0), new ScheduledTask(0, 10, 3), new ScheduledTask(0, 9, 2), new ScheduledTask(1350, 1359, 2), new ScheduledTask(2000, 2009, 3), new ScheduledTask(3800, 3809, 3), new ScheduledTask(0, 8, 1), new ScheduledTask(960, 968, 1), new ScheduledTask(1920, 1928, 1), new ScheduledTask(2880, 2888, 1), new ScheduledTask(2700, 2708, 2), new ScheduledTask(3900, 3908, 2), new ScheduledTask(5100, 5107, 2), new ScheduledTask(3840, 3846, 1), new ScheduledTask(3000, 3005, 0), new ScheduledTask(4560, 4565, 1), new ScheduledTask(5160, 5165, 1), new ScheduledTask(3500, 3504, 0), new ScheduledTask(3900, 3904, 0), new ScheduledTask(4300, 4303, 0), new ScheduledTask(4600, 4603, 0), new ScheduledTask(4900, 4903, 0), new ScheduledTask(5200, 5203, 0), new ScheduledTask(5760, 5763, 1), new ScheduledTask(5500, 5502, 0), new ScheduledTask(5700, 5702, 0), new ScheduledTask(5900, 5902, 0), new ScheduledTask(5600, 5602, 3)};
-        int[] expectedProcessorEndTimes = new int[]{5902, 5763, 5107, 5602};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random6_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#6_Homogeneous-2.dot");
         int processorCount = 2;
@@ -2841,46 +1561,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random7_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#7_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1010, 0), new ScheduledTask(2000, 2010, 0), new ScheduledTask(3000, 3009, 0), new ScheduledTask(3900, 3909, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(4800, 4808, 0), new ScheduledTask(5600, 5608, 0), new ScheduledTask(6400, 6408, 0), new ScheduledTask(7200, 7208, 0), new ScheduledTask(0, 8, 2), new ScheduledTask(5400, 5407, 1), new ScheduledTask(4800, 4807, 2), new ScheduledTask(0, 7, 3), new ScheduledTask(4200, 4207, 3), new ScheduledTask(8400, 8407, 3), new ScheduledTask(8000, 8006, 0), new ScheduledTask(8600, 8606, 0), new ScheduledTask(9200, 9206, 0), new ScheduledTask(9000, 9006, 2), new ScheduledTask(9600, 9605, 1), new ScheduledTask(9800, 9804, 0), new ScheduledTask(10200, 10204, 0), new ScheduledTask(10600, 10604, 0), new ScheduledTask(11000, 11004, 0), new ScheduledTask(11400, 11404, 0), new ScheduledTask(11800, 11804, 0), new ScheduledTask(12200, 12203, 0), new ScheduledTask(12500, 12503, 0), new ScheduledTask(12800, 12802, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12802, 9605, 9006, 8407};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random7_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#7_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 7800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(0, 10, 2), new ScheduledTask(1000, 1009, 0), new ScheduledTask(2000, 2009, 1), new ScheduledTask(0, 9, 3), new ScheduledTask(2000, 2008, 2), new ScheduledTask(3600, 3608, 2), new ScheduledTask(1800, 1808, 3), new ScheduledTask(3400, 3408, 3), new ScheduledTask(5000, 5008, 3), new ScheduledTask(1900, 1907, 0), new ScheduledTask(2600, 2607, 0), new ScheduledTask(3800, 3807, 1), new ScheduledTask(5200, 5207, 1), new ScheduledTask(5200, 5207, 2), new ScheduledTask(3300, 3306, 0), new ScheduledTask(6600, 6606, 1), new ScheduledTask(6600, 6606, 2), new ScheduledTask(6600, 6606, 3), new ScheduledTask(3900, 3905, 0), new ScheduledTask(4400, 4404, 0), new ScheduledTask(4800, 4804, 0), new ScheduledTask(5200, 5204, 0), new ScheduledTask(5600, 5604, 0), new ScheduledTask(6000, 6004, 0), new ScheduledTask(6400, 6404, 0), new ScheduledTask(6800, 6803, 0), new ScheduledTask(7100, 7103, 0), new ScheduledTask(7400, 7402, 0)};
-        int[] expectedProcessorEndTimes = new int[]{7402, 6606, 6606, 6606};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random7_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#7_Homogeneous-2.dot");
         int processorCount = 2;
@@ -2921,46 +1601,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random8_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#8_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 11400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1010, 0), new ScheduledTask(2000, 2010, 0), new ScheduledTask(3000, 3009, 0), new ScheduledTask(3900, 3908, 0), new ScheduledTask(0, 8, 1), new ScheduledTask(0, 8, 2), new ScheduledTask(0, 8, 3), new ScheduledTask(4700, 4708, 0), new ScheduledTask(5500, 5507, 0), new ScheduledTask(6200, 6207, 0), new ScheduledTask(6900, 6907, 0), new ScheduledTask(7600, 7607, 0), new ScheduledTask(4800, 4806, 1), new ScheduledTask(4800, 4806, 2), new ScheduledTask(4800, 4806, 3), new ScheduledTask(8300, 8305, 0), new ScheduledTask(8800, 8805, 0), new ScheduledTask(9300, 9304, 0), new ScheduledTask(9700, 9704, 0), new ScheduledTask(10100, 10104, 0), new ScheduledTask(8400, 8404, 1), new ScheduledTask(8400, 8403, 2), new ScheduledTask(8400, 8403, 3), new ScheduledTask(10500, 10502, 0), new ScheduledTask(10700, 10702, 0), new ScheduledTask(10900, 10902, 0), new ScheduledTask(11100, 11102, 0), new ScheduledTask(10200, 10202, 2), new ScheduledTask(10200, 10202, 3)};
-        int[] expectedProcessorEndTimes = new int[]{11102, 8404, 10202, 10202};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random8_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#8_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 6800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1010, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(0, 9, 2), new ScheduledTask(2000, 2008, 1), new ScheduledTask(0, 8, 3), new ScheduledTask(1600, 1608, 3), new ScheduledTask(3200, 3208, 3), new ScheduledTask(4800, 4808, 3), new ScheduledTask(3600, 3607, 1), new ScheduledTask(1800, 1807, 2), new ScheduledTask(3200, 3207, 2), new ScheduledTask(4600, 4607, 2), new ScheduledTask(2000, 2006, 0), new ScheduledTask(2600, 2606, 0), new ScheduledTask(5000, 5006, 1), new ScheduledTask(3200, 3205, 0), new ScheduledTask(3700, 3705, 0), new ScheduledTask(4200, 4204, 0), new ScheduledTask(4600, 4604, 0), new ScheduledTask(5000, 5004, 0), new ScheduledTask(6000, 6004, 2), new ScheduledTask(5400, 5403, 0), new ScheduledTask(6200, 6203, 1), new ScheduledTask(5700, 5702, 0), new ScheduledTask(5900, 5902, 0), new ScheduledTask(6100, 6102, 0), new ScheduledTask(6300, 6302, 0), new ScheduledTask(6500, 6502, 0), new ScheduledTask(6400, 6402, 3)};
-        int[] expectedProcessorEndTimes = new int[]{6502, 6203, 6004, 6402};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random8_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#8_Homogeneous-2.dot");
         int processorCount = 2;
@@ -2992,46 +1632,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(0, 10, 2), new ScheduledTask(0, 9, 3), new ScheduledTask(9, 17, 3), new ScheduledTask(10, 18, 0), new ScheduledTask(10, 18, 1), new ScheduledTask(10, 18, 2), new ScheduledTask(17, 25, 3), new ScheduledTask(18, 25, 0), new ScheduledTask(18, 25, 1), new ScheduledTask(18, 25, 2), new ScheduledTask(25, 32, 0), new ScheduledTask(25, 31, 1), new ScheduledTask(25, 31, 2), new ScheduledTask(25, 31, 3), new ScheduledTask(31, 36, 1), new ScheduledTask(31, 36, 2), new ScheduledTask(31, 35, 3), new ScheduledTask(32, 36, 0), new ScheduledTask(35, 39, 3), new ScheduledTask(36, 40, 0), new ScheduledTask(36, 39, 1), new ScheduledTask(36, 39, 2), new ScheduledTask(39, 41, 1), new ScheduledTask(39, 41, 2), new ScheduledTask(39, 41, 3), new ScheduledTask(40, 42, 0), new ScheduledTask(41, 43, 1), new ScheduledTask(41, 43, 2)};
         int[] expectedProcessorEndTimes = new int[]{42, 43, 43, 41};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random9_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#9_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 10900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1010, 0), new ScheduledTask(2000, 2009, 0), new ScheduledTask(2900, 2909, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(0, 9, 2), new ScheduledTask(0, 9, 3), new ScheduledTask(3800, 3808, 0), new ScheduledTask(4600, 4608, 0), new ScheduledTask(5400, 5407, 1), new ScheduledTask(5400, 5407, 3), new ScheduledTask(5400, 5406, 0), new ScheduledTask(5400, 5406, 2), new ScheduledTask(6000, 6005, 0), new ScheduledTask(6500, 6505, 0), new ScheduledTask(7000, 7005, 0), new ScheduledTask(7500, 7504, 0), new ScheduledTask(7900, 7904, 0), new ScheduledTask(8300, 8304, 0), new ScheduledTask(8700, 8703, 0), new ScheduledTask(9000, 9003, 0), new ScheduledTask(9300, 9303, 0), new ScheduledTask(9600, 9603, 0), new ScheduledTask(9900, 9903, 0), new ScheduledTask(10200, 10203, 0), new ScheduledTask(9000, 9003, 2), new ScheduledTask(10500, 10502, 0), new ScheduledTask(10700, 10702, 0), new ScheduledTask(9600, 9602, 1), new ScheduledTask(9600, 9602, 3)};
-        int[] expectedProcessorEndTimes = new int[]{10702, 9602, 9003, 9602};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random9_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#9_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 6600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1010, 0), new ScheduledTask(2000, 2009, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(0, 9, 2), new ScheduledTask(0, 9, 3), new ScheduledTask(1800, 1809, 3), new ScheduledTask(1800, 1808, 2), new ScheduledTask(3600, 3608, 3), new ScheduledTask(3400, 3407, 2), new ScheduledTask(5200, 5207, 3), new ScheduledTask(1800, 1806, 1), new ScheduledTask(4800, 4806, 2), new ScheduledTask(3000, 3005, 1), new ScheduledTask(4000, 4005, 1), new ScheduledTask(5000, 5005, 1), new ScheduledTask(2900, 2904, 0), new ScheduledTask(3300, 3304, 0), new ScheduledTask(3700, 3704, 0), new ScheduledTask(4100, 4103, 0), new ScheduledTask(4400, 4403, 0), new ScheduledTask(4700, 4703, 0), new ScheduledTask(5000, 5003, 0), new ScheduledTask(5300, 5303, 0), new ScheduledTask(6000, 6003, 1), new ScheduledTask(6000, 6003, 2), new ScheduledTask(5600, 5602, 0), new ScheduledTask(5800, 5802, 0), new ScheduledTask(6000, 6002, 0), new ScheduledTask(6200, 6202, 0)};
-        int[] expectedProcessorEndTimes = new int[]{6202, 6003, 6003, 5207};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -3161,66 +1761,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(900, 909, 0), new ScheduledTask(1800, 1809, 0), new ScheduledTask(2700, 2709, 0), new ScheduledTask(3600, 3609, 0), new ScheduledTask(4500, 4509, 0), new ScheduledTask(5400, 5409, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(0, 9, 2), new ScheduledTask(6300, 6308, 0), new ScheduledTask(5400, 5408, 1), new ScheduledTask(5400, 5408, 2), new ScheduledTask(0, 8, 3), new ScheduledTask(4800, 4808, 3), new ScheduledTask(7100, 7107, 0), new ScheduledTask(7800, 7807, 0), new ScheduledTask(8500, 8507, 0), new ScheduledTask(9200, 9207, 0), new ScheduledTask(9900, 9906, 0), new ScheduledTask(9600, 9606, 3), new ScheduledTask(10500, 10505, 0), new ScheduledTask(11000, 11005, 0), new ScheduledTask(10200, 10205, 1), new ScheduledTask(10200, 10205, 2), new ScheduledTask(11500, 11504, 0), new ScheduledTask(11900, 11904, 0), new ScheduledTask(12300, 12303, 0), new ScheduledTask(12600, 12603, 0), new ScheduledTask(12900, 12903, 0), new ScheduledTask(13200, 13202, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13202, 10205, 10205, 9606};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(900, 909, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(0, 9, 2), new ScheduledTask(0, 9, 3), new ScheduledTask(1800, 1809, 0), new ScheduledTask(2700, 2709, 0), new ScheduledTask(1800, 1809, 1), new ScheduledTask(1800, 1809, 2), new ScheduledTask(1800, 1808, 3), new ScheduledTask(3600, 3608, 0), new ScheduledTask(3400, 3408, 3), new ScheduledTask(4400, 4408, 0), new ScheduledTask(3600, 3608, 1), new ScheduledTask(3600, 3607, 2), new ScheduledTask(5200, 5207, 0), new ScheduledTask(5000, 5007, 2), new ScheduledTask(5000, 5007, 3), new ScheduledTask(5200, 5206, 1), new ScheduledTask(5900, 5906, 0), new ScheduledTask(6500, 6505, 0), new ScheduledTask(6400, 6405, 1), new ScheduledTask(6400, 6405, 2), new ScheduledTask(6400, 6405, 3), new ScheduledTask(7000, 7004, 0), new ScheduledTask(7400, 7404, 0), new ScheduledTask(7400, 7403, 1), new ScheduledTask(7400, 7403, 2), new ScheduledTask(7400, 7403, 3), new ScheduledTask(7800, 7802, 0)};
-        int[] expectedProcessorEndTimes = new int[]{7802, 7403, 7403, 7403};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalIndependent_Nodes_30_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 6720;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(900, 909, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(1080, 1089, 1), new ScheduledTask(2160, 2169, 1), new ScheduledTask(0, 9, 2), new ScheduledTask(0, 9, 3), new ScheduledTask(1800, 1809, 3), new ScheduledTask(3600, 3609, 3), new ScheduledTask(3240, 3248, 1), new ScheduledTask(1350, 1358, 2), new ScheduledTask(2550, 2558, 2), new ScheduledTask(3750, 3758, 2), new ScheduledTask(4950, 4958, 2), new ScheduledTask(1800, 1807, 0), new ScheduledTask(4200, 4207, 1), new ScheduledTask(5040, 5047, 1), new ScheduledTask(5880, 5887, 1), new ScheduledTask(2500, 2506, 0), new ScheduledTask(5400, 5406, 3), new ScheduledTask(3100, 3105, 0), new ScheduledTask(3600, 3605, 0), new ScheduledTask(4100, 4105, 0), new ScheduledTask(4600, 4605, 0), new ScheduledTask(5100, 5104, 0), new ScheduledTask(5500, 5504, 0), new ScheduledTask(5900, 5903, 0), new ScheduledTask(6200, 6203, 0), new ScheduledTask(6150, 6153, 2), new ScheduledTask(6500, 6502, 0)};
-        int[] expectedProcessorEndTimes = new int[]{6502, 5887, 6153, 5406};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -3321,26 +1861,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random3_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#3_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 112300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(110400, 110419, 0), new ScheduledTask(105600, 105648, 0), new ScheduledTask(69000, 69067, 1), new ScheduledTask(86400, 86438, 3), new ScheduledTask(63000, 63067, 2), new ScheduledTask(77100, 77195, 0), new ScheduledTask(101800, 101838, 0), new ScheduledTask(28800, 28829, 3), new ScheduledTask(59000, 59086, 0), new ScheduledTask(34300, 34376, 0), new ScheduledTask(28800, 28867, 1), new ScheduledTask(51600, 51619, 2), new ScheduledTask(46200, 46267, 3), new ScheduledTask(49500, 49557, 0), new ScheduledTask(55200, 55238, 0), new ScheduledTask(0, 48, 3), new ScheduledTask(67600, 67638, 0), new ScheduledTask(75200, 75219, 0), new ScheduledTask(71400, 71438, 0), new ScheduledTask(99900, 99919, 0), new ScheduledTask(94200, 94257, 0), new ScheduledTask(86600, 86676, 0), new ScheduledTask(0, 95, 0), new ScheduledTask(23800, 23819, 0), new ScheduledTask(18100, 18157, 0), new ScheduledTask(0, 86, 2), new ScheduledTask(9500, 9586, 0), new ScheduledTask(41900, 41976, 0), new ScheduledTask(25700, 25786, 0), new ScheduledTask(0, 48, 1)};
-        int[] expectedProcessorEndTimes = new int[]{110419, 69067, 63067, 86438};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random3_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#3_Homogeneous-2.dot");
         int processorCount = 2;
@@ -3381,26 +1901,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random5_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#5_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 128500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(121100, 121174, 0), new ScheduledTask(111600, 111674, 0), new ScheduledTask(119000, 119021, 0), new ScheduledTask(57000, 57106, 1), new ScheduledTask(38400, 38485, 2), new ScheduledTask(83400, 83432, 3), new ScheduledTask(106300, 106353, 0), new ScheduledTask(102600, 102621, 3), new ScheduledTask(89400, 89443, 2), new ScheduledTask(12600, 12674, 1), new ScheduledTask(0, 32, 2), new ScheduledTask(44700, 44753, 0), new ScheduledTask(11700, 11796, 0), new ScheduledTask(29800, 29853, 0), new ScheduledTask(19200, 19232, 2), new ScheduledTask(21300, 21385, 0), new ScheduledTask(76600, 76653, 0), new ScheduledTask(0, 96, 3), new ScheduledTask(69200, 69274, 0), new ScheduledTask(101000, 101053, 0), new ScheduledTask(35100, 35196, 0), new ScheduledTask(84000, 84085, 0), new ScheduledTask(50000, 50096, 0), new ScheduledTask(59600, 59696, 0), new ScheduledTask(92500, 92585, 0), new ScheduledTask(0, 21, 1), new ScheduledTask(57600, 57643, 3), new ScheduledTask(81900, 81921, 0), new ScheduledTask(0, 85, 0), new ScheduledTask(8500, 8532, 0)};
-        int[] expectedProcessorEndTimes = new int[]{121174, 57106, 89443, 102621};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random5_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#5_Homogeneous-2.dot");
         int processorCount = 2;
@@ -3412,26 +1912,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(901, 975, 0), new ScheduledTask(467, 541, 0), new ScheduledTask(874, 895, 1), new ScheduledTask(795, 901, 0), new ScheduledTask(181, 266, 1), new ScheduledTask(415, 447, 1), new ScheduledTask(266, 319, 1), new ScheduledTask(767, 788, 1), new ScheduledTask(831, 874, 1), new ScheduledTask(541, 615, 0), new ScheduledTask(735, 767, 1), new ScheduledTask(700, 753, 0), new ScheduledTask(447, 543, 1), new ScheduledTask(85, 138, 0), new ScheduledTask(138, 170, 0), new ScheduledTask(96, 181, 1), new ScheduledTask(297, 350, 0), new ScheduledTask(319, 415, 1), new ScheduledTask(223, 297, 0), new ScheduledTask(170, 223, 0), new ScheduledTask(0, 96, 1), new ScheduledTask(0, 85, 0), new ScheduledTask(543, 639, 1), new ScheduledTask(639, 735, 1), new ScheduledTask(615, 700, 0), new ScheduledTask(753, 774, 0), new ScheduledTask(788, 831, 1), new ScheduledTask(774, 795, 0), new ScheduledTask(350, 435, 0), new ScheduledTask(435, 467, 0)};
         int[] expectedProcessorEndTimes = new int[]{975, 895};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random6_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#6_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 130500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(125700, 125748, 0), new ScheduledTask(99000, 99039, 1), new ScheduledTask(113200, 113287, 0), new ScheduledTask(123800, 123819, 0), new ScheduledTask(40800, 40839, 3), new ScheduledTask(46800, 46839, 2), new ScheduledTask(76400, 76487, 0), new ScheduledTask(58200, 58268, 1), new ScheduledTask(70200, 70258, 2), new ScheduledTask(103500, 103597, 0), new ScheduledTask(105000, 105029, 2), new ScheduledTask(121900, 121919, 0), new ScheduledTask(64200, 64297, 3), new ScheduledTask(0, 97, 0), new ScheduledTask(29100, 29158, 0), new ScheduledTask(9700, 9797, 0), new ScheduledTask(40700, 40729, 0), new ScheduledTask(34900, 34958, 0), new ScheduledTask(0, 78, 2), new ScheduledTask(68700, 68758, 0), new ScheduledTask(0, 97, 1), new ScheduledTask(74500, 74519, 0), new ScheduledTask(49400, 49448, 0), new ScheduledTask(43600, 43658, 0), new ScheduledTask(19400, 19497, 0), new ScheduledTask(54200, 54287, 0), new ScheduledTask(62900, 62958, 0), new ScheduledTask(0, 68, 3), new ScheduledTask(85100, 85197, 0), new ScheduledTask(94800, 94887, 0)};
-        int[] expectedProcessorEndTimes = new int[]{125748, 99039, 105029, 64297};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -3461,26 +1941,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random7_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#7_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 121200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(118400, 118428, 0), new ScheduledTask(61800, 61894, 1), new ScheduledTask(109400, 109485, 0), new ScheduledTask(60800, 60894, 3), new ScheduledTask(48100, 48185, 0), new ScheduledTask(45000, 45019, 2), new ScheduledTask(25400, 25447, 0), new ScheduledTask(93400, 93438, 0), new ScheduledTask(79200, 79247, 2), new ScheduledTask(104700, 104747, 0), new ScheduledTask(0, 28, 1), new ScheduledTask(36700, 36738, 0), new ScheduledTask(56600, 56638, 0), new ScheduledTask(16800, 16819, 1), new ScheduledTask(44300, 44338, 0), new ScheduledTask(0, 75, 2), new ScheduledTask(40500, 40519, 0), new ScheduledTask(42400, 42419, 0), new ScheduledTask(30100, 30166, 0), new ScheduledTask(0, 75, 0), new ScheduledTask(16000, 16094, 0), new ScheduledTask(7500, 7585, 0), new ScheduledTask(0, 94, 3), new ScheduledTask(78300, 78385, 0), new ScheduledTask(86800, 86866, 0), new ScheduledTask(69800, 69885, 0), new ScheduledTask(56400, 56438, 2), new ScheduledTask(60400, 60494, 0), new ScheduledTask(97200, 97275, 0), new ScheduledTask(28200, 28256, 1)};
-        int[] expectedProcessorEndTimes = new int[]{118428, 61894, 79247, 60894};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random7_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#7_Homogeneous-2.dot");
         int processorCount = 2;
@@ -3492,26 +1952,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(873, 901, 0), new ScheduledTask(385, 479, 0), new ScheduledTask(785, 870, 1), new ScheduledTask(779, 873, 0), new ScheduledTask(208, 293, 1), new ScheduledTask(331, 350, 1), new ScheduledTask(244, 291, 0), new ScheduledTask(501, 539, 1), new ScheduledTask(704, 751, 0), new ScheduledTask(738, 785, 1), new ScheduledTask(751, 779, 0), new ScheduledTask(624, 662, 1), new ScheduledTask(700, 738, 1), new ScheduledTask(189, 208, 1), new ScheduledTask(151, 189, 1), new ScheduledTask(94, 169, 0), new ScheduledTask(293, 312, 1), new ScheduledTask(312, 331, 1), new ScheduledTask(85, 151, 1), new ScheduledTask(169, 244, 0), new ScheduledTask(0, 94, 0), new ScheduledTask(0, 85, 1), new ScheduledTask(291, 385, 0), new ScheduledTask(350, 435, 1), new ScheduledTask(435, 501, 1), new ScheduledTask(539, 624, 1), new ScheduledTask(662, 700, 1), new ScheduledTask(479, 573, 0), new ScheduledTask(573, 648, 0), new ScheduledTask(648, 704, 0)};
         int[] expectedProcessorEndTimes = new int[]{901, 870};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random8_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#8_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 120600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(111300, 111393, 0), new ScheduledTask(72000, 72065, 1), new ScheduledTask(103900, 103974, 0), new ScheduledTask(50400, 50493, 2), new ScheduledTask(52000, 52065, 0), new ScheduledTask(49800, 49837, 1), new ScheduledTask(62200, 62237, 0), new ScheduledTask(90000, 90019, 3), new ScheduledTask(96500, 96574, 0), new ScheduledTask(72400, 72456, 0), new ScheduledTask(0, 56, 3), new ScheduledTask(0, 56, 2), new ScheduledTask(33400, 33456, 0), new ScheduledTask(18600, 18674, 0), new ScheduledTask(46400, 46456, 0), new ScheduledTask(33600, 33628, 2), new ScheduledTask(39000, 39037, 0), new ScheduledTask(42700, 42737, 0), new ScheduledTask(0, 83, 1), new ScheduledTask(0, 93, 0), new ScheduledTask(58500, 58537, 0), new ScheduledTask(26000, 26074, 0), new ScheduledTask(78000, 78083, 0), new ScheduledTask(67200, 67219, 3), new ScheduledTask(78600, 78619, 3), new ScheduledTask(33600, 33656, 3), new ScheduledTask(86300, 86374, 0), new ScheduledTask(93700, 93728, 0), new ScheduledTask(9300, 9393, 0), new ScheduledTask(65900, 65965, 0)};
-        int[] expectedProcessorEndTimes = new int[]{111393, 72065, 50493, 90019};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -3621,26 +2061,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot91_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.91_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(13400, 13402, 0), new ScheduledTask(7000, 7010, 1), new ScheduledTask(12700, 12707, 0), new ScheduledTask(9000, 9006, 2), new ScheduledTask(4200, 4204, 2), new ScheduledTask(4700, 4710, 0), new ScheduledTask(2400, 2406, 3), new ScheduledTask(9100, 9110, 0), new ScheduledTask(11000, 11007, 0), new ScheduledTask(12500, 12502, 0), new ScheduledTask(5700, 5710, 0), new ScheduledTask(6700, 6709, 0), new ScheduledTask(7600, 7606, 0), new ScheduledTask(2800, 2805, 0), new ScheduledTask(0, 2, 3), new ScheduledTask(0, 7, 2), new ScheduledTask(3300, 3307, 0), new ScheduledTask(1900, 1909, 0), new ScheduledTask(4000, 4007, 0), new ScheduledTask(1200, 1202, 3), new ScheduledTask(1000, 1009, 0), new ScheduledTask(0, 10, 0), new ScheduledTask(4800, 4803, 1), new ScheduledTask(8200, 8209, 0), new ScheduledTask(0, 8, 1), new ScheduledTask(10100, 10106, 0), new ScheduledTask(6600, 6604, 2), new ScheduledTask(10700, 10703, 0), new ScheduledTask(11700, 11708, 0), new ScheduledTask(6000, 6010, 3)};
-        int[] expectedProcessorEndTimes = new int[]{13402, 7010, 9006, 6010};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot91_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.91_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -3652,26 +2072,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(100, 102, 0), new ScheduledTask(86, 96, 1), new ScheduledTask(93, 100, 0), new ScheduledTask(38, 44, 1), new ScheduledTask(82, 86, 1), new ScheduledTask(19, 29, 1), new ScheduledTask(64, 70, 1), new ScheduledTask(44, 54, 1), new ScheduledTask(86, 93, 0), new ScheduledTask(80, 82, 1), new ScheduledTask(0, 10, 1), new ScheduledTask(29, 38, 1), new ScheduledTask(23, 29, 0), new ScheduledTask(66, 71, 0), new ScheduledTask(71, 73, 0), new ScheduledTask(59, 66, 0), new ScheduledTask(7, 14, 0), new ScheduledTask(10, 19, 1), new ScheduledTask(0, 7, 0), new ScheduledTask(49, 51, 0), new ScheduledTask(40, 49, 0), new ScheduledTask(54, 64, 1), new ScheduledTask(29, 32, 0), new ScheduledTask(14, 23, 0), new ScheduledTask(32, 40, 0), new ScheduledTask(73, 79, 0), new ScheduledTask(79, 83, 0), new ScheduledTask(83, 86, 0), new ScheduledTask(51, 59, 0), new ScheduledTask(70, 80, 1)};
         int[] expectedProcessorEndTimes = new int[]{102, 96};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot92_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.92_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(11800, 11810, 0), new ScheduledTask(11100, 11107, 0), new ScheduledTask(7200, 7207, 1), new ScheduledTask(7800, 7806, 3), new ScheduledTask(10900, 10902, 0), new ScheduledTask(8800, 8803, 2), new ScheduledTask(4800, 4806, 2), new ScheduledTask(3000, 3007, 1), new ScheduledTask(2400, 2404, 3), new ScheduledTask(4800, 4807, 0), new ScheduledTask(0, 8, 2), new ScheduledTask(5500, 5508, 0), new ScheduledTask(4800, 4805, 3), new ScheduledTask(10100, 10108, 0), new ScheduledTask(8200, 8210, 0), new ScheduledTask(9200, 9209, 0), new ScheduledTask(7000, 7010, 0), new ScheduledTask(8000, 8002, 0), new ScheduledTask(6300, 6307, 0), new ScheduledTask(2200, 2209, 0), new ScheduledTask(3100, 3106, 0), new ScheduledTask(4200, 4204, 0), new ScheduledTask(0, 5, 1), new ScheduledTask(2000, 2002, 0), new ScheduledTask(1700, 1703, 0), new ScheduledTask(0, 4, 3), new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1007, 0), new ScheduledTask(3700, 3705, 0), new ScheduledTask(4600, 4602, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11810, 7207, 8803, 7806};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -3701,26 +2101,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot94_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.94_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 14000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(13500, 13505, 0), new ScheduledTask(10800, 10803, 1), new ScheduledTask(11300, 11310, 0), new ScheduledTask(13200, 13203, 0), new ScheduledTask(8100, 8108, 0), new ScheduledTask(3200, 3207, 3), new ScheduledTask(6000, 6008, 1), new ScheduledTask(10300, 10310, 0), new ScheduledTask(3600, 3609, 2), new ScheduledTask(7400, 7404, 3), new ScheduledTask(12300, 12309, 0), new ScheduledTask(9000, 9006, 2), new ScheduledTask(9800, 9805, 3), new ScheduledTask(7300, 7308, 0), new ScheduledTask(6400, 6409, 0), new ScheduledTask(0, 5, 3), new ScheduledTask(1800, 1804, 0), new ScheduledTask(0, 3, 2), new ScheduledTask(2400, 2405, 0), new ScheduledTask(2900, 2909, 0), new ScheduledTask(4700, 4708, 0), new ScheduledTask(3800, 3809, 0), new ScheduledTask(9800, 9805, 0), new ScheduledTask(1800, 1803, 2), new ScheduledTask(8900, 8909, 0), new ScheduledTask(2200, 2202, 0), new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1008, 0), new ScheduledTask(5500, 5509, 0), new ScheduledTask(0, 10, 1)};
-        int[] expectedProcessorEndTimes = new int[]{13505, 10803, 9006, 9805};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot94_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.94_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -3732,26 +2112,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(102, 107, 0), new ScheduledTask(93, 96, 1), new ScheduledTask(92, 102, 0), new ScheduledTask(31, 34, 1), new ScheduledTask(18, 26, 1), new ScheduledTask(86, 93, 1), new ScheduledTask(43, 51, 1), new ScheduledTask(82, 92, 0), new ScheduledTask(77, 86, 1), new ScheduledTask(61, 65, 1), new ScheduledTask(0, 9, 1), new ScheduledTask(13, 19, 0), new ScheduledTask(26, 31, 1), new ScheduledTask(0, 8, 0), new ScheduledTask(9, 18, 1), new ScheduledTask(8, 13, 0), new ScheduledTask(67, 71, 0), new ScheduledTask(71, 74, 0), new ScheduledTask(62, 67, 0), new ScheduledTask(34, 43, 1), new ScheduledTask(28, 36, 0), new ScheduledTask(19, 28, 0), new ScheduledTask(74, 79, 0), new ScheduledTask(79, 82, 0), new ScheduledTask(36, 45, 0), new ScheduledTask(75, 77, 1), new ScheduledTask(65, 75, 1), new ScheduledTask(54, 62, 0), new ScheduledTask(45, 54, 0), new ScheduledTask(51, 61, 1)};
         int[] expectedProcessorEndTimes = new int[]{107, 96};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot98_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.98_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(11800, 11810, 0), new ScheduledTask(6200, 6209, 1), new ScheduledTask(11500, 11503, 0), new ScheduledTask(8000, 8003, 3), new ScheduledTask(3600, 3603, 2), new ScheduledTask(5100, 5106, 0), new ScheduledTask(2400, 2406, 1), new ScheduledTask(10100, 10102, 3), new ScheduledTask(10900, 10906, 0), new ScheduledTask(7800, 7805, 2), new ScheduledTask(6800, 6808, 0), new ScheduledTask(1800, 1810, 3), new ScheduledTask(0, 2, 1), new ScheduledTask(1400, 1410, 0), new ScheduledTask(1200, 1202, 1), new ScheduledTask(2400, 2407, 0), new ScheduledTask(4700, 4704, 0), new ScheduledTask(0, 6, 2), new ScheduledTask(3100, 3110, 0), new ScheduledTask(0, 3, 3), new ScheduledTask(800, 806, 0), new ScheduledTask(0, 8, 0), new ScheduledTask(5400, 5404, 2), new ScheduledTask(8600, 8610, 0), new ScheduledTask(7600, 7610, 0), new ScheduledTask(9600, 9610, 0), new ScheduledTask(10600, 10603, 0), new ScheduledTask(4100, 4106, 0), new ScheduledTask(6600, 6602, 0), new ScheduledTask(5700, 5709, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11810, 6209, 7805, 10102};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -3801,26 +2161,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot98_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.98_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(12100, 12109, 0), new ScheduledTask(6700, 6708, 1), new ScheduledTask(11600, 11603, 0), new ScheduledTask(11900, 11902, 0), new ScheduledTask(2400, 2406, 2), new ScheduledTask(4900, 4906, 0), new ScheduledTask(4500, 4502, 3), new ScheduledTask(10700, 10709, 0), new ScheduledTask(6300, 6310, 0), new ScheduledTask(9700, 9710, 0), new ScheduledTask(8400, 8405, 2), new ScheduledTask(9300, 9304, 3), new ScheduledTask(5700, 5706, 3), new ScheduledTask(0, 2, 1), new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1006, 0), new ScheduledTask(3200, 3208, 0), new ScheduledTask(4300, 4306, 0), new ScheduledTask(0, 7, 3), new ScheduledTask(4000, 4003, 0), new ScheduledTask(2500, 2507, 0), new ScheduledTask(1600, 1609, 0), new ScheduledTask(7300, 7309, 0), new ScheduledTask(1200, 1209, 1), new ScheduledTask(8200, 8209, 0), new ScheduledTask(5500, 5505, 0), new ScheduledTask(6000, 6003, 0), new ScheduledTask(0, 4, 2), new ScheduledTask(6000, 6004, 2), new ScheduledTask(9100, 9106, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12109, 6708, 8405, 9304};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot98_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.98_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -3832,26 +2172,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(91, 100, 0), new ScheduledTask(55, 63, 0), new ScheduledTask(86, 89, 0), new ScheduledTask(89, 91, 0), new ScheduledTask(49, 55, 0), new ScheduledTask(38, 44, 1), new ScheduledTask(44, 46, 1), new ScheduledTask(68, 77, 1), new ScheduledTask(71, 81, 0), new ScheduledTask(19, 29, 1), new ScheduledTask(81, 86, 0), new ScheduledTask(83, 87, 1), new ScheduledTask(77, 83, 1), new ScheduledTask(47, 49, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(41, 47, 0), new ScheduledTask(10, 18, 0), new ScheduledTask(18, 24, 0), new ScheduledTask(24, 31, 0), new ScheduledTask(38, 41, 0), new ScheduledTask(31, 38, 0), new ScheduledTask(10, 19, 1), new ScheduledTask(29, 38, 1), new ScheduledTask(46, 55, 1), new ScheduledTask(59, 68, 1), new ScheduledTask(63, 68, 0), new ScheduledTask(68, 71, 0), new ScheduledTask(55, 59, 1), new ScheduledTask(0, 4, 0), new ScheduledTask(4, 10, 0)};
         int[] expectedProcessorEndTimes = new int[]{100, 87};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot99_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.99_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(13100, 13107, 0), new ScheduledTask(6200, 6210, 1), new ScheduledTask(12400, 12407, 0), new ScheduledTask(10500, 10507, 0), new ScheduledTask(4200, 4208, 0), new ScheduledTask(1400, 1408, 1), new ScheduledTask(3100, 3108, 0), new ScheduledTask(11700, 11707, 0), new ScheduledTask(8400, 8406, 2), new ScheduledTask(9000, 9005, 3), new ScheduledTask(3000, 3010, 3), new ScheduledTask(9600, 9606, 0), new ScheduledTask(10200, 10203, 0), new ScheduledTask(0, 5, 3), new ScheduledTask(2500, 2506, 0), new ScheduledTask(3900, 3903, 0), new ScheduledTask(0, 2, 1), new ScheduledTask(0, 7, 0), new ScheduledTask(700, 702, 0), new ScheduledTask(0, 4, 2), new ScheduledTask(900, 909, 0), new ScheduledTask(1800, 1807, 0), new ScheduledTask(8000, 8009, 0), new ScheduledTask(11200, 11205, 0), new ScheduledTask(8900, 8907, 0), new ScheduledTask(2400, 2410, 2), new ScheduledTask(6000, 6007, 0), new ScheduledTask(6700, 6709, 0), new ScheduledTask(5000, 5010, 0), new ScheduledTask(7600, 7604, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13107, 6210, 8406, 9005};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -3881,26 +2201,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot02_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_1.02_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(12500, 12507, 0), new ScheduledTask(12100, 12104, 0), new ScheduledTask(11100, 11110, 0), new ScheduledTask(10300, 10302, 3), new ScheduledTask(8400, 8405, 1), new ScheduledTask(3600, 3604, 1), new ScheduledTask(10200, 10202, 2), new ScheduledTask(7300, 7305, 3), new ScheduledTask(9900, 9912, 0), new ScheduledTask(4200, 4205, 3), new ScheduledTask(0, 6, 1), new ScheduledTask(9100, 9102, 0), new ScheduledTask(8600, 8605, 0), new ScheduledTask(6000, 6004, 1), new ScheduledTask(2900, 2911, 0), new ScheduledTask(0, 10, 2), new ScheduledTask(2700, 2702, 0), new ScheduledTask(1700, 1705, 0), new ScheduledTask(0, 11, 0), new ScheduledTask(5100, 5109, 0), new ScheduledTask(6800, 6809, 0), new ScheduledTask(6000, 6007, 2), new ScheduledTask(4000, 4011, 0), new ScheduledTask(6000, 6006, 0), new ScheduledTask(6600, 6602, 0), new ScheduledTask(7700, 7709, 0), new ScheduledTask(9300, 9306, 0), new ScheduledTask(0, 7, 3), new ScheduledTask(1100, 1106, 0), new ScheduledTask(2200, 2205, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12507, 8405, 10202, 10302};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot02_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_1.02_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -3912,26 +2212,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(94, 101, 0), new ScheduledTask(90, 94, 0), new ScheduledTask(78, 88, 1), new ScheduledTask(76, 78, 1), new ScheduledTask(48, 53, 1), new ScheduledTask(44, 48, 1), new ScheduledTask(88, 90, 0), new ScheduledTask(69, 74, 1), new ScheduledTask(32, 44, 1), new ScheduledTask(53, 58, 1), new ScheduledTask(44, 50, 0), new ScheduledTask(74, 76, 1), new ScheduledTask(56, 61, 0), new ScheduledTask(33, 37, 0), new ScheduledTask(0, 11, 1), new ScheduledTask(22, 32, 1), new ScheduledTask(37, 39, 0), new ScheduledTask(28, 33, 0), new ScheduledTask(11, 22, 1), new ScheduledTask(63, 72, 0), new ScheduledTask(72, 81, 0), new ScheduledTask(81, 88, 0), new ScheduledTask(58, 69, 1), new ScheduledTask(50, 56, 0), new ScheduledTask(61, 63, 0), new ScheduledTask(0, 9, 0), new ScheduledTask(16, 22, 0), new ScheduledTask(9, 16, 0), new ScheduledTask(22, 28, 0), new ScheduledTask(39, 44, 0)};
         int[] expectedProcessorEndTimes = new int[]{101, 88};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot06_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_1.06_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(11900, 11903, 0), new ScheduledTask(9000, 9004, 1), new ScheduledTask(11300, 11306, 0), new ScheduledTask(7800, 7806, 2), new ScheduledTask(7100, 7108, 0), new ScheduledTask(1800, 1810, 2), new ScheduledTask(3700, 3704, 3), new ScheduledTask(11000, 11003, 0), new ScheduledTask(6100, 6108, 3), new ScheduledTask(9300, 9305, 0), new ScheduledTask(2400, 2402, 3), new ScheduledTask(0, 3, 2), new ScheduledTask(6900, 6902, 0), new ScheduledTask(0, 5, 1), new ScheduledTask(5100, 5109, 0), new ScheduledTask(6000, 6009, 0), new ScheduledTask(1100, 1103, 0), new ScheduledTask(0, 7, 0), new ScheduledTask(700, 704, 0), new ScheduledTask(2200, 2209, 0), new ScheduledTask(0, 4, 3), new ScheduledTask(1400, 1408, 0), new ScheduledTask(9800, 9808, 0), new ScheduledTask(10600, 10604, 0), new ScheduledTask(3000, 3010, 1), new ScheduledTask(3100, 3109, 0), new ScheduledTask(4700, 4704, 0), new ScheduledTask(4000, 4007, 0), new ScheduledTask(8900, 8904, 0), new ScheduledTask(7900, 7910, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11903, 9004, 7806, 6108};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -4001,26 +2281,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot09_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_1.09_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(11900, 11904, 0), new ScheduledTask(9000, 9004, 1), new ScheduledTask(11600, 11603, 0), new ScheduledTask(7200, 7206, 3), new ScheduledTask(3600, 3609, 1), new ScheduledTask(4800, 4804, 3), new ScheduledTask(7600, 7606, 0), new ScheduledTask(5300, 5310, 2), new ScheduledTask(10600, 10610, 0), new ScheduledTask(8400, 8409, 0), new ScheduledTask(4300, 4310, 0), new ScheduledTask(6000, 6005, 0), new ScheduledTask(5300, 5307, 0), new ScheduledTask(2600, 2603, 0), new ScheduledTask(1900, 1904, 0), new ScheduledTask(2300, 2303, 0), new ScheduledTask(0, 10, 0), new ScheduledTask(0, 6, 2), new ScheduledTask(1000, 1009, 0), new ScheduledTask(0, 6, 1), new ScheduledTask(7100, 7105, 0), new ScheduledTask(6500, 6506, 0), new ScheduledTask(2900, 2907, 0), new ScheduledTask(3600, 3607, 0), new ScheduledTask(3600, 3602, 2), new ScheduledTask(9300, 9306, 0), new ScheduledTask(10400, 10402, 0), new ScheduledTask(9900, 9905, 0), new ScheduledTask(8200, 8202, 0), new ScheduledTask(0, 8, 3)};
-        int[] expectedProcessorEndTimes = new int[]{11904, 9004, 5310, 7206};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot09_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_1.09_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -4032,26 +2292,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(90, 94, 0), new ScheduledTask(83, 87, 0), new ScheduledTask(87, 90, 0), new ScheduledTask(50, 56, 1), new ScheduledTask(74, 83, 0), new ScheduledTask(19, 23, 1), new ScheduledTask(66, 72, 1), new ScheduledTask(74, 84, 1), new ScheduledTask(56, 66, 1), new ScheduledTask(31, 40, 1), new ScheduledTask(40, 50, 1), new ScheduledTask(35, 40, 0), new ScheduledTask(6, 13, 0), new ScheduledTask(68, 71, 0), new ScheduledTask(64, 68, 0), new ScheduledTask(71, 74, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(0, 6, 0), new ScheduledTask(10, 19, 1), new ScheduledTask(47, 53, 0), new ScheduledTask(53, 58, 0), new ScheduledTask(58, 64, 0), new ScheduledTask(13, 20, 0), new ScheduledTask(22, 29, 0), new ScheduledTask(72, 74, 1), new ScheduledTask(29, 35, 0), new ScheduledTask(45, 47, 0), new ScheduledTask(40, 45, 0), new ScheduledTask(20, 22, 0), new ScheduledTask(23, 31, 1)};
         int[] expectedProcessorEndTimes = new int[]{94, 84};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot11_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_1.11_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12700;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(11800, 11809, 0), new ScheduledTask(7300, 7307, 1), new ScheduledTask(11400, 11404, 0), new ScheduledTask(8700, 8704, 3), new ScheduledTask(4300, 4305, 1), new ScheduledTask(4800, 4809, 0), new ScheduledTask(1500, 1507, 3), new ScheduledTask(8700, 8704, 2), new ScheduledTask(10800, 10806, 0), new ScheduledTask(9600, 9609, 0), new ScheduledTask(0, 2, 3), new ScheduledTask(6600, 6608, 0), new ScheduledTask(0, 4, 2), new ScheduledTask(1300, 1309, 0), new ScheduledTask(3100, 3103, 0), new ScheduledTask(3400, 3406, 0), new ScheduledTask(4000, 4008, 0), new ScheduledTask(1200, 1205, 1), new ScheduledTask(2200, 2209, 0), new ScheduledTask(0, 2, 1), new ScheduledTask(0, 6, 0), new ScheduledTask(600, 607, 0), new ScheduledTask(5700, 5709, 0), new ScheduledTask(7400, 7406, 0), new ScheduledTask(8000, 8003, 0), new ScheduledTask(2400, 2410, 2), new ScheduledTask(10500, 10503, 0), new ScheduledTask(5700, 5705, 3), new ScheduledTask(9300, 9303, 0), new ScheduledTask(8300, 8310, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11809, 7307, 8704, 8704};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -4112,26 +2352,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(90, 98, 0), new ScheduledTask(81, 90, 0), new ScheduledTask(79, 86, 1), new ScheduledTask(27, 35, 1), new ScheduledTask(35, 38, 1), new ScheduledTask(72, 81, 0), new ScheduledTask(60, 67, 1), new ScheduledTask(57, 63, 0), new ScheduledTask(77, 79, 1), new ScheduledTask(16, 24, 0), new ScheduledTask(8, 18, 1), new ScheduledTask(18, 27, 1), new ScheduledTask(0, 8, 1), new ScheduledTask(24, 27, 0), new ScheduledTask(0, 5, 0), new ScheduledTask(10, 14, 0), new ScheduledTask(48, 50, 1), new ScheduledTask(69, 72, 0), new ScheduledTask(38, 48, 1), new ScheduledTask(50, 60, 1), new ScheduledTask(36, 42, 0), new ScheduledTask(51, 54, 0), new ScheduledTask(27, 36, 0), new ScheduledTask(54, 57, 0), new ScheduledTask(42, 47, 0), new ScheduledTask(47, 51, 0), new ScheduledTask(67, 77, 1), new ScheduledTask(63, 69, 0), new ScheduledTask(14, 16, 0), new ScheduledTask(5, 10, 0)};
         int[] expectedProcessorEndTimes = new int[]{98, 86};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_9dot97_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_9.97_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8050;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(7250, 7258, 0), new ScheduledTask(6480, 6484, 0), new ScheduledTask(6880, 6883, 0), new ScheduledTask(1950, 1952, 2), new ScheduledTask(6080, 6084, 0), new ScheduledTask(2500, 2506, 0), new ScheduledTask(1800, 1804, 1), new ScheduledTask(1600, 1608, 3), new ScheduledTask(4350, 4352, 2), new ScheduledTask(5480, 5486, 0), new ScheduledTask(1050, 1054, 2), new ScheduledTask(0, 7, 2), new ScheduledTask(1650, 1652, 2), new ScheduledTask(4000, 4006, 0), new ScheduledTask(4600, 4606, 0), new ScheduledTask(2280, 2285, 1), new ScheduledTask(0, 6, 0), new ScheduledTask(1600, 1609, 0), new ScheduledTask(600, 610, 0), new ScheduledTask(840, 848, 1), new ScheduledTask(0, 2, 1), new ScheduledTask(240, 245, 1), new ScheduledTask(400, 404, 3), new ScheduledTask(1200, 1202, 3), new ScheduledTask(0, 2, 3), new ScheduledTask(2250, 2256, 2), new ScheduledTask(3150, 3156, 2), new ScheduledTask(4050, 4052, 2), new ScheduledTask(2880, 2885, 1), new ScheduledTask(3100, 3109, 0)};
-        int[] expectedProcessorEndTimes = new int[]{7258, 2885, 4352, 1608};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -4341,26 +2561,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random2_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random#2_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 121900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 111, 1), new ScheduledTask(105000, 105078, 0), new ScheduledTask(19800, 19822, 2), new ScheduledTask(97200, 97278, 0), new ScheduledTask(33000, 33022, 2), new ScheduledTask(12300, 12345, 0), new ScheduledTask(46200, 46311, 2), new ScheduledTask(33600, 33622, 0), new ScheduledTask(0, 67, 3), new ScheduledTask(28000, 28056, 0), new ScheduledTask(59200, 59245, 0), new ScheduledTask(16800, 16867, 0), new ScheduledTask(40200, 40311, 3), new ScheduledTask(66600, 66667, 1), new ScheduledTask(3300, 3345, 0), new ScheduledTask(44700, 44756, 0), new ScheduledTask(38000, 38022, 0), new ScheduledTask(50300, 50389, 0), new ScheduledTask(71500, 71578, 0), new ScheduledTask(35800, 35822, 0), new ScheduledTask(63700, 63778, 0), new ScheduledTask(0, 33, 0), new ScheduledTask(0, 33, 2), new ScheduledTask(23500, 23545, 0), new ScheduledTask(90500, 90567, 0), new ScheduledTask(7800, 7845, 0), new ScheduledTask(79300, 79345, 0), new ScheduledTask(83800, 83867, 0), new ScheduledTask(40200, 40245, 0), new ScheduledTask(113000, 113089, 0)};
-        int[] expectedProcessorEndTimes = new int[]{113089, 66667, 46311, 40311};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random2_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random#2_Homogeneous-2.dot");
         int processorCount = 2;
@@ -4381,26 +2581,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random3_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random#3_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 126100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(42600, 42651, 3), new ScheduledTask(66600, 66691, 0), new ScheduledTask(20200, 20301, 0), new ScheduledTask(83800, 83891, 0), new ScheduledTask(48600, 48691, 1), new ScheduledTask(107900, 107930, 0), new ScheduledTask(104900, 104930, 0), new ScheduledTask(0, 61, 2), new ScheduledTask(36300, 36391, 0), new ScheduledTask(103200, 103220, 1), new ScheduledTask(34300, 34320, 0), new ScheduledTask(101900, 101930, 0), new ScheduledTask(0, 81, 1), new ScheduledTask(36600, 36681, 2), new ScheduledTask(99900, 99920, 0), new ScheduledTask(12100, 12181, 0), new ScheduledTask(58500, 58581, 0), new ScheduledTask(92900, 92930, 0), new ScheduledTask(4000, 4081, 0), new ScheduledTask(30300, 30340, 0), new ScheduledTask(73200, 73271, 3), new ScheduledTask(0, 71, 3), new ScheduledTask(75700, 75781, 0), new ScheduledTask(95900, 95940, 0), new ScheduledTask(45400, 45501, 0), new ScheduledTask(55500, 55530, 0), new ScheduledTask(0, 40, 0), new ScheduledTask(85200, 85251, 2), new ScheduledTask(110900, 110991, 0), new ScheduledTask(120000, 120061, 0)};
-        int[] expectedProcessorEndTimes = new int[]{120061, 103220, 85251, 73271};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random3_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random#3_Homogeneous-2.dot");
         int processorCount = 2;
@@ -4412,26 +2592,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(445, 496, 0), new ScheduledTask(434, 525, 1), new ScheduledTask(0, 101, 1), new ScheduledTask(525, 616, 1), new ScheduledTask(656, 747, 1), new ScheduledTask(809, 839, 0), new ScheduledTask(779, 809, 0), new ScheduledTask(202, 263, 0), new ScheduledTask(242, 333, 1), new ScheduledTask(868, 888, 1), new ScheduledTask(141, 161, 1), new ScheduledTask(747, 777, 1), new ScheduledTask(161, 242, 1), new ScheduledTask(334, 415, 0), new ScheduledTask(759, 779, 0), new ScheduledTask(121, 202, 0), new ScheduledTask(496, 577, 0), new ScheduledTask(729, 759, 0), new ScheduledTask(40, 121, 0), new ScheduledTask(101, 141, 1), new ScheduledTask(658, 729, 0), new ScheduledTask(263, 334, 0), new ScheduledTask(577, 658, 0), new ScheduledTask(616, 656, 1), new ScheduledTask(333, 434, 1), new ScheduledTask(415, 445, 0), new ScheduledTask(0, 40, 0), new ScheduledTask(839, 890, 0), new ScheduledTask(777, 868, 1), new ScheduledTask(890, 951, 0)};
         int[] expectedProcessorEndTimes = new int[]{951, 888};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random4_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random#4_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 108200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(97000, 97050, 0), new ScheduledTask(54000, 54080, 1), new ScheduledTask(79000, 79020, 0), new ScheduledTask(18000, 18090, 0), new ScheduledTask(77000, 77020, 0), new ScheduledTask(9000, 9090, 0), new ScheduledTask(60000, 60030, 0), new ScheduledTask(81000, 81040, 0), new ScheduledTask(39000, 39090, 0), new ScheduledTask(66000, 66060, 2), new ScheduledTask(75000, 75020, 0), new ScheduledTask(48000, 48080, 3), new ScheduledTask(85000, 85030, 0), new ScheduledTask(92000, 92050, 0), new ScheduledTask(0, 80, 3), new ScheduledTask(0, 90, 1), new ScheduledTask(57000, 57030, 0), new ScheduledTask(0, 90, 0), new ScheduledTask(0, 20, 2), new ScheduledTask(63000, 63100, 0), new ScheduledTask(54000, 54030, 0), new ScheduledTask(34000, 34050, 0), new ScheduledTask(30000, 30040, 0), new ScheduledTask(51000, 51030, 0), new ScheduledTask(27000, 27030, 0), new ScheduledTask(73000, 73020, 0), new ScheduledTask(12000, 12090, 2), new ScheduledTask(88000, 88040, 0), new ScheduledTask(48000, 48030, 0), new ScheduledTask(102200, 102260, 0)};
-        int[] expectedProcessorEndTimes = new int[]{102260, 54080, 66060, 48080};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -4481,26 +2641,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random6_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random#6_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 132000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(113400, 113420, 3), new ScheduledTask(112000, 112060, 0), new ScheduledTask(59400, 59490, 3), new ScheduledTask(19000, 19030, 0), new ScheduledTask(74000, 74080, 0), new ScheduledTask(118000, 118080, 0), new ScheduledTask(113400, 113420, 2), new ScheduledTask(94000, 94080, 0), new ScheduledTask(0, 99, 1), new ScheduledTask(108000, 108040, 0), new ScheduledTask(53000, 53080, 0), new ScheduledTask(45000, 45080, 0), new ScheduledTask(59400, 59420, 1), new ScheduledTask(69000, 69050, 0), new ScheduledTask(11000, 11080, 0), new ScheduledTask(59400, 59490, 2), new ScheduledTask(61000, 61030, 0), new ScheduledTask(82000, 82040, 0), new ScheduledTask(22000, 22080, 0), new ScheduledTask(64000, 64050, 0), new ScheduledTask(0, 99, 2), new ScheduledTask(5000, 5060, 0), new ScheduledTask(0, 99, 3), new ScheduledTask(30000, 30070, 0), new ScheduledTask(0, 50, 0), new ScheduledTask(102000, 102060, 0), new ScheduledTask(71400, 71490, 1), new ScheduledTask(37000, 37080, 0), new ScheduledTask(86000, 86080, 0), new ScheduledTask(126000, 126060, 0)};
-        int[] expectedProcessorEndTimes = new int[]{126060, 71490, 113420, 113420};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random6_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random#6_Homogeneous-2.dot");
         int processorCount = 2;
@@ -4532,26 +2672,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(47, 94, 0), new ScheduledTask(94, 150, 0), new ScheduledTask(591, 619, 0), new ScheduledTask(722, 769, 0), new ScheduledTask(675, 722, 0), new ScheduledTask(263, 328, 1), new ScheduledTask(150, 215, 0), new ScheduledTask(94, 188, 1), new ScheduledTask(328, 403, 1), new ScheduledTask(0, 47, 0), new ScheduledTask(797, 853, 0), new ScheduledTask(309, 403, 0), new ScheduledTask(769, 797, 0), new ScheduledTask(478, 562, 1), new ScheduledTask(506, 553, 0), new ScheduledTask(188, 263, 1), new ScheduledTask(403, 459, 0), new ScheduledTask(459, 506, 0), new ScheduledTask(647, 675, 0), new ScheduledTask(646, 683, 1), new ScheduledTask(572, 591, 0), new ScheduledTask(0, 94, 1), new ScheduledTask(562, 646, 1), new ScheduledTask(767, 851, 1), new ScheduledTask(553, 572, 0), new ScheduledTask(215, 309, 0), new ScheduledTask(683, 767, 1), new ScheduledTask(403, 478, 1), new ScheduledTask(619, 647, 0), new ScheduledTask(853, 881, 0)};
         int[] expectedProcessorEndTimes = new int[]{881, 851};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random8_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random#8_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 131500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(5100, 5172, 0), new ScheduledTask(104800, 104851, 0), new ScheduledTask(79100, 79151, 0), new ScheduledTask(109900, 109972, 0), new ScheduledTask(38000, 38041, 0), new ScheduledTask(117100, 117182, 0), new ScheduledTask(68800, 68903, 0), new ScheduledTask(49300, 49403, 0), new ScheduledTask(21500, 21603, 0), new ScheduledTask(0, 21, 3), new ScheduledTask(0, 62, 2), new ScheduledTask(63700, 63751, 0), new ScheduledTask(59600, 59641, 0), new ScheduledTask(87000, 87062, 3), new ScheduledTask(49800, 49862, 3), new ScheduledTask(42100, 42172, 0), new ScheduledTask(99000, 99021, 1), new ScheduledTask(12600, 12662, 3), new ScheduledTask(94500, 94603, 0), new ScheduledTask(0, 72, 1), new ScheduledTask(61800, 61862, 1), new ScheduledTask(37200, 37272, 2), new ScheduledTask(43200, 43231, 1), new ScheduledTask(80400, 80472, 2), new ScheduledTask(84200, 84303, 0), new ScheduledTask(111600, 111621, 1), new ScheduledTask(0, 51, 0), new ScheduledTask(12300, 12392, 0), new ScheduledTask(31800, 31862, 0), new ScheduledTask(125300, 125362, 0)};
-        int[] expectedProcessorEndTimes = new int[]{125362, 111621, 80472, 87062};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -4641,26 +2761,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 115800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(54500, 54568, 0), new ScheduledTask(36000, 36060, 2), new ScheduledTask(34000, 34085, 0), new ScheduledTask(20400, 20451, 0), new ScheduledTask(76600, 76685, 0), new ScheduledTask(51600, 51643, 3), new ScheduledTask(77400, 77426, 3), new ScheduledTask(93000, 93026, 3), new ScheduledTask(50200, 50243, 0), new ScheduledTask(3400, 3468, 0), new ScheduledTask(0, 60, 2), new ScheduledTask(48500, 48517, 0), new ScheduledTask(69800, 69868, 0), new ScheduledTask(15600, 15677, 1), new ScheduledTask(18700, 18717, 0), new ScheduledTask(25800, 25843, 3), new ScheduledTask(0, 26, 1), new ScheduledTask(90200, 90285, 0), new ScheduledTask(0, 34, 0), new ScheduledTask(85100, 85151, 0), new ScheduledTask(72000, 72060, 2), new ScheduledTask(42500, 42560, 0), new ScheduledTask(25500, 25585, 0), new ScheduledTask(10200, 10285, 0), new ScheduledTask(98700, 98743, 0), new ScheduledTask(0, 43, 3), new ScheduledTask(61800, 61877, 1), new ScheduledTask(103000, 103068, 0), new ScheduledTask(61300, 61385, 0), new ScheduledTask(109800, 109860, 0)};
-        int[] expectedProcessorEndTimes = new int[]{109860, 61877, 72060, 93026};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -4672,26 +2772,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(196, 264, 1), new ScheduledTask(324, 384, 1), new ScheduledTask(316, 401, 0), new ScheduledTask(180, 231, 0), new ScheduledTask(452, 537, 1), new ScheduledTask(137, 180, 0), new ScheduledTask(401, 427, 0), new ScheduledTask(589, 615, 0), new ScheduledTask(153, 196, 1), new ScheduledTask(0, 68, 1), new ScheduledTask(264, 324, 1), new ScheduledTask(487, 504, 0), new ScheduledTask(384, 452, 1), new ScheduledTask(537, 614, 1), new ScheduledTask(34, 51, 0), new ScheduledTask(94, 137, 0), new ScheduledTask(615, 641, 0), new ScheduledTask(692, 777, 0), new ScheduledTask(0, 34, 0), new ScheduledTask(641, 692, 0), new ScheduledTask(614, 674, 1), new ScheduledTask(427, 487, 0), new ScheduledTask(231, 316, 0), new ScheduledTask(68, 153, 1), new ScheduledTask(777, 820, 0), new ScheduledTask(51, 94, 0), new ScheduledTask(742, 819, 1), new ScheduledTask(674, 742, 1), new ScheduledTask(504, 589, 0), new ScheduledTask(821, 881, 0)};
         int[] expectedProcessorEndTimes = new int[]{881, 819};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_0dot91_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.91_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(3600, 3603, 1), new ScheduledTask(7200, 7210, 0), new ScheduledTask(4200, 4207, 3), new ScheduledTask(0, 6, 1), new ScheduledTask(300, 310, 0), new ScheduledTask(6100, 6106, 0), new ScheduledTask(4500, 4505, 0), new ScheduledTask(10400, 10410, 0), new ScheduledTask(9400, 9410, 0), new ScheduledTask(6000, 6008, 2), new ScheduledTask(8400, 8404, 3), new ScheduledTask(8800, 8806, 0), new ScheduledTask(1700, 1703, 0), new ScheduledTask(2900, 2910, 0), new ScheduledTask(5400, 5409, 1), new ScheduledTask(2000, 2009, 0), new ScheduledTask(0, 3, 0), new ScheduledTask(0, 2, 2), new ScheduledTask(5000, 5002, 0), new ScheduledTask(5200, 5203, 0), new ScheduledTask(6900, 6903, 0), new ScheduledTask(0, 7, 3), new ScheduledTask(5500, 5506, 0), new ScheduledTask(8200, 8206, 0), new ScheduledTask(4200, 4203, 0), new ScheduledTask(1200, 1208, 2), new ScheduledTask(3900, 3903, 0), new ScheduledTask(6700, 6702, 0), new ScheduledTask(1300, 1304, 0), new ScheduledTask(11400, 11406, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11406, 5409, 6008, 8404};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -4721,26 +2801,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_0dot94_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.94_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(9000, 9004, 1), new ScheduledTask(7400, 7410, 0), new ScheduledTask(3800, 3809, 0), new ScheduledTask(0, 8, 1), new ScheduledTask(0, 5, 2), new ScheduledTask(1900, 1905, 0), new ScheduledTask(4800, 4807, 1), new ScheduledTask(7200, 7207, 2), new ScheduledTask(1000, 1009, 0), new ScheduledTask(8400, 8406, 0), new ScheduledTask(500, 505, 0), new ScheduledTask(0, 2, 0), new ScheduledTask(9000, 9010, 0), new ScheduledTask(10200, 10202, 0), new ScheduledTask(3300, 3305, 0), new ScheduledTask(8400, 8405, 3), new ScheduledTask(6400, 6410, 0), new ScheduledTask(4700, 4710, 0), new ScheduledTask(10000, 10002, 0), new ScheduledTask(4200, 4207, 3), new ScheduledTask(0, 7, 3), new ScheduledTask(10400, 10404, 0), new ScheduledTask(10800, 10806, 0), new ScheduledTask(5700, 5707, 0), new ScheduledTask(3000, 3003, 0), new ScheduledTask(3000, 3007, 2), new ScheduledTask(2400, 2406, 0), new ScheduledTask(11400, 11406, 0), new ScheduledTask(200, 203, 0), new ScheduledTask(12000, 12003, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12003, 9004, 7207, 8405};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot94_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.94_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -4752,26 +2812,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(61, 65, 0), new ScheduledTask(41, 51, 0), new ScheduledTask(32, 41, 0), new ScheduledTask(20, 28, 1), new ScheduledTask(56, 61, 0), new ScheduledTask(19, 24, 0), new ScheduledTask(68, 75, 1), new ScheduledTask(81, 88, 1), new ScheduledTask(10, 19, 0), new ScheduledTask(55, 61, 1), new ScheduledTask(5, 10, 0), new ScheduledTask(0, 2, 0), new ScheduledTask(65, 75, 0), new ScheduledTask(77, 79, 0), new ScheduledTask(27, 32, 0), new ScheduledTask(51, 56, 0), new ScheduledTask(45, 55, 1), new ScheduledTask(28, 38, 1), new ScheduledTask(75, 77, 0), new ScheduledTask(13, 20, 1), new ScheduledTask(6, 13, 1), new ScheduledTask(79, 83, 0), new ScheduledTask(75, 81, 1), new ScheduledTask(38, 45, 1), new ScheduledTask(24, 27, 0), new ScheduledTask(61, 68, 1), new ScheduledTask(0, 6, 1), new ScheduledTask(83, 89, 0), new ScheduledTask(2, 5, 0), new ScheduledTask(90, 93, 0)};
         int[] expectedProcessorEndTimes = new int[]{93, 88};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_0dot96_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.96_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(7500, 7510, 0), new ScheduledTask(5300, 5310, 0), new ScheduledTask(10300, 10303, 0), new ScheduledTask(3500, 3503, 0), new ScheduledTask(6600, 6609, 0), new ScheduledTask(500, 504, 0), new ScheduledTask(9400, 9409, 0), new ScheduledTask(1400, 1405, 0), new ScheduledTask(200, 203, 0), new ScheduledTask(2900, 2904, 0), new ScheduledTask(8700, 8707, 0), new ScheduledTask(900, 905, 0), new ScheduledTask(10200, 10202, 1), new ScheduledTask(9600, 9603, 3), new ScheduledTask(0, 2, 0), new ScheduledTask(8500, 8502, 0), new ScheduledTask(4800, 4808, 3), new ScheduledTask(0, 8, 3), new ScheduledTask(3300, 3302, 0), new ScheduledTask(4400, 4409, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(10600, 10610, 0), new ScheduledTask(0, 9, 2), new ScheduledTask(5400, 5408, 2), new ScheduledTask(3800, 3806, 0), new ScheduledTask(10200, 10202, 2), new ScheduledTask(5400, 5408, 1), new ScheduledTask(6300, 6303, 0), new ScheduledTask(1900, 1910, 0), new ScheduledTask(11600, 11604, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11604, 10202, 10202, 9603};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -4801,26 +2841,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_0dot97_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.97_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(6000, 6009, 1), new ScheduledTask(0, 4, 2), new ScheduledTask(7200, 7209, 2), new ScheduledTask(2400, 2408, 2), new ScheduledTask(8400, 8407, 0), new ScheduledTask(12000, 12010, 0), new ScheduledTask(11200, 11208, 0), new ScheduledTask(4400, 4409, 0), new ScheduledTask(6300, 6302, 0), new ScheduledTask(10600, 10606, 0), new ScheduledTask(7200, 7202, 0), new ScheduledTask(0, 9, 3), new ScheduledTask(10000, 10006, 0), new ScheduledTask(5400, 5403, 3), new ScheduledTask(7200, 7209, 3), new ScheduledTask(2300, 2302, 0), new ScheduledTask(3500, 3509, 0), new ScheduledTask(7400, 7404, 0), new ScheduledTask(700, 707, 0), new ScheduledTask(6500, 6507, 0), new ScheduledTask(2500, 2504, 0), new ScheduledTask(0, 7, 0), new ScheduledTask(2900, 2906, 0), new ScheduledTask(1400, 1409, 0), new ScheduledTask(7800, 7806, 0), new ScheduledTask(11400, 11402, 1), new ScheduledTask(5300, 5310, 0), new ScheduledTask(9100, 9109, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(13000, 13008, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13008, 11402, 7209, 7209};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot97_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.97_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -4841,26 +2861,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_0dot98_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.98_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 14300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(700, 708, 0), new ScheduledTask(2300, 2310, 0), new ScheduledTask(10500, 10508, 0), new ScheduledTask(0, 7, 0), new ScheduledTask(7800, 7809, 2), new ScheduledTask(7200, 7210, 1), new ScheduledTask(4000, 4003, 0), new ScheduledTask(8500, 8508, 0), new ScheduledTask(4900, 4906, 0), new ScheduledTask(12100, 12106, 0), new ScheduledTask(4300, 4306, 0), new ScheduledTask(9800, 9807, 0), new ScheduledTask(3300, 3307, 0), new ScheduledTask(5500, 5507, 0), new ScheduledTask(11500, 11506, 0), new ScheduledTask(0, 9, 2), new ScheduledTask(0, 9, 3), new ScheduledTask(5400, 5404, 2), new ScheduledTask(5400, 5403, 1), new ScheduledTask(8200, 8203, 0), new ScheduledTask(10800, 10804, 3), new ScheduledTask(7200, 7210, 0), new ScheduledTask(6200, 6210, 0), new ScheduledTask(12700, 12707, 0), new ScheduledTask(5400, 5409, 3), new ScheduledTask(1500, 1508, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(11300, 11302, 0), new ScheduledTask(9300, 9305, 0), new ScheduledTask(13400, 13409, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13409, 7210, 7809, 10804};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot98_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.98_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
@@ -4872,26 +2872,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(7, 15, 1), new ScheduledTask(0, 10, 0), new ScheduledTask(81, 89, 1), new ScheduledTask(0, 7, 1), new ScheduledTask(92, 101, 0), new ScheduledTask(89, 99, 1), new ScheduledTask(13, 16, 0), new ScheduledTask(66, 74, 1), new ScheduledTask(22, 28, 0), new ScheduledTask(79, 85, 0), new ScheduledTask(16, 22, 0), new ScheduledTask(74, 81, 1), new ScheduledTask(50, 57, 1), new ScheduledTask(28, 35, 0), new ScheduledTask(73, 79, 0), new ScheduledTask(24, 33, 1), new ScheduledTask(15, 24, 1), new ScheduledTask(58, 62, 0), new ScheduledTask(10, 13, 0), new ScheduledTask(55, 58, 0), new ScheduledTask(69, 73, 0), new ScheduledTask(45, 55, 0), new ScheduledTask(35, 45, 0), new ScheduledTask(85, 92, 0), new ScheduledTask(57, 66, 1), new ScheduledTask(33, 41, 1), new ScheduledTask(41, 50, 1), new ScheduledTask(67, 69, 0), new ScheduledTask(62, 67, 0), new ScheduledTask(101, 110, 0)};
         int[] expectedProcessorEndTimes = new int[]{110, 99};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_0dot98_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.98_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 14600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(12700, 12702, 0), new ScheduledTask(6700, 6710, 0), new ScheduledTask(0, 5, 3), new ScheduledTask(3400, 3408, 0), new ScheduledTask(9100, 9107, 0), new ScheduledTask(8400, 8407, 0), new ScheduledTask(11900, 11908, 0), new ScheduledTask(2600, 2608, 0), new ScheduledTask(8400, 8409, 3), new ScheduledTask(5400, 5404, 2), new ScheduledTask(9800, 9808, 0), new ScheduledTask(5700, 5710, 0), new ScheduledTask(7700, 7707, 0), new ScheduledTask(0, 8, 0), new ScheduledTask(3000, 3009, 3), new ScheduledTask(4900, 4908, 0), new ScheduledTask(13600, 13608, 0), new ScheduledTask(12900, 12907, 0), new ScheduledTask(800, 804, 0), new ScheduledTask(11600, 11603, 0), new ScheduledTask(10600, 10610, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(11400, 11404, 1), new ScheduledTask(1200, 1206, 0), new ScheduledTask(4200, 4207, 0), new ScheduledTask(7800, 7810, 2), new ScheduledTask(0, 9, 2), new ScheduledTask(1800, 1808, 0), new ScheduledTask(6000, 6009, 1), new ScheduledTask(14400, 14402, 0)};
-        int[] expectedProcessorEndTimes = new int[]{14402, 11404, 7810, 8409};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -4961,26 +2941,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_0dot99_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.99_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(3200, 3205, 0), new ScheduledTask(4700, 4705, 0), new ScheduledTask(0, 4, 1), new ScheduledTask(10000, 10009, 0), new ScheduledTask(4200, 4205, 0), new ScheduledTask(7400, 7409, 0), new ScheduledTask(8300, 8305, 0), new ScheduledTask(3900, 3903, 0), new ScheduledTask(6500, 6509, 0), new ScheduledTask(0, 7, 2), new ScheduledTask(6000, 6009, 1), new ScheduledTask(9400, 9406, 0), new ScheduledTask(6000, 6005, 0), new ScheduledTask(2400, 2406, 1), new ScheduledTask(8800, 8806, 0), new ScheduledTask(1800, 1809, 0), new ScheduledTask(10900, 10910, 0), new ScheduledTask(1400, 1404, 0), new ScheduledTask(6000, 6009, 2), new ScheduledTask(1000, 1004, 0), new ScheduledTask(4200, 4203, 2), new ScheduledTask(4800, 4802, 3), new ScheduledTask(2700, 2705, 0), new ScheduledTask(0, 8, 3), new ScheduledTask(0, 10, 0), new ScheduledTask(3700, 3702, 0), new ScheduledTask(5800, 5802, 0), new ScheduledTask(6000, 6009, 3), new ScheduledTask(5200, 5206, 0), new ScheduledTask(11900, 11902, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11902, 6009, 6009, 6009};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -5021,26 +2981,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_1dot08_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_1.08_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(400, 404, 0), new ScheduledTask(9600, 9604, 3), new ScheduledTask(4300, 4303, 0), new ScheduledTask(8000, 8006, 0), new ScheduledTask(0, 4, 0), new ScheduledTask(3400, 3409, 0), new ScheduledTask(3000, 3008, 1), new ScheduledTask(10100, 10102, 0), new ScheduledTask(7400, 7406, 0), new ScheduledTask(5500, 5509, 0), new ScheduledTask(12100, 12106, 0), new ScheduledTask(0, 8, 2), new ScheduledTask(1400, 1406, 0), new ScheduledTask(0, 8, 3), new ScheduledTask(2500, 2509, 0), new ScheduledTask(0, 5, 1), new ScheduledTask(4800, 4807, 2), new ScheduledTask(4600, 4609, 0), new ScheduledTask(800, 806, 0), new ScheduledTask(4800, 4808, 3), new ScheduledTask(6400, 6410, 0), new ScheduledTask(9100, 9110, 0), new ScheduledTask(11300, 11303, 0), new ScheduledTask(9000, 9005, 2), new ScheduledTask(8600, 8605, 0), new ScheduledTask(2000, 2005, 0), new ScheduledTask(11600, 11605, 0), new ScheduledTask(7800, 7807, 1), new ScheduledTask(10300, 10310, 0), new ScheduledTask(12700, 12705, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12705, 7807, 9005, 9604};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_1dot08_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_1.08_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -5061,26 +3001,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_1dot09_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_1.09_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 10900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(1900, 1904, 0), new ScheduledTask(9800, 9809, 0), new ScheduledTask(9000, 9002, 1), new ScheduledTask(4200, 4207, 2), new ScheduledTask(800, 805, 0), new ScheduledTask(0, 3, 0), new ScheduledTask(1800, 1807, 3), new ScheduledTask(8400, 8406, 0), new ScheduledTask(300, 305, 0), new ScheduledTask(2300, 2305, 0), new ScheduledTask(4400, 4408, 0), new ScheduledTask(6600, 6606, 0), new ScheduledTask(7900, 7905, 0), new ScheduledTask(6000, 6007, 3), new ScheduledTask(0, 3, 3), new ScheduledTask(2800, 2810, 0), new ScheduledTask(5800, 5802, 0), new ScheduledTask(7200, 7205, 0), new ScheduledTask(1300, 1306, 0), new ScheduledTask(9000, 9008, 0), new ScheduledTask(6000, 6006, 0), new ScheduledTask(5200, 5204, 0), new ScheduledTask(0, 7, 1), new ScheduledTask(7700, 7702, 0), new ScheduledTask(8400, 8403, 2), new ScheduledTask(3800, 3806, 0), new ScheduledTask(0, 7, 2), new ScheduledTask(4200, 4208, 1), new ScheduledTask(5600, 5602, 0), new ScheduledTask(10700, 10702, 0)};
-        int[] expectedProcessorEndTimes = new int[]{10702, 9002, 8403, 6007};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_1dot09_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_1.09_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -5092,66 +3012,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(23, 27, 0), new ScheduledTask(71, 80, 0), new ScheduledTask(62, 64, 1), new ScheduledTask(16, 23, 0), new ScheduledTask(11, 16, 0), new ScheduledTask(3, 6, 0), new ScheduledTask(36, 43, 1), new ScheduledTask(64, 70, 1), new ScheduledTask(6, 11, 0), new ScheduledTask(27, 32, 0), new ScheduledTask(40, 48, 0), new ScheduledTask(49, 55, 1), new ScheduledTask(66, 71, 0), new ScheduledTask(55, 62, 1), new ScheduledTask(0, 3, 0), new ScheduledTask(20, 30, 1), new ScheduledTask(54, 56, 0), new ScheduledTask(59, 64, 0), new ScheduledTask(0, 6, 1), new ScheduledTask(70, 78, 1), new ScheduledTask(43, 49, 1), new ScheduledTask(48, 52, 0), new ScheduledTask(13, 20, 1), new ScheduledTask(64, 66, 0), new ScheduledTask(56, 59, 0), new ScheduledTask(30, 36, 1), new ScheduledTask(6, 13, 1), new ScheduledTask(32, 40, 0), new ScheduledTask(52, 54, 0), new ScheduledTask(80, 82, 0)};
         int[] expectedProcessorEndTimes = new int[]{82, 78};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(9100, 9108, 0), new ScheduledTask(0, 2, 3), new ScheduledTask(8100, 8103, 0), new ScheduledTask(1200, 1206, 3), new ScheduledTask(9000, 9002, 2), new ScheduledTask(11600, 11610, 0), new ScheduledTask(9900, 9908, 0), new ScheduledTask(7200, 7207, 0), new ScheduledTask(0, 5, 0), new ScheduledTask(7800, 7804, 3), new ScheduledTask(4900, 4908, 0), new ScheduledTask(500, 506, 0), new ScheduledTask(10700, 10709, 0), new ScheduledTask(0, 7, 1), new ScheduledTask(4400, 4405, 0), new ScheduledTask(3500, 3504, 0), new ScheduledTask(7900, 7902, 0), new ScheduledTask(7800, 7802, 2), new ScheduledTask(6300, 6309, 0), new ScheduledTask(2600, 2609, 0), new ScheduledTask(0, 6, 2), new ScheduledTask(4200, 4210, 1), new ScheduledTask(1100, 1107, 0), new ScheduledTask(3600, 3607, 2), new ScheduledTask(1800, 1808, 0), new ScheduledTask(8400, 8407, 0), new ScheduledTask(4800, 4805, 3), new ScheduledTask(3900, 3905, 0), new ScheduledTask(5700, 5706, 0), new ScheduledTask(12600, 12610, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12610, 4210, 9002, 7804};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random1_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#1_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 3), new ScheduledTask(7800, 7802, 0), new ScheduledTask(0, 3, 1), new ScheduledTask(8200, 8206, 0), new ScheduledTask(4800, 4802, 3), new ScheduledTask(3400, 3410, 1), new ScheduledTask(2800, 2808, 2), new ScheduledTask(0, 7, 2), new ScheduledTask(0, 5, 0), new ScheduledTask(5200, 5204, 3), new ScheduledTask(5500, 5508, 0), new ScheduledTask(500, 506, 0), new ScheduledTask(2600, 2609, 3), new ScheduledTask(2000, 2007, 1), new ScheduledTask(4400, 4405, 0), new ScheduledTask(3500, 3504, 0), new ScheduledTask(8000, 8002, 0), new ScheduledTask(4400, 4402, 3), new ScheduledTask(6900, 6909, 0), new ScheduledTask(2600, 2609, 0), new ScheduledTask(4900, 4906, 0), new ScheduledTask(4400, 4410, 2), new ScheduledTask(1100, 1107, 0), new ScheduledTask(1400, 1407, 2), new ScheduledTask(1800, 1808, 0), new ScheduledTask(600, 607, 1), new ScheduledTask(1600, 1605, 3), new ScheduledTask(3900, 3905, 0), new ScheduledTask(6300, 6306, 0), new ScheduledTask(8800, 8810, 0)};
-        int[] expectedProcessorEndTimes = new int[]{8810, 3410, 4410, 5204};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random1_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#1_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 3), new ScheduledTask(0, 2, 2), new ScheduledTask(0, 3, 1), new ScheduledTask(360, 366, 1), new ScheduledTask(3600, 3602, 2), new ScheduledTask(3360, 3370, 1), new ScheduledTask(2400, 2408, 2), new ScheduledTask(300, 307, 2), new ScheduledTask(0, 5, 0), new ScheduledTask(3900, 3904, 2), new ScheduledTask(5500, 5508, 0), new ScheduledTask(500, 506, 0), new ScheduledTask(1600, 1609, 3), new ScheduledTask(2520, 2527, 1), new ScheduledTask(4400, 4405, 0), new ScheduledTask(3500, 3504, 0), new ScheduledTask(7800, 7802, 0), new ScheduledTask(3400, 3402, 3), new ScheduledTask(6900, 6909, 0), new ScheduledTask(2600, 2609, 0), new ScheduledTask(4900, 4906, 0), new ScheduledTask(3800, 3810, 3), new ScheduledTask(1100, 1107, 0), new ScheduledTask(1350, 1357, 2), new ScheduledTask(1800, 1808, 0), new ScheduledTask(1080, 1087, 1), new ScheduledTask(1920, 1925, 1), new ScheduledTask(3900, 3905, 0), new ScheduledTask(6300, 6306, 0), new ScheduledTask(8000, 8010, 0)};
-        int[] expectedProcessorEndTimes = new int[]{8010, 3370, 3904, 3810};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -5221,66 +3081,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random2_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#2_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 3), new ScheduledTask(6000, 6007, 0), new ScheduledTask(6700, 6703, 0), new ScheduledTask(1400, 1409, 0), new ScheduledTask(300, 304, 0), new ScheduledTask(8500, 8503, 0), new ScheduledTask(7000, 7007, 0), new ScheduledTask(3000, 3005, 2), new ScheduledTask(2600, 2607, 0), new ScheduledTask(8800, 8804, 0), new ScheduledTask(4100, 4110, 0), new ScheduledTask(7700, 7708, 0), new ScheduledTask(0, 3, 0), new ScheduledTask(5400, 5406, 0), new ScheduledTask(6000, 6007, 2), new ScheduledTask(11600, 11605, 0), new ScheduledTask(10200, 10210, 0), new ScheduledTask(11200, 11204, 0), new ScheduledTask(1200, 1209, 1), new ScheduledTask(5100, 5103, 0), new ScheduledTask(3000, 3006, 3), new ScheduledTask(6600, 6605, 3), new ScheduledTask(0, 5, 2), new ScheduledTask(6600, 6606, 1), new ScheduledTask(3300, 3308, 0), new ScheduledTask(700, 707, 0), new ScheduledTask(0, 2, 1), new ScheduledTask(2300, 2303, 0), new ScheduledTask(9200, 9210, 0), new ScheduledTask(12100, 12104, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12104, 6606, 6007, 6605};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random2_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#2_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(2200, 2205, 3), new ScheduledTask(5900, 5907, 0), new ScheduledTask(600, 603, 1), new ScheduledTask(1600, 1609, 0), new ScheduledTask(500, 504, 0), new ScheduledTask(1600, 1603, 3), new ScheduledTask(0, 7, 2), new ScheduledTask(6600, 6605, 0), new ScheduledTask(2800, 2807, 0), new ScheduledTask(2400, 2404, 2), new ScheduledTask(4300, 4310, 0), new ScheduledTask(0, 8, 3), new ScheduledTask(200, 203, 0), new ScheduledTask(5300, 5306, 0), new ScheduledTask(4400, 4407, 3), new ScheduledTask(4000, 4005, 1), new ScheduledTask(7100, 7110, 0), new ScheduledTask(3200, 3204, 1), new ScheduledTask(3200, 3209, 2), new ScheduledTask(0, 3, 1), new ScheduledTask(3200, 3206, 3), new ScheduledTask(5000, 5005, 1), new ScheduledTask(1400, 1405, 2), new ScheduledTask(5000, 5006, 2), new ScheduledTask(3500, 3508, 0), new ScheduledTask(900, 907, 0), new ScheduledTask(0, 2, 0), new ScheduledTask(2500, 2503, 0), new ScheduledTask(1200, 1210, 1), new ScheduledTask(8100, 8104, 0)};
-        int[] expectedProcessorEndTimes = new int[]{8104, 5005, 5006, 4407};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random2_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#2_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 7950;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(2100, 2105, 2), new ScheduledTask(6200, 6207, 0), new ScheduledTask(0, 3, 3), new ScheduledTask(1600, 1609, 0), new ScheduledTask(500, 504, 0), new ScheduledTask(1050, 1053, 2), new ScheduledTask(0, 7, 2), new ScheduledTask(6900, 6905, 0), new ScheduledTask(2800, 2807, 0), new ScheduledTask(1500, 1504, 2), new ScheduledTask(4300, 4310, 0), new ScheduledTask(0, 8, 1), new ScheduledTask(200, 203, 0), new ScheduledTask(5600, 5606, 0), new ScheduledTask(4500, 4507, 2), new ScheduledTask(3750, 3755, 2), new ScheduledTask(1560, 1570, 1), new ScheduledTask(2760, 2764, 1), new ScheduledTask(2600, 2609, 3), new ScheduledTask(5300, 5303, 0), new ScheduledTask(2850, 2856, 2), new ScheduledTask(3240, 3245, 1), new ScheduledTask(960, 965, 1), new ScheduledTask(4400, 4406, 3), new ScheduledTask(3500, 3508, 0), new ScheduledTask(900, 907, 0), new ScheduledTask(0, 2, 0), new ScheduledTask(2500, 2503, 0), new ScheduledTask(600, 610, 3), new ScheduledTask(7550, 7554, 0)};
-        int[] expectedProcessorEndTimes = new int[]{7554, 3245, 4507, 4406};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random2_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#2_Homogeneous-2.dot");
         int processorCount = 2;
@@ -5312,66 +3112,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(20, 25, 3), new ScheduledTask(62, 69, 0), new ScheduledTask(0, 3, 1), new ScheduledTask(16, 25, 0), new ScheduledTask(5, 9, 0), new ScheduledTask(8, 11, 3), new ScheduledTask(0, 7, 2), new ScheduledTask(7, 12, 2), new ScheduledTask(28, 35, 0), new ScheduledTask(16, 20, 3), new ScheduledTask(43, 53, 0), new ScheduledTask(0, 8, 3), new ScheduledTask(2, 5, 0), new ScheduledTask(56, 62, 0), new ScheduledTask(47, 54, 3), new ScheduledTask(31, 36, 3), new ScheduledTask(13, 23, 1), new ScheduledTask(12, 16, 2), new ScheduledTask(16, 25, 2), new ScheduledTask(53, 56, 0), new ScheduledTask(25, 31, 3), new ScheduledTask(36, 41, 3), new ScheduledTask(11, 16, 3), new ScheduledTask(41, 47, 3), new ScheduledTask(35, 43, 0), new ScheduledTask(9, 16, 0), new ScheduledTask(0, 2, 0), new ScheduledTask(25, 28, 0), new ScheduledTask(3, 13, 1), new ScheduledTask(73, 77, 0)};
         int[] expectedProcessorEndTimes = new int[]{77, 23, 25, 54};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random3_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#3_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 11800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(2300, 2302, 0), new ScheduledTask(6800, 6806, 0), new ScheduledTask(10300, 10306, 0), new ScheduledTask(0, 3, 0), new ScheduledTask(0, 5, 2), new ScheduledTask(0, 3, 1), new ScheduledTask(900, 908, 0), new ScheduledTask(5200, 5210, 0), new ScheduledTask(6600, 6603, 1), new ScheduledTask(6000, 6004, 3), new ScheduledTask(300, 306, 0), new ScheduledTask(6600, 6603, 2), new ScheduledTask(3200, 3209, 0), new ScheduledTask(4700, 4705, 0), new ScheduledTask(8400, 8410, 0), new ScheduledTask(7400, 7410, 0), new ScheduledTask(1700, 1702, 0), new ScheduledTask(1900, 1904, 0), new ScheduledTask(6200, 6204, 0), new ScheduledTask(2500, 2507, 0), new ScheduledTask(5400, 5402, 1), new ScheduledTask(3600, 3604, 3), new ScheduledTask(1800, 1806, 1), new ScheduledTask(3000, 3006, 2), new ScheduledTask(9400, 9409, 0), new ScheduledTask(6600, 6602, 0), new ScheduledTask(0, 6, 3), new ScheduledTask(4100, 4102, 0), new ScheduledTask(4300, 4304, 0), new ScheduledTask(10900, 10909, 0)};
-        int[] expectedProcessorEndTimes = new int[]{10909, 6603, 6603, 6004};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random3_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#3_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 2, 1), new ScheduledTask(2200, 2206, 2), new ScheduledTask(4200, 4206, 3), new ScheduledTask(0, 3, 0), new ScheduledTask(1200, 1205, 3), new ScheduledTask(1900, 1903, 0), new ScheduledTask(900, 908, 0), new ScheduledTask(4400, 4410, 0), new ScheduledTask(4400, 4403, 2), new ScheduledTask(3400, 3404, 3), new ScheduledTask(300, 306, 0), new ScheduledTask(3800, 3803, 2), new ScheduledTask(3300, 3309, 0), new ScheduledTask(0, 5, 2), new ScheduledTask(6600, 6610, 0), new ScheduledTask(5600, 5610, 0), new ScheduledTask(1700, 1702, 0), new ScheduledTask(2200, 2204, 0), new ScheduledTask(1200, 1204, 1), new ScheduledTask(2600, 2607, 0), new ScheduledTask(3400, 3402, 2), new ScheduledTask(2000, 2004, 1), new ScheduledTask(1000, 1006, 2), new ScheduledTask(2200, 2206, 3), new ScheduledTask(2800, 2809, 1), new ScheduledTask(5400, 5402, 0), new ScheduledTask(0, 6, 3), new ScheduledTask(4200, 4202, 0), new ScheduledTask(400, 404, 1), new ScheduledTask(7700, 7709, 0)};
-        int[] expectedProcessorEndTimes = new int[]{7709, 2809, 4403, 4206};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random3_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#3_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 7840;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(2600, 2602, 0), new ScheduledTask(1800, 1806, 2), new ScheduledTask(3600, 3606, 3), new ScheduledTask(0, 3, 0), new ScheduledTask(720, 725, 1), new ScheduledTask(1900, 1903, 0), new ScheduledTask(900, 908, 0), new ScheduledTask(4900, 4910, 0), new ScheduledTask(3450, 3453, 2), new ScheduledTask(2800, 2804, 3), new ScheduledTask(300, 306, 0), new ScheduledTask(3000, 3003, 2), new ScheduledTask(3500, 3509, 0), new ScheduledTask(4400, 4405, 0), new ScheduledTask(5900, 5910, 0), new ScheduledTask(1560, 1570, 1), new ScheduledTask(1700, 1702, 0), new ScheduledTask(2200, 2204, 0), new ScheduledTask(600, 604, 2), new ScheduledTask(2800, 2807, 0), new ScheduledTask(2700, 2702, 2), new ScheduledTask(1200, 1204, 2), new ScheduledTask(400, 406, 3), new ScheduledTask(1600, 1606, 3), new ScheduledTask(2760, 2769, 1), new ScheduledTask(1320, 1322, 1), new ScheduledTask(0, 6, 1), new ScheduledTask(0, 2, 3), new ScheduledTask(0, 4, 2), new ScheduledTask(6940, 6949, 0)};
-        int[] expectedProcessorEndTimes = new int[]{6949, 2769, 3453, 3606};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -5432,66 +3172,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(26, 28, 0), new ScheduledTask(8, 14, 4), new ScheduledTask(37, 43, 5), new ScheduledTask(0, 3, 0), new ScheduledTask(2, 7, 5), new ScheduledTask(19, 22, 0), new ScheduledTask(9, 17, 0), new ScheduledTask(55, 65, 0), new ScheduledTask(30, 33, 5), new ScheduledTask(33, 37, 5), new ScheduledTask(3, 9, 0), new ScheduledTask(27, 30, 5), new ScheduledTask(35, 44, 0), new ScheduledTask(44, 49, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(0, 10, 2), new ScheduledTask(17, 19, 0), new ScheduledTask(22, 26, 0), new ScheduledTask(4, 8, 4), new ScheduledTask(28, 35, 0), new ScheduledTask(25, 27, 5), new ScheduledTask(15, 19, 5), new ScheduledTask(7, 13, 5), new ScheduledTask(19, 25, 5), new ScheduledTask(0, 9, 3), new ScheduledTask(13, 15, 5), new ScheduledTask(49, 55, 0), new ScheduledTask(0, 2, 5), new ScheduledTask(0, 4, 4), new ScheduledTask(66, 75, 0)};
         int[] expectedProcessorEndTimes = new int[]{75, 10, 10, 9, 14, 43};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random4_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#4_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 15200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 2, 1), new ScheduledTask(13300, 13310, 0), new ScheduledTask(4400, 4410, 0), new ScheduledTask(8400, 8403, 3), new ScheduledTask(10300, 10305, 0), new ScheduledTask(1600, 1609, 0), new ScheduledTask(1200, 1208, 1), new ScheduledTask(3300, 3302, 0), new ScheduledTask(0, 7, 3), new ScheduledTask(12300, 12310, 0), new ScheduledTask(1000, 1006, 0), new ScheduledTask(4200, 4207, 3), new ScheduledTask(1200, 1208, 2), new ScheduledTask(0, 4, 0), new ScheduledTask(6100, 6106, 0), new ScheduledTask(9300, 9310, 0), new ScheduledTask(3500, 3509, 0), new ScheduledTask(5400, 5403, 0), new ScheduledTask(10800, 10809, 0), new ScheduledTask(0, 2, 2), new ScheduledTask(400, 406, 0), new ScheduledTask(7700, 7710, 0), new ScheduledTask(2500, 2508, 0), new ScheduledTask(6700, 6710, 0), new ScheduledTask(6000, 6010, 1), new ScheduledTask(11700, 11706, 0), new ScheduledTask(5700, 5704, 0), new ScheduledTask(6000, 6010, 2), new ScheduledTask(8700, 8706, 0), new ScheduledTask(14400, 14408, 0)};
-        int[] expectedProcessorEndTimes = new int[]{14408, 6010, 6010, 8403};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random4_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#4_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 10600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(2700, 2702, 0), new ScheduledTask(8800, 8810, 0), new ScheduledTask(5500, 5510, 0), new ScheduledTask(3400, 3403, 2), new ScheduledTask(3200, 3205, 1), new ScheduledTask(1600, 1609, 0), new ScheduledTask(1600, 1608, 3), new ScheduledTask(3700, 3702, 0), new ScheduledTask(3900, 3907, 0), new ScheduledTask(4200, 4210, 1), new ScheduledTask(1000, 1006, 0), new ScheduledTask(2000, 2007, 2), new ScheduledTask(0, 8, 3), new ScheduledTask(0, 4, 0), new ScheduledTask(800, 806, 2), new ScheduledTask(7800, 7810, 0), new ScheduledTask(4600, 4609, 0), new ScheduledTask(6500, 6503, 0), new ScheduledTask(3200, 3209, 3), new ScheduledTask(2500, 2502, 0), new ScheduledTask(400, 406, 0), new ScheduledTask(6800, 6810, 0), new ScheduledTask(2900, 2908, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(5200, 5210, 2), new ScheduledTask(4000, 4006, 2), new ScheduledTask(0, 4, 2), new ScheduledTask(5000, 5010, 3), new ScheduledTask(2000, 2006, 1), new ScheduledTask(9800, 9808, 0)};
-        int[] expectedProcessorEndTimes = new int[]{9808, 4210, 5210, 5010};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random4_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#4_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9320;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(2700, 2702, 0), new ScheduledTask(3720, 3730, 1), new ScheduledTask(5500, 5510, 0), new ScheduledTask(8200, 8203, 0), new ScheduledTask(0, 5, 3), new ScheduledTask(1600, 1609, 0), new ScheduledTask(2760, 2768, 1), new ScheduledTask(3700, 3702, 0), new ScheduledTask(3900, 3907, 0), new ScheduledTask(2800, 2810, 3), new ScheduledTask(1000, 1006, 0), new ScheduledTask(1920, 1927, 1), new ScheduledTask(2400, 2408, 2), new ScheduledTask(0, 4, 0), new ScheduledTask(0, 6, 2), new ScheduledTask(900, 910, 2), new ScheduledTask(4600, 4609, 0), new ScheduledTask(6500, 6503, 0), new ScheduledTask(1000, 1009, 3), new ScheduledTask(2500, 2502, 0), new ScheduledTask(400, 406, 0), new ScheduledTask(7200, 7210, 0), new ScheduledTask(2900, 2908, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(4920, 4930, 1), new ScheduledTask(3600, 3606, 2), new ScheduledTask(6800, 6804, 0), new ScheduledTask(4500, 4510, 2), new ScheduledTask(1200, 1206, 1), new ScheduledTask(8520, 8528, 0)};
-        int[] expectedProcessorEndTimes = new int[]{8528, 4930, 4510, 2810};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -5581,66 +3261,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 14500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(5900, 5905, 0), new ScheduledTask(0, 9, 2), new ScheduledTask(12600, 12604, 0), new ScheduledTask(8500, 8508, 0), new ScheduledTask(7200, 7205, 2), new ScheduledTask(7200, 7210, 0), new ScheduledTask(9300, 9309, 0), new ScheduledTask(2200, 2207, 0), new ScheduledTask(4600, 4605, 0), new ScheduledTask(10200, 10210, 0), new ScheduledTask(3700, 3709, 0), new ScheduledTask(6000, 6010, 1), new ScheduledTask(5500, 5504, 0), new ScheduledTask(11700, 11709, 0), new ScheduledTask(400, 405, 0), new ScheduledTask(2900, 2908, 0), new ScheduledTask(5100, 5104, 0), new ScheduledTask(0, 9, 3), new ScheduledTask(11200, 11205, 0), new ScheduledTask(900, 906, 0), new ScheduledTask(200, 202, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(13000, 13009, 0), new ScheduledTask(8200, 8203, 0), new ScheduledTask(6400, 6408, 0), new ScheduledTask(1500, 1507, 0), new ScheduledTask(5400, 5403, 2), new ScheduledTask(0, 2, 0), new ScheduledTask(5400, 5407, 3), new ScheduledTask(14000, 14005, 0)};
-        int[] expectedProcessorEndTimes = new int[]{14005, 6010, 7205, 5407};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 10100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(1800, 1805, 1), new ScheduledTask(5500, 5509, 0), new ScheduledTask(4800, 4804, 1), new ScheduledTask(600, 608, 3), new ScheduledTask(3400, 3405, 2), new ScheduledTask(6800, 6810, 0), new ScheduledTask(1600, 1609, 2), new ScheduledTask(2200, 2207, 0), new ScheduledTask(0, 5, 1), new ScheduledTask(8100, 8110, 0), new ScheduledTask(3700, 3709, 0), new ScheduledTask(5600, 5610, 1), new ScheduledTask(6400, 6404, 0), new ScheduledTask(2200, 2209, 3), new ScheduledTask(400, 405, 0), new ScheduledTask(2900, 2908, 0), new ScheduledTask(1000, 1004, 1), new ScheduledTask(4600, 4609, 0), new ScheduledTask(9100, 9105, 0), new ScheduledTask(900, 906, 0), new ScheduledTask(200, 202, 0), new ScheduledTask(2800, 2810, 1), new ScheduledTask(4000, 4009, 3), new ScheduledTask(7800, 7803, 0), new ScheduledTask(0, 8, 2), new ScheduledTask(1500, 1507, 0), new ScheduledTask(0, 3, 3), new ScheduledTask(0, 2, 0), new ScheduledTask(4400, 4407, 2), new ScheduledTask(9600, 9605, 0)};
-        int[] expectedProcessorEndTimes = new int[]{9605, 5610, 4407, 4009};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(7300, 7305, 0), new ScheduledTask(6000, 6009, 0), new ScheduledTask(3480, 3484, 1), new ScheduledTask(840, 848, 1), new ScheduledTask(3800, 3805, 3), new ScheduledTask(0, 10, 2), new ScheduledTask(1800, 1809, 1), new ScheduledTask(2200, 2207, 0), new ScheduledTask(4600, 4605, 0), new ScheduledTask(0, 10, 3), new ScheduledTask(3700, 3709, 0), new ScheduledTask(4800, 4810, 2), new ScheduledTask(6900, 6904, 0), new ScheduledTask(2000, 2009, 3), new ScheduledTask(400, 405, 0), new ScheduledTask(2900, 2908, 0), new ScheduledTask(0, 4, 1), new ScheduledTask(5100, 5109, 0), new ScheduledTask(2880, 2885, 1), new ScheduledTask(900, 906, 0), new ScheduledTask(200, 202, 0), new ScheduledTask(1950, 1960, 2), new ScheduledTask(3450, 3459, 2), new ScheduledTask(480, 483, 1), new ScheduledTask(7800, 7808, 0), new ScheduledTask(1500, 1507, 0), new ScheduledTask(1500, 1503, 2), new ScheduledTask(0, 2, 0), new ScheduledTask(3960, 3967, 1), new ScheduledTask(8600, 8605, 0)};
-        int[] expectedProcessorEndTimes = new int[]{8605, 3967, 4810, 3805};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -5692,66 +3312,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 3), new ScheduledTask(60, 69, 0), new ScheduledTask(26, 30, 5), new ScheduledTask(0, 8, 5), new ScheduledTask(26, 31, 4), new ScheduledTask(0, 10, 1), new ScheduledTask(8, 17, 5), new ScheduledTask(22, 29, 0), new ScheduledTask(46, 51, 0), new ScheduledTask(0, 10, 2), new ScheduledTask(37, 46, 0), new ScheduledTask(8, 18, 3), new ScheduledTask(73, 77, 0), new ScheduledTask(17, 26, 5), new ScheduledTask(4, 9, 0), new ScheduledTask(29, 37, 0), new ScheduledTask(69, 73, 0), new ScheduledTask(51, 60, 0), new ScheduledTask(11, 16, 4), new ScheduledTask(9, 15, 0), new ScheduledTask(2, 4, 0), new ScheduledTask(16, 26, 4), new ScheduledTask(30, 39, 5), new ScheduledTask(5, 8, 3), new ScheduledTask(0, 8, 4), new ScheduledTask(15, 22, 0), new ScheduledTask(8, 11, 4), new ScheduledTask(0, 2, 0), new ScheduledTask(31, 38, 4), new ScheduledTask(77, 82, 0)};
         int[] expectedProcessorEndTimes = new int[]{82, 10, 10, 18, 38, 39};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot02_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.02_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(6200, 6205, 0), new ScheduledTask(9000, 9009, 0), new ScheduledTask(7800, 7804, 2), new ScheduledTask(500, 507, 0), new ScheduledTask(0, 5, 0), new ScheduledTask(5400, 5402, 0), new ScheduledTask(1200, 1208, 0), new ScheduledTask(0, 3, 1), new ScheduledTask(0, 6, 2), new ScheduledTask(3600, 3607, 2), new ScheduledTask(5400, 5408, 1), new ScheduledTask(9900, 9908, 0), new ScheduledTask(6000, 6007, 3), new ScheduledTask(2400, 2406, 0), new ScheduledTask(3700, 3708, 0), new ScheduledTask(6700, 6704, 0), new ScheduledTask(4500, 4509, 0), new ScheduledTask(7600, 7608, 0), new ScheduledTask(5900, 5903, 0), new ScheduledTask(2000, 2004, 0), new ScheduledTask(3600, 3604, 3), new ScheduledTask(5600, 5603, 0), new ScheduledTask(0, 6, 3), new ScheduledTask(11600, 11609, 0), new ScheduledTask(10700, 10709, 0), new ScheduledTask(7100, 7105, 0), new ScheduledTask(1800, 1806, 1), new ScheduledTask(3000, 3007, 0), new ScheduledTask(8400, 8406, 0), new ScheduledTask(12500, 12503, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12503, 5408, 7804, 6007};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot02_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.02_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8700;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(6000, 6005, 0), new ScheduledTask(7400, 7409, 0), new ScheduledTask(5400, 5404, 1), new ScheduledTask(800, 807, 0), new ScheduledTask(0, 5, 0), new ScheduledTask(0, 2, 1), new ScheduledTask(1500, 1508, 0), new ScheduledTask(500, 503, 0), new ScheduledTask(1800, 1806, 2), new ScheduledTask(1600, 1607, 3), new ScheduledTask(4600, 4608, 3), new ScheduledTask(3000, 3008, 3), new ScheduledTask(4800, 4807, 2), new ScheduledTask(2700, 2706, 0), new ScheduledTask(4000, 4008, 0), new ScheduledTask(6500, 6504, 0), new ScheduledTask(4800, 4809, 0), new ScheduledTask(0, 8, 3), new ScheduledTask(5700, 5703, 0), new ScheduledTask(2300, 2304, 0), new ScheduledTask(4600, 4604, 1), new ScheduledTask(0, 3, 2), new ScheduledTask(600, 606, 2), new ScheduledTask(2800, 2809, 1), new ScheduledTask(3000, 3009, 2), new ScheduledTask(6900, 6905, 0), new ScheduledTask(400, 406, 1), new ScheduledTask(3300, 3307, 0), new ScheduledTask(1600, 1606, 1), new ScheduledTask(8400, 8403, 0)};
-        int[] expectedProcessorEndTimes = new int[]{8403, 5404, 4807, 4608};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_10dot02_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.02_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 7740;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(6500, 6505, 0), new ScheduledTask(2040, 2049, 1), new ScheduledTask(4560, 4564, 1), new ScheduledTask(800, 807, 0), new ScheduledTask(0, 5, 0), new ScheduledTask(5700, 5702, 0), new ScheduledTask(1500, 1508, 0), new ScheduledTask(500, 503, 0), new ScheduledTask(1320, 1326, 1), new ScheduledTask(2400, 2407, 3), new ScheduledTask(3900, 3908, 2), new ScheduledTask(3120, 3128, 1), new ScheduledTask(3800, 3807, 3), new ScheduledTask(2700, 2706, 0), new ScheduledTask(4000, 4008, 0), new ScheduledTask(7000, 7004, 0), new ScheduledTask(4800, 4809, 0), new ScheduledTask(0, 8, 2), new ScheduledTask(6200, 6203, 0), new ScheduledTask(2300, 2304, 0), new ScheduledTask(4080, 4084, 1), new ScheduledTask(5900, 5903, 0), new ScheduledTask(0, 6, 3), new ScheduledTask(2550, 2559, 2), new ScheduledTask(1200, 1209, 2), new ScheduledTask(720, 725, 1), new ScheduledTask(0, 6, 1), new ScheduledTask(3300, 3307, 0), new ScheduledTask(1200, 1206, 3), new ScheduledTask(7440, 7443, 0)};
-        int[] expectedProcessorEndTimes = new int[]{7443, 4564, 3908, 3807};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -5861,66 +3421,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_9dot98_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.98_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 15100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 2, 0), new ScheduledTask(6900, 6910, 0), new ScheduledTask(11000, 11005, 0), new ScheduledTask(6000, 6010, 1), new ScheduledTask(1300, 1304, 0), new ScheduledTask(900, 904, 0), new ScheduledTask(9000, 9005, 3), new ScheduledTask(11500, 11506, 0), new ScheduledTask(500, 504, 0), new ScheduledTask(4800, 4804, 0), new ScheduledTask(5400, 5409, 2), new ScheduledTask(1700, 1706, 0), new ScheduledTask(9700, 9710, 0), new ScheduledTask(5400, 5406, 3), new ScheduledTask(10700, 10703, 0), new ScheduledTask(7900, 7908, 0), new ScheduledTask(3100, 3108, 0), new ScheduledTask(8700, 8710, 0), new ScheduledTask(13100, 13104, 0), new ScheduledTask(3900, 3909, 0), new ScheduledTask(12100, 12110, 0), new ScheduledTask(2300, 2308, 0), new ScheduledTask(200, 203, 0), new ScheduledTask(13500, 13508, 0), new ScheduledTask(0, 9, 3), new ScheduledTask(0, 10, 1), new ScheduledTask(6100, 6108, 0), new ScheduledTask(5200, 5209, 0), new ScheduledTask(0, 9, 2), new ScheduledTask(14300, 14308, 0)};
-        int[] expectedProcessorEndTimes = new int[]{14308, 6010, 5409, 9005};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_9dot98_WeightType_Random1_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.98_WeightType_Random#1_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 10400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 2, 0), new ScheduledTask(6900, 6910, 0), new ScheduledTask(1800, 1805, 1), new ScheduledTask(5200, 5210, 1), new ScheduledTask(1300, 1304, 0), new ScheduledTask(900, 904, 0), new ScheduledTask(6400, 6405, 3), new ScheduledTask(4000, 4006, 1), new ScheduledTask(500, 504, 0), new ScheduledTask(4800, 4804, 0), new ScheduledTask(4600, 4609, 3), new ScheduledTask(1700, 1706, 0), new ScheduledTask(2000, 2010, 2), new ScheduledTask(2800, 2806, 1), new ScheduledTask(2000, 2003, 3), new ScheduledTask(7900, 7908, 0), new ScheduledTask(3100, 3108, 0), new ScheduledTask(0, 10, 2), new ScheduledTask(4000, 4004, 2), new ScheduledTask(3900, 3909, 0), new ScheduledTask(2600, 2610, 3), new ScheduledTask(2300, 2308, 0), new ScheduledTask(200, 203, 0), new ScheduledTask(4800, 4808, 2), new ScheduledTask(0, 9, 1), new ScheduledTask(0, 10, 3), new ScheduledTask(6100, 6108, 0), new ScheduledTask(5200, 5209, 0), new ScheduledTask(8700, 8709, 0), new ScheduledTask(9600, 9608, 0)};
-        int[] expectedProcessorEndTimes = new int[]{9608, 5210, 4808, 6405};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_9dot98_WeightType_Random1_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.98_WeightType_Random#1_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 2, 0), new ScheduledTask(6900, 6910, 0), new ScheduledTask(2520, 2525, 1), new ScheduledTask(4000, 4010, 3), new ScheduledTask(1300, 1304, 0), new ScheduledTask(900, 904, 0), new ScheduledTask(5250, 5255, 2), new ScheduledTask(3120, 3126, 1), new ScheduledTask(500, 504, 0), new ScheduledTask(4800, 4804, 0), new ScheduledTask(3900, 3909, 2), new ScheduledTask(1700, 1706, 0), new ScheduledTask(1500, 1510, 2), new ScheduledTask(3000, 3006, 2), new ScheduledTask(2160, 2163, 1), new ScheduledTask(7900, 7908, 0), new ScheduledTask(3100, 3108, 0), new ScheduledTask(0, 10, 2), new ScheduledTask(3840, 3844, 1), new ScheduledTask(3900, 3909, 0), new ScheduledTask(2000, 2010, 3), new ScheduledTask(2300, 2308, 0), new ScheduledTask(200, 203, 0), new ScheduledTask(4320, 4328, 1), new ScheduledTask(0, 9, 1), new ScheduledTask(0, 10, 3), new ScheduledTask(6100, 6108, 0), new ScheduledTask(5200, 5209, 0), new ScheduledTask(1080, 1089, 1), new ScheduledTask(8700, 8708, 0)};
-        int[] expectedProcessorEndTimes = new int[]{8708, 4328, 5255, 4010};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_9dot98_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.98_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
@@ -5952,66 +3452,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 2, 0), new ScheduledTask(69, 79, 0), new ScheduledTask(21, 26, 2), new ScheduledTask(10, 20, 1), new ScheduledTask(13, 17, 0), new ScheduledTask(9, 13, 0), new ScheduledTask(51, 56, 3), new ScheduledTask(32, 38, 2), new ScheduledTask(5, 9, 0), new ScheduledTask(48, 52, 0), new ScheduledTask(42, 51, 3), new ScheduledTask(17, 23, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(26, 32, 2), new ScheduledTask(18, 21, 2), new ScheduledTask(0, 8, 2), new ScheduledTask(31, 39, 0), new ScheduledTask(8, 18, 2), new ScheduledTask(38, 42, 3), new ScheduledTask(39, 48, 0), new ScheduledTask(28, 38, 3), new ScheduledTask(23, 31, 0), new ScheduledTask(2, 5, 0), new ScheduledTask(38, 46, 2), new ScheduledTask(0, 9, 3), new ScheduledTask(9, 19, 3), new ScheduledTask(61, 69, 0), new ScheduledTask(52, 61, 0), new ScheduledTask(19, 28, 3), new ScheduledTask(85, 93, 0)};
         int[] expectedProcessorEndTimes = new int[]{93, 20, 46, 56};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_9dot98_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.98_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 14500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(10200, 10202, 1), new ScheduledTask(0, 8, 1), new ScheduledTask(1600, 1607, 0), new ScheduledTask(4300, 4302, 0), new ScheduledTask(6600, 6608, 3), new ScheduledTask(2400, 2406, 2), new ScheduledTask(4800, 4803, 3), new ScheduledTask(1000, 1006, 0), new ScheduledTask(11500, 11506, 0), new ScheduledTask(11000, 11005, 0), new ScheduledTask(6600, 6610, 0), new ScheduledTask(0, 4, 2), new ScheduledTask(3300, 3310, 0), new ScheduledTask(13100, 13106, 0), new ScheduledTask(4500, 4503, 0), new ScheduledTask(0, 4, 0), new ScheduledTask(12100, 12110, 0), new ScheduledTask(2300, 2310, 0), new ScheduledTask(5200, 5205, 0), new ScheduledTask(400, 406, 0), new ScheduledTask(0, 8, 3), new ScheduledTask(9500, 9510, 0), new ScheduledTask(8500, 8510, 0), new ScheduledTask(10500, 10505, 0), new ScheduledTask(4800, 4804, 0), new ScheduledTask(4800, 4809, 1), new ScheduledTask(6000, 6009, 2), new ScheduledTask(7600, 7609, 0), new ScheduledTask(5700, 5709, 0), new ScheduledTask(13700, 13708, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13708, 10202, 6009, 6608};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_9dot98_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.98_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 10100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(5800, 5802, 1), new ScheduledTask(800, 808, 3), new ScheduledTask(1600, 1607, 0), new ScheduledTask(4300, 4302, 0), new ScheduledTask(5400, 5408, 2), new ScheduledTask(2000, 2006, 2), new ScheduledTask(4600, 4603, 3), new ScheduledTask(1000, 1006, 0), new ScheduledTask(3400, 3406, 3), new ScheduledTask(3200, 3205, 2), new ScheduledTask(6600, 6610, 0), new ScheduledTask(0, 4, 3), new ScheduledTask(3300, 3310, 0), new ScheduledTask(4200, 4206, 2), new ScheduledTask(4500, 4503, 0), new ScheduledTask(0, 4, 0), new ScheduledTask(2000, 2010, 1), new ScheduledTask(2300, 2310, 0), new ScheduledTask(5200, 5205, 0), new ScheduledTask(400, 406, 0), new ScheduledTask(8500, 8508, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(0, 10, 2), new ScheduledTask(2400, 2405, 3), new ScheduledTask(4800, 4804, 0), new ScheduledTask(4000, 4009, 1), new ScheduledTask(5200, 5209, 3), new ScheduledTask(7600, 7609, 0), new ScheduledTask(5700, 5709, 0), new ScheduledTask(9300, 9308, 0)};
-        int[] expectedProcessorEndTimes = new int[]{9308, 5802, 5408, 5209};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_9dot98_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.98_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9480;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(4800, 4802, 2), new ScheduledTask(0, 8, 3), new ScheduledTask(1600, 1607, 0), new ScheduledTask(4300, 4302, 0), new ScheduledTask(5100, 5108, 2), new ScheduledTask(1500, 1506, 2), new ScheduledTask(3960, 3963, 1), new ScheduledTask(1000, 1006, 0), new ScheduledTask(2280, 2286, 1), new ScheduledTask(1680, 1685, 1), new ScheduledTask(6600, 6610, 0), new ScheduledTask(0, 4, 1), new ScheduledTask(3300, 3310, 0), new ScheduledTask(3900, 3906, 2), new ScheduledTask(4500, 4503, 0), new ScheduledTask(0, 4, 0), new ScheduledTask(2400, 2410, 2), new ScheduledTask(2300, 2310, 0), new ScheduledTask(5200, 5205, 0), new ScheduledTask(400, 406, 0), new ScheduledTask(3000, 3008, 1), new ScheduledTask(480, 490, 1), new ScheduledTask(0, 10, 2), new ScheduledTask(1600, 1605, 3), new ScheduledTask(4800, 4804, 0), new ScheduledTask(2600, 2609, 3), new ScheduledTask(4400, 4409, 3), new ScheduledTask(7600, 7609, 0), new ScheduledTask(5700, 5709, 0), new ScheduledTask(8680, 8688, 0)};
-        int[] expectedProcessorEndTimes = new int[]{8688, 3963, 5108, 4409};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -6081,66 +3521,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_9dot99_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.99_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(9300, 9305, 0), new ScheduledTask(6800, 6810, 0), new ScheduledTask(11300, 11310, 0), new ScheduledTask(4700, 4706, 0), new ScheduledTask(400, 404, 0), new ScheduledTask(7800, 7803, 2), new ScheduledTask(3100, 3110, 0), new ScheduledTask(0, 3, 2), new ScheduledTask(8400, 8403, 3), new ScheduledTask(0, 7, 3), new ScheduledTask(9000, 9003, 0), new ScheduledTask(0, 7, 1), new ScheduledTask(8800, 8802, 0), new ScheduledTask(1400, 1407, 0), new ScheduledTask(7800, 7803, 0), new ScheduledTask(4100, 4106, 0), new ScheduledTask(9800, 9802, 0), new ScheduledTask(800, 806, 0), new ScheduledTask(5300, 5307, 0), new ScheduledTask(4200, 4210, 1), new ScheduledTask(0, 4, 0), new ScheduledTask(1800, 1810, 2), new ScheduledTask(10000, 10006, 0), new ScheduledTask(8300, 8305, 0), new ScheduledTask(10600, 10607, 0), new ScheduledTask(4200, 4207, 3), new ScheduledTask(6000, 6008, 0), new ScheduledTask(2100, 2110, 0), new ScheduledTask(8100, 8102, 0), new ScheduledTask(12400, 12410, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12410, 4210, 7803, 8403};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_9dot99_WeightType_Random1_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.99_WeightType_Random#1_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(1400, 1405, 1), new ScheduledTask(6800, 6810, 0), new ScheduledTask(4000, 4010, 1), new ScheduledTask(4700, 4706, 0), new ScheduledTask(400, 404, 0), new ScheduledTask(5400, 5403, 3), new ScheduledTask(3100, 3110, 0), new ScheduledTask(1400, 1403, 3), new ScheduledTask(4800, 4803, 3), new ScheduledTask(2000, 2007, 3), new ScheduledTask(0, 3, 2), new ScheduledTask(0, 7, 3), new ScheduledTask(1000, 1002, 1), new ScheduledTask(1400, 1407, 0), new ScheduledTask(7800, 7803, 0), new ScheduledTask(4100, 4106, 0), new ScheduledTask(2400, 2402, 1), new ScheduledTask(800, 806, 0), new ScheduledTask(5300, 5307, 0), new ScheduledTask(4000, 4010, 2), new ScheduledTask(0, 4, 0), new ScheduledTask(600, 610, 2), new ScheduledTask(2800, 2806, 1), new ScheduledTask(0, 5, 1), new ScheduledTask(2600, 2607, 2), new ScheduledTask(3400, 3407, 3), new ScheduledTask(6000, 6008, 0), new ScheduledTask(2100, 2110, 0), new ScheduledTask(8100, 8102, 0), new ScheduledTask(8300, 8310, 0)};
-        int[] expectedProcessorEndTimes = new int[]{8310, 4010, 4010, 5403};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_9dot99_WeightType_Random1_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.99_WeightType_Random#1_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(2160, 2165, 1), new ScheduledTask(6800, 6810, 0), new ScheduledTask(3400, 3410, 3), new ScheduledTask(4700, 4706, 0), new ScheduledTask(400, 404, 0), new ScheduledTask(4950, 4953, 2), new ScheduledTask(3100, 3110, 0), new ScheduledTask(600, 603, 1), new ScheduledTask(4500, 4503, 2), new ScheduledTask(0, 7, 3), new ScheduledTask(1800, 1803, 1), new ScheduledTask(0, 7, 2), new ScheduledTask(1560, 1562, 1), new ScheduledTask(1400, 1407, 0), new ScheduledTask(0, 3, 1), new ScheduledTask(4100, 4106, 0), new ScheduledTask(2760, 2762, 1), new ScheduledTask(800, 806, 0), new ScheduledTask(5300, 5307, 0), new ScheduledTask(1400, 1410, 3), new ScheduledTask(0, 4, 0), new ScheduledTask(1050, 1060, 2), new ScheduledTask(2550, 2556, 2), new ScheduledTask(960, 965, 1), new ScheduledTask(3000, 3007, 1), new ScheduledTask(3450, 3457, 2), new ScheduledTask(6000, 6008, 0), new ScheduledTask(2100, 2110, 0), new ScheduledTask(360, 362, 1), new ScheduledTask(7800, 7810, 0)};
-        int[] expectedProcessorEndTimes = new int[]{7810, 3007, 4953, 3410};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_9dot99_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.99_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
@@ -6192,66 +3572,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(18, 23, 5), new ScheduledTask(68, 78, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(47, 53, 0), new ScheduledTask(4, 8, 0), new ScheduledTask(48, 51, 5), new ScheduledTask(31, 41, 0), new ScheduledTask(5, 8, 5), new ScheduledTask(45, 48, 5), new ScheduledTask(0, 7, 3), new ScheduledTask(15, 18, 5), new ScheduledTask(0, 7, 4), new ScheduledTask(13, 15, 5), new ScheduledTask(14, 21, 0), new ScheduledTask(0, 3, 5), new ScheduledTask(41, 47, 0), new ScheduledTask(23, 25, 5), new ScheduledTask(8, 14, 0), new ScheduledTask(53, 60, 0), new ScheduledTask(10, 20, 2), new ScheduledTask(0, 4, 0), new ScheduledTask(0, 10, 2), new ScheduledTask(25, 31, 5), new ScheduledTask(8, 13, 5), new ScheduledTask(38, 45, 5), new ScheduledTask(31, 38, 5), new ScheduledTask(60, 68, 0), new ScheduledTask(21, 31, 0), new ScheduledTask(3, 5, 5), new ScheduledTask(78, 88, 0)};
         int[] expectedProcessorEndTimes = new int[]{88, 10, 20, 7, 7, 51};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_9dot99_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.99_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(3400, 3405, 0), new ScheduledTask(6600, 6607, 0), new ScheduledTask(7300, 7310, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(1200, 1204, 0), new ScheduledTask(5900, 5907, 0), new ScheduledTask(7200, 7204, 1), new ScheduledTask(0, 8, 2), new ScheduledTask(4800, 4808, 3), new ScheduledTask(2600, 2603, 0), new ScheduledTask(5400, 5403, 1), new ScheduledTask(10000, 10010, 0), new ScheduledTask(0, 8, 3), new ScheduledTask(4900, 4904, 0), new ScheduledTask(0, 3, 0), new ScheduledTask(7800, 7803, 2), new ScheduledTask(8300, 8305, 0), new ScheduledTask(2400, 2402, 0), new ScheduledTask(1600, 1608, 0), new ScheduledTask(5300, 5306, 0), new ScheduledTask(6600, 6602, 2), new ScheduledTask(900, 903, 0), new ScheduledTask(300, 306, 0), new ScheduledTask(8800, 8805, 0), new ScheduledTask(2900, 2905, 0), new ScheduledTask(11000, 11007, 0), new ScheduledTask(9300, 9307, 0), new ScheduledTask(3900, 3910, 0), new ScheduledTask(4800, 4803, 2), new ScheduledTask(11700, 11708, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11708, 7204, 7803, 4808};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_9dot99_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.99_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(3100, 3105, 0), new ScheduledTask(5200, 5207, 0), new ScheduledTask(6700, 6710, 0), new ScheduledTask(600, 609, 1), new ScheduledTask(1200, 1204, 0), new ScheduledTask(0, 7, 3), new ScheduledTask(5000, 5004, 2), new ScheduledTask(800, 808, 2), new ScheduledTask(4800, 4808, 3), new ScheduledTask(0, 3, 1), new ScheduledTask(4400, 4403, 2), new ScheduledTask(2400, 2410, 1), new ScheduledTask(5900, 5908, 0), new ScheduledTask(0, 4, 2), new ScheduledTask(0, 3, 0), new ScheduledTask(3800, 3803, 2), new ScheduledTask(7700, 7705, 0), new ScheduledTask(2400, 2402, 0), new ScheduledTask(1600, 1608, 0), new ScheduledTask(4600, 4606, 0), new ScheduledTask(3400, 3402, 2), new ScheduledTask(900, 903, 0), new ScheduledTask(300, 306, 0), new ScheduledTask(2400, 2405, 2), new ScheduledTask(2600, 2605, 0), new ScheduledTask(3400, 3407, 3), new ScheduledTask(2000, 2007, 3), new ScheduledTask(3600, 3610, 0), new ScheduledTask(1400, 1403, 3), new ScheduledTask(8300, 8308, 0)};
-        int[] expectedProcessorEndTimes = new int[]{8308, 2410, 5004, 4808};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalJoin_Nodes_30_CCR_9dot99_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.99_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(3400, 3405, 0), new ScheduledTask(4900, 4907, 0), new ScheduledTask(6400, 6410, 0), new ScheduledTask(800, 809, 3), new ScheduledTask(1200, 1204, 0), new ScheduledTask(0, 7, 1), new ScheduledTask(3900, 3904, 2), new ScheduledTask(840, 848, 1), new ScheduledTask(4000, 4008, 3), new ScheduledTask(2600, 2603, 0), new ScheduledTask(3450, 3453, 2), new ScheduledTask(2400, 2410, 1), new ScheduledTask(5600, 5608, 0), new ScheduledTask(0, 4, 3), new ScheduledTask(0, 3, 0), new ScheduledTask(3000, 3003, 2), new ScheduledTask(900, 905, 2), new ScheduledTask(2400, 2402, 0), new ScheduledTask(1600, 1608, 0), new ScheduledTask(0, 6, 2), new ScheduledTask(2700, 2702, 2), new ScheduledTask(900, 903, 0), new ScheduledTask(300, 306, 0), new ScheduledTask(1800, 1805, 1), new ScheduledTask(2900, 2905, 0), new ScheduledTask(2600, 2607, 3), new ScheduledTask(1650, 1657, 2), new ScheduledTask(3900, 3910, 0), new ScheduledTask(7400, 7403, 0), new ScheduledTask(7700, 7708, 0)};
-        int[] expectedProcessorEndTimes = new int[]{7708, 2410, 3904, 4008};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -6321,26 +3641,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 116100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 91, 0), new ScheduledTask(10900, 10936, 0), new ScheduledTask(9100, 9118, 0), new ScheduledTask(47200, 47282, 0), new ScheduledTask(14500, 14591, 0), new ScheduledTask(11200, 11282, 1), new ScheduledTask(22100, 22191, 2), new ScheduledTask(10100, 10164, 3), new ScheduledTask(48500, 48545, 3), new ScheduledTask(11300, 11318, 2), new ScheduledTask(60400, 60491, 1), new ScheduledTask(107000, 107091, 0), new ScheduledTask(97900, 97991, 0), new ScheduledTask(74400, 74491, 0), new ScheduledTask(66200, 66282, 0), new ScheduledTask(39000, 39082, 0), new ScheduledTask(30800, 30882, 0), new ScheduledTask(75500, 75564, 3), new ScheduledTask(76700, 76764, 2), new ScheduledTask(92500, 92554, 0), new ScheduledTask(88000, 88045, 0), new ScheduledTask(60800, 60836, 0), new ScheduledTask(57200, 57236, 0), new ScheduledTask(28100, 28127, 0), new ScheduledTask(25400, 25427, 0), new ScheduledTask(85300, 85327, 0), new ScheduledTask(55400, 55418, 0), new ScheduledTask(83500, 83518, 0), new ScheduledTask(64400, 64418, 0), new ScheduledTask(23600, 23618, 0)};
-        int[] expectedProcessorEndTimes = new int[]{107091, 60491, 76764, 75564};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
@@ -6361,26 +3661,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random2_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#2_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 119600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 27, 0), new ScheduledTask(3200, 3235, 1), new ScheduledTask(2700, 2727, 0), new ScheduledTask(31100, 31188, 0), new ScheduledTask(3200, 3280, 2), new ScheduledTask(32300, 32371, 3), new ScheduledTask(5900, 5944, 3), new ScheduledTask(5400, 5453, 0), new ScheduledTask(74900, 74944, 3), new ScheduledTask(24200, 24235, 1), new ScheduledTask(94800, 94888, 0), new ScheduledTask(73600, 73688, 0), new ScheduledTask(67400, 67480, 2), new ScheduledTask(45200, 45280, 1), new ScheduledTask(111600, 111680, 0), new ScheduledTask(103600, 103680, 0), new ScheduledTask(24000, 24071, 0), new ScheduledTask(16900, 16971, 0), new ScheduledTask(66500, 66571, 0), new ScheduledTask(60300, 60362, 0), new ScheduledTask(88600, 88662, 0), new ScheduledTask(82400, 82462, 0), new ScheduledTask(10700, 10762, 0), new ScheduledTask(54100, 54162, 0), new ScheduledTask(39900, 39962, 0), new ScheduledTask(48800, 48853, 0), new ScheduledTask(93200, 93244, 1), new ScheduledTask(101300, 101327, 3), new ScheduledTask(51200, 51227, 2), new ScheduledTask(46100, 46127, 0)};
-        int[] expectedProcessorEndTimes = new int[]{111680, 93244, 67480, 101327};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random2_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#2_Homogeneous-2.dot");
         int processorCount = 2;
@@ -6392,26 +3672,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 27, 0), new ScheduledTask(32, 67, 1), new ScheduledTask(303, 330, 0), new ScheduledTask(642, 730, 1), new ScheduledTask(27, 107, 0), new ScheduledTask(330, 401, 0), new ScheduledTask(510, 554, 1), new ScheduledTask(386, 439, 1), new ScheduledTask(182, 226, 1), new ScheduledTask(67, 102, 1), new ScheduledTask(810, 898, 1), new ScheduledTask(554, 642, 1), new ScheduledTask(102, 182, 1), new ScheduledTask(730, 810, 1), new ScheduledTask(306, 386, 1), new ScheduledTask(226, 306, 1), new ScheduledTask(439, 510, 1), new ScheduledTask(694, 765, 0), new ScheduledTask(827, 898, 0), new ScheduledTask(241, 303, 0), new ScheduledTask(632, 694, 0), new ScheduledTask(508, 570, 0), new ScheduledTask(446, 508, 0), new ScheduledTask(570, 632, 0), new ScheduledTask(765, 827, 0), new ScheduledTask(188, 241, 0), new ScheduledTask(401, 445, 0), new ScheduledTask(161, 188, 0), new ScheduledTask(107, 134, 0), new ScheduledTask(134, 161, 0)};
         int[] expectedProcessorEndTimes = new int[]{898, 898};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random3_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#3_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 134100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 77, 0), new ScheduledTask(8000, 8110, 1), new ScheduledTask(7700, 7733, 0), new ScheduledTask(8700, 8799, 2), new ScheduledTask(27500, 27588, 0), new ScheduledTask(79200, 79277, 0), new ScheduledTask(11600, 11644, 3), new ScheduledTask(103400, 103488, 0), new ScheduledTask(11000, 11055, 0), new ScheduledTask(90800, 90844, 3), new ScheduledTask(68100, 68210, 2), new ScheduledTask(58300, 58410, 0), new ScheduledTask(47300, 47410, 0), new ScheduledTask(94600, 94688, 0), new ScheduledTask(38000, 38088, 3), new ScheduledTask(125400, 125477, 0), new ScheduledTask(86900, 86977, 0), new ScheduledTask(19800, 19877, 0), new ScheduledTask(93800, 93866, 1), new ScheduledTask(116600, 116666, 0), new ScheduledTask(40700, 40766, 0), new ScheduledTask(73700, 73755, 0), new ScheduledTask(69300, 69344, 0), new ScheduledTask(36300, 36344, 0), new ScheduledTask(74000, 74033, 1), new ScheduledTask(16500, 16533, 0), new ScheduledTask(117200, 117222, 3), new ScheduledTask(123200, 123222, 0), new ScheduledTask(114400, 114422, 0), new ScheduledTask(112200, 112222, 0)};
-        int[] expectedProcessorEndTimes = new int[]{125477, 93866, 68210, 117222};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -6452,26 +3712,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 21, 0), new ScheduledTask(338, 423, 0), new ScheduledTask(21, 116, 0), new ScheduledTask(634, 740, 0), new ScheduledTask(397, 503, 1), new ScheduledTask(663, 748, 1), new ScheduledTask(25, 57, 1), new ScheduledTask(116, 137, 0), new ScheduledTask(312, 344, 1), new ScheduledTask(206, 312, 1), new ScheduledTask(865, 971, 1), new ScheduledTask(232, 338, 0), new ScheduledTask(567, 599, 1), new ScheduledTask(476, 571, 0), new ScheduledTask(137, 232, 0), new ScheduledTask(121, 206, 1), new ScheduledTask(780, 865, 1), new ScheduledTask(898, 972, 0), new ScheduledTask(57, 121, 1), new ScheduledTask(599, 663, 1), new ScheduledTask(503, 567, 1), new ScheduledTask(344, 397, 1), new ScheduledTask(423, 476, 0), new ScheduledTask(845, 898, 0), new ScheduledTask(803, 845, 0), new ScheduledTask(761, 803, 0), new ScheduledTask(571, 613, 0), new ScheduledTask(748, 780, 1), new ScheduledTask(613, 634, 0), new ScheduledTask(740, 761, 0)};
         int[] expectedProcessorEndTimes = new int[]{972, 971};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random5_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#5_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 111600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 41, 0), new ScheduledTask(6100, 6202, 0), new ScheduledTask(16300, 16351, 0), new ScheduledTask(36600, 36671, 0), new ScheduledTask(25400, 25492, 1), new ScheduledTask(21400, 21481, 0), new ScheduledTask(25000, 25031, 2), new ScheduledTask(31000, 31031, 3), new ScheduledTask(19000, 19020, 3), new ScheduledTask(49600, 49702, 3), new ScheduledTask(101400, 101502, 0), new ScheduledTask(78100, 78181, 0), new ScheduledTask(70000, 70081, 0), new ScheduledTask(61900, 61981, 0), new ScheduledTask(93300, 93381, 0), new ScheduledTask(29500, 29571, 0), new ScheduledTask(54800, 54871, 0), new ScheduledTask(86200, 86271, 0), new ScheduledTask(4100, 4120, 0), new ScheduledTask(80600, 80651, 1), new ScheduledTask(47700, 47751, 0), new ScheduledTask(86800, 86841, 2), new ScheduledTask(43600, 43641, 2), new ScheduledTask(6400, 6431, 2), new ScheduledTask(6800, 6831, 1), new ScheduledTask(68200, 68231, 2), new ScheduledTask(7000, 7020, 3), new ScheduledTask(45700, 45720, 0), new ScheduledTask(43700, 43720, 0), new ScheduledTask(52800, 52820, 0)};
-        int[] expectedProcessorEndTimes = new int[]{101502, 80651, 86841, 49702};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -6541,26 +3781,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random8_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#8_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 121600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 19, 0), new ScheduledTask(1900, 1948, 0), new ScheduledTask(2800, 2867, 1), new ScheduledTask(30700, 30787, 0), new ScheduledTask(6700, 6767, 0), new ScheduledTask(68200, 68267, 0), new ScheduledTask(2800, 2867, 2), new ScheduledTask(43300, 43377, 2), new ScheduledTask(64600, 64619, 3), new ScheduledTask(7600, 7619, 3), new ScheduledTask(58600, 58696, 0), new ScheduledTask(13400, 13496, 0), new ScheduledTask(41300, 41396, 0), new ScheduledTask(111500, 111596, 0), new ScheduledTask(102800, 102887, 0), new ScheduledTask(87400, 87487, 0), new ScheduledTask(50900, 50977, 0), new ScheduledTask(23000, 23077, 0), new ScheduledTask(43000, 43067, 1), new ScheduledTask(96100, 96167, 0), new ScheduledTask(80700, 80767, 0), new ScheduledTask(83200, 83258, 1), new ScheduledTask(74900, 74958, 0), new ScheduledTask(89500, 89548, 2), new ScheduledTask(76000, 76038, 3), new ScheduledTask(41800, 41838, 3), new ScheduledTask(98800, 98838, 3), new ScheduledTask(30400, 30419, 3), new ScheduledTask(19000, 19019, 3), new ScheduledTask(39400, 39419, 0)};
-        int[] expectedProcessorEndTimes = new int[]{111596, 83258, 89548, 98838};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random8_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#8_Homogeneous-2.dot");
         int processorCount = 2;
@@ -6572,26 +3792,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 19, 0), new ScheduledTask(25, 73, 1), new ScheduledTask(375, 442, 0), new ScheduledTask(288, 375, 0), new ScheduledTask(149, 216, 1), new ScheduledTask(484, 551, 1), new ScheduledTask(19, 86, 0), new ScheduledTask(442, 519, 0), new ScheduledTask(465, 484, 1), new ScheduledTask(73, 92, 1), new ScheduledTask(369, 465, 1), new ScheduledTask(273, 369, 1), new ScheduledTask(809, 905, 1), new ScheduledTask(809, 905, 0), new ScheduledTask(722, 809, 0), new ScheduledTask(635, 722, 0), new ScheduledTask(86, 163, 0), new ScheduledTask(163, 240, 0), new ScheduledTask(742, 809, 1), new ScheduledTask(675, 742, 1), new ScheduledTask(608, 675, 1), new ScheduledTask(519, 577, 0), new ScheduledTask(577, 635, 0), new ScheduledTask(240, 288, 0), new ScheduledTask(235, 273, 1), new ScheduledTask(111, 149, 1), new ScheduledTask(570, 608, 1), new ScheduledTask(92, 111, 1), new ScheduledTask(216, 235, 1), new ScheduledTask(551, 570, 1)};
         int[] expectedProcessorEndTimes = new int[]{905, 905};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random9_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#9_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 115400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 19, 0), new ScheduledTask(2600, 2694, 1), new ScheduledTask(2700, 2794, 2), new ScheduledTask(1900, 1919, 0), new ScheduledTask(81500, 81566, 0), new ScheduledTask(16100, 16147, 0), new ScheduledTask(59700, 59757, 0), new ScheduledTask(3800, 3866, 0), new ScheduledTask(59000, 59066, 1), new ScheduledTask(4100, 4128, 3), new ScheduledTask(50200, 50294, 0), new ScheduledTask(106000, 106094, 0), new ScheduledTask(91900, 91994, 0), new ScheduledTask(60700, 60785, 3), new ScheduledTask(73900, 73976, 0), new ScheduledTask(59100, 59166, 2), new ScheduledTask(21100, 21166, 3), new ScheduledTask(43600, 43666, 0), new ScheduledTask(37900, 37957, 0), new ScheduledTask(32200, 32257, 0), new ScheduledTask(10400, 10457, 0), new ScheduledTask(26500, 26557, 0), new ScheduledTask(69200, 69247, 0), new ScheduledTask(101300, 101347, 0), new ScheduledTask(20800, 20838, 0), new ScheduledTask(88100, 88138, 0), new ScheduledTask(65400, 65438, 0), new ScheduledTask(98600, 98628, 1), new ScheduledTask(24600, 24619, 0), new ScheduledTask(98900, 98919, 2)};
-        int[] expectedProcessorEndTimes = new int[]{106094, 98628, 98919, 60785};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -6681,26 +3881,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 121900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 82, 0), new ScheduledTask(11800, 11882, 0), new ScheduledTask(8200, 8236, 0), new ScheduledTask(33600, 33691, 0), new ScheduledTask(12100, 12182, 1), new ScheduledTask(12200, 12291, 2), new ScheduledTask(39700, 39764, 3), new ScheduledTask(12100, 12146, 3), new ScheduledTask(20000, 20091, 0), new ScheduledTask(66800, 66864, 2), new ScheduledTask(112800, 112891, 0), new ScheduledTask(97400, 97491, 0), new ScheduledTask(88300, 88391, 0), new ScheduledTask(61000, 61082, 0), new ScheduledTask(78100, 78173, 3), new ScheduledTask(81000, 81073, 0), new ScheduledTask(54600, 54664, 0), new ScheduledTask(48200, 48264, 0), new ScheduledTask(74600, 74664, 0), new ScheduledTask(88900, 88955, 1), new ScheduledTask(42700, 42755, 0), new ScheduledTask(61300, 61346, 1), new ScheduledTask(105200, 105227, 2), new ScheduledTask(71900, 71927, 0), new ScheduledTask(69200, 69227, 0), new ScheduledTask(110100, 110127, 0), new ScheduledTask(30900, 30927, 0), new ScheduledTask(108300, 108318, 0), new ScheduledTask(106500, 106518, 0), new ScheduledTask(29100, 29118, 0)};
-        int[] expectedProcessorEndTimes = new int[]{112891, 88955, 105227, 78173};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -6721,26 +3901,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot94_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.94_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 11800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(700, 704, 0), new ScheduledTask(4600, 4604, 0), new ScheduledTask(1100, 1106, 0), new ScheduledTask(5800, 5805, 0), new ScheduledTask(1600, 1603, 1), new ScheduledTask(3400, 3406, 1), new ScheduledTask(5700, 5705, 2), new ScheduledTask(8200, 8203, 3), new ScheduledTask(500, 502, 0), new ScheduledTask(2800, 2809, 3), new ScheduledTask(3000, 3009, 0), new ScheduledTask(2100, 2109, 0), new ScheduledTask(8800, 8809, 0), new ScheduledTask(10000, 10009, 0), new ScheduledTask(900, 908, 2), new ScheduledTask(7000, 7008, 1), new ScheduledTask(5000, 5008, 0), new ScheduledTask(8100, 8107, 0), new ScheduledTask(3900, 3907, 0), new ScheduledTask(7000, 7007, 0), new ScheduledTask(6300, 6307, 0), new ScheduledTask(8700, 8705, 2), new ScheduledTask(11300, 11305, 0), new ScheduledTask(1700, 1704, 0), new ScheduledTask(7700, 7704, 0), new ScheduledTask(10900, 10904, 0), new ScheduledTask(1000, 1003, 3), new ScheduledTask(10000, 10003, 3), new ScheduledTask(9700, 9703, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11305, 7008, 8705, 10003};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot94_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.94_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -6752,26 +3912,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(5, 9, 0), new ScheduledTask(9, 13, 1), new ScheduledTask(46, 52, 0), new ScheduledTask(58, 63, 1), new ScheduledTask(46, 49, 1), new ScheduledTask(9, 15, 0), new ScheduledTask(38, 43, 0), new ScheduledTask(13, 16, 1), new ScheduledTask(16, 18, 1), new ScheduledTask(37, 46, 1), new ScheduledTask(81, 90, 1), new ScheduledTask(72, 81, 1), new ScheduledTask(63, 72, 1), new ScheduledTask(49, 58, 1), new ScheduledTask(29, 37, 1), new ScheduledTask(21, 29, 1), new ScheduledTask(68, 76, 0), new ScheduledTask(31, 38, 0), new ScheduledTask(61, 68, 0), new ScheduledTask(83, 90, 0), new ScheduledTask(76, 83, 0), new ScheduledTask(56, 61, 0), new ScheduledTask(23, 28, 0), new ScheduledTask(52, 56, 0), new ScheduledTask(15, 19, 0), new ScheduledTask(19, 23, 0), new ScheduledTask(18, 21, 1), new ScheduledTask(28, 31, 0), new ScheduledTask(43, 46, 0)};
         int[] expectedProcessorEndTimes = new int[]{90, 90};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot95_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.95_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 0), new ScheduledTask(1500, 1510, 0), new ScheduledTask(800, 807, 0), new ScheduledTask(2500, 2510, 0), new ScheduledTask(4100, 4107, 1), new ScheduledTask(4000, 4004, 2), new ScheduledTask(5200, 5202, 3), new ScheduledTask(2200, 2205, 3), new ScheduledTask(1600, 1602, 2), new ScheduledTask(1700, 1702, 1), new ScheduledTask(6400, 6410, 3), new ScheduledTask(6400, 6410, 2), new ScheduledTask(11700, 11708, 0), new ScheduledTask(10900, 10908, 0), new ScheduledTask(10100, 10108, 0), new ScheduledTask(5400, 5408, 0), new ScheduledTask(8300, 8307, 1), new ScheduledTask(4800, 4806, 0), new ScheduledTask(9500, 9506, 0), new ScheduledTask(8400, 8406, 0), new ScheduledTask(6800, 6806, 0), new ScheduledTask(7800, 7806, 0), new ScheduledTask(4200, 4206, 0), new ScheduledTask(6200, 6206, 0), new ScheduledTask(3700, 3705, 0), new ScheduledTask(9000, 9005, 0), new ScheduledTask(7400, 7404, 0), new ScheduledTask(2800, 2802, 2), new ScheduledTask(3500, 3502, 0), new ScheduledTask(2900, 2902, 1)};
-        int[] expectedProcessorEndTimes = new int[]{11708, 8307, 6410, 6410};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -6821,26 +3961,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot97_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.97_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1700, 1710, 0), new ScheduledTask(1000, 1003, 0), new ScheduledTask(1200, 1209, 1), new ScheduledTask(4700, 4707, 2), new ScheduledTask(3500, 3503, 3), new ScheduledTask(1500, 1503, 3), new ScheduledTask(6500, 6505, 3), new ScheduledTask(1300, 1302, 0), new ScheduledTask(1500, 1502, 0), new ScheduledTask(8500, 8510, 0), new ScheduledTask(11000, 11010, 0), new ScheduledTask(6900, 6909, 0), new ScheduledTask(6600, 6609, 1), new ScheduledTask(5300, 5309, 0), new ScheduledTask(4500, 4508, 0), new ScheduledTask(7800, 7807, 0), new ScheduledTask(6200, 6207, 0), new ScheduledTask(3600, 3607, 0), new ScheduledTask(8900, 8905, 2), new ScheduledTask(10200, 10205, 0), new ScheduledTask(1700, 1705, 2), new ScheduledTask(3100, 3105, 0), new ScheduledTask(9500, 9504, 3), new ScheduledTask(9800, 9804, 0), new ScheduledTask(2700, 2704, 0), new ScheduledTask(10700, 10703, 0), new ScheduledTask(9500, 9503, 0), new ScheduledTask(5300, 5302, 3), new ScheduledTask(4300, 4302, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11010, 6609, 8905, 9504};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot97_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.97_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
@@ -6861,26 +3981,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot97_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.97_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 11600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 3, 0), new ScheduledTask(800, 808, 1), new ScheduledTask(500, 502, 0), new ScheduledTask(6000, 6008, 0), new ScheduledTask(8200, 8209, 0), new ScheduledTask(2500, 2507, 0), new ScheduledTask(1300, 1308, 0), new ScheduledTask(1300, 1304, 2), new ScheduledTask(6700, 6704, 3), new ScheduledTask(300, 302, 0), new ScheduledTask(700, 710, 3), new ScheduledTask(3700, 3710, 2), new ScheduledTask(5100, 5109, 0), new ScheduledTask(7400, 7408, 0), new ScheduledTask(10800, 10808, 0), new ScheduledTask(5600, 5608, 1), new ScheduledTask(9500, 9507, 0), new ScheduledTask(4400, 4407, 0), new ScheduledTask(6800, 6806, 0), new ScheduledTask(10200, 10206, 0), new ScheduledTask(3600, 3606, 0), new ScheduledTask(900, 904, 0), new ScheduledTask(9100, 9104, 3), new ScheduledTask(9100, 9104, 0), new ScheduledTask(3200, 3204, 0), new ScheduledTask(2100, 2104, 0), new ScheduledTask(9700, 9703, 2), new ScheduledTask(700, 702, 0), new ScheduledTask(10400, 10402, 1), new ScheduledTask(4200, 4202, 0)};
-        int[] expectedProcessorEndTimes = new int[]{10808, 10402, 9703, 9104};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot97_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.97_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -6892,26 +3992,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 3, 0), new ScheduledTask(11, 19, 0), new ScheduledTask(17, 19, 1), new ScheduledTask(41, 49, 0), new ScheduledTask(19, 28, 0), new ScheduledTask(55, 62, 1), new ScheduledTask(70, 78, 1), new ScheduledTask(19, 23, 1), new ScheduledTask(48, 52, 1), new ScheduledTask(3, 5, 0), new ScheduledTask(7, 17, 1), new ScheduledTask(78, 88, 1), new ScheduledTask(31, 40, 1), new ScheduledTask(62, 70, 1), new ScheduledTask(40, 48, 1), new ScheduledTask(23, 31, 1), new ScheduledTask(34, 41, 0), new ScheduledTask(67, 74, 0), new ScheduledTask(53, 59, 0), new ScheduledTask(61, 67, 0), new ScheduledTask(78, 84, 0), new ScheduledTask(7, 11, 0), new ScheduledTask(49, 53, 0), new ScheduledTask(30, 34, 0), new ScheduledTask(74, 78, 0), new ScheduledTask(84, 88, 0), new ScheduledTask(52, 55, 1), new ScheduledTask(5, 7, 0), new ScheduledTask(59, 61, 0), new ScheduledTask(28, 30, 0)};
         int[] expectedProcessorEndTimes = new int[]{88, 88};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot98_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.98_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(600, 606, 0), new ScheduledTask(1100, 1104, 1), new ScheduledTask(4900, 4909, 0), new ScheduledTask(3400, 3409, 0), new ScheduledTask(5000, 5006, 2), new ScheduledTask(1200, 1208, 3), new ScheduledTask(6000, 6003, 3), new ScheduledTask(1200, 1209, 0), new ScheduledTask(1400, 1406, 2), new ScheduledTask(6700, 6710, 1), new ScheduledTask(12000, 12010, 0), new ScheduledTask(11100, 11109, 0), new ScheduledTask(8600, 8609, 0), new ScheduledTask(7800, 7808, 3), new ScheduledTask(8600, 8607, 2), new ScheduledTask(10400, 10407, 0), new ScheduledTask(9700, 9707, 0), new ScheduledTask(7500, 7507, 0), new ScheduledTask(6800, 6807, 0), new ScheduledTask(2700, 2707, 0), new ScheduledTask(5800, 5807, 0), new ScheduledTask(2100, 2106, 0), new ScheduledTask(3500, 3505, 1), new ScheduledTask(4500, 4504, 0), new ScheduledTask(6500, 6503, 0), new ScheduledTask(8400, 8402, 0), new ScheduledTask(8200, 8202, 0), new ScheduledTask(9500, 9502, 0), new ScheduledTask(4300, 4302, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12010, 6710, 8607, 7808};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -6961,26 +4041,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot98_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.98_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 14000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(1100, 1111, 0), new ScheduledTask(1300, 1305, 1), new ScheduledTask(4300, 4307, 1), new ScheduledTask(3200, 3205, 2), new ScheduledTask(600, 605, 0), new ScheduledTask(5500, 5507, 3), new ScheduledTask(6200, 6207, 2), new ScheduledTask(4900, 4904, 0), new ScheduledTask(3100, 3105, 0), new ScheduledTask(8400, 8412, 0), new ScheduledTask(12900, 12911, 0), new ScheduledTask(10100, 10111, 0), new ScheduledTask(2200, 2209, 0), new ScheduledTask(8500, 8509, 1), new ScheduledTask(7500, 7509, 0), new ScheduledTask(5900, 5908, 0), new ScheduledTask(6700, 6708, 0), new ScheduledTask(4100, 4108, 0), new ScheduledTask(1900, 1906, 3), new ScheduledTask(9700, 9706, 3), new ScheduledTask(12300, 12306, 0), new ScheduledTask(10400, 10406, 2), new ScheduledTask(5300, 5306, 0), new ScheduledTask(11800, 11805, 0), new ScheduledTask(9600, 9605, 0), new ScheduledTask(3600, 3605, 0), new ScheduledTask(11400, 11404, 0), new ScheduledTask(2000, 2002, 2), new ScheduledTask(11200, 11202, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12911, 8509, 10406, 9706};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot98_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.98_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -6992,26 +4052,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(6, 17, 0), new ScheduledTask(13, 18, 1), new ScheduledTask(17, 24, 0), new ScheduledTask(24, 29, 0), new ScheduledTask(18, 23, 1), new ScheduledTask(23, 30, 1), new ScheduledTask(29, 36, 0), new ScheduledTask(30, 34, 1), new ScheduledTask(34, 39, 1), new ScheduledTask(36, 48, 0), new ScheduledTask(39, 50, 1), new ScheduledTask(48, 59, 0), new ScheduledTask(50, 59, 1), new ScheduledTask(59, 68, 0), new ScheduledTask(59, 68, 1), new ScheduledTask(68, 76, 0), new ScheduledTask(68, 76, 1), new ScheduledTask(76, 84, 0), new ScheduledTask(76, 82, 1), new ScheduledTask(82, 88, 1), new ScheduledTask(84, 90, 0), new ScheduledTask(88, 94, 1), new ScheduledTask(90, 96, 0), new ScheduledTask(94, 99, 1), new ScheduledTask(96, 101, 0), new ScheduledTask(99, 104, 1), new ScheduledTask(101, 105, 0), new ScheduledTask(104, 106, 1), new ScheduledTask(105, 107, 0)};
         int[] expectedProcessorEndTimes = new int[]{107, 106};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot99_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.99_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(700, 708, 0), new ScheduledTask(1400, 1408, 1), new ScheduledTask(3800, 3810, 0), new ScheduledTask(2000, 2006, 2), new ScheduledTask(1100, 1109, 3), new ScheduledTask(6200, 6207, 1), new ScheduledTask(7100, 7107, 0), new ScheduledTask(1500, 1504, 0), new ScheduledTask(6500, 6502, 3), new ScheduledTask(10300, 10310, 0), new ScheduledTask(2900, 2909, 0), new ScheduledTask(5600, 5609, 2), new ScheduledTask(7700, 7708, 3), new ScheduledTask(9600, 9607, 0), new ScheduledTask(2200, 2207, 0), new ScheduledTask(5800, 5807, 0), new ScheduledTask(12300, 12306, 0), new ScheduledTask(8600, 8606, 0), new ScheduledTask(6500, 6506, 0), new ScheduledTask(7800, 7805, 0), new ScheduledTask(11800, 11805, 0), new ScheduledTask(11300, 11305, 0), new ScheduledTask(5300, 5305, 0), new ScheduledTask(4800, 4805, 0), new ScheduledTask(10400, 10404, 1), new ScheduledTask(9200, 9204, 0), new ScheduledTask(11000, 11003, 2), new ScheduledTask(8300, 8303, 0), new ScheduledTask(1900, 1903, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12306, 10404, 11003, 7708};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -7101,26 +4141,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot99_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.99_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1300, 1309, 1), new ScheduledTask(1000, 1008, 0), new ScheduledTask(3500, 3507, 0), new ScheduledTask(7600, 7608, 0), new ScheduledTask(1700, 1707, 2), new ScheduledTask(7800, 7805, 3), new ScheduledTask(2400, 2404, 3), new ScheduledTask(1800, 1802, 0), new ScheduledTask(6700, 6704, 1), new ScheduledTask(9400, 9410, 0), new ScheduledTask(8400, 8410, 0), new ScheduledTask(4700, 4709, 0), new ScheduledTask(6200, 6209, 0), new ScheduledTask(10600, 10609, 0), new ScheduledTask(12400, 12409, 0), new ScheduledTask(11500, 11509, 0), new ScheduledTask(2700, 2708, 0), new ScheduledTask(8900, 8907, 2), new ScheduledTask(9100, 9107, 1), new ScheduledTask(5600, 5606, 0), new ScheduledTask(5900, 5905, 2), new ScheduledTask(7100, 7105, 0), new ScheduledTask(4800, 4805, 3), new ScheduledTask(2300, 2304, 0), new ScheduledTask(10800, 10804, 3), new ScheduledTask(4400, 4403, 0), new ScheduledTask(2000, 2003, 0), new ScheduledTask(4200, 4202, 0), new ScheduledTask(10400, 10402, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12409, 9107, 8907, 10804};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -7152,26 +4172,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(13, 22, 1), new ScheduledTask(10, 18, 0), new ScheduledTask(24, 31, 2), new ScheduledTask(22, 30, 1), new ScheduledTask(17, 24, 3), new ScheduledTask(30, 35, 1), new ScheduledTask(18, 22, 0), new ScheduledTask(20, 22, 4), new ScheduledTask(24, 28, 5), new ScheduledTask(38, 48, 0), new ScheduledTask(38, 48, 3), new ScheduledTask(39, 48, 2), new ScheduledTask(30, 39, 4), new ScheduledTask(28, 37, 5), new ScheduledTask(39, 48, 1), new ScheduledTask(39, 48, 5), new ScheduledTask(22, 30, 4), new ScheduledTask(24, 31, 3), new ScheduledTask(41, 48, 4), new ScheduledTask(27, 33, 0), new ScheduledTask(34, 39, 2), new ScheduledTask(33, 38, 0), new ScheduledTask(22, 27, 0), new ScheduledTask(34, 38, 3), new ScheduledTask(35, 39, 1), new ScheduledTask(31, 34, 2), new ScheduledTask(31, 34, 3), new ScheduledTask(37, 39, 5), new ScheduledTask(39, 41, 4)};
         int[] expectedProcessorEndTimes = new int[]{48, 48, 48, 48, 48, 48};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot02_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_1.02_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 11600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 4, 0), new ScheduledTask(400, 403, 0), new ScheduledTask(1500, 1506, 0), new ScheduledTask(700, 708, 0), new ScheduledTask(3100, 3107, 0), new ScheduledTask(2900, 2908, 1), new ScheduledTask(600, 605, 2), new ScheduledTask(1000, 1008, 3), new ScheduledTask(1100, 1103, 1), new ScheduledTask(7000, 7002, 3), new ScheduledTask(3600, 3610, 2), new ScheduledTask(7900, 7910, 0), new ScheduledTask(7000, 7009, 0), new ScheduledTask(5400, 5409, 0), new ScheduledTask(10800, 10808, 0), new ScheduledTask(10100, 10107, 0), new ScheduledTask(7700, 7706, 1), new ScheduledTask(2500, 2506, 0), new ScheduledTask(4800, 4806, 0), new ScheduledTask(4200, 4206, 0), new ScheduledTask(9500, 9506, 0), new ScheduledTask(8900, 8906, 0), new ScheduledTask(8200, 8205, 3), new ScheduledTask(6300, 6305, 0), new ScheduledTask(2100, 2104, 0), new ScheduledTask(9600, 9603, 2), new ScheduledTask(6800, 6802, 0), new ScheduledTask(5800, 5802, 3), new ScheduledTask(4000, 4002, 0), new ScheduledTask(3800, 3802, 0)};
-        int[] expectedProcessorEndTimes = new int[]{10808, 7706, 9603, 8205};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -7221,26 +4221,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot09_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_1.09_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 11100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 3, 0), new ScheduledTask(700, 706, 0), new ScheduledTask(300, 304, 0), new ScheduledTask(3600, 3608, 1), new ScheduledTask(900, 902, 2), new ScheduledTask(1200, 1209, 3), new ScheduledTask(2100, 2106, 2), new ScheduledTask(6600, 6602, 3), new ScheduledTask(1300, 1303, 0), new ScheduledTask(1200, 1204, 1), new ScheduledTask(5500, 5510, 0), new ScheduledTask(10100, 10110, 0), new ScheduledTask(2300, 2308, 0), new ScheduledTask(3700, 3707, 0), new ScheduledTask(7600, 7607, 0), new ScheduledTask(1600, 1607, 0), new ScheduledTask(3100, 3106, 0), new ScheduledTask(5700, 5706, 2), new ScheduledTask(8300, 8306, 0), new ScheduledTask(9500, 9506, 0), new ScheduledTask(8900, 8906, 0), new ScheduledTask(5000, 5005, 0), new ScheduledTask(7800, 7805, 3), new ScheduledTask(6900, 6905, 0), new ScheduledTask(4600, 4604, 0), new ScheduledTask(6500, 6504, 0), new ScheduledTask(8400, 8404, 1), new ScheduledTask(9300, 9303, 2), new ScheduledTask(4400, 4402, 0), new ScheduledTask(7400, 7402, 0)};
-        int[] expectedProcessorEndTimes = new int[]{10110, 8404, 9303, 7805};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot09_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_1.09_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -7261,26 +4241,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_10dot01_WeightType_Random4_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_10.01_WeightType_Random#4_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 2, 0), new ScheduledTask(200, 202, 0), new ScheduledTask(400, 406, 0), new ScheduledTask(4700, 4707, 0), new ScheduledTask(3300, 3306, 1), new ScheduledTask(8000, 8007, 0), new ScheduledTask(2500, 2505, 2), new ScheduledTask(2800, 2810, 0), new ScheduledTask(1000, 1008, 0), new ScheduledTask(3800, 3808, 3), new ScheduledTask(7000, 7010, 0), new ScheduledTask(10600, 10610, 0), new ScheduledTask(6000, 6010, 0), new ScheduledTask(1800, 1810, 0), new ScheduledTask(3800, 3809, 0), new ScheduledTask(9500, 9508, 0), new ScheduledTask(8700, 8708, 0), new ScheduledTask(6900, 6908, 1), new ScheduledTask(6700, 6708, 2), new ScheduledTask(12400, 12407, 0), new ScheduledTask(5400, 5406, 0), new ScheduledTask(11600, 11605, 0), new ScheduledTask(12100, 12103, 0), new ScheduledTask(11100, 11103, 3), new ScheduledTask(10300, 10303, 0), new ScheduledTask(5500, 5502, 2), new ScheduledTask(9900, 9902, 3), new ScheduledTask(8600, 8602, 3), new ScheduledTask(11700, 11702, 1), new ScheduledTask(11700, 11702, 2)};
-        int[] expectedProcessorEndTimes = new int[]{12407, 11702, 11702, 11103};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_10dot01_WeightType_Random4_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_10.01_WeightType_Random#4_Homogeneous-2.dot");
         int processorCount = 2;
@@ -7292,46 +4252,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 2, 0), new ScheduledTask(16, 18, 0), new ScheduledTask(2, 8, 0), new ScheduledTask(33, 40, 0), new ScheduledTask(47, 53, 1), new ScheduledTask(18, 25, 0), new ScheduledTask(25, 30, 1), new ScheduledTask(60, 70, 0), new ScheduledTask(8, 16, 0), new ScheduledTask(55, 63, 1), new ScheduledTask(50, 60, 0), new ScheduledTask(40, 50, 0), new ScheduledTask(81, 91, 0), new ScheduledTask(76, 86, 1), new ScheduledTask(72, 81, 0), new ScheduledTask(94, 102, 1), new ScheduledTask(25, 33, 0), new ScheduledTask(68, 76, 1), new ScheduledTask(39, 47, 1), new ScheduledTask(32, 39, 1), new ScheduledTask(88, 94, 1), new ScheduledTask(94, 99, 0), new ScheduledTask(99, 102, 0), new ScheduledTask(65, 68, 1), new ScheduledTask(91, 94, 0), new ScheduledTask(30, 32, 1), new ScheduledTask(86, 88, 1), new ScheduledTask(63, 65, 1), new ScheduledTask(53, 55, 1), new ScheduledTask(70, 72, 0)};
         int[] expectedProcessorEndTimes = new int[]{102, 102};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_10dot01_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_10.01_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 10700;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 2, 0), new ScheduledTask(800, 806, 0), new ScheduledTask(200, 206, 0), new ScheduledTask(4700, 4709, 1), new ScheduledTask(3700, 3707, 2), new ScheduledTask(3100, 3104, 3), new ScheduledTask(5300, 5307, 3), new ScheduledTask(1600, 1608, 0), new ScheduledTask(5100, 5110, 0), new ScheduledTask(1400, 1402, 0), new ScheduledTask(6700, 6710, 3), new ScheduledTask(9300, 9310, 0), new ScheduledTask(8100, 8110, 2), new ScheduledTask(8400, 8409, 0), new ScheduledTask(8700, 8709, 3), new ScheduledTask(7500, 7509, 0), new ScheduledTask(6300, 6309, 2), new ScheduledTask(4200, 4209, 0), new ScheduledTask(3300, 3309, 0), new ScheduledTask(6500, 6508, 1), new ScheduledTask(6700, 6708, 0), new ScheduledTask(9300, 9307, 1), new ScheduledTask(2600, 2607, 0), new ScheduledTask(8100, 8106, 1), new ScheduledTask(6100, 6106, 0), new ScheduledTask(5100, 5106, 2), new ScheduledTask(4500, 4504, 3), new ScheduledTask(10300, 10304, 0), new ScheduledTask(3900, 3903, 3), new ScheduledTask(2400, 2402, 0)};
-        int[] expectedProcessorEndTimes = new int[]{10304, 9307, 8110, 8709};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_10dot01_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_10.01_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9560;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 2, 0), new ScheduledTask(200, 206, 0), new ScheduledTask(800, 806, 0), new ScheduledTask(5050, 5059, 2), new ScheduledTask(3100, 3107, 2), new ScheduledTask(3700, 3704, 3), new ScheduledTask(1400, 1407, 0), new ScheduledTask(6000, 6008, 0), new ScheduledTask(5600, 5610, 1), new ScheduledTask(4000, 4002, 0), new ScheduledTask(3000, 3010, 0), new ScheduledTask(4400, 4410, 1), new ScheduledTask(7700, 7710, 0), new ScheduledTask(5900, 5909, 3), new ScheduledTask(2100, 2109, 0), new ScheduledTask(6800, 6809, 1), new ScheduledTask(7700, 7709, 3), new ScheduledTask(5100, 5109, 0), new ScheduledTask(4200, 4209, 0), new ScheduledTask(6400, 6408, 2), new ScheduledTask(7880, 7888, 1), new ScheduledTask(8500, 8507, 2), new ScheduledTask(7000, 7007, 0), new ScheduledTask(7600, 7606, 2), new ScheduledTask(8840, 8846, 1), new ScheduledTask(4150, 4156, 2), new ScheduledTask(5100, 5104, 3), new ScheduledTask(8700, 8704, 0), new ScheduledTask(4500, 4503, 3), new ScheduledTask(6800, 6802, 0)};
-        int[] expectedProcessorEndTimes = new int[]{8704, 8846, 8507, 7709};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -7601,46 +4521,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 242500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 133, 0), new ScheduledTask(13300, 13433, 0), new ScheduledTask(31600, 31683, 0), new ScheduledTask(48200, 48316, 0), new ScheduledTask(39900, 39983, 0), new ScheduledTask(26600, 26650, 0), new ScheduledTask(32200, 32300, 1), new ScheduledTask(66400, 66483, 0), new ScheduledTask(59800, 59866, 0), new ScheduledTask(48600, 48650, 2), new ScheduledTask(79700, 79833, 0), new ScheduledTask(109800, 109950, 0), new ScheduledTask(93200, 93366, 0), new ScheduledTask(78600, 78700, 2), new ScheduledTask(139600, 139766, 0), new ScheduledTask(156200, 156333, 0), new ScheduledTask(124800, 124933, 0), new ScheduledTask(74700, 74750, 0), new ScheduledTask(110400, 110466, 3), new ScheduledTask(93500, 93600, 1), new ScheduledTask(176100, 176183, 0), new ScheduledTask(169500, 169566, 0), new ScheduledTask(150000, 150066, 3), new ScheduledTask(184400, 184516, 0), new ScheduledTask(156600, 156650, 2), new ScheduledTask(196000, 196116, 0), new ScheduledTask(186600, 186650, 2), new ScheduledTask(217600, 217733, 0), new ScheduledTask(207600, 207700, 0), new ScheduledTask(230900, 231016, 0)};
-        int[] expectedProcessorEndTimes = new int[]{231016, 93600, 186650, 150066};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random1_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#1_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 135030;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 133, 0), new ScheduledTask(13300, 13433, 0), new ScheduledTask(13700, 13783, 1), new ScheduledTask(24560, 24676, 2), new ScheduledTask(27500, 27583, 1), new ScheduledTask(26600, 26650, 0), new ScheduledTask(31600, 31700, 0), new ScheduledTask(42360, 42443, 3), new ScheduledTask(41960, 42026, 2), new ScheduledTask(37460, 37510, 1), new ScheduledTask(59360, 59493, 0), new ScheduledTask(43460, 43610, 1), new ScheduledTask(41600, 41766, 0), new ScheduledTask(51860, 51960, 2), new ScheduledTask(72660, 72826, 0), new ScheduledTask(66860, 66993, 2), new ScheduledTask(61460, 61593, 1), new ScheduledTask(58960, 59010, 3), new ScheduledTask(68960, 69026, 3), new ScheduledTask(77420, 77520, 1), new ScheduledTask(89260, 89343, 0), new ScheduledTask(86810, 86876, 2), new ScheduledTask(82160, 82226, 3), new ScheduledTask(97560, 97676, 0), new ScheduledTask(89660, 89710, 1), new ScheduledTask(97010, 97126, 1), new ScheduledTask(97960, 98010, 3), new ScheduledTask(109160, 109293, 0), new ScheduledTask(110930, 111030, 1), new ScheduledTask(123430, 123546, 0)};
-        int[] expectedProcessorEndTimes = new int[]{123546, 111030, 86876, 98010};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
@@ -7701,26 +4581,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random2_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#2_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 123420;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 130, 0), new ScheduledTask(13000, 13087, 0), new ScheduledTask(13400, 13429, 1), new ScheduledTask(21700, 21758, 0), new ScheduledTask(16880, 16938, 1), new ScheduledTask(27500, 27616, 0), new ScheduledTask(22100, 22158, 2), new ScheduledTask(23840, 23984, 1), new ScheduledTask(31700, 31743, 3), new ScheduledTask(30800, 30858, 2), new ScheduledTask(40700, 40844, 2), new ScheduledTask(43400, 43501, 0), new ScheduledTask(41120, 41264, 1), new ScheduledTask(41320, 41378, 3), new ScheduledTask(39100, 39143, 0), new ScheduledTask(65420, 65536, 0), new ScheduledTask(53820, 53936, 0), new ScheduledTask(64520, 64563, 3), new ScheduledTask(58400, 58443, 1), new ScheduledTask(52920, 52978, 3), new ScheduledTask(77020, 77150, 0), new ScheduledTask(65820, 65964, 1), new ScheduledTask(65720, 65850, 2), new ScheduledTask(73120, 73149, 3), new ScheduledTask(90020, 90150, 0), new ScheduledTask(85520, 85650, 1), new ScheduledTask(85220, 85336, 2), new ScheduledTask(103220, 103278, 0), new ScheduledTask(103320, 103363, 1), new ScheduledTask(109020, 109164, 0)};
-        int[] expectedProcessorEndTimes = new int[]{109164, 103363, 85336, 73149};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random2_Homogeneous_4(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#2_Homogeneous-4.dot");
         int processorCount = 4;
@@ -7761,26 +4621,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random3_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#3_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 127530;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 67, 0), new ScheduledTask(7300, 7367, 1), new ScheduledTask(6700, 6767, 0), new ScheduledTask(15340, 15391, 1), new ScheduledTask(14300, 14351, 2), new ScheduledTask(15640, 15724, 0), new ScheduledTask(24040, 24175, 0), new ScheduledTask(21950, 22051, 2), new ScheduledTask(24540, 24624, 1), new ScheduledTask(37840, 38008, 1), new ScheduledTask(37540, 37692, 0), new ScheduledTask(24240, 24291, 3), new ScheduledTask(37100, 37235, 2), new ScheduledTask(35620, 35721, 3), new ScheduledTask(52740, 52774, 0), new ScheduledTask(58300, 58351, 2), new ScheduledTask(58400, 58434, 3), new ScheduledTask(56140, 56258, 0), new ScheduledTask(67940, 68108, 0), new ScheduledTask(58250, 58418, 1), new ScheduledTask(65200, 65234, 3), new ScheduledTask(68240, 68341, 2), new ScheduledTask(72000, 72051, 3), new ScheduledTask(84740, 84892, 0), new ScheduledTask(78410, 78444, 1), new ScheduledTask(85340, 85458, 1), new ScheduledTask(83490, 83608, 2), new ScheduledTask(99940, 100041, 0), new ScheduledTask(101890, 101957, 1), new ScheduledTask(110730, 110898, 0)};
-        int[] expectedProcessorEndTimes = new int[]{110898, 101957, 83608, 72051};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random3_Homogeneous_4(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#3_Homogeneous-4.dot");
         int processorCount = 4;
@@ -7792,26 +4632,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 67, 0), new ScheduledTask(73, 140, 1), new ScheduledTask(67, 134, 0), new ScheduledTask(140, 191, 1), new ScheduledTask(134, 185, 0), new ScheduledTask(143, 227, 2), new ScheduledTask(192, 327, 1), new ScheduledTask(195, 296, 3), new ScheduledTask(232, 316, 0), new ScheduledTask(327, 495, 1), new ScheduledTask(329, 481, 0), new ScheduledTask(227, 278, 2), new ScheduledTask(431, 566, 3), new ScheduledTask(330, 431, 3), new ScheduledTask(296, 330, 3), new ScheduledTask(495, 546, 1), new ScheduledTask(499, 533, 2), new ScheduledTask(481, 599, 0), new ScheduledTask(546, 714, 1), new ScheduledTask(566, 734, 3), new ScheduledTask(333, 367, 2), new ScheduledTask(602, 703, 2), new ScheduledTask(533, 584, 2), new ScheduledTask(714, 866, 1), new ScheduledTask(734, 768, 3), new ScheduledTask(720, 838, 2), new ScheduledTask(768, 886, 3), new ScheduledTask(866, 967, 1), new ScheduledTask(886, 953, 3), new ScheduledTask(967, 1135, 1)};
         int[] expectedProcessorEndTimes = new int[]{599, 1135, 838, 953};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random4_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#4_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 145760;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 38, 0), new ScheduledTask(4200, 4296, 1), new ScheduledTask(16220, 16412, 0), new ScheduledTask(3800, 3915, 0), new ScheduledTask(16200, 16315, 1), new ScheduledTask(16220, 16258, 2), new ScheduledTask(35420, 35612, 0), new ScheduledTask(30000, 30135, 1), new ScheduledTask(38600, 38658, 3), new ScheduledTask(31000, 31038, 3), new ScheduledTask(46200, 46373, 1), new ScheduledTask(54620, 54812, 0), new ScheduledTask(54920, 54978, 3), new ScheduledTask(67320, 67512, 1), new ScheduledTask(73820, 73974, 0), new ScheduledTask(39300, 39377, 2), new ScheduledTask(66520, 66578, 3), new ScheduledTask(79410, 79545, 2), new ScheduledTask(50850, 50946, 2), new ScheduledTask(67860, 67937, 2), new ScheduledTask(90660, 90833, 0), new ScheduledTask(80410, 80545, 3), new ScheduledTask(90360, 90475, 1), new ScheduledTask(99660, 99718, 2), new ScheduledTask(109260, 109433, 0), new ScheduledTask(107910, 108025, 1), new ScheduledTask(108460, 108537, 2), new ScheduledTask(121710, 121768, 1), new ScheduledTask(126560, 126598, 0), new ScheduledTask(130360, 130514, 0)};
-        int[] expectedProcessorEndTimes = new int[]{130514, 121768, 108537, 80545};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -7881,26 +4701,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random5_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#5_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 117130;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 69, 0), new ScheduledTask(6900, 7011, 0), new ScheduledTask(7300, 7328, 1), new ScheduledTask(18000, 18111, 0), new ScheduledTask(18200, 18242, 2), new ScheduledTask(10660, 10757, 1), new ScheduledTask(24500, 24625, 2), new ScheduledTask(30580, 30649, 1), new ScheduledTask(22300, 22369, 1), new ScheduledTask(29100, 29128, 0), new ScheduledTask(45800, 45939, 0), new ScheduledTask(31900, 32039, 0), new ScheduledTask(38860, 38957, 1), new ScheduledTask(31080, 31177, 3), new ScheduledTask(59700, 59811, 0), new ScheduledTask(50500, 50597, 1), new ScheduledTask(51280, 51349, 2), new ScheduledTask(43250, 43292, 2), new ScheduledTask(50480, 50522, 3), new ScheduledTask(62140, 62209, 1), new ScheduledTask(70800, 70925, 0), new ScheduledTask(61630, 61727, 2), new ScheduledTask(71000, 71111, 1), new ScheduledTask(62640, 62682, 3), new ScheduledTask(76180, 76319, 2), new ScheduledTask(83300, 83425, 0), new ScheduledTask(84320, 84445, 1), new ScheduledTask(97730, 97855, 0), new ScheduledTask(99320, 99403, 1), new ScheduledTask(110230, 110299, 0)};
-        int[] expectedProcessorEndTimes = new int[]{110299, 99403, 76319, 62682};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random5_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#5_Homogeneous-2.dot");
         int processorCount = 2;
@@ -7952,46 +4752,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 69, 0), new ScheduledTask(69, 180, 0), new ScheduledTask(73, 101, 1), new ScheduledTask(180, 291, 0), new ScheduledTask(182, 224, 1), new ScheduledTask(108, 205, 2), new ScheduledTask(224, 349, 1), new ScheduledTask(291, 360, 0), new ScheduledTask(205, 274, 2), new ScheduledTask(299, 327, 2), new ScheduledTask(360, 499, 0), new ScheduledTask(327, 466, 2), new ScheduledTask(367, 464, 1), new ScheduledTask(279, 376, 3), new ScheduledTask(499, 610, 0), new ScheduledTask(467, 564, 2), new ScheduledTask(376, 445, 3), new ScheduledTask(359, 401, 4), new ScheduledTask(474, 516, 1), new ScheduledTask(503, 572, 3), new ScheduledTask(610, 735, 0), new ScheduledTask(516, 613, 1), new ScheduledTask(612, 723, 2), new ScheduledTask(569, 611, 4), new ScheduledTask(613, 752, 1), new ScheduledTask(735, 860, 0), new ScheduledTask(737, 862, 2), new ScheduledTask(860, 985, 0), new ScheduledTask(866, 949, 1), new ScheduledTask(985, 1054, 0)};
         int[] expectedProcessorEndTimes = new int[]{1054, 949, 862, 572, 611};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random6_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#6_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 249200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 163, 0), new ScheduledTask(27700, 27863, 0), new ScheduledTask(16300, 16414, 0), new ScheduledTask(28500, 28565, 1), new ScheduledTask(44000, 44033, 0), new ScheduledTask(44200, 44249, 2), new ScheduledTask(47300, 47447, 0), new ScheduledTask(83100, 83230, 0), new ScheduledTask(75000, 75081, 0), new ScheduledTask(83900, 84047, 3), new ScheduledTask(73600, 73665, 2), new ScheduledTask(96100, 96181, 0), new ScheduledTask(118900, 118933, 0), new ScheduledTask(112600, 112649, 2), new ScheduledTask(62000, 62130, 0), new ScheduledTask(122200, 122363, 0), new ScheduledTask(148300, 148430, 0), new ScheduledTask(177600, 177730, 0), new ScheduledTask(104200, 104347, 0), new ScheduledTask(161300, 161463, 0), new ScheduledTask(190600, 190763, 0), new ScheduledTask(138500, 138598, 0), new ScheduledTask(75200, 75249, 1), new ScheduledTask(206900, 207063, 0), new ScheduledTask(119500, 119533, 1), new ScheduledTask(148900, 149030, 2), new ScheduledTask(178600, 178633, 3), new ScheduledTask(223200, 223298, 0), new ScheduledTask(233000, 233081, 0), new ScheduledTask(241100, 241181, 0)};
-        int[] expectedProcessorEndTimes = new int[]{241181, 119533, 149030, 178633};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random6_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#6_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 141150;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 163, 0), new ScheduledTask(16300, 16463, 0), new ScheduledTask(17300, 17414, 1), new ScheduledTask(30980, 31045, 1), new ScheduledTask(33200, 33233, 2), new ScheduledTask(32600, 32649, 0), new ScheduledTask(38550, 38697, 0), new ScheduledTask(38150, 38280, 2), new ScheduledTask(38780, 38861, 1), new ScheduledTask(48500, 48647, 1), new ScheduledTask(38980, 39045, 3), new ScheduledTask(58150, 58231, 0), new ScheduledTask(57650, 57683, 2), new ScheduledTask(53250, 53299, 0), new ScheduledTask(53450, 53580, 3), new ScheduledTask(66650, 66813, 1), new ScheduledTask(62600, 62730, 2), new ScheduledTask(66740, 66870, 0), new ScheduledTask(80150, 80297, 0), new ScheduledTask(86210, 86373, 1), new ScheduledTask(82100, 82263, 2), new ScheduledTask(94850, 94948, 0), new ScheduledTask(79450, 79499, 3), new ScheduledTask(106950, 107113, 0), new ScheduledTask(95450, 95483, 3), new ScheduledTask(105770, 105900, 1), new ScheduledTask(106770, 106803, 3), new ScheduledTask(123250, 123348, 0), new ScheduledTask(121370, 121451, 1), new ScheduledTask(133050, 133131, 0)};
-        int[] expectedProcessorEndTimes = new int[]{133131, 121451, 82263, 106803};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -8061,26 +4821,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random7_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#7_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 118560;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 30, 0), new ScheduledTask(3000, 3148, 0), new ScheduledTask(3600, 3689, 1), new ScheduledTask(14280, 14428, 1), new ScheduledTask(18100, 18204, 2), new ScheduledTask(17800, 17830, 0), new ScheduledTask(35600, 35734, 0), new ScheduledTask(20800, 20948, 0), new ScheduledTask(32040, 32144, 1), new ScheduledTask(33700, 33789, 2), new ScheduledTask(49000, 49148, 0), new ScheduledTask(47050, 47184, 2), new ScheduledTask(49800, 49919, 1), new ScheduledTask(54400, 54445, 3), new ScheduledTask(68150, 68180, 0), new ScheduledTask(63800, 63830, 0), new ScheduledTask(64400, 64445, 1), new ScheduledTask(71150, 71269, 0), new ScheduledTask(36600, 36689, 3), new ScheduledTask(69800, 69919, 1), new ScheduledTask(67950, 67980, 3), new ScheduledTask(73950, 73980, 3), new ScheduledTask(67150, 67254, 2), new ScheduledTask(83050, 83198, 0), new ScheduledTask(84080, 84199, 1), new ScheduledTask(82750, 82780, 2), new ScheduledTask(87250, 87339, 2), new ScheduledTask(99260, 99394, 0), new ScheduledTask(101600, 101689, 1), new ScheduledTask(112660, 112719, 0)};
-        int[] expectedProcessorEndTimes = new int[]{112719, 101689, 87339, 73980};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random7_Homogeneous_4(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#7_Homogeneous-4.dot");
         int processorCount = 4;
@@ -8092,26 +4832,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 30, 0), new ScheduledTask(30, 178, 0), new ScheduledTask(36, 125, 1), new ScheduledTask(125, 273, 1), new ScheduledTask(178, 282, 0), new ScheduledTask(185, 215, 2), new ScheduledTask(282, 416, 0), new ScheduledTask(215, 363, 2), new ScheduledTask(273, 377, 1), new ScheduledTask(286, 375, 3), new ScheduledTask(416, 564, 0), new ScheduledTask(377, 511, 1), new ScheduledTask(424, 543, 2), new ScheduledTask(383, 428, 3), new ScheduledTask(511, 541, 1), new ScheduledTask(564, 594, 0), new ScheduledTask(570, 615, 1), new ScheduledTask(594, 713, 0), new ScheduledTask(428, 517, 3), new ScheduledTask(615, 734, 1), new ScheduledTask(519, 549, 3), new ScheduledTask(549, 579, 3), new ScheduledTask(543, 647, 2), new ScheduledTask(713, 861, 0), new ScheduledTask(734, 853, 1), new ScheduledTask(647, 677, 2), new ScheduledTask(740, 829, 2), new ScheduledTask(862, 996, 0), new ScheduledTask(853, 942, 1), new ScheduledTask(996, 1055, 0)};
         int[] expectedProcessorEndTimes = new int[]{1055, 942, 829, 579};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random8_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#8_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 145780;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 111, 0), new ScheduledTask(12100, 12243, 1), new ScheduledTask(11100, 11259, 0), new ScheduledTask(30060, 30219, 0), new ScheduledTask(29260, 29403, 1), new ScheduledTask(27600, 27695, 2), new ScheduledTask(49160, 49303, 0), new ScheduledTask(46420, 46531, 1), new ScheduledTask(45960, 45992, 0), new ScheduledTask(59740, 59899, 1), new ScheduledTask(63460, 63619, 0), new ScheduledTask(46760, 46919, 2), new ScheduledTask(79820, 79963, 0), new ScheduledTask(70610, 70721, 2), new ScheduledTask(50060, 50108, 3), new ScheduledTask(78820, 78883, 1), new ScheduledTask(88260, 88355, 1), new ScheduledTask(94120, 94279, 0), new ScheduledTask(72260, 72339, 3), new ScheduledTask(59660, 59723, 3), new ScheduledTask(88060, 88187, 3), new ScheduledTask(88760, 88855, 2), new ScheduledTask(99660, 99723, 1), new ScheduledTask(110020, 110147, 0), new ScheduledTask(103010, 103042, 2), new ScheduledTask(113960, 114039, 1), new ScheduledTask(108020, 108083, 2), new ScheduledTask(122720, 122783, 0), new ScheduledTask(123520, 123568, 1), new ScheduledTask(129880, 130039, 0)};
-        int[] expectedProcessorEndTimes = new int[]{130039, 123568, 108083, 88187};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -8172,26 +4892,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 111, 0), new ScheduledTask(111, 254, 0), new ScheduledTask(118, 277, 1), new ScheduledTask(254, 413, 0), new ScheduledTask(277, 420, 1), new ScheduledTask(283, 378, 2), new ScheduledTask(420, 563, 1), new ScheduledTask(425, 536, 0), new ScheduledTask(378, 410, 2), new ScheduledTask(536, 695, 0), new ScheduledTask(563, 722, 1), new ScheduledTask(421, 580, 2), new ScheduledTask(722, 865, 1), new ScheduledTask(580, 691, 2), new ScheduledTask(419, 467, 3), new ScheduledTask(695, 758, 0), new ScheduledTask(724, 819, 2), new ScheduledTask(865, 1024, 1), new ScheduledTask(590, 669, 3), new ScheduledTask(473, 536, 4), new ScheduledTask(758, 885, 0), new ScheduledTask(698, 793, 3), new ScheduledTask(874, 937, 2), new ScheduledTask(1024, 1151, 1), new ScheduledTask(826, 858, 3), new ScheduledTask(1028, 1107, 0), new ScheduledTask(937, 1000, 2), new ScheduledTask(1151, 1214, 1), new ScheduledTask(1159, 1207, 0), new ScheduledTask(1214, 1373, 1)};
         int[] expectedProcessorEndTimes = new int[]{1207, 1373, 1000, 858, 536};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random9_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#9_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 140540;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 75, 0), new ScheduledTask(7500, 7594, 0), new ScheduledTask(16900, 17068, 0), new ScheduledTask(8200, 8275, 1), new ScheduledTask(33700, 33868, 0), new ScheduledTask(17900, 17975, 2), new ScheduledTask(34300, 34356, 3), new ScheduledTask(17200, 17294, 1), new ScheduledTask(50500, 50612, 0), new ScheduledTask(29950, 30025, 1), new ScheduledTask(51300, 51337, 3), new ScheduledTask(61700, 61887, 0), new ScheduledTask(29150, 29244, 2), new ScheduledTask(45800, 45950, 2), new ScheduledTask(43750, 43844, 1), new ScheduledTask(73140, 73196, 1), new ScheduledTask(55030, 55142, 1), new ScheduledTask(68300, 68337, 2), new ScheduledTask(80400, 80531, 0), new ScheduledTask(68700, 68737, 1), new ScheduledTask(81300, 81412, 1), new ScheduledTask(73850, 74000, 2), new ScheduledTask(68770, 68938, 3), new ScheduledTask(95640, 95790, 0), new ScheduledTask(96350, 96425, 2), new ScheduledTask(103270, 103326, 1), new ScheduledTask(110640, 110752, 0), new ScheduledTask(109990, 110046, 1), new ScheduledTask(116710, 116747, 1), new ScheduledTask(121840, 122027, 0)};
-        int[] expectedProcessorEndTimes = new int[]{122027, 116747, 96425, 68938};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -8401,26 +5101,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_1dot00_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_1.00_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 24400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 3, 0), new ScheduledTask(1300, 1316, 0), new ScheduledTask(300, 310, 0), new ScheduledTask(5200, 5212, 0), new ScheduledTask(2900, 2907, 0), new ScheduledTask(2300, 2307, 1), new ScheduledTask(6400, 6416, 0), new ScheduledTask(3600, 3616, 0), new ScheduledTask(8000, 8014, 0), new ScheduledTask(7500, 7503, 2), new ScheduledTask(12000, 12016, 0), new ScheduledTask(5700, 5717, 3), new ScheduledTask(9300, 9307, 2), new ScheduledTask(9400, 9405, 0), new ScheduledTask(9900, 9905, 0), new ScheduledTask(14000, 14016, 0), new ScheduledTask(10400, 10416, 0), new ScheduledTask(10400, 10417, 1), new ScheduledTask(16800, 16809, 0), new ScheduledTask(13600, 13603, 0), new ScheduledTask(17700, 17714, 0), new ScheduledTask(21100, 21109, 0), new ScheduledTask(14200, 14209, 2), new ScheduledTask(15600, 15610, 0), new ScheduledTask(22000, 22012, 0), new ScheduledTask(19100, 19116, 0), new ScheduledTask(19600, 19603, 2), new ScheduledTask(23200, 23209, 0), new ScheduledTask(21400, 21403, 2), new ScheduledTask(24100, 24103, 0)};
-        int[] expectedProcessorEndTimes = new int[]{24103, 10417, 21403, 5717};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_1dot00_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_1.00_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
@@ -8432,26 +5112,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 3, 0), new ScheduledTask(11, 27, 1), new ScheduledTask(3, 13, 0), new ScheduledTask(34, 46, 1), new ScheduledTask(27, 34, 1), new ScheduledTask(13, 20, 0), new ScheduledTask(49, 65, 1), new ScheduledTask(65, 81, 1), new ScheduledTask(20, 34, 0), new ScheduledTask(46, 49, 1), new ScheduledTask(77, 93, 0), new ScheduledTask(88, 105, 1), new ScheduledTask(81, 88, 1), new ScheduledTask(34, 39, 0), new ScheduledTask(56, 61, 0), new ScheduledTask(96, 112, 0), new ScheduledTask(61, 77, 0), new ScheduledTask(39, 56, 0), new ScheduledTask(105, 114, 1), new ScheduledTask(93, 96, 0), new ScheduledTask(122, 136, 0), new ScheduledTask(123, 132, 1), new ScheduledTask(114, 123, 1), new ScheduledTask(112, 122, 0), new ScheduledTask(135, 147, 1), new ScheduledTask(136, 152, 0), new ScheduledTask(132, 135, 1), new ScheduledTask(147, 156, 1), new ScheduledTask(156, 159, 1), new ScheduledTask(159, 162, 1)};
         int[] expectedProcessorEndTimes = new int[]{152, 162};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_1dot00_WeightType_Random2_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_1.00_WeightType_Random#2_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 25200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 3, 0), new ScheduledTask(300, 313, 0), new ScheduledTask(1600, 1616, 0), new ScheduledTask(3200, 3210, 0), new ScheduledTask(2300, 2305, 1), new ScheduledTask(4200, 4216, 0), new ScheduledTask(5800, 5810, 0), new ScheduledTask(5300, 5306, 1), new ScheduledTask(6800, 6814, 0), new ScheduledTask(12000, 12013, 0), new ScheduledTask(8200, 8205, 0), new ScheduledTask(7000, 7014, 2), new ScheduledTask(9300, 9314, 0), new ScheduledTask(8700, 8706, 0), new ScheduledTask(8900, 8906, 1), new ScheduledTask(16800, 16816, 0), new ScheduledTask(14700, 14713, 0), new ScheduledTask(13400, 13413, 0), new ScheduledTask(10700, 10713, 0), new ScheduledTask(11300, 11305, 3), new ScheduledTask(18400, 18413, 0), new ScheduledTask(16000, 16008, 0), new ScheduledTask(14300, 14306, 3), new ScheduledTask(15400, 15403, 2), new ScheduledTask(21000, 21016, 0), new ScheduledTask(19700, 19713, 0), new ScheduledTask(17600, 17608, 2), new ScheduledTask(22600, 22606, 0), new ScheduledTask(23200, 23206, 0), new ScheduledTask(23800, 23814, 0)};
-        int[] expectedProcessorEndTimes = new int[]{23814, 8906, 17608, 14306};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -8481,26 +5141,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_1dot00_WeightType_Random3_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_1.00_WeightType_Random#3_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 25800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 13, 0), new ScheduledTask(1300, 1310, 0), new ScheduledTask(2300, 2304, 0), new ScheduledTask(4700, 4706, 0), new ScheduledTask(3200, 3204, 1), new ScheduledTask(2700, 2710, 0), new ScheduledTask(7900, 7919, 0), new ScheduledTask(6600, 6613, 0), new ScheduledTask(3700, 3710, 0), new ScheduledTask(5300, 5313, 0), new ScheduledTask(10900, 10913, 0), new ScheduledTask(8100, 8106, 2), new ScheduledTask(5500, 5515, 3), new ScheduledTask(9800, 9811, 0), new ScheduledTask(7400, 7404, 1), new ScheduledTask(13500, 13513, 0), new ScheduledTask(12800, 12804, 2), new ScheduledTask(15000, 15010, 0), new ScheduledTask(12200, 12213, 0), new ScheduledTask(17100, 17117, 0), new ScheduledTask(14500, 14504, 3), new ScheduledTask(16000, 16011, 0), new ScheduledTask(17000, 17008, 3), new ScheduledTask(15200, 15204, 2), new ScheduledTask(19400, 19413, 0), new ScheduledTask(22600, 22610, 0), new ScheduledTask(18800, 18806, 0), new ScheduledTask(20700, 20719, 0), new ScheduledTask(23600, 23611, 0), new ScheduledTask(24700, 24711, 0)};
-        int[] expectedProcessorEndTimes = new int[]{24711, 7404, 15204, 17008};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_1dot00_WeightType_Random3_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_1.00_WeightType_Random#3_Homogeneous-2.dot");
         int processorCount = 2;
@@ -8512,26 +5152,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 13, 0), new ScheduledTask(16, 26, 1), new ScheduledTask(13, 17, 0), new ScheduledTask(30, 36, 1), new ScheduledTask(26, 30, 1), new ScheduledTask(17, 27, 0), new ScheduledTask(52, 71, 0), new ScheduledTask(58, 71, 1), new ScheduledTask(27, 37, 0), new ScheduledTask(36, 49, 1), new ScheduledTask(77, 90, 1), new ScheduledTask(71, 77, 1), new ScheduledTask(37, 52, 0), new ScheduledTask(71, 82, 0), new ScheduledTask(49, 53, 1), new ScheduledTask(94, 107, 1), new ScheduledTask(90, 94, 1), new ScheduledTask(95, 105, 0), new ScheduledTask(82, 95, 0), new ScheduledTask(111, 128, 1), new ScheduledTask(54, 58, 1), new ScheduledTask(105, 116, 0), new ScheduledTask(129, 137, 0), new ScheduledTask(107, 111, 1), new ScheduledTask(116, 129, 0), new ScheduledTask(137, 147, 0), new ScheduledTask(128, 134, 1), new ScheduledTask(134, 153, 1), new ScheduledTask(147, 158, 0), new ScheduledTask(158, 169, 0)};
         int[] expectedProcessorEndTimes = new int[]{169, 153};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_1dot00_WeightType_Random4_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_1.00_WeightType_Random#4_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 22800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 11, 0), new ScheduledTask(1100, 1116, 0), new ScheduledTask(3200, 3205, 0), new ScheduledTask(2700, 2705, 0), new ScheduledTask(5700, 5703, 0), new ScheduledTask(7500, 7510, 0), new ScheduledTask(3700, 3707, 0), new ScheduledTask(3500, 3508, 1), new ScheduledTask(8600, 8616, 0), new ScheduledTask(6000, 6015, 0), new ScheduledTask(4400, 4413, 0), new ScheduledTask(10200, 10205, 0), new ScheduledTask(9000, 9007, 1), new ScheduledTask(12300, 12316, 0), new ScheduledTask(7700, 7708, 2), new ScheduledTask(6200, 6208, 3), new ScheduledTask(10700, 10716, 0), new ScheduledTask(13900, 13911, 0), new ScheduledTask(13200, 13203, 1), new ScheduledTask(12500, 12508, 2), new ScheduledTask(16200, 16208, 0), new ScheduledTask(15400, 15408, 0), new ScheduledTask(14200, 14210, 3), new ScheduledTask(17800, 17808, 0), new ScheduledTask(17000, 17008, 0), new ScheduledTask(20500, 20503, 0), new ScheduledTask(18600, 18607, 0), new ScheduledTask(20800, 20813, 0), new ScheduledTask(19300, 19311, 0), new ScheduledTask(22100, 22107, 0)};
-        int[] expectedProcessorEndTimes = new int[]{22107, 13203, 12508, 14210};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -8561,66 +5181,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_1dot00_WeightType_Random5_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_1.00_WeightType_Random#5_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 27200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 16, 0), new ScheduledTask(2300, 2315, 0), new ScheduledTask(1600, 1607, 0), new ScheduledTask(2500, 2508, 1), new ScheduledTask(5300, 5307, 0), new ScheduledTask(3800, 3805, 0), new ScheduledTask(8100, 8116, 0), new ScheduledTask(9700, 9711, 0), new ScheduledTask(6000, 6008, 0), new ScheduledTask(4300, 4310, 0), new ScheduledTask(6800, 6813, 0), new ScheduledTask(11900, 11915, 0), new ScheduledTask(10800, 10811, 0), new ScheduledTask(5600, 5607, 2), new ScheduledTask(10400, 10411, 3), new ScheduledTask(9800, 9808, 2), new ScheduledTask(13900, 13915, 0), new ScheduledTask(17300, 17315, 0), new ScheduledTask(10600, 10605, 1), new ScheduledTask(13400, 13405, 0), new ScheduledTask(15600, 15615, 0), new ScheduledTask(14600, 14613, 2), new ScheduledTask(18800, 18813, 0), new ScheduledTask(16300, 16305, 1), new ScheduledTask(23700, 23713, 0), new ScheduledTask(21400, 21415, 0), new ScheduledTask(20100, 20113, 0), new ScheduledTask(25000, 25011, 0), new ScheduledTask(22900, 22908, 0), new ScheduledTask(26100, 26111, 0)};
-        int[] expectedProcessorEndTimes = new int[]{26111, 16305, 14613, 10411};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_1dot00_WeightType_Random6_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_1.00_WeightType_Random#6_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 26500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 4, 0), new ScheduledTask(2000, 2007, 0), new ScheduledTask(400, 404, 0), new ScheduledTask(4500, 4518, 0), new ScheduledTask(2700, 2718, 0), new ScheduledTask(800, 812, 0), new ScheduledTask(9100, 9116, 0), new ScheduledTask(6300, 6312, 0), new ScheduledTask(6500, 6504, 1), new ScheduledTask(2300, 2311, 2), new ScheduledTask(11800, 11812, 0), new ScheduledTask(7500, 7516, 0), new ScheduledTask(8900, 8909, 1), new ScheduledTask(10700, 10711, 0), new ScheduledTask(16500, 16518, 0), new ScheduledTask(14900, 14916, 0), new ScheduledTask(10100, 10114, 3), new ScheduledTask(8900, 8905, 2), new ScheduledTask(13000, 13014, 0), new ScheduledTask(12700, 12714, 2), new ScheduledTask(20100, 20112, 0), new ScheduledTask(18300, 18318, 0), new ScheduledTask(18500, 18507, 3), new ScheduledTask(21700, 21704, 0), new ScheduledTask(23700, 23712, 0), new ScheduledTask(22100, 22112, 0), new ScheduledTask(21300, 21304, 0), new ScheduledTask(24900, 24911, 0), new ScheduledTask(23300, 23304, 0), new ScheduledTask(26000, 26005, 0)};
-        int[] expectedProcessorEndTimes = new int[]{26005, 8909, 12714, 18507};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_1dot00_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_1.00_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 21900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(2900, 2914, 0), new ScheduledTask(600, 614, 0), new ScheduledTask(5900, 5912, 0), new ScheduledTask(4300, 4316, 0), new ScheduledTask(2000, 2009, 0), new ScheduledTask(9400, 9416, 0), new ScheduledTask(7100, 7111, 0), new ScheduledTask(6300, 6309, 1), new ScheduledTask(12100, 12114, 0), new ScheduledTask(8200, 8212, 0), new ScheduledTask(3500, 3509, 2), new ScheduledTask(11000, 11005, 0), new ScheduledTask(13500, 13505, 0), new ScheduledTask(9300, 9311, 3), new ScheduledTask(11700, 11705, 1), new ScheduledTask(11500, 11506, 0), new ScheduledTask(9900, 9908, 2), new ScheduledTask(14000, 14012, 0), new ScheduledTask(18400, 18416, 0), new ScheduledTask(15800, 15814, 0), new ScheduledTask(15200, 15203, 0), new ScheduledTask(17200, 17212, 0), new ScheduledTask(20000, 20005, 0), new ScheduledTask(15500, 15503, 0), new ScheduledTask(16200, 16205, 3), new ScheduledTask(20500, 20505, 0), new ScheduledTask(21000, 21003, 0), new ScheduledTask(19400, 19403, 3), new ScheduledTask(21400, 21405, 0)};
-        int[] expectedProcessorEndTimes = new int[]{21405, 11705, 9908, 19403};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -8632,126 +5192,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(11, 25, 1), new ScheduledTask(6, 20, 0), new ScheduledTask(25, 37, 1), new ScheduledTask(38, 54, 0), new ScheduledTask(20, 29, 0), new ScheduledTask(54, 70, 0), new ScheduledTask(37, 48, 1), new ScheduledTask(60, 69, 1), new ScheduledTask(79, 93, 1), new ScheduledTask(48, 60, 1), new ScheduledTask(29, 38, 0), new ScheduledTask(74, 79, 1), new ScheduledTask(96, 101, 1), new ScheduledTask(78, 89, 0), new ScheduledTask(69, 74, 1), new ScheduledTask(89, 95, 0), new ScheduledTask(70, 78, 0), new ScheduledTask(104, 116, 1), new ScheduledTask(109, 125, 0), new ScheduledTask(95, 109, 0), new ScheduledTask(93, 96, 1), new ScheduledTask(121, 133, 1), new ScheduledTask(125, 130, 0), new ScheduledTask(101, 104, 1), new ScheduledTask(116, 121, 1), new ScheduledTask(130, 135, 0), new ScheduledTask(135, 138, 0), new ScheduledTask(133, 136, 1), new ScheduledTask(138, 143, 0)};
         int[] expectedProcessorEndTimes = new int[]{143, 136};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_1dot01_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_1.01_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 23000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 14, 0), new ScheduledTask(2300, 2303, 0), new ScheduledTask(1400, 1409, 0), new ScheduledTask(4000, 4011, 0), new ScheduledTask(2600, 2614, 0), new ScheduledTask(2700, 2704, 1), new ScheduledTask(5100, 5111, 0), new ScheduledTask(7600, 7611, 0), new ScheduledTask(5400, 5406, 2), new ScheduledTask(5700, 5704, 3), new ScheduledTask(6200, 6214, 0), new ScheduledTask(9800, 9810, 0), new ScheduledTask(8700, 8711, 0), new ScheduledTask(12100, 12114, 0), new ScheduledTask(9800, 9803, 3), new ScheduledTask(10800, 10813, 0), new ScheduledTask(13500, 13510, 0), new ScheduledTask(11300, 11304, 2), new ScheduledTask(11600, 11606, 3), new ScheduledTask(8200, 8210, 1), new ScheduledTask(16600, 16614, 0), new ScheduledTask(14500, 14510, 0), new ScheduledTask(15500, 15511, 0), new ScheduledTask(14200, 14207, 1), new ScheduledTask(18900, 18914, 0), new ScheduledTask(18400, 18403, 1), new ScheduledTask(18000, 18009, 0), new ScheduledTask(21100, 21110, 0), new ScheduledTask(20300, 20306, 0), new ScheduledTask(22100, 22109, 0)};
-        int[] expectedProcessorEndTimes = new int[]{22109, 18403, 11304, 11606};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_10dot00_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.00_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 2;
-        int expectedScheduleEndTime = 15900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 2, 0), new ScheduledTask(1800, 1806, 0), new ScheduledTask(4600, 4609, 0), new ScheduledTask(200, 204, 0), new ScheduledTask(2400, 2408, 0), new ScheduledTask(600, 606, 0), new ScheduledTask(7400, 7407, 0), new ScheduledTask(5500, 5510, 0), new ScheduledTask(3200, 3206, 0), new ScheduledTask(1200, 1206, 0), new ScheduledTask(3800, 3808, 0), new ScheduledTask(8800, 8807, 0), new ScheduledTask(6500, 6502, 0), new ScheduledTask(8100, 8105, 0), new ScheduledTask(6700, 6707, 0), new ScheduledTask(10800, 10810, 0), new ScheduledTask(9500, 9504, 0), new ScheduledTask(13700, 13702, 0), new ScheduledTask(11800, 11810, 0), new ScheduledTask(5600, 5604, 1), new ScheduledTask(8000, 8008, 1), new ScheduledTask(8600, 8602, 0), new ScheduledTask(9900, 9909, 0), new ScheduledTask(14700, 14702, 0), new ScheduledTask(13900, 13904, 0), new ScheduledTask(12800, 12809, 0), new ScheduledTask(14900, 14905, 0), new ScheduledTask(15400, 15402, 0), new ScheduledTask(14300, 14304, 0), new ScheduledTask(15600, 15603, 0)};
-        int[] expectedProcessorEndTimes = new int[]{15603, 8008};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_10dot00_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.00_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 15200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 2, 0), new ScheduledTask(1800, 1806, 0), new ScheduledTask(2400, 2409, 0), new ScheduledTask(200, 204, 0), new ScheduledTask(4000, 4008, 0), new ScheduledTask(600, 606, 0), new ScheduledTask(3300, 3307, 0), new ScheduledTask(6200, 6210, 0), new ScheduledTask(4800, 4806, 0), new ScheduledTask(1200, 1206, 0), new ScheduledTask(5400, 5408, 0), new ScheduledTask(8100, 8107, 0), new ScheduledTask(7200, 7202, 0), new ScheduledTask(6700, 6705, 1), new ScheduledTask(7400, 7407, 0), new ScheduledTask(8800, 8810, 0), new ScheduledTask(10000, 10004, 0), new ScheduledTask(9800, 9802, 0), new ScheduledTask(11300, 11310, 0), new ScheduledTask(5600, 5604, 2), new ScheduledTask(9500, 9508, 3), new ScheduledTask(7700, 7702, 1), new ScheduledTask(10400, 10409, 0), new ScheduledTask(14000, 14002, 0), new ScheduledTask(13200, 13204, 0), new ScheduledTask(12300, 12309, 0), new ScheduledTask(14200, 14205, 0), new ScheduledTask(14700, 14702, 0), new ScheduledTask(13600, 13604, 0), new ScheduledTask(14900, 14903, 0)};
-        int[] expectedProcessorEndTimes = new int[]{14903, 7702, 5604, 9508};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_10dot01_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.01_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 2;
-        int expectedScheduleEndTime = 15700;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(900, 909, 0), new ScheduledTask(2700, 2710, 0), new ScheduledTask(5300, 5304, 0), new ScheduledTask(1800, 1802, 0), new ScheduledTask(3700, 3705, 0), new ScheduledTask(6600, 6608, 0), new ScheduledTask(5700, 5703, 0), new ScheduledTask(2000, 2007, 0), new ScheduledTask(4200, 4202, 0), new ScheduledTask(7600, 7604, 0), new ScheduledTask(7400, 7402, 0), new ScheduledTask(6000, 6004, 0), new ScheduledTask(10000, 10009, 0), new ScheduledTask(4400, 4409, 0), new ScheduledTask(4500, 4504, 1), new ScheduledTask(8600, 8610, 0), new ScheduledTask(6400, 6402, 0), new ScheduledTask(8100, 8105, 0), new ScheduledTask(6900, 6907, 1), new ScheduledTask(11200, 11202, 0), new ScheduledTask(9600, 9604, 0), new ScheduledTask(10900, 10903, 0), new ScheduledTask(14100, 14104, 0), new ScheduledTask(14500, 14502, 0), new ScheduledTask(12400, 12408, 0), new ScheduledTask(11400, 11410, 0), new ScheduledTask(13200, 13209, 0), new ScheduledTask(14700, 14704, 0), new ScheduledTask(15100, 15106, 0)};
-        int[] expectedProcessorEndTimes = new int[]{15106, 6907};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_10dot01_WeightType_Random1_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.01_WeightType_Random#1_Heterogeneous-4-2.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 14600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(2600, 2609, 0), new ScheduledTask(900, 910, 0), new ScheduledTask(4400, 4404, 0), new ScheduledTask(3500, 3502, 0), new ScheduledTask(1900, 1905, 0), new ScheduledTask(5500, 5508, 0), new ScheduledTask(4800, 4803, 0), new ScheduledTask(3700, 3707, 0), new ScheduledTask(2400, 2402, 0), new ScheduledTask(6500, 6504, 0), new ScheduledTask(6300, 6302, 0), new ScheduledTask(5100, 5104, 0), new ScheduledTask(7900, 7909, 0), new ScheduledTask(5000, 5009, 1), new ScheduledTask(6200, 6204, 2), new ScheduledTask(6900, 6910, 0), new ScheduledTask(9800, 9802, 0), new ScheduledTask(8400, 8405, 2), new ScheduledTask(7000, 7007, 2), new ScheduledTask(8800, 8802, 0), new ScheduledTask(11300, 11304, 0), new ScheduledTask(10000, 10003, 0), new ScheduledTask(9400, 9404, 2), new ScheduledTask(13400, 13402, 0), new ScheduledTask(11700, 11708, 0), new ScheduledTask(10300, 10310, 0), new ScheduledTask(12500, 12509, 0), new ScheduledTask(13600, 13604, 0), new ScheduledTask(14000, 14006, 0)};
-        int[] expectedProcessorEndTimes = new int[]{14006, 5009, 9404};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_10dot01_WeightType_Random1_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.01_WeightType_Random#1_Heterogeneous-4-4.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 13880;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(2600, 2609, 0), new ScheduledTask(900, 910, 0), new ScheduledTask(4400, 4404, 0), new ScheduledTask(3500, 3502, 0), new ScheduledTask(1900, 1905, 0), new ScheduledTask(5500, 5508, 0), new ScheduledTask(4800, 4803, 0), new ScheduledTask(3700, 3707, 0), new ScheduledTask(2400, 2402, 0), new ScheduledTask(6500, 6504, 0), new ScheduledTask(6300, 6302, 0), new ScheduledTask(5100, 5104, 0), new ScheduledTask(7900, 7909, 0), new ScheduledTask(5000, 5009, 1), new ScheduledTask(6200, 6204, 2), new ScheduledTask(6900, 6910, 0), new ScheduledTask(9080, 9082, 0), new ScheduledTask(8300, 8305, 2), new ScheduledTask(6800, 6807, 2), new ScheduledTask(8800, 8802, 0), new ScheduledTask(10580, 10584, 0), new ScheduledTask(9280, 9283, 0), new ScheduledTask(9050, 9054, 2), new ScheduledTask(12680, 12682, 0), new ScheduledTask(10980, 10988, 0), new ScheduledTask(9580, 9590, 0), new ScheduledTask(11780, 11789, 0), new ScheduledTask(12880, 12884, 0), new ScheduledTask(13280, 13286, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13286, 5009, 9054};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -8821,146 +5261,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_10dot01_WeightType_Random2_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.01_WeightType_Random#2_Heterogeneous-4-2-strong.dot");
-        int processorCount = 2;
-        int expectedScheduleEndTime = 16400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(500, 509, 0), new ScheduledTask(2400, 2408, 0), new ScheduledTask(1400, 1404, 0), new ScheduledTask(5500, 5505, 0), new ScheduledTask(3200, 3210, 0), new ScheduledTask(7700, 7703, 0), new ScheduledTask(4200, 4209, 0), new ScheduledTask(1800, 1806, 0), new ScheduledTask(6000, 6004, 0), new ScheduledTask(9200, 9203, 0), new ScheduledTask(8000, 8002, 0), new ScheduledTask(4200, 4208, 1), new ScheduledTask(6400, 6408, 0), new ScheduledTask(9500, 9507, 0), new ScheduledTask(5100, 5104, 0), new ScheduledTask(12200, 12202, 0), new ScheduledTask(7200, 7205, 0), new ScheduledTask(14000, 14008, 0), new ScheduledTask(8200, 8202, 0), new ScheduledTask(8400, 8408, 0), new ScheduledTask(12400, 12402, 0), new ScheduledTask(10200, 10210, 0), new ScheduledTask(14800, 14803, 0), new ScheduledTask(15100, 15104, 0), new ScheduledTask(11200, 11210, 0), new ScheduledTask(12600, 12610, 0), new ScheduledTask(15500, 15506, 0), new ScheduledTask(13600, 13604, 0), new ScheduledTask(16100, 16103, 0)};
-        int[] expectedProcessorEndTimes = new int[]{16103, 4208};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_10dot01_WeightType_Random2_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.01_WeightType_Random#2_Heterogeneous-4-2.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 15200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(500, 509, 0), new ScheduledTask(2400, 2408, 0), new ScheduledTask(1400, 1404, 0), new ScheduledTask(5100, 5105, 0), new ScheduledTask(3200, 3210, 0), new ScheduledTask(6800, 6803, 0), new ScheduledTask(4200, 4209, 0), new ScheduledTask(1800, 1806, 0), new ScheduledTask(5600, 5604, 0), new ScheduledTask(7500, 7503, 0), new ScheduledTask(7100, 7102, 0), new ScheduledTask(4200, 4208, 1), new ScheduledTask(6000, 6008, 0), new ScheduledTask(8000, 8007, 0), new ScheduledTask(8700, 8704, 2), new ScheduledTask(7800, 7802, 0), new ScheduledTask(10900, 10905, 0), new ScheduledTask(5800, 5808, 1), new ScheduledTask(7300, 7302, 0), new ScheduledTask(11400, 11408, 0), new ScheduledTask(9700, 9702, 0), new ScheduledTask(8700, 8710, 0), new ScheduledTask(13600, 13603, 0), new ScheduledTask(13900, 13904, 0), new ScheduledTask(12200, 12210, 0), new ScheduledTask(9900, 9910, 0), new ScheduledTask(14300, 14306, 0), new ScheduledTask(13200, 13204, 0), new ScheduledTask(14900, 14903, 0)};
-        int[] expectedProcessorEndTimes = new int[]{14903, 5808, 8704};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_10dot01_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.01_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 17600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 0), new ScheduledTask(800, 806, 0), new ScheduledTask(3000, 3005, 0), new ScheduledTask(1400, 1407, 0), new ScheduledTask(5000, 5010, 0), new ScheduledTask(3500, 3502, 0), new ScheduledTask(2100, 2109, 0), new ScheduledTask(6900, 6902, 0), new ScheduledTask(6000, 6009, 0), new ScheduledTask(3700, 3708, 0), new ScheduledTask(7100, 7108, 0), new ScheduledTask(8900, 8905, 0), new ScheduledTask(7900, 7910, 0), new ScheduledTask(10400, 10409, 0), new ScheduledTask(4500, 4505, 0), new ScheduledTask(4300, 4306, 1), new ScheduledTask(9400, 9410, 0), new ScheduledTask(12100, 12107, 0), new ScheduledTask(10500, 10505, 2), new ScheduledTask(11300, 11308, 0), new ScheduledTask(15000, 15004, 0), new ScheduledTask(7900, 7902, 1), new ScheduledTask(13400, 13405, 0), new ScheduledTask(15400, 15408, 0), new ScheduledTask(12800, 12806, 0), new ScheduledTask(14500, 14503, 0), new ScheduledTask(13900, 13906, 0), new ScheduledTask(16200, 16208, 0), new ScheduledTask(14800, 14802, 0), new ScheduledTask(17000, 17006, 0)};
-        int[] expectedProcessorEndTimes = new int[]{17006, 7902, 10505};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_10dot01_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.01_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 16500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 0), new ScheduledTask(2300, 2306, 0), new ScheduledTask(800, 805, 0), new ScheduledTask(3900, 3907, 0), new ScheduledTask(2900, 2910, 0), new ScheduledTask(1300, 1302, 0), new ScheduledTask(4600, 4609, 0), new ScheduledTask(7400, 7402, 0), new ScheduledTask(5500, 5509, 0), new ScheduledTask(1500, 1508, 0), new ScheduledTask(9100, 9108, 0), new ScheduledTask(7600, 7605, 0), new ScheduledTask(6400, 6410, 0), new ScheduledTask(9900, 9909, 0), new ScheduledTask(7400, 7405, 1), new ScheduledTask(6800, 6806, 2), new ScheduledTask(8100, 8110, 0), new ScheduledTask(8700, 8707, 2), new ScheduledTask(11600, 11605, 0), new ScheduledTask(10800, 10808, 0), new ScheduledTask(12900, 12904, 0), new ScheduledTask(8000, 8002, 2), new ScheduledTask(12100, 12105, 0), new ScheduledTask(13300, 13308, 0), new ScheduledTask(10100, 10106, 2), new ScheduledTask(12600, 12603, 0), new ScheduledTask(15100, 15106, 0), new ScheduledTask(14100, 14108, 0), new ScheduledTask(15700, 15702, 0), new ScheduledTask(15900, 15906, 0)};
-        int[] expectedProcessorEndTimes = new int[]{15906, 7405, 10106};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_10dot03_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.03_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 18000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 4, 0), new ScheduledTask(3500, 3505, 0), new ScheduledTask(400, 404, 0), new ScheduledTask(5200, 5209, 0), new ScheduledTask(4000, 4006, 0), new ScheduledTask(800, 807, 0), new ScheduledTask(6300, 6305, 0), new ScheduledTask(4600, 4606, 0), new ScheduledTask(6100, 6102, 0), new ScheduledTask(1500, 1507, 0), new ScheduledTask(6800, 6803, 0), new ScheduledTask(9800, 9807, 0), new ScheduledTask(7500, 7510, 0), new ScheduledTask(2200, 2205, 0), new ScheduledTask(8500, 8510, 0), new ScheduledTask(10500, 10510, 0), new ScheduledTask(8000, 8004, 1), new ScheduledTask(12500, 12507, 0), new ScheduledTask(7100, 7104, 0), new ScheduledTask(2700, 2708, 0), new ScheduledTask(9500, 9503, 0), new ScheduledTask(11500, 11502, 0), new ScheduledTask(13200, 13210, 0), new ScheduledTask(11700, 11708, 0), new ScheduledTask(10400, 10406, 2), new ScheduledTask(14200, 14207, 0), new ScheduledTask(15400, 15410, 0), new ScheduledTask(16400, 16406, 0), new ScheduledTask(14900, 14902, 0), new ScheduledTask(17000, 17010, 0)};
-        int[] expectedProcessorEndTimes = new int[]{17010, 8004, 10406};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_10dot03_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.03_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 2;
-        int expectedScheduleEndTime = 16700;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 4, 0), new ScheduledTask(2700, 2705, 0), new ScheduledTask(400, 404, 0), new ScheduledTask(3800, 3809, 0), new ScheduledTask(3200, 3206, 0), new ScheduledTask(800, 807, 0), new ScheduledTask(4900, 4905, 0), new ScheduledTask(8400, 8406, 0), new ScheduledTask(4700, 4702, 0), new ScheduledTask(1500, 1507, 0), new ScheduledTask(6400, 6403, 0), new ScheduledTask(9400, 9407, 0), new ScheduledTask(5400, 5410, 0), new ScheduledTask(2200, 2205, 0), new ScheduledTask(7100, 7110, 0), new ScheduledTask(10800, 10810, 0), new ScheduledTask(9000, 9004, 0), new ScheduledTask(10100, 10107, 0), new ScheduledTask(6700, 6704, 0), new ScheduledTask(8900, 8908, 1), new ScheduledTask(8100, 8103, 0), new ScheduledTask(12800, 12802, 0), new ScheduledTask(11800, 11810, 0), new ScheduledTask(13700, 13708, 0), new ScheduledTask(10500, 10506, 1), new ScheduledTask(13000, 13007, 0), new ScheduledTask(11700, 11710, 1), new ScheduledTask(15100, 15106, 0), new ScheduledTask(14500, 14502, 0), new ScheduledTask(15700, 15710, 0)};
-        int[] expectedProcessorEndTimes = new int[]{15710, 11710};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_10dot03_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.03_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 2;
-        int expectedScheduleEndTime = 15380;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 4, 0), new ScheduledTask(800, 805, 0), new ScheduledTask(400, 404, 0), new ScheduledTask(2500, 2509, 0), new ScheduledTask(1300, 1306, 0), new ScheduledTask(4000, 4007, 0), new ScheduledTask(5400, 5405, 0), new ScheduledTask(1900, 1906, 0), new ScheduledTask(3400, 3402, 0), new ScheduledTask(4700, 4707, 0), new ScheduledTask(7400, 7403, 0), new ScheduledTask(7100, 7107, 1), new ScheduledTask(5900, 5910, 0), new ScheduledTask(6900, 6905, 0), new ScheduledTask(7700, 7710, 0), new ScheduledTask(8780, 8790, 1), new ScheduledTask(3600, 3604, 0), new ScheduledTask(7940, 7947, 1), new ScheduledTask(8700, 8704, 0), new ScheduledTask(9400, 9408, 0), new ScheduledTask(9100, 9103, 0), new ScheduledTask(11180, 11182, 1), new ScheduledTask(9980, 9990, 1), new ScheduledTask(12260, 12268, 1), new ScheduledTask(10200, 10206, 0), new ScheduledTask(11420, 11427, 1), new ScheduledTask(10800, 10810, 0), new ScheduledTask(13460, 13466, 1), new ScheduledTask(13220, 13222, 1), new ScheduledTask(14180, 14190, 1)};
-        int[] expectedProcessorEndTimes = new int[]{10810, 14190};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_10dot03_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.03_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -9012,246 +5312,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 4, 0), new ScheduledTask(4, 9, 0), new ScheduledTask(15, 19, 0), new ScheduledTask(26, 35, 0), new ScheduledTask(9, 15, 0), new ScheduledTask(19, 26, 0), new ScheduledTask(49, 54, 0), new ScheduledTask(63, 69, 1), new ScheduledTask(35, 37, 0), new ScheduledTask(37, 44, 0), new ScheduledTask(64, 67, 0), new ScheduledTask(73, 80, 1), new ScheduledTask(54, 64, 0), new ScheduledTask(44, 49, 0), new ScheduledTask(71, 81, 0), new ScheduledTask(87, 97, 1), new ScheduledTask(69, 73, 1), new ScheduledTask(80, 87, 1), new ScheduledTask(67, 71, 0), new ScheduledTask(84, 92, 0), new ScheduledTask(81, 84, 0), new ScheduledTask(107, 109, 1), new ScheduledTask(97, 107, 1), new ScheduledTask(116, 124, 1), new ScheduledTask(92, 98, 0), new ScheduledTask(109, 116, 1), new ScheduledTask(98, 108, 0), new ScheduledTask(126, 132, 1), new ScheduledTask(124, 126, 1), new ScheduledTask(132, 142, 1)};
         int[] expectedProcessorEndTimes = new int[]{108, 142};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_10dot05_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.05_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 2;
-        int expectedScheduleEndTime = 15800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(600, 605, 0), new ScheduledTask(1400, 1408, 0), new ScheduledTask(2200, 2208, 0), new ScheduledTask(3600, 3607, 0), new ScheduledTask(1100, 1103, 0), new ScheduledTask(5200, 5205, 0), new ScheduledTask(4300, 4302, 0), new ScheduledTask(3000, 3006, 0), new ScheduledTask(6600, 6610, 0), new ScheduledTask(4500, 4504, 0), new ScheduledTask(5700, 5709, 0), new ScheduledTask(8100, 8108, 0), new ScheduledTask(7600, 7605, 0), new ScheduledTask(6000, 6002, 1), new ScheduledTask(7600, 7602, 1), new ScheduledTask(10200, 10209, 0), new ScheduledTask(11100, 11109, 0), new ScheduledTask(8800, 8802, 1), new ScheduledTask(9400, 9404, 0), new ScheduledTask(4900, 4903, 0), new ScheduledTask(10000, 10003, 1), new ScheduledTask(12000, 12009, 0), new ScheduledTask(13100, 13102, 0), new ScheduledTask(13300, 13309, 0), new ScheduledTask(8900, 8905, 0), new ScheduledTask(9800, 9804, 0), new ScheduledTask(14200, 14210, 0), new ScheduledTask(12900, 12902, 0), new ScheduledTask(15200, 15206, 0)};
-        int[] expectedProcessorEndTimes = new int[]{15206, 10003};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_10dot05_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.05_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 14900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(600, 605, 0), new ScheduledTask(1100, 1108, 0), new ScheduledTask(2600, 2608, 0), new ScheduledTask(1900, 1907, 0), new ScheduledTask(4000, 4003, 1), new ScheduledTask(4300, 4305, 0), new ScheduledTask(3400, 3402, 0), new ScheduledTask(4600, 4606, 1), new ScheduledTask(4800, 4810, 0), new ScheduledTask(3600, 3604, 0), new ScheduledTask(7500, 7509, 0), new ScheduledTask(5800, 5808, 0), new ScheduledTask(8400, 8405, 0), new ScheduledTask(5800, 5802, 1), new ScheduledTask(6600, 6602, 1), new ScheduledTask(9300, 9309, 0), new ScheduledTask(10400, 10409, 0), new ScheduledTask(6200, 6202, 1), new ScheduledTask(8900, 8904, 0), new ScheduledTask(4000, 4003, 0), new ScheduledTask(7000, 7003, 1), new ScheduledTask(12200, 12209, 0), new ScheduledTask(10200, 10202, 0), new ScheduledTask(11300, 11309, 0), new ScheduledTask(6600, 6605, 0), new ScheduledTask(10500, 10504, 2), new ScheduledTask(13100, 13110, 0), new ScheduledTask(14100, 14102, 0), new ScheduledTask(14300, 14306, 0)};
-        int[] expectedProcessorEndTimes = new int[]{14306, 7003, 10504};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_10dot05_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.05_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 14480;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(600, 605, 0), new ScheduledTask(1100, 1108, 0), new ScheduledTask(1900, 1908, 0), new ScheduledTask(2700, 2707, 0), new ScheduledTask(4000, 4003, 1), new ScheduledTask(4000, 4005, 0), new ScheduledTask(3400, 3402, 0), new ScheduledTask(4360, 4366, 1), new ScheduledTask(4500, 4510, 0), new ScheduledTask(3600, 3604, 0), new ScheduledTask(6780, 6789, 0), new ScheduledTask(5500, 5508, 0), new ScheduledTask(8580, 8585, 0), new ScheduledTask(5080, 5082, 1), new ScheduledTask(5560, 5562, 1), new ScheduledTask(7680, 7689, 0), new ScheduledTask(9480, 9489, 0), new ScheduledTask(5320, 5322, 1), new ScheduledTask(9080, 9084, 0), new ScheduledTask(6900, 6903, 1), new ScheduledTask(5800, 5803, 1), new ScheduledTask(10380, 10389, 0), new ScheduledTask(10280, 10282, 2), new ScheduledTask(11780, 11789, 0), new ScheduledTask(10300, 10305, 1), new ScheduledTask(10900, 10904, 1), new ScheduledTask(12680, 12690, 0), new ScheduledTask(13680, 13682, 0), new ScheduledTask(13880, 13886, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13886, 10904, 10282};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_9dot97_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_9.97_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 2;
-        int expectedScheduleEndTime = 17400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 0), new ScheduledTask(2200, 2203, 0), new ScheduledTask(800, 802, 0), new ScheduledTask(1000, 1010, 0), new ScheduledTask(5000, 5006, 0), new ScheduledTask(2500, 2502, 0), new ScheduledTask(2700, 2707, 0), new ScheduledTask(7600, 7608, 0), new ScheduledTask(5600, 5603, 0), new ScheduledTask(2000, 2002, 0), new ScheduledTask(3400, 3406, 0), new ScheduledTask(10800, 10810, 0), new ScheduledTask(8400, 8410, 0), new ScheduledTask(5900, 5908, 0), new ScheduledTask(6500, 6509, 1), new ScheduledTask(4000, 4010, 0), new ScheduledTask(6700, 6702, 0), new ScheduledTask(13900, 13902, 0), new ScheduledTask(9400, 9402, 0), new ScheduledTask(11800, 11803, 0), new ScheduledTask(6900, 6907, 0), new ScheduledTask(14100, 14110, 0), new ScheduledTask(9600, 9608, 0), new ScheduledTask(12100, 12104, 0), new ScheduledTask(15100, 15108, 0), new ScheduledTask(10400, 10404, 0), new ScheduledTask(12500, 12510, 0), new ScheduledTask(15900, 15909, 0), new ScheduledTask(13500, 13504, 0), new ScheduledTask(16800, 16806, 0)};
-        int[] expectedProcessorEndTimes = new int[]{16806, 6509};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_9dot97_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_9.97_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 2;
-        int expectedScheduleEndTime = 16000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 0), new ScheduledTask(800, 803, 0), new ScheduledTask(1300, 1302, 0), new ScheduledTask(2400, 2410, 0), new ScheduledTask(1500, 1506, 0), new ScheduledTask(1100, 1102, 0), new ScheduledTask(2500, 2507, 1), new ScheduledTask(4500, 4508, 0), new ScheduledTask(2100, 2103, 0), new ScheduledTask(3400, 3402, 0), new ScheduledTask(3900, 3906, 1), new ScheduledTask(6300, 6310, 0), new ScheduledTask(5300, 5310, 0), new ScheduledTask(6100, 6108, 1), new ScheduledTask(3600, 3609, 0), new ScheduledTask(8800, 8810, 0), new ScheduledTask(7700, 7702, 1), new ScheduledTask(7600, 7602, 0), new ScheduledTask(9800, 9802, 0), new ScheduledTask(7300, 7303, 0), new ScheduledTask(13900, 13907, 0), new ScheduledTask(7800, 7810, 0), new ScheduledTask(11200, 11208, 0), new ScheduledTask(10000, 10004, 0), new ScheduledTask(10400, 10408, 0), new ScheduledTask(14600, 14604, 0), new ScheduledTask(12000, 12010, 0), new ScheduledTask(13000, 13009, 0), new ScheduledTask(15000, 15004, 0), new ScheduledTask(15400, 15406, 0)};
-        int[] expectedProcessorEndTimes = new int[]{15406, 7702};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_9dot98_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_9.98_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 18200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(3800, 3806, 0), new ScheduledTask(900, 906, 0), new ScheduledTask(1500, 1504, 0), new ScheduledTask(5100, 5110, 0), new ScheduledTask(4400, 4407, 0), new ScheduledTask(1900, 1910, 0), new ScheduledTask(7300, 7309, 0), new ScheduledTask(6100, 6102, 0), new ScheduledTask(2900, 2909, 0), new ScheduledTask(6300, 6308, 0), new ScheduledTask(7100, 7102, 0), new ScheduledTask(9200, 9207, 0), new ScheduledTask(8200, 8208, 0), new ScheduledTask(7600, 7610, 1), new ScheduledTask(10800, 10808, 0), new ScheduledTask(9900, 9902, 0), new ScheduledTask(5100, 5102, 2), new ScheduledTask(15100, 15105, 0), new ScheduledTask(11600, 11610, 0), new ScheduledTask(9000, 9002, 0), new ScheduledTask(13300, 13304, 0), new ScheduledTask(15600, 15610, 0), new ScheduledTask(10100, 10107, 0), new ScheduledTask(13700, 13707, 0), new ScheduledTask(12600, 12607, 0), new ScheduledTask(16600, 16602, 0), new ScheduledTask(14400, 14407, 0), new ScheduledTask(16800, 16808, 0), new ScheduledTask(17600, 17606, 0)};
-        int[] expectedProcessorEndTimes = new int[]{17606, 7610, 5102};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_9dot98_WeightType_Random1_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_9.98_WeightType_Random#1_Heterogeneous-4-2.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 17700;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(2900, 2906, 0), new ScheduledTask(900, 906, 0), new ScheduledTask(1500, 1504, 0), new ScheduledTask(5100, 5110, 0), new ScheduledTask(3500, 3507, 0), new ScheduledTask(1900, 1910, 0), new ScheduledTask(4200, 4209, 0), new ScheduledTask(6100, 6102, 0), new ScheduledTask(7300, 7309, 1), new ScheduledTask(7000, 7008, 0), new ScheduledTask(8800, 8802, 0), new ScheduledTask(6300, 6307, 0), new ScheduledTask(7800, 7808, 0), new ScheduledTask(7600, 7610, 2), new ScheduledTask(9500, 9508, 1), new ScheduledTask(8600, 8602, 0), new ScheduledTask(9100, 9102, 1), new ScheduledTask(10900, 10905, 0), new ScheduledTask(13000, 13010, 0), new ScheduledTask(9000, 9002, 0), new ScheduledTask(11100, 11104, 1), new ScheduledTask(11400, 11410, 0), new ScheduledTask(9200, 9207, 0), new ScheduledTask(15700, 15707, 0), new ScheduledTask(14000, 14007, 0), new ScheduledTask(12400, 12402, 0), new ScheduledTask(16400, 16407, 0), new ScheduledTask(14700, 14708, 0), new ScheduledTask(17100, 17106, 0)};
-        int[] expectedProcessorEndTimes = new int[]{17106, 11104, 7610};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_9dot98_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_9.98_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 2;
-        int expectedScheduleEndTime = 19600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(2400, 2408, 0), new ScheduledTask(900, 909, 0), new ScheduledTask(5700, 5707, 0), new ScheduledTask(3200, 3210, 0), new ScheduledTask(1800, 1806, 0), new ScheduledTask(6600, 6610, 0), new ScheduledTask(4600, 4603, 1), new ScheduledTask(6400, 6402, 0), new ScheduledTask(4200, 4208, 0), new ScheduledTask(13500, 13509, 0), new ScheduledTask(8300, 8307, 0), new ScheduledTask(10600, 10606, 0), new ScheduledTask(7600, 7603, 0), new ScheduledTask(5000, 5007, 0), new ScheduledTask(11200, 11204, 0), new ScheduledTask(16200, 16204, 0), new ScheduledTask(9000, 9007, 0), new ScheduledTask(7900, 7904, 0), new ScheduledTask(14400, 14403, 0), new ScheduledTask(16600, 16602, 0), new ScheduledTask(14700, 14706, 0), new ScheduledTask(9700, 9709, 0), new ScheduledTask(11600, 11610, 0), new ScheduledTask(16800, 16810, 0), new ScheduledTask(12600, 12609, 0), new ScheduledTask(15300, 15307, 0), new ScheduledTask(16000, 16002, 0), new ScheduledTask(17800, 17810, 0), new ScheduledTask(18800, 18808, 0)};
-        int[] expectedProcessorEndTimes = new int[]{18808, 4603};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_9dot98_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_9.98_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 2;
-        int expectedScheduleEndTime = 18300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(2400, 2408, 0), new ScheduledTask(900, 909, 0), new ScheduledTask(5700, 5707, 0), new ScheduledTask(3200, 3210, 0), new ScheduledTask(1800, 1806, 0), new ScheduledTask(6600, 6610, 0), new ScheduledTask(4600, 4603, 1), new ScheduledTask(6400, 6402, 0), new ScheduledTask(4200, 4208, 0), new ScheduledTask(5200, 5209, 1), new ScheduledTask(8900, 8907, 0), new ScheduledTask(8300, 8306, 0), new ScheduledTask(7600, 7603, 0), new ScheduledTask(5000, 5007, 0), new ScheduledTask(11200, 11204, 0), new ScheduledTask(7000, 7004, 1), new ScheduledTask(9600, 9607, 0), new ScheduledTask(7900, 7904, 0), new ScheduledTask(13500, 13503, 0), new ScheduledTask(15300, 15302, 0), new ScheduledTask(13800, 13806, 0), new ScheduledTask(10300, 10309, 0), new ScheduledTask(11600, 11610, 0), new ScheduledTask(15500, 15510, 0), new ScheduledTask(12600, 12609, 0), new ScheduledTask(14400, 14407, 0), new ScheduledTask(15100, 15102, 0), new ScheduledTask(16500, 16510, 0), new ScheduledTask(17500, 17508, 0)};
-        int[] expectedProcessorEndTimes = new int[]{17508, 7004};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_9dot99_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_9.99_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 2;
-        int expectedScheduleEndTime = 18800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(3200, 3209, 0), new ScheduledTask(1000, 1006, 0), new ScheduledTask(5500, 5502, 0), new ScheduledTask(4100, 4109, 0), new ScheduledTask(1600, 1609, 0), new ScheduledTask(7000, 7005, 0), new ScheduledTask(5700, 5705, 0), new ScheduledTask(9200, 9210, 0), new ScheduledTask(5000, 5003, 0), new ScheduledTask(7500, 7508, 0), new ScheduledTask(6200, 6206, 0), new ScheduledTask(2500, 2507, 0), new ScheduledTask(12100, 12105, 0), new ScheduledTask(10200, 10209, 0), new ScheduledTask(5300, 5302, 0), new ScheduledTask(8300, 8309, 0), new ScheduledTask(6800, 6802, 0), new ScheduledTask(13500, 13502, 0), new ScheduledTask(7900, 7910, 1), new ScheduledTask(12600, 12609, 0), new ScheduledTask(15600, 15607, 0), new ScheduledTask(11100, 11110, 0), new ScheduledTask(14100, 14108, 0), new ScheduledTask(13700, 13704, 0), new ScheduledTask(16300, 16305, 0), new ScheduledTask(16800, 16803, 0), new ScheduledTask(14900, 14907, 0), new ScheduledTask(17100, 17107, 0), new ScheduledTask(17800, 17810, 0)};
-        int[] expectedProcessorEndTimes = new int[]{17810, 7910};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_9dot99_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_9.99_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 2;
-        int expectedScheduleEndTime = 17200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(2500, 2509, 0), new ScheduledTask(1000, 1006, 0), new ScheduledTask(4600, 4602, 0), new ScheduledTask(3400, 3409, 0), new ScheduledTask(1600, 1609, 0), new ScheduledTask(5900, 5905, 0), new ScheduledTask(4800, 4805, 0), new ScheduledTask(6400, 6410, 0), new ScheduledTask(4300, 4303, 0), new ScheduledTask(10000, 10008, 0), new ScheduledTask(5300, 5306, 0), new ScheduledTask(5900, 5907, 1), new ScheduledTask(11700, 11705, 0), new ScheduledTask(7400, 7409, 0), new ScheduledTask(8600, 8602, 0), new ScheduledTask(10800, 10809, 0), new ScheduledTask(8800, 8802, 0), new ScheduledTask(13100, 13102, 0), new ScheduledTask(7300, 7310, 1), new ScheduledTask(12200, 12209, 0), new ScheduledTask(10100, 10107, 1), new ScheduledTask(9000, 9010, 0), new ScheduledTask(13700, 13708, 0), new ScheduledTask(13300, 13304, 0), new ScheduledTask(11500, 11505, 1), new ScheduledTask(15200, 15203, 0), new ScheduledTask(14500, 14507, 0), new ScheduledTask(15500, 15507, 0), new ScheduledTask(16200, 16210, 0)};
-        int[] expectedProcessorEndTimes = new int[]{16210, 11505};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalPipeline_Nodes_30_CCR_9dot99_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_9.99_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 16900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(2500, 2509, 0), new ScheduledTask(1000, 1006, 0), new ScheduledTask(4600, 4602, 0), new ScheduledTask(3400, 3409, 0), new ScheduledTask(1600, 1609, 0), new ScheduledTask(5900, 5905, 0), new ScheduledTask(4800, 4805, 0), new ScheduledTask(6400, 6410, 0), new ScheduledTask(4300, 4303, 0), new ScheduledTask(9700, 9708, 0), new ScheduledTask(5300, 5306, 0), new ScheduledTask(5900, 5907, 2), new ScheduledTask(11400, 11405, 0), new ScheduledTask(7400, 7409, 0), new ScheduledTask(8300, 8302, 0), new ScheduledTask(10500, 10509, 0), new ScheduledTask(8500, 8502, 0), new ScheduledTask(12800, 12802, 0), new ScheduledTask(6950, 6960, 2), new ScheduledTask(11900, 11909, 0), new ScheduledTask(9800, 9807, 3), new ScheduledTask(8700, 8710, 0), new ScheduledTask(13400, 13408, 0), new ScheduledTask(13000, 13004, 0), new ScheduledTask(11200, 11205, 3), new ScheduledTask(14900, 14903, 0), new ScheduledTask(14200, 14207, 0), new ScheduledTask(15200, 15207, 0), new ScheduledTask(15900, 15910, 0)};
-        int[] expectedProcessorEndTimes = new int[]{15910, 0, 6960, 11205};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -9721,26 +5781,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_1dot77_CCR_0dot10_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.77_CCR_0.10_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 204400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(27600, 27730, 0), new ScheduledTask(40600, 40697, 0), new ScheduledTask(66500, 66646, 0), new ScheduledTask(4900, 4997, 0), new ScheduledTask(0, 49, 1), new ScheduledTask(19200, 19249, 2), new ScheduledTask(67800, 67946, 3), new ScheduledTask(48600, 48697, 2), new ScheduledTask(87600, 87730, 0), new ScheduledTask(29400, 29546, 1), new ScheduledTask(0, 113, 3), new ScheduledTask(111900, 111949, 0), new ScheduledTask(167100, 167197, 0), new ScheduledTask(100600, 100713, 0), new ScheduledTask(0, 32, 2), new ScheduledTask(117300, 117332, 1), new ScheduledTask(124900, 125030, 0), new ScheduledTask(137900, 138030, 0), new ScheduledTask(176800, 176946, 0), new ScheduledTask(14600, 14730, 0), new ScheduledTask(116800, 116881, 0), new ScheduledTask(50300, 50462, 0), new ScheduledTask(150900, 151062, 0), new ScheduledTask(81100, 81165, 0), new ScheduledTask(191400, 191530, 0), new ScheduledTask(0, 49, 0), new ScheduledTask(136500, 136613, 1), new ScheduledTask(145800, 145897, 2), new ScheduledTask(155400, 155481, 3), new ScheduledTask(106800, 106865, 2)};
-        int[] expectedProcessorEndTimes = new int[]{191530, 136613, 145897, 155481};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot77_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.77_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -10021,46 +6061,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot07_CCR_0dot10_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.07_CCR_0.10_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 263500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 85, 0), new ScheduledTask(8500, 8692, 0), new ScheduledTask(27700, 27892, 0), new ScheduledTask(0, 107, 1), new ScheduledTask(64500, 64607, 0), new ScheduledTask(46900, 46964, 0), new ScheduledTask(103000, 103107, 0), new ScheduledTask(53300, 53407, 0), new ScheduledTask(75200, 75371, 0), new ScheduledTask(113700, 113914, 0), new ScheduledTask(64900, 65007, 1), new ScheduledTask(92300, 92407, 0), new ScheduledTask(141000, 141128, 2), new ScheduledTask(173600, 173814, 0), new ScheduledTask(25800, 25885, 3), new ScheduledTask(0, 43, 3), new ScheduledTask(135100, 135271, 0), new ScheduledTask(76800, 76928, 3), new ScheduledTask(220700, 220914, 0), new ScheduledTask(195000, 195214, 0), new ScheduledTask(153600, 153771, 3), new ScheduledTask(129100, 129314, 1), new ScheduledTask(156500, 156671, 0), new ScheduledTask(51000, 51150, 2), new ScheduledTask(242100, 242250, 0), new ScheduledTask(0, 85, 2), new ScheduledTask(152200, 152243, 0), new ScheduledTask(217800, 217864, 2), new ScheduledTask(257100, 257164, 0), new ScheduledTask(216400, 216443, 0)};
-        int[] expectedProcessorEndTimes = new int[]{257164, 129314, 217864, 153771};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot07_CCR_0dot10_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.07_CCR_0.10_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 136700;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 85, 0), new ScheduledTask(8500, 8692, 0), new ScheduledTask(27700, 27892, 0), new ScheduledTask(0, 107, 1), new ScheduledTask(12840, 12947, 1), new ScheduledTask(46900, 46964, 0), new ScheduledTask(55540, 55647, 2), new ScheduledTask(53300, 53407, 0), new ScheduledTask(13840, 14011, 2), new ScheduledTask(74700, 74914, 0), new ScheduledTask(64000, 64107, 0), new ScheduledTask(39490, 39597, 2), new ScheduledTask(75700, 75828, 1), new ScheduledTask(25680, 25894, 1), new ScheduledTask(25600, 25685, 3), new ScheduledTask(17000, 17043, 3), new ScheduledTask(96100, 96271, 0), new ScheduledTask(78040, 78168, 2), new ScheduledTask(91060, 91274, 1), new ScheduledTask(97240, 97454, 2), new ScheduledTask(113200, 113371, 0), new ScheduledTask(77200, 77414, 3), new ScheduledTask(54200, 54371, 1), new ScheduledTask(47200, 47350, 3), new ScheduledTask(116740, 116890, 1), new ScheduledTask(0, 85, 3), new ScheduledTask(71590, 71633, 2), new ScheduledTask(120000, 120064, 3), new ScheduledTask(130300, 130364, 0), new ScheduledTask(129340, 129383, 2)};
-        int[] expectedProcessorEndTimes = new int[]{130364, 116890, 129383, 120064};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot07_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.07_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -10181,26 +6181,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot10_CCR_1dot00_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_1.00_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 14900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 21, 0), new ScheduledTask(0, 10, 1), new ScheduledTask(0, 21, 2), new ScheduledTask(0, 4, 3), new ScheduledTask(1200, 1217, 1), new ScheduledTask(3400, 3419, 0), new ScheduledTask(2100, 2113, 0), new ScheduledTask(3150, 3163, 2), new ScheduledTask(3240, 3259, 1), new ScheduledTask(5300, 5321, 0), new ScheduledTask(800, 815, 3), new ScheduledTask(5520, 5530, 1), new ScheduledTask(4150, 4156, 3), new ScheduledTask(7400, 7406, 0), new ScheduledTask(8000, 8019, 0), new ScheduledTask(9900, 9921, 0), new ScheduledTask(7950, 7963, 3), new ScheduledTask(7900, 7917, 2), new ScheduledTask(5350, 5363, 3), new ScheduledTask(12000, 12021, 0), new ScheduledTask(10550, 10554, 3), new ScheduledTask(11350, 11354, 3), new ScheduledTask(11950, 11969, 2), new ScheduledTask(12750, 12765, 1), new ScheduledTask(12150, 12163, 3), new ScheduledTask(8200, 8213, 1), new ScheduledTask(11550, 11560, 1), new ScheduledTask(10750, 10758, 2), new ScheduledTask(14100, 14108, 0), new ScheduledTask(5100, 5106, 2)};
-        int[] expectedProcessorEndTimes = new int[]{14108, 12765, 11969, 12163};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot10_CCR_1dot00_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_1.00_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
@@ -10281,26 +6261,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot10_CCR_1dot02_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_1.02_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 25600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(4000, 4020, 0), new ScheduledTask(2000, 2020, 0), new ScheduledTask(0, 12, 1), new ScheduledTask(7800, 7812, 0), new ScheduledTask(0, 20, 2), new ScheduledTask(0, 8, 3), new ScheduledTask(10600, 10616, 0), new ScheduledTask(7200, 7210, 3), new ScheduledTask(13400, 13404, 0), new ScheduledTask(0, 20, 0), new ScheduledTask(6000, 6018, 0), new ScheduledTask(4800, 4804, 3), new ScheduledTask(14200, 14212, 0), new ScheduledTask(12000, 12006, 2), new ScheduledTask(13200, 13208, 3), new ScheduledTask(9000, 9016, 0), new ScheduledTask(13800, 13804, 0), new ScheduledTask(19200, 19220, 0), new ScheduledTask(15400, 15420, 0), new ScheduledTask(12600, 12608, 0), new ScheduledTask(21200, 21220, 0), new ScheduledTask(17400, 17418, 0), new ScheduledTask(23200, 23210, 0), new ScheduledTask(18000, 18006, 3), new ScheduledTask(7200, 7220, 1), new ScheduledTask(15600, 15616, 2), new ScheduledTask(24200, 24214, 0), new ScheduledTask(19200, 19210, 1), new ScheduledTask(21600, 21606, 3), new ScheduledTask(12200, 12204, 0)};
-        int[] expectedProcessorEndTimes = new int[]{24214, 19210, 15616, 21606};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot10_CCR_1dot02_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_1.02_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -10361,66 +6321,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot10_CCR_9dot99_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_9.99_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 0), new ScheduledTask(0, 2, 1), new ScheduledTask(2200, 2210, 0), new ScheduledTask(800, 807, 0), new ScheduledTask(3200, 3207, 0), new ScheduledTask(3300, 3303, 2), new ScheduledTask(4400, 4407, 0), new ScheduledTask(1500, 1507, 0), new ScheduledTask(0, 5, 3), new ScheduledTask(5100, 5110, 0), new ScheduledTask(3900, 3905, 0), new ScheduledTask(5500, 5503, 2), new ScheduledTask(9100, 9105, 0), new ScheduledTask(8100, 8110, 0), new ScheduledTask(6300, 6310, 0), new ScheduledTask(6100, 6102, 0), new ScheduledTask(6000, 6002, 3), new ScheduledTask(5300, 5305, 1), new ScheduledTask(11600, 11604, 0), new ScheduledTask(3000, 3005, 3), new ScheduledTask(10600, 10602, 0), new ScheduledTask(7300, 7308, 0), new ScheduledTask(10800, 10803, 0), new ScheduledTask(9600, 9610, 0), new ScheduledTask(12000, 12008, 0), new ScheduledTask(8400, 8407, 1), new ScheduledTask(11100, 11105, 0), new ScheduledTask(9700, 9704, 3), new ScheduledTask(7200, 7203, 3), new ScheduledTask(9000, 9003, 2)};
-        int[] expectedProcessorEndTimes = new int[]{12008, 8407, 9003, 9704};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot10_CCR_9dot99_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_9.99_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 0), new ScheduledTask(0, 2, 1), new ScheduledTask(400, 410, 1), new ScheduledTask(800, 807, 0), new ScheduledTask(2000, 2007, 0), new ScheduledTask(3300, 3303, 2), new ScheduledTask(2400, 2407, 1), new ScheduledTask(5300, 5307, 2), new ScheduledTask(0, 5, 3), new ScheduledTask(4300, 4310, 0), new ScheduledTask(1500, 1505, 0), new ScheduledTask(4700, 4703, 2), new ScheduledTask(6700, 6705, 0), new ScheduledTask(3800, 3810, 1), new ScheduledTask(3300, 3310, 0), new ScheduledTask(6400, 6402, 0), new ScheduledTask(3400, 3402, 3), new ScheduledTask(2000, 2005, 3), new ScheduledTask(6700, 6704, 2), new ScheduledTask(1000, 1005, 3), new ScheduledTask(8200, 8202, 0), new ScheduledTask(5600, 5608, 0), new ScheduledTask(8400, 8403, 0), new ScheduledTask(7200, 7210, 0), new ScheduledTask(7500, 7508, 2), new ScheduledTask(7200, 7207, 3), new ScheduledTask(8700, 8705, 0), new ScheduledTask(4500, 4504, 3), new ScheduledTask(3800, 3803, 3), new ScheduledTask(8600, 8603, 3)};
-        int[] expectedProcessorEndTimes = new int[]{8705, 3810, 7508, 8603};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot10_CCR_9dot99_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_9.99_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 0), new ScheduledTask(0, 2, 1), new ScheduledTask(240, 250, 1), new ScheduledTask(800, 807, 0), new ScheduledTask(1500, 1507, 0), new ScheduledTask(3300, 3303, 2), new ScheduledTask(1440, 1447, 1), new ScheduledTask(4200, 4207, 2), new ScheduledTask(0, 5, 3), new ScheduledTask(2700, 2710, 0), new ScheduledTask(2200, 2205, 0), new ScheduledTask(3750, 3753, 2), new ScheduledTask(5700, 5705, 0), new ScheduledTask(3700, 3710, 1), new ScheduledTask(3900, 3910, 0), new ScheduledTask(3700, 3702, 0), new ScheduledTask(4100, 4102, 3), new ScheduledTask(2000, 2005, 3), new ScheduledTask(5800, 5804, 2), new ScheduledTask(1000, 1005, 3), new ScheduledTask(7200, 7202, 0), new ScheduledTask(4900, 4908, 0), new ScheduledTask(7400, 7403, 0), new ScheduledTask(6200, 6210, 0), new ScheduledTask(6400, 6408, 2), new ScheduledTask(6700, 6707, 3), new ScheduledTask(7700, 7705, 0), new ScheduledTask(5100, 5104, 3), new ScheduledTask(4500, 4503, 3), new ScheduledTask(7600, 7603, 2)};
-        int[] expectedProcessorEndTimes = new int[]{7705, 3710, 7603, 6707};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot10_CCR_9dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_9.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -10452,26 +6352,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 0), new ScheduledTask(0, 2, 1), new ScheduledTask(2, 12, 1), new ScheduledTask(8, 15, 0), new ScheduledTask(15, 22, 0), new ScheduledTask(33, 36, 1), new ScheduledTask(12, 19, 1), new ScheduledTask(49, 56, 1), new ScheduledTask(0, 5, 2), new ScheduledTask(27, 37, 0), new ScheduledTask(22, 27, 0), new ScheduledTask(36, 39, 1), new ScheduledTask(55, 60, 0), new ScheduledTask(39, 49, 1), new ScheduledTask(37, 47, 0), new ScheduledTask(74, 76, 3), new ScheduledTask(46, 48, 3), new ScheduledTask(28, 33, 3), new ScheduledTask(56, 60, 1), new ScheduledTask(0, 5, 3), new ScheduledTask(60, 62, 0), new ScheduledTask(47, 55, 0), new ScheduledTask(62, 65, 0), new ScheduledTask(65, 75, 0), new ScheduledTask(60, 68, 1), new ScheduledTask(67, 74, 3), new ScheduledTask(76, 81, 3), new ScheduledTask(51, 55, 3), new ScheduledTask(48, 51, 3), new ScheduledTask(72, 75, 2)};
         int[] expectedProcessorEndTimes = new int[]{75, 68, 75, 81};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot17_CCR_0dot10_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.17_CCR_0.10_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 269300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(25800, 25917, 0), new ScheduledTask(37500, 37734, 0), new ScheduledTask(60900, 61087, 0), new ScheduledTask(0, 211, 0), new ScheduledTask(79600, 79694, 0), new ScheduledTask(21100, 21147, 0), new ScheduledTask(0, 187, 1), new ScheduledTask(98400, 98564, 0), new ScheduledTask(0, 141, 2), new ScheduledTask(114800, 114917, 0), new ScheduledTask(185100, 185334, 0), new ScheduledTask(89000, 89094, 0), new ScheduledTask(0, 164, 3), new ScheduledTask(126500, 126664, 0), new ScheduledTask(208500, 208734, 0), new ScheduledTask(98400, 98517, 3), new ScheduledTask(142900, 142994, 0), new ScheduledTask(84600, 84717, 2), new ScheduledTask(173400, 173517, 0), new ScheduledTask(168600, 168647, 3), new ScheduledTask(112200, 112294, 1), new ScheduledTask(169200, 169294, 1), new ScheduledTask(152300, 152370, 0), new ScheduledTask(196800, 196847, 3), new ScheduledTask(159300, 159441, 0), new ScheduledTask(250600, 250787, 0), new ScheduledTask(154800, 154987, 2), new ScheduledTask(231900, 232087, 0), new ScheduledTask(225000, 225070, 3), new ScheduledTask(225600, 225670, 1)};
-        int[] expectedProcessorEndTimes = new int[]{250787, 225670, 154987, 225070};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -10541,46 +6421,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot20_CCR_0dot10_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.20_CCR_0.10_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 279000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(16900, 17112, 0), new ScheduledTask(0, 169, 0), new ScheduledTask(78300, 78469, 0), new ScheduledTask(38100, 38248, 0), new ScheduledTask(0, 85, 1), new ScheduledTask(114300, 114469, 0), new ScheduledTask(51000, 51148, 1), new ScheduledTask(63500, 63648, 0), new ScheduledTask(140700, 140848, 0), new ScheduledTask(52900, 53006, 0), new ScheduledTask(0, 169, 2), new ScheduledTask(197900, 198027, 0), new ScheduledTask(0, 212, 3), new ScheduledTask(176700, 176912, 0), new ScheduledTask(210600, 210791, 0), new ScheduledTask(132100, 132206, 3), new ScheduledTask(107900, 107964, 0), new ScheduledTask(131200, 131285, 0), new ScheduledTask(139800, 139948, 1), new ScheduledTask(229700, 229806, 0), new ScheduledTask(101400, 101527, 2), new ScheduledTask(155500, 155712, 0), new ScheduledTask(198700, 198764, 3), new ScheduledTask(257200, 257412, 0), new ScheduledTask(240300, 240469, 0), new ScheduledTask(177600, 177769, 2), new ScheduledTask(95200, 95327, 0), new ScheduledTask(237100, 237164, 3), new ScheduledTask(253800, 253842, 1), new ScheduledTask(228600, 228642, 1)};
-        int[] expectedProcessorEndTimes = new int[]{257412, 253842, 177769, 237164};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot20_CCR_0dot10_WeightType_Random1_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.20_CCR_0.10_WeightType_Random#1_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 139800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 212, 1), new ScheduledTask(8500, 8669, 0), new ScheduledTask(25840, 26009, 0), new ScheduledTask(25440, 25588, 1), new ScheduledTask(0, 85, 0), new ScheduledTask(44000, 44169, 0), new ScheduledTask(25350, 25498, 2), new ScheduledTask(43200, 43348, 1), new ScheduledTask(60900, 61048, 0), new ScheduledTask(43400, 43506, 3), new ScheduledTask(0, 169, 2), new ScheduledTask(75700, 75827, 0), new ScheduledTask(0, 212, 3), new ScheduledTask(76320, 76532, 1), new ScheduledTask(88400, 88591, 0), new ScheduledTask(64600, 64706, 3), new ScheduledTask(60960, 61024, 1), new ScheduledTask(69750, 69835, 2), new ScheduledTask(47550, 47698, 2), new ScheduledTask(107500, 107606, 0), new ScheduledTask(85800, 85927, 3), new ScheduledTask(82500, 82712, 2), new ScheduledTask(101760, 101824, 1), new ScheduledTask(118100, 118312, 0), new ScheduledTask(114300, 114469, 2), new ScheduledTask(109440, 109609, 1), new ScheduledTask(111200, 111327, 3), new ScheduledTask(68640, 68704, 1), new ScheduledTask(134760, 134802, 1), new ScheduledTask(129720, 129762, 1)};
-        int[] expectedProcessorEndTimes = new int[]{118312, 134802, 114469, 111327};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot20_CCR_0dot10_WeightType_Random1_Homogeneous_4(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.20_CCR_0.10_WeightType_Random#1_Homogeneous-4.dot");
         int processorCount = 4;
@@ -10621,46 +6461,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot20_CCR_9dot99_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.20_CCR_9.99_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 14600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(500, 510, 0), new ScheduledTask(0, 5, 0), new ScheduledTask(4400, 4406, 0), new ScheduledTask(2600, 2610, 0), new ScheduledTask(5000, 5007, 0), new ScheduledTask(1900, 1907, 0), new ScheduledTask(3600, 3608, 0), new ScheduledTask(0, 8, 1), new ScheduledTask(5900, 5908, 0), new ScheduledTask(1500, 1504, 0), new ScheduledTask(4600, 4606, 2), new ScheduledTask(6700, 6703, 0), new ScheduledTask(7100, 7105, 0), new ScheduledTask(10900, 10909, 0), new ScheduledTask(8400, 8405, 0), new ScheduledTask(5700, 5702, 0), new ScheduledTask(9800, 9802, 0), new ScheduledTask(8200, 8204, 2), new ScheduledTask(12400, 12410, 0), new ScheduledTask(4800, 4804, 1), new ScheduledTask(8900, 8909, 0), new ScheduledTask(7600, 7608, 0), new ScheduledTask(4200, 4208, 3), new ScheduledTask(13400, 13409, 0), new ScheduledTask(10000, 10009, 0), new ScheduledTask(9100, 9106, 3), new ScheduledTask(11800, 11806, 0), new ScheduledTask(10600, 10606, 2), new ScheduledTask(12700, 12703, 3), new ScheduledTask(14300, 14303, 0)};
-        int[] expectedProcessorEndTimes = new int[]{14303, 4804, 10606, 12703};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot20_CCR_9dot99_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.20_CCR_9.99_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 9880;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(0, 5, 1), new ScheduledTask(2100, 2106, 0), new ScheduledTask(1320, 1330, 1), new ScheduledTask(2700, 2707, 0), new ScheduledTask(1000, 1007, 0), new ScheduledTask(3300, 3308, 1), new ScheduledTask(0, 8, 3), new ScheduledTask(3600, 3608, 0), new ScheduledTask(1700, 1704, 0), new ScheduledTask(600, 606, 1), new ScheduledTask(4400, 4403, 0), new ScheduledTask(4700, 4705, 1), new ScheduledTask(4700, 4709, 0), new ScheduledTask(6280, 6285, 1), new ScheduledTask(3400, 3402, 0), new ScheduledTask(8560, 8562, 1), new ScheduledTask(5800, 5804, 1), new ScheduledTask(7100, 7110, 0), new ScheduledTask(1600, 1604, 3), new ScheduledTask(6200, 6209, 0), new ScheduledTask(6880, 6888, 1), new ScheduledTask(3700, 3708, 3), new ScheduledTask(8100, 8109, 0), new ScheduledTask(8800, 8809, 1), new ScheduledTask(6800, 6806, 3), new ScheduledTask(5600, 5606, 0), new ScheduledTask(7840, 7846, 1), new ScheduledTask(9240, 9243, 3), new ScheduledTask(9480, 9483, 0)};
-        int[] expectedProcessorEndTimes = new int[]{9483, 8809, 0, 9243};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot20_CCR_9dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.20_CCR_9.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -10692,46 +6492,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(7, 17, 0), new ScheduledTask(0, 5, 1), new ScheduledTask(21, 27, 0), new ScheduledTask(32, 42, 2), new ScheduledTask(27, 34, 0), new ScheduledTask(0, 7, 0), new ScheduledTask(42, 50, 2), new ScheduledTask(0, 8, 2), new ScheduledTask(36, 44, 0), new ScheduledTask(17, 21, 0), new ScheduledTask(5, 11, 1), new ScheduledTask(44, 47, 0), new ScheduledTask(54, 59, 2), new ScheduledTask(47, 56, 0), new ScheduledTask(63, 68, 2), new ScheduledTask(34, 36, 0), new ScheduledTask(82, 84, 3), new ScheduledTask(50, 54, 2), new ScheduledTask(71, 81, 0), new ScheduledTask(8, 12, 2), new ScheduledTask(62, 71, 0), new ScheduledTask(68, 76, 2), new ScheduledTask(44, 52, 3), new ScheduledTask(81, 90, 0), new ScheduledTask(84, 93, 3), new ScheduledTask(68, 74, 3), new ScheduledTask(56, 62, 0), new ScheduledTask(79, 85, 2), new ScheduledTask(76, 79, 2), new ScheduledTask(90, 93, 0)};
         int[] expectedProcessorEndTimes = new int[]{93, 11, 85, 93};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot30_CCR_1dot00_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.30_CCR_1.00_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 28900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(1400, 1419, 0), new ScheduledTask(3300, 3305, 0), new ScheduledTask(3800, 3816, 0), new ScheduledTask(0, 8, 1), new ScheduledTask(5900, 5924, 0), new ScheduledTask(0, 24, 2), new ScheduledTask(14000, 14014, 0), new ScheduledTask(10200, 10227, 0), new ScheduledTask(5400, 5405, 0), new ScheduledTask(19200, 19222, 0), new ScheduledTask(8300, 8319, 0), new ScheduledTask(12900, 12911, 0), new ScheduledTask(0, 14, 0), new ScheduledTask(21400, 21411, 0), new ScheduledTask(22500, 22522, 0), new ScheduledTask(0, 11, 3), new ScheduledTask(15400, 15411, 0), new ScheduledTask(9600, 9605, 3), new ScheduledTask(4800, 4819, 1), new ScheduledTask(16200, 16216, 1), new ScheduledTask(24700, 24714, 0), new ScheduledTask(12600, 12627, 3), new ScheduledTask(16500, 16527, 0), new ScheduledTask(19200, 19205, 2), new ScheduledTask(14400, 14408, 2), new ScheduledTask(27500, 27514, 0), new ScheduledTask(26100, 26114, 0), new ScheduledTask(22200, 22211, 2), new ScheduledTask(6600, 6605, 3), new ScheduledTask(25800, 25805, 1)};
-        int[] expectedProcessorEndTimes = new int[]{27514, 25805, 22211, 12627};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot30_CCR_1dot00_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.30_CCR_1.00_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 16680;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 19, 0), new ScheduledTask(1900, 1905, 0), new ScheduledTask(2400, 2416, 0), new ScheduledTask(1680, 1688, 1), new ScheduledTask(4000, 4024, 0), new ScheduledTask(0, 24, 2), new ScheduledTask(0, 14, 3), new ScheduledTask(6400, 6427, 0), new ScheduledTask(6540, 6545, 1), new ScheduledTask(3900, 3922, 1), new ScheduledTask(7400, 7419, 1), new ScheduledTask(9100, 9111, 0), new ScheduledTask(0, 14, 1), new ScheduledTask(10580, 10591, 0), new ScheduledTask(11680, 11702, 0), new ScheduledTask(6600, 6611, 3), new ScheduledTask(9800, 9811, 3), new ScheduledTask(8800, 8805, 3), new ScheduledTask(2800, 2819, 3), new ScheduledTask(10700, 10716, 2), new ScheduledTask(13880, 13894, 0), new ScheduledTask(9680, 9707, 1), new ScheduledTask(13000, 13027, 1), new ScheduledTask(12000, 12005, 3), new ScheduledTask(8490, 8498, 2), new ScheduledTask(13700, 13714, 3), new ScheduledTask(15280, 15294, 0), new ScheduledTask(14000, 14011, 2), new ScheduledTask(7740, 7745, 2), new ScheduledTask(13100, 13105, 2)};
-        int[] expectedProcessorEndTimes = new int[]{15294, 13027, 14011, 13714};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -10861,46 +6621,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot40_CCR_10dot03_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.40_CCR_10.03_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(700, 703, 0), new ScheduledTask(3700, 3705, 0), new ScheduledTask(3200, 3205, 0), new ScheduledTask(0, 5, 1), new ScheduledTask(1900, 1909, 0), new ScheduledTask(4200, 4204, 0), new ScheduledTask(1000, 1009, 0), new ScheduledTask(2800, 2804, 0), new ScheduledTask(5100, 5105, 0), new ScheduledTask(2900, 2903, 2), new ScheduledTask(0, 7, 3), new ScheduledTask(4800, 4803, 0), new ScheduledTask(4600, 4602, 0), new ScheduledTask(7400, 7408, 0), new ScheduledTask(6500, 6506, 0), new ScheduledTask(5300, 5302, 2), new ScheduledTask(11900, 11909, 0), new ScheduledTask(8200, 8206, 0), new ScheduledTask(10600, 10608, 0), new ScheduledTask(5600, 5609, 0), new ScheduledTask(9600, 9610, 0), new ScheduledTask(6500, 6509, 2), new ScheduledTask(7900, 7909, 3), new ScheduledTask(8800, 8808, 0), new ScheduledTask(3000, 3007, 1), new ScheduledTask(4200, 4205, 3), new ScheduledTask(11400, 11405, 0), new ScheduledTask(12800, 12805, 0), new ScheduledTask(7900, 7904, 1)};
-        int[] expectedProcessorEndTimes = new int[]{12805, 7904, 6509, 7909};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot40_CCR_10dot03_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.40_CCR_10.03_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 8300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(700, 703, 0), new ScheduledTask(600, 605, 1), new ScheduledTask(1300, 1305, 0), new ScheduledTask(0, 5, 1), new ScheduledTask(1680, 1689, 1), new ScheduledTask(1200, 1204, 1), new ScheduledTask(2300, 2309, 0), new ScheduledTask(3760, 3764, 1), new ScheduledTask(1800, 1805, 0), new ScheduledTask(1000, 1003, 0), new ScheduledTask(0, 7, 2), new ScheduledTask(3400, 3403, 1), new ScheduledTask(5300, 5302, 1), new ScheduledTask(3200, 3208, 0), new ScheduledTask(5900, 5906, 0), new ScheduledTask(3200, 3202, 3), new ScheduledTask(6140, 6149, 2), new ScheduledTask(4800, 4806, 0), new ScheduledTask(4000, 4008, 0), new ScheduledTask(5540, 5549, 1), new ScheduledTask(6500, 6510, 0), new ScheduledTask(5000, 5009, 3), new ScheduledTask(6620, 6629, 1), new ScheduledTask(7500, 7508, 0), new ScheduledTask(3600, 3607, 3), new ScheduledTask(2200, 2205, 3), new ScheduledTask(5400, 5405, 0), new ScheduledTask(7490, 7495, 2), new ScheduledTask(7300, 7304, 3)};
-        int[] expectedProcessorEndTimes = new int[]{7508, 6629, 7495, 7304};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot40_CCR_10dot03_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.40_CCR_10.03_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -10912,26 +6632,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(7, 10, 0), new ScheduledTask(20, 25, 0), new ScheduledTask(10, 15, 0), new ScheduledTask(25, 30, 0), new ScheduledTask(14, 23, 1), new ScheduledTask(36, 40, 0), new ScheduledTask(32, 41, 1), new ScheduledTask(32, 36, 0), new ScheduledTask(15, 20, 0), new ScheduledTask(29, 32, 1), new ScheduledTask(7, 14, 1), new ScheduledTask(51, 54, 0), new ScheduledTask(49, 51, 0), new ScheduledTask(41, 49, 1), new ScheduledTask(71, 77, 1), new ScheduledTask(30, 32, 0), new ScheduledTask(57, 66, 1), new ScheduledTask(72, 78, 0), new ScheduledTask(49, 57, 1), new ScheduledTask(63, 72, 0), new ScheduledTask(81, 91, 1), new ScheduledTask(40, 49, 0), new ScheduledTask(54, 63, 0), new ScheduledTask(83, 91, 0), new ScheduledTask(0, 7, 1), new ScheduledTask(23, 28, 1), new ScheduledTask(78, 83, 0), new ScheduledTask(66, 71, 1), new ScheduledTask(77, 81, 1)};
         int[] expectedProcessorEndTimes = new int[]{91, 91};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot40_CCR_9dot89_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.40_CCR_9.89_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 14300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(1400, 1406, 0), new ScheduledTask(0, 8, 0), new ScheduledTask(0, 4, 1), new ScheduledTask(0, 4, 2), new ScheduledTask(2000, 2008, 0), new ScheduledTask(6800, 6802, 0), new ScheduledTask(5700, 5709, 0), new ScheduledTask(0, 10, 3), new ScheduledTask(2800, 2804, 0), new ScheduledTask(8300, 8302, 0), new ScheduledTask(4800, 4806, 1), new ScheduledTask(9200, 9205, 0), new ScheduledTask(4000, 4010, 0), new ScheduledTask(6600, 6602, 0), new ScheduledTask(5000, 5007, 0), new ScheduledTask(9700, 9709, 0), new ScheduledTask(800, 806, 0), new ScheduledTask(2400, 2408, 2), new ScheduledTask(7700, 7706, 0), new ScheduledTask(8500, 8506, 0), new ScheduledTask(3200, 3205, 0), new ScheduledTask(11100, 11110, 0), new ScheduledTask(12100, 12106, 0), new ScheduledTask(7000, 7007, 0), new ScheduledTask(10600, 10605, 0), new ScheduledTask(12700, 12704, 0), new ScheduledTask(13100, 13105, 0), new ScheduledTask(13600, 13607, 0), new ScheduledTask(9900, 9903, 3), new ScheduledTask(8200, 8202, 3)};
-        int[] expectedProcessorEndTimes = new int[]{13607, 4806, 2408, 9903};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -10961,66 +6661,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot53_CCR_10dot00_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.53_CCR_10.00_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 15500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(1200, 1209, 0), new ScheduledTask(300, 309, 0), new ScheduledTask(0, 3, 0), new ScheduledTask(2600, 2604, 0), new ScheduledTask(8200, 8204, 0), new ScheduledTask(3000, 3010, 0), new ScheduledTask(5500, 5510, 0), new ScheduledTask(2100, 2105, 0), new ScheduledTask(8600, 8610, 0), new ScheduledTask(7300, 7309, 0), new ScheduledTask(4000, 4008, 0), new ScheduledTask(4800, 4805, 0), new ScheduledTask(9600, 9607, 0), new ScheduledTask(6400, 6403, 1), new ScheduledTask(10300, 10308, 0), new ScheduledTask(5300, 5302, 0), new ScheduledTask(0, 3, 2), new ScheduledTask(11100, 11103, 0), new ScheduledTask(6900, 6906, 3), new ScheduledTask(11400, 11405, 0), new ScheduledTask(11900, 11909, 0), new ScheduledTask(12800, 12810, 0), new ScheduledTask(6500, 6508, 0), new ScheduledTask(5100, 5103, 3), new ScheduledTask(13800, 13808, 0), new ScheduledTask(10200, 10207, 2), new ScheduledTask(10500, 10508, 3), new ScheduledTask(14600, 14606, 0), new ScheduledTask(11000, 11003, 1), new ScheduledTask(15200, 15203, 0)};
-        int[] expectedProcessorEndTimes = new int[]{15203, 11003, 10207, 10508};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot53_CCR_10dot00_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.53_CCR_10.00_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(300, 309, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(0, 3, 0), new ScheduledTask(2200, 2204, 0), new ScheduledTask(1800, 1804, 1), new ScheduledTask(3400, 3410, 0), new ScheduledTask(1900, 1910, 2), new ScheduledTask(1200, 1205, 0), new ScheduledTask(2600, 2610, 1), new ScheduledTask(6300, 6309, 0), new ScheduledTask(4400, 4408, 0), new ScheduledTask(1700, 1705, 0), new ScheduledTask(7200, 7207, 0), new ScheduledTask(6000, 6003, 0), new ScheduledTask(7900, 7908, 0), new ScheduledTask(5800, 5802, 0), new ScheduledTask(0, 3, 3), new ScheduledTask(9200, 9203, 0), new ScheduledTask(5200, 5206, 0), new ScheduledTask(8700, 8705, 0), new ScheduledTask(9500, 9509, 0), new ScheduledTask(10400, 10410, 0), new ScheduledTask(8400, 8408, 3), new ScheduledTask(7200, 7203, 3), new ScheduledTask(11400, 11408, 0), new ScheduledTask(10000, 10007, 3), new ScheduledTask(5600, 5608, 3), new ScheduledTask(12500, 12506, 0), new ScheduledTask(7800, 7803, 3), new ScheduledTask(12200, 12203, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12506, 2610, 1910, 10007};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_2dot53_CCR_10dot00_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.53_CCR_10.00_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(300, 309, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(0, 3, 0), new ScheduledTask(2200, 2204, 0), new ScheduledTask(3100, 3104, 1), new ScheduledTask(2680, 2690, 0), new ScheduledTask(1900, 1910, 1), new ScheduledTask(1200, 1205, 0), new ScheduledTask(3580, 3590, 1), new ScheduledTask(5500, 5509, 0), new ScheduledTask(3680, 3688, 0), new ScheduledTask(1700, 1705, 0), new ScheduledTask(6400, 6407, 0), new ScheduledTask(4980, 4983, 0), new ScheduledTask(7100, 7108, 0), new ScheduledTask(4780, 4782, 0), new ScheduledTask(0, 3, 3), new ScheduledTask(7900, 7903, 0), new ScheduledTask(6480, 6486, 2), new ScheduledTask(8200, 8205, 0), new ScheduledTask(8700, 8709, 0), new ScheduledTask(9600, 9610, 0), new ScheduledTask(7680, 7688, 3), new ScheduledTask(6480, 6483, 3), new ScheduledTask(10600, 10608, 0), new ScheduledTask(9280, 9287, 3), new ScheduledTask(4880, 4888, 3), new ScheduledTask(11400, 11406, 0), new ScheduledTask(7080, 7083, 3), new ScheduledTask(12000, 12003, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12003, 3590, 6486, 9287};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot53_CCR_10dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.53_CCR_10.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -11032,26 +6672,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(3, 12, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(0, 3, 0), new ScheduledTask(17, 21, 0), new ScheduledTask(15, 19, 1), new ScheduledTask(25, 35, 0), new ScheduledTask(40, 50, 0), new ScheduledTask(12, 17, 0), new ScheduledTask(19, 29, 1), new ScheduledTask(50, 59, 0), new ScheduledTask(43, 51, 1), new ScheduledTask(35, 40, 0), new ScheduledTask(59, 66, 0), new ScheduledTask(51, 54, 1), new ScheduledTask(66, 74, 0), new ScheduledTask(79, 81, 0), new ScheduledTask(9, 12, 1), new ScheduledTask(81, 84, 0), new ScheduledTask(57, 63, 1), new ScheduledTask(74, 79, 0), new ScheduledTask(84, 93, 0), new ScheduledTask(93, 103, 0), new ScheduledTask(91, 99, 1), new ScheduledTask(12, 15, 1), new ScheduledTask(103, 111, 0), new ScheduledTask(99, 106, 1), new ScheduledTask(64, 72, 1), new ScheduledTask(111, 117, 0), new ScheduledTask(54, 57, 1), new ScheduledTask(117, 120, 0)};
         int[] expectedProcessorEndTimes = new int[]{120, 106};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_3dot90_CCR_0dot10_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_3.90_CCR_0.10_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 265500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 175, 0), new ScheduledTask(0, 306, 1), new ScheduledTask(17500, 17719, 0), new ScheduledTask(0, 219, 2), new ScheduledTask(17800, 18019, 3), new ScheduledTask(36720, 37114, 1), new ScheduledTask(39400, 39487, 0), new ScheduledTask(32850, 33200, 2), new ScheduledTask(48100, 48450, 0), new ScheduledTask(83100, 83362, 0), new ScheduledTask(84000, 84175, 1), new ScheduledTask(84900, 85119, 3), new ScheduledTask(85350, 85787, 2), new ScheduledTask(105000, 105175, 1), new ScheduledTask(109300, 109475, 0), new ScheduledTask(129600, 129819, 0), new ScheduledTask(129200, 129375, 1), new ScheduledTask(128700, 128831, 3), new ScheduledTask(151900, 152162, 0), new ScheduledTask(155600, 155775, 1), new ScheduledTask(178100, 178450, 0), new ScheduledTask(154900, 155075, 3), new ScheduledTask(213100, 213187, 0), new ScheduledTask(150900, 151075, 2), new ScheduledTask(221800, 222237, 0), new ScheduledTask(189900, 190119, 3), new ScheduledTask(177150, 177500, 2), new ScheduledTask(190700, 190962, 1), new ScheduledTask(234300, 234475, 2), new ScheduledTask(233700, 233787, 3)};
-        int[] expectedProcessorEndTimes = new int[]{222237, 190962, 234475, 233787};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -11121,26 +6741,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot23_CCR_1dot00_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.23_CCR_1.00_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 31940;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 35, 0), new ScheduledTask(0, 20, 1), new ScheduledTask(0, 16, 2), new ScheduledTask(3700, 3716, 2), new ScheduledTask(3700, 3708, 1), new ScheduledTask(3500, 3535, 0), new ScheduledTask(7000, 7031, 0), new ScheduledTask(4660, 4691, 1), new ScheduledTask(0, 35, 3), new ScheduledTask(10100, 10135, 0), new ScheduledTask(11000, 11023, 1), new ScheduledTask(13600, 13639, 0), new ScheduledTask(7000, 7027, 3), new ScheduledTask(13760, 13799, 1), new ScheduledTask(7500, 7523, 2), new ScheduledTask(18300, 18320, 0), new ScheduledTask(17500, 17508, 0), new ScheduledTask(13960, 13995, 2), new ScheduledTask(18800, 18839, 1), new ScheduledTask(20300, 20331, 0), new ScheduledTask(14800, 14820, 3), new ScheduledTask(19210, 19237, 2), new ScheduledTask(23400, 23416, 0), new ScheduledTask(12400, 12412, 3), new ScheduledTask(23600, 23612, 1), new ScheduledTask(25340, 25379, 0), new ScheduledTask(25340, 25371, 3), new ScheduledTask(24300, 24327, 2), new ScheduledTask(29240, 29267, 0), new ScheduledTask(29940, 29952, 2)};
-        int[] expectedProcessorEndTimes = new int[]{29267, 23612, 29952, 25371};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot23_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.23_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -11201,66 +6801,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot37_CCR_1dot00_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.37_CCR_1.00_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 63200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(900, 937, 0), new ScheduledTask(11000, 11032, 0), new ScheduledTask(8300, 8327, 0), new ScheduledTask(14200, 14241, 0), new ScheduledTask(0, 9, 0), new ScheduledTask(18300, 18309, 0), new ScheduledTask(4600, 4637, 0), new ScheduledTask(19200, 19223, 0), new ScheduledTask(21500, 21541, 0), new ScheduledTask(9300, 9323, 1), new ScheduledTask(25600, 25623, 0), new ScheduledTask(27900, 27914, 0), new ScheduledTask(30700, 30727, 0), new ScheduledTask(29300, 29314, 0), new ScheduledTask(36100, 36137, 0), new ScheduledTask(21900, 21914, 2), new ScheduledTask(11600, 11614, 3), new ScheduledTask(41200, 41246, 0), new ScheduledTask(33400, 33427, 0), new ScheduledTask(28500, 28518, 3), new ScheduledTask(39800, 39814, 0), new ScheduledTask(45800, 45841, 0), new ScheduledTask(39300, 39309, 3), new ScheduledTask(53100, 53146, 0), new ScheduledTask(57700, 57718, 0), new ScheduledTask(59500, 59537, 0), new ScheduledTask(49900, 49932, 0), new ScheduledTask(44700, 44723, 3), new ScheduledTask(42300, 42318, 2), new ScheduledTask(36900, 36909, 2)};
-        int[] expectedProcessorEndTimes = new int[]{59537, 9323, 42318, 44723};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot37_CCR_1dot00_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.37_CCR_1.00_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 48500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 37, 0), new ScheduledTask(0, 32, 1), new ScheduledTask(3700, 3727, 0), new ScheduledTask(6800, 6841, 0), new ScheduledTask(0, 9, 2), new ScheduledTask(10900, 10909, 0), new ScheduledTask(4600, 4637, 3), new ScheduledTask(11800, 11823, 0), new ScheduledTask(14100, 14141, 0), new ScheduledTask(12000, 12023, 3), new ScheduledTask(18200, 18223, 0), new ScheduledTask(20500, 20514, 0), new ScheduledTask(21900, 21927, 0), new ScheduledTask(24600, 24614, 0), new ScheduledTask(26000, 26037, 0), new ScheduledTask(14500, 14514, 1), new ScheduledTask(7000, 7014, 1), new ScheduledTask(29700, 29746, 0), new ScheduledTask(25400, 25427, 1), new ScheduledTask(21100, 21118, 3), new ScheduledTask(30800, 30814, 1), new ScheduledTask(34300, 34341, 0), new ScheduledTask(33400, 33409, 3), new ScheduledTask(38400, 38446, 0), new ScheduledTask(43000, 43018, 0), new ScheduledTask(44800, 44837, 0), new ScheduledTask(39800, 39832, 3), new ScheduledTask(35200, 35223, 3), new ScheduledTask(25400, 25418, 3), new ScheduledTask(31600, 31609, 3)};
-        int[] expectedProcessorEndTimes = new int[]{44837, 30814, 9, 39832};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot37_CCR_1dot00_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.37_CCR_1.00_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 47180;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 37, 0), new ScheduledTask(0, 32, 1), new ScheduledTask(3700, 3727, 0), new ScheduledTask(6400, 6441, 0), new ScheduledTask(0, 9, 2), new ScheduledTask(10500, 10509, 0), new ScheduledTask(4600, 4637, 1), new ScheduledTask(11400, 11423, 0), new ScheduledTask(13700, 13741, 0), new ScheduledTask(9040, 9063, 1), new ScheduledTask(17800, 17823, 0), new ScheduledTask(20100, 20114, 0), new ScheduledTask(21500, 21527, 0), new ScheduledTask(22000, 22014, 1), new ScheduledTask(24680, 24717, 0), new ScheduledTask(14100, 14114, 2), new ScheduledTask(7000, 7014, 3), new ScheduledTask(28380, 28426, 0), new ScheduledTask(25000, 25027, 1), new ScheduledTask(20700, 20718, 2), new ScheduledTask(28240, 28254, 1), new ScheduledTask(32980, 33021, 0), new ScheduledTask(25000, 25009, 2), new ScheduledTask(37080, 37126, 0), new ScheduledTask(41680, 41698, 0), new ScheduledTask(43480, 43517, 0), new ScheduledTask(38080, 38112, 1), new ScheduledTask(30320, 30343, 2), new ScheduledTask(25000, 25018, 3), new ScheduledTask(29040, 29049, 3)};
-        int[] expectedProcessorEndTimes = new int[]{43517, 38112, 30343, 29049};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot37_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.37_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -11312,66 +6852,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 37, 0), new ScheduledTask(0, 32, 1), new ScheduledTask(37, 64, 0), new ScheduledTask(64, 105, 0), new ScheduledTask(0, 9, 2), new ScheduledTask(105, 114, 0), new ScheduledTask(46, 83, 1), new ScheduledTask(114, 137, 0), new ScheduledTask(137, 178, 0), new ScheduledTask(83, 106, 1), new ScheduledTask(178, 201, 0), new ScheduledTask(201, 215, 0), new ScheduledTask(215, 242, 0), new ScheduledTask(220, 234, 1), new ScheduledTask(244, 281, 0), new ScheduledTask(141, 155, 2), new ScheduledTask(70, 84, 3), new ScheduledTask(281, 327, 0), new ScheduledTask(250, 277, 1), new ScheduledTask(207, 225, 2), new ScheduledTask(277, 291, 1), new ScheduledTask(327, 368, 0), new ScheduledTask(250, 259, 2), new ScheduledTask(368, 414, 0), new ScheduledTask(414, 432, 0), new ScheduledTask(432, 469, 0), new ScheduledTask(378, 410, 1), new ScheduledTask(295, 318, 2), new ScheduledTask(250, 268, 3), new ScheduledTask(285, 294, 3)};
         int[] expectedProcessorEndTimes = new int[]{469, 410, 318, 294};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot37_CCR_10dot01_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.37_CCR_10.01_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 16100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(500, 506, 0), new ScheduledTask(0, 5, 0), new ScheduledTask(2900, 2906, 0), new ScheduledTask(1100, 1109, 0), new ScheduledTask(3500, 3503, 0), new ScheduledTask(3800, 3809, 0), new ScheduledTask(2000, 2009, 0), new ScheduledTask(4700, 4702, 0), new ScheduledTask(4900, 4908, 0), new ScheduledTask(7700, 7704, 0), new ScheduledTask(2900, 2906, 1), new ScheduledTask(5700, 5705, 0), new ScheduledTask(7000, 7007, 0), new ScheduledTask(6200, 6202, 0), new ScheduledTask(8100, 8102, 0), new ScheduledTask(6500, 6502, 1), new ScheduledTask(9200, 9209, 0), new ScheduledTask(8300, 8305, 0), new ScheduledTask(6400, 6406, 0), new ScheduledTask(10600, 10610, 0), new ScheduledTask(11900, 11908, 0), new ScheduledTask(8800, 8804, 0), new ScheduledTask(12700, 12704, 0), new ScheduledTask(11600, 11603, 0), new ScheduledTask(10100, 10105, 0), new ScheduledTask(13100, 13106, 0), new ScheduledTask(13700, 13710, 0), new ScheduledTask(11000, 11005, 2), new ScheduledTask(15200, 15209, 0), new ScheduledTask(14700, 14705, 0)};
-        int[] expectedProcessorEndTimes = new int[]{15209, 6502, 11005};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot37_CCR_10dot01_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.37_CCR_10.01_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 15300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(500, 506, 0), new ScheduledTask(0, 5, 0), new ScheduledTask(2900, 2906, 0), new ScheduledTask(1100, 1109, 0), new ScheduledTask(3500, 3503, 0), new ScheduledTask(3800, 3809, 0), new ScheduledTask(2000, 2009, 0), new ScheduledTask(4700, 4702, 0), new ScheduledTask(4900, 4908, 0), new ScheduledTask(7100, 7104, 0), new ScheduledTask(2900, 2906, 1), new ScheduledTask(6400, 6405, 0), new ScheduledTask(5700, 5707, 0), new ScheduledTask(6900, 6902, 0), new ScheduledTask(7500, 7502, 0), new ScheduledTask(5800, 5802, 2), new ScheduledTask(8200, 8209, 0), new ScheduledTask(7700, 7705, 0), new ScheduledTask(9100, 9106, 0), new ScheduledTask(9700, 9710, 0), new ScheduledTask(10700, 10708, 0), new ScheduledTask(9200, 9204, 3), new ScheduledTask(11500, 11504, 0), new ScheduledTask(11900, 11903, 0), new ScheduledTask(10600, 10605, 3), new ScheduledTask(12300, 12306, 0), new ScheduledTask(12900, 12910, 0), new ScheduledTask(11600, 11605, 3), new ScheduledTask(14400, 14409, 0), new ScheduledTask(13900, 13905, 0)};
-        int[] expectedProcessorEndTimes = new int[]{14409, 2906, 5802, 11605};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot50_CCR_9dot95_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.50_CCR_9.95_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(900, 903, 0), new ScheduledTask(3800, 3806, 0), new ScheduledTask(3200, 3206, 0), new ScheduledTask(1200, 1205, 0), new ScheduledTask(0, 2, 0), new ScheduledTask(4400, 4403, 0), new ScheduledTask(1700, 1705, 0), new ScheduledTask(5000, 5002, 0), new ScheduledTask(5200, 5206, 0), new ScheduledTask(200, 207, 0), new ScheduledTask(2200, 2210, 0), new ScheduledTask(5800, 5810, 0), new ScheduledTask(4700, 4703, 0), new ScheduledTask(0, 7, 1), new ScheduledTask(7800, 7802, 0), new ScheduledTask(4700, 4707, 2), new ScheduledTask(6800, 6810, 0), new ScheduledTask(9800, 9803, 0), new ScheduledTask(2200, 2207, 3), new ScheduledTask(8000, 8009, 0), new ScheduledTask(10100, 10108, 0), new ScheduledTask(8900, 8907, 0), new ScheduledTask(6400, 6405, 3), new ScheduledTask(12800, 12809, 0), new ScheduledTask(12400, 12404, 0), new ScheduledTask(11600, 11608, 0), new ScheduledTask(9300, 9307, 2), new ScheduledTask(9400, 9407, 3), new ScheduledTask(10900, 10907, 0), new ScheduledTask(13700, 13702, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13702, 7, 9307, 9407};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -11461,46 +6941,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot63_CCR_0dot10_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.63_CCR_0.10_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 633200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 435, 0), new ScheduledTask(77300, 77638, 0), new ScheduledTask(0, 193, 1), new ScheduledTask(116000, 116241, 0), new ScheduledTask(164200, 164538, 0), new ScheduledTask(43500, 43838, 0), new ScheduledTask(140400, 140497, 1), new ScheduledTask(198800, 199235, 0), new ScheduledTask(140100, 140341, 0), new ScheduledTask(256800, 257186, 0), new ScheduledTask(116000, 116241, 2), new ScheduledTask(242300, 242445, 0), new ScheduledTask(334000, 334338, 0), new ScheduledTask(165000, 165483, 3), new ScheduledTask(260600, 260841, 2), new ScheduledTask(406400, 406593, 0), new ScheduledTask(367800, 368186, 0), new ScheduledTask(343200, 343345, 1), new ScheduledTask(295400, 295786, 0), new ScheduledTask(198600, 198841, 1), new ScheduledTask(459500, 459693, 0), new ScheduledTask(478800, 479186, 0), new ScheduledTask(425700, 426038, 0), new ScheduledTask(426500, 426645, 2), new ScheduledTask(575300, 575541, 0), new ScheduledTask(517400, 517641, 0), new ScheduledTask(541500, 541838, 0), new ScheduledTask(609100, 609341, 0), new ScheduledTask(542100, 542245, 3), new ScheduledTask(599400, 599497, 0)};
-        int[] expectedProcessorEndTimes = new int[]{609341, 343345, 426645, 542245};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot63_CCR_0dot10_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.63_CCR_0.10_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 338020;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 435, 0), new ScheduledTask(43500, 43838, 0), new ScheduledTask(0, 193, 1), new ScheduledTask(77300, 77541, 0), new ScheduledTask(23660, 23998, 3), new ScheduledTask(44100, 44438, 1), new ScheduledTask(101400, 101497, 0), new ScheduledTask(111100, 111535, 0), new ScheduledTask(102100, 102341, 3), new ScheduledTask(113580, 113966, 1), new ScheduledTask(84660, 84901, 1), new ScheduledTask(154600, 154745, 0), new ScheduledTask(169600, 169938, 1), new ScheduledTask(151100, 151583, 2), new ScheduledTask(169100, 169341, 0), new ScheduledTask(193200, 193393, 0), new ScheduledTask(212500, 212886, 0), new ScheduledTask(210160, 210305, 1), new ScheduledTask(154800, 155186, 3), new ScheduledTask(112100, 112341, 2), new ScheduledTask(227560, 227753, 1), new ScheduledTask(251220, 251606, 0), new ScheduledTask(232300, 232638, 2), new ScheduledTask(232000, 232145, 3), new ScheduledTask(289820, 290061, 0), new ScheduledTask(261000, 261241, 3), new ScheduledTask(283900, 284238, 1), new ScheduledTask(313920, 314161, 0), new ScheduledTask(309800, 309945, 2), new ScheduledTask(324460, 324557, 1)};
-        int[] expectedProcessorEndTimes = new int[]{314161, 324557, 309945, 261241};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot63_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.63_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -11561,66 +7001,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot63_CCR_9dot90_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.63_CCR_9.90_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 17800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(1200, 1205, 0), new ScheduledTask(0, 7, 0), new ScheduledTask(1700, 1703, 0), new ScheduledTask(2400, 2409, 0), new ScheduledTask(0, 2, 1), new ScheduledTask(700, 705, 0), new ScheduledTask(4800, 4802, 0), new ScheduledTask(3300, 3305, 0), new ScheduledTask(3800, 3810, 0), new ScheduledTask(2000, 2004, 0), new ScheduledTask(5900, 5907, 0), new ScheduledTask(6600, 6609, 0), new ScheduledTask(7500, 7506, 0), new ScheduledTask(9100, 9109, 0), new ScheduledTask(5000, 5009, 0), new ScheduledTask(4100, 4108, 1), new ScheduledTask(8100, 8110, 0), new ScheduledTask(10000, 10004, 0), new ScheduledTask(10400, 10407, 0), new ScheduledTask(12200, 12210, 0), new ScheduledTask(12000, 12002, 0), new ScheduledTask(11100, 11109, 0), new ScheduledTask(13200, 13205, 0), new ScheduledTask(14200, 14207, 0), new ScheduledTask(13700, 13705, 0), new ScheduledTask(15900, 15909, 0), new ScheduledTask(13600, 13604, 2), new ScheduledTask(14900, 14910, 0), new ScheduledTask(16800, 16810, 0), new ScheduledTask(11900, 11908, 3)};
-        int[] expectedProcessorEndTimes = new int[]{16810, 4108, 13604, 11908};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot63_CCR_9dot90_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.63_CCR_9.90_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 15600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(700, 705, 0), new ScheduledTask(0, 7, 0), new ScheduledTask(1200, 1203, 0), new ScheduledTask(1900, 1909, 0), new ScheduledTask(0, 2, 1), new ScheduledTask(1200, 1205, 2), new ScheduledTask(3300, 3302, 0), new ScheduledTask(2800, 2805, 0), new ScheduledTask(4200, 4210, 0), new ScheduledTask(1500, 1504, 0), new ScheduledTask(3500, 3507, 0), new ScheduledTask(5200, 5209, 0), new ScheduledTask(6100, 6106, 0), new ScheduledTask(7700, 7709, 0), new ScheduledTask(5500, 5509, 3), new ScheduledTask(3600, 3608, 3), new ScheduledTask(6700, 6710, 0), new ScheduledTask(8600, 8604, 0), new ScheduledTask(9200, 9207, 0), new ScheduledTask(8200, 8210, 3), new ScheduledTask(9000, 9002, 0), new ScheduledTask(9900, 9909, 0), new ScheduledTask(11200, 11205, 0), new ScheduledTask(11700, 11707, 0), new ScheduledTask(12400, 12405, 0), new ScheduledTask(12900, 12909, 0), new ScheduledTask(12400, 12404, 3), new ScheduledTask(13600, 13610, 3), new ScheduledTask(13900, 13910, 0), new ScheduledTask(10500, 10508, 3)};
-        int[] expectedProcessorEndTimes = new int[]{13910, 2, 1205, 13610};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot73_CCR_0dot10_WeightType_Random1_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.73_CCR_0.10_WeightType_Random#1_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 391510;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 372, 0), new ScheduledTask(0, 330, 1), new ScheduledTask(40400, 40813, 0), new ScheduledTask(81700, 81989, 0), new ScheduledTask(110600, 110972, 0), new ScheduledTask(111300, 111548, 1), new ScheduledTask(147800, 148130, 0), new ScheduledTask(148400, 148689, 1), new ScheduledTask(141960, 142125, 2), new ScheduledTask(183280, 183610, 0), new ScheduledTask(166710, 167040, 2), new ScheduledTask(183080, 183328, 1), new ScheduledTask(0, 330, 3), new ScheduledTask(216710, 216916, 0), new ScheduledTask(212840, 213005, 1), new ScheduledTask(216980, 217104, 2), new ScheduledTask(183280, 183610, 3), new ScheduledTask(237310, 237558, 0), new ScheduledTask(232640, 232888, 1), new ScheduledTask(262810, 263223, 1), new ScheduledTask(262600, 262930, 0), new ScheduledTask(235580, 235910, 2), new ScheduledTask(295600, 295765, 0), new ScheduledTask(312770, 312853, 0), new ScheduledTask(321070, 321483, 0), new ScheduledTask(321570, 321942, 1), new ScheduledTask(313000, 313330, 2), new ScheduledTask(366710, 366958, 0), new ScheduledTask(366210, 366416, 1), new ScheduledTask(366910, 366993, 3)};
-        int[] expectedProcessorEndTimes = new int[]{366958, 366416, 313330, 366993};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot73_CCR_0dot10_WeightType_Random1_Homogeneous_4(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.73_CCR_0.10_WeightType_Random#1_Homogeneous-4.dot");
         int processorCount = 4;
@@ -11632,46 +7012,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 372, 0), new ScheduledTask(0, 330, 1), new ScheduledTask(372, 785, 0), new ScheduledTask(785, 1074, 0), new ScheduledTask(1074, 1446, 0), new ScheduledTask(1081, 1329, 1), new ScheduledTask(1446, 1776, 0), new ScheduledTask(1452, 1741, 1), new ScheduledTask(1338, 1503, 2), new ScheduledTask(1776, 2106, 0), new ScheduledTask(1503, 1833, 2), new ScheduledTask(1505, 1753, 3), new ScheduledTask(1741, 2071, 1), new ScheduledTask(2106, 2312, 0), new ScheduledTask(1753, 1918, 3), new ScheduledTask(2113, 2237, 1), new ScheduledTask(1833, 2163, 2), new ScheduledTask(2312, 2560, 0), new ScheduledTask(1918, 2166, 3), new ScheduledTask(2560, 2973, 0), new ScheduledTask(2569, 2899, 1), new ScheduledTask(2242, 2572, 2), new ScheduledTask(2899, 3064, 1), new ScheduledTask(2973, 3056, 0), new ScheduledTask(3056, 3469, 0), new ScheduledTask(3064, 3436, 1), new ScheduledTask(3073, 3403, 2), new ScheduledTask(3436, 3684, 1), new ScheduledTask(3469, 3675, 0), new ScheduledTask(3443, 3526, 2)};
         int[] expectedProcessorEndTimes = new int[]{3675, 3684, 3526, 2166};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot73_CCR_0dot10_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.73_CCR_0.10_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 669600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 349, 0), new ScheduledTask(34900, 35399, 0), new ScheduledTask(84800, 84900, 0), new ScheduledTask(94800, 94900, 0), new ScheduledTask(104800, 104950, 0), new ScheduledTask(189600, 189949, 0), new ScheduledTask(154700, 155049, 0), new ScheduledTask(0, 299, 1), new ScheduledTask(0, 150, 2), new ScheduledTask(224500, 224999, 0), new ScheduledTask(119800, 120149, 0), new ScheduledTask(95400, 95749, 3), new ScheduledTask(274400, 274600, 0), new ScheduledTask(120800, 120950, 2), new ScheduledTask(305400, 305849, 0), new ScheduledTask(364800, 364950, 3), new ScheduledTask(350300, 350450, 0), new ScheduledTask(480000, 480399, 0), new ScheduledTask(210800, 211099, 2), new ScheduledTask(304800, 304900, 3), new ScheduledTask(365300, 365749, 0), new ScheduledTask(519900, 520299, 0), new ScheduledTask(305200, 305549, 1), new ScheduledTask(390200, 390449, 2), new ScheduledTask(559800, 560000, 0), new ScheduledTask(410200, 410549, 0), new ScheduledTask(579800, 580299, 0), new ScheduledTask(445100, 445449, 0), new ScheduledTask(629700, 630099, 0), new ScheduledTask(520100, 520200, 3)};
-        int[] expectedProcessorEndTimes = new int[]{630099, 305549, 390449, 520200};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot73_CCR_0dot10_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.73_CCR_0.10_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 474100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 349, 0), new ScheduledTask(34900, 35399, 0), new ScheduledTask(84800, 84900, 0), new ScheduledTask(94800, 94900, 0), new ScheduledTask(104800, 104950, 0), new ScheduledTask(119800, 120149, 0), new ScheduledTask(105600, 105949, 1), new ScheduledTask(0, 299, 2), new ScheduledTask(0, 150, 3), new ScheduledTask(154700, 155199, 0), new ScheduledTask(120700, 121049, 2), new ScheduledTask(95400, 95749, 3), new ScheduledTask(204600, 204800, 0), new ScheduledTask(147480, 147630, 1), new ScheduledTask(224600, 225049, 0), new ScheduledTask(173950, 174100, 1), new ScheduledTask(269500, 269650, 0), new ScheduledTask(284500, 284899, 0), new ScheduledTask(173050, 173349, 2), new ScheduledTask(224900, 225000, 1), new ScheduledTask(285500, 285949, 1), new ScheduledTask(324400, 324799, 0), new ScheduledTask(224800, 225149, 2), new ScheduledTask(237400, 237649, 3), new ScheduledTask(364300, 364500, 0), new ScheduledTask(339380, 339729, 1), new ScheduledTask(384300, 384799, 0), new ScheduledTask(381260, 381609, 1), new ScheduledTask(434200, 434599, 0), new ScheduledTask(324600, 324700, 2)};
-        int[] expectedProcessorEndTimes = new int[]{434599, 381609, 324700, 237649};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -11741,46 +7081,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot77_CCR_1dot00_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.77_CCR_1.00_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 69500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(3100, 3152, 0), new ScheduledTask(0, 31, 0), new ScheduledTask(10400, 10421, 0), new ScheduledTask(12500, 12541, 0), new ScheduledTask(12800, 12810, 1), new ScheduledTask(8300, 8321, 0), new ScheduledTask(19700, 19721, 0), new ScheduledTask(9300, 9321, 2), new ScheduledTask(0, 46, 3), new ScheduledTask(16600, 16631, 0), new ScheduledTask(23900, 23926, 0), new ScheduledTask(21800, 21821, 0), new ScheduledTask(26500, 26526, 0), new ScheduledTask(29100, 29121, 0), new ScheduledTask(31200, 31252, 0), new ScheduledTask(21900, 21921, 2), new ScheduledTask(39500, 39515, 0), new ScheduledTask(27600, 27615, 3), new ScheduledTask(41000, 41041, 0), new ScheduledTask(36400, 36431, 0), new ScheduledTask(50300, 50341, 0), new ScheduledTask(36600, 36631, 3), new ScheduledTask(54400, 54431, 0), new ScheduledTask(45100, 45152, 0), new ScheduledTask(57500, 57526, 0), new ScheduledTask(60100, 60131, 0), new ScheduledTask(63200, 63241, 0), new ScheduledTask(55200, 55221, 3), new ScheduledTask(67300, 67321, 0), new ScheduledTask(60500, 60515, 2)};
-        int[] expectedProcessorEndTimes = new int[]{67321, 12810, 60515, 55221};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot77_CCR_1dot00_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.77_CCR_1.00_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 48140;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 52, 0), new ScheduledTask(0, 31, 1), new ScheduledTask(0, 21, 2), new ScheduledTask(5200, 5241, 0), new ScheduledTask(3150, 3160, 2), new ScheduledTask(5800, 5821, 1), new ScheduledTask(9700, 9721, 1), new ScheduledTask(6200, 6221, 3), new ScheduledTask(4650, 4696, 2), new ScheduledTask(9300, 9331, 0), new ScheduledTask(13020, 13046, 0), new ScheduledTask(12220, 12241, 1), new ScheduledTask(15620, 15646, 0), new ScheduledTask(14740, 14761, 1), new ScheduledTask(18220, 18272, 0), new ScheduledTask(0, 21, 3), new ScheduledTask(23420, 23435, 0), new ScheduledTask(15740, 15755, 3), new ScheduledTask(24920, 24961, 0), new ScheduledTask(24320, 24351, 1), new ScheduledTask(29040, 29081, 0), new ScheduledTask(18920, 18951, 3), new ScheduledTask(33140, 33171, 0), new ScheduledTask(29420, 29472, 2), new ScheduledTask(36240, 36266, 0), new ScheduledTask(38840, 38871, 0), new ScheduledTask(41940, 41981, 0), new ScheduledTask(42240, 42261, 3), new ScheduledTask(46040, 46061, 0), new ScheduledTask(39240, 39255, 3)};
-        int[] expectedProcessorEndTimes = new int[]{46061, 24351, 29472, 42261};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot77_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.77_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -11832,46 +7132,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 52, 0), new ScheduledTask(0, 31, 1), new ScheduledTask(0, 21, 2), new ScheduledTask(52, 93, 0), new ScheduledTask(21, 31, 2), new ScheduledTask(58, 79, 1), new ScheduledTask(93, 114, 0), new ScheduledTask(62, 83, 2), new ScheduledTask(0, 46, 3), new ScheduledTask(103, 134, 1), new ScheduledTask(114, 140, 0), new ScheduledTask(121, 142, 2), new ScheduledTask(148, 174, 0), new ScheduledTask(142, 163, 2), new ScheduledTask(174, 226, 0), new ScheduledTask(0, 21, 4), new ScheduledTask(226, 241, 0), new ScheduledTask(152, 167, 1), new ScheduledTask(241, 282, 0), new ScheduledTask(235, 266, 1), new ScheduledTask(282, 323, 0), new ScheduledTask(181, 212, 2), new ScheduledTask(323, 354, 0), new ScheduledTask(286, 338, 1), new ScheduledTask(354, 380, 0), new ScheduledTask(380, 411, 0), new ScheduledTask(411, 452, 0), new ScheduledTask(325, 346, 2), new ScheduledTask(452, 473, 0), new ScheduledTask(384, 399, 1)};
         int[] expectedProcessorEndTimes = new int[]{473, 399, 346, 46, 21};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot77_CCR_9dot76_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.77_CCR_9.76_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 16100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(900, 906, 0), new ScheduledTask(0, 9, 0), new ScheduledTask(0, 3, 1), new ScheduledTask(1500, 1509, 0), new ScheduledTask(3400, 3410, 0), new ScheduledTask(2400, 2405, 0), new ScheduledTask(2900, 2905, 0), new ScheduledTask(4400, 4403, 0), new ScheduledTask(4700, 4704, 0), new ScheduledTask(6300, 6307, 0), new ScheduledTask(7000, 7010, 0), new ScheduledTask(5100, 5109, 0), new ScheduledTask(8000, 8002, 0), new ScheduledTask(6000, 6003, 0), new ScheduledTask(5800, 5802, 1), new ScheduledTask(9800, 9810, 0), new ScheduledTask(8200, 8206, 0), new ScheduledTask(6800, 6805, 2), new ScheduledTask(12100, 12103, 0), new ScheduledTask(10800, 10807, 0), new ScheduledTask(12700, 12710, 0), new ScheduledTask(9400, 9404, 0), new ScheduledTask(8800, 8806, 0), new ScheduledTask(11500, 11506, 0), new ScheduledTask(13700, 13708, 0), new ScheduledTask(12400, 12403, 0), new ScheduledTask(14700, 14704, 0), new ScheduledTask(14500, 14502, 0), new ScheduledTask(15100, 15110, 0), new ScheduledTask(14900, 14902, 3)};
-        int[] expectedProcessorEndTimes = new int[]{15110, 5802, 6805, 14902};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot77_CCR_9dot96_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.77_CCR_9.96_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 18200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(3500, 3509, 0), new ScheduledTask(700, 710, 0), new ScheduledTask(0, 7, 0), new ScheduledTask(1700, 1709, 0), new ScheduledTask(4400, 4408, 0), new ScheduledTask(2600, 2609, 0), new ScheduledTask(5200, 5210, 0), new ScheduledTask(6200, 6210, 0), new ScheduledTask(7400, 7402, 1), new ScheduledTask(7600, 7607, 0), new ScheduledTask(7200, 7204, 0), new ScheduledTask(9300, 9307, 0), new ScheduledTask(10900, 10908, 0), new ScheduledTask(7900, 7903, 2), new ScheduledTask(10000, 10009, 0), new ScheduledTask(12600, 12606, 0), new ScheduledTask(13200, 13207, 0), new ScheduledTask(5100, 5109, 3), new ScheduledTask(8300, 8310, 0), new ScheduledTask(10200, 10206, 2), new ScheduledTask(11900, 11907, 0), new ScheduledTask(14600, 14606, 0), new ScheduledTask(15400, 15403, 0), new ScheduledTask(15700, 15709, 0), new ScheduledTask(9500, 9509, 1), new ScheduledTask(13900, 13907, 0), new ScheduledTask(17300, 17307, 0), new ScheduledTask(16600, 16607, 0), new ScheduledTask(13800, 13807, 2), new ScheduledTask(18000, 18002, 0)};
-        int[] expectedProcessorEndTimes = new int[]{18002, 9509, 13807, 5109};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -11981,26 +7241,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot80_CCR_1dot00_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.80_CCR_1.00_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 49720;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 46, 0), new ScheduledTask(4600, 4637, 0), new ScheduledTask(0, 23, 1), new ScheduledTask(8300, 8341, 0), new ScheduledTask(5500, 5527, 1), new ScheduledTask(0, 9, 2), new ScheduledTask(12400, 12432, 0), new ScheduledTask(8740, 8763, 1), new ScheduledTask(3760, 3769, 2), new ScheduledTask(5400, 5432, 2), new ScheduledTask(13400, 13414, 1), new ScheduledTask(15600, 15632, 0), new ScheduledTask(15080, 15117, 1), new ScheduledTask(12000, 12032, 2), new ScheduledTask(18800, 18809, 0), new ScheduledTask(20320, 20329, 0), new ScheduledTask(21220, 21229, 0), new ScheduledTask(22120, 22166, 0), new ScheduledTask(26720, 26766, 0), new ScheduledTask(15280, 15294, 3), new ScheduledTask(31320, 31366, 0), new ScheduledTask(35920, 35966, 0), new ScheduledTask(20700, 20741, 1), new ScheduledTask(21820, 21843, 2), new ScheduledTask(40520, 40557, 0), new ScheduledTask(41420, 41457, 1), new ScheduledTask(44220, 44266, 0), new ScheduledTask(45860, 45874, 1), new ScheduledTask(47540, 47554, 1), new ScheduledTask(48820, 48829, 0)};
-        int[] expectedProcessorEndTimes = new int[]{48829, 47554, 21843, 15294};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot80_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.80_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -12061,46 +7301,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot83_CCR_1dot00_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.83_CCR_1.00_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 66600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(2400, 2419, 0), new ScheduledTask(4300, 4329, 0), new ScheduledTask(0, 24, 0), new ScheduledTask(7200, 7244, 0), new ScheduledTask(0, 15, 1), new ScheduledTask(16000, 16024, 0), new ScheduledTask(11600, 11644, 0), new ScheduledTask(20800, 20824, 0), new ScheduledTask(4600, 4610, 2), new ScheduledTask(23200, 23239, 0), new ScheduledTask(18400, 18424, 0), new ScheduledTask(11800, 11819, 3), new ScheduledTask(30000, 30039, 0), new ScheduledTask(27100, 27119, 0), new ScheduledTask(29000, 29010, 0), new ScheduledTask(33900, 33924, 0), new ScheduledTask(39200, 39234, 0), new ScheduledTask(23800, 23849, 3), new ScheduledTask(21800, 21815, 2), new ScheduledTask(36300, 36329, 0), new ScheduledTask(30800, 30819, 2), new ScheduledTask(42600, 42629, 0), new ScheduledTask(36800, 36819, 1), new ScheduledTask(57200, 57229, 0), new ScheduledTask(50400, 50444, 0), new ScheduledTask(60100, 60149, 0), new ScheduledTask(45500, 45549, 0), new ScheduledTask(43200, 43239, 2), new ScheduledTask(48200, 48229, 1), new ScheduledTask(54800, 54824, 0)};
-        int[] expectedProcessorEndTimes = new int[]{60149, 48229, 43239, 23849};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot83_CCR_1dot00_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.83_CCR_1.00_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 38730;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 19, 0), new ScheduledTask(1900, 1929, 0), new ScheduledTask(0, 24, 1), new ScheduledTask(4800, 4844, 0), new ScheduledTask(0, 15, 2), new ScheduledTask(9200, 9224, 0), new ScheduledTask(5300, 5344, 1), new ScheduledTask(11600, 11624, 0), new ScheduledTask(2200, 2210, 3), new ScheduledTask(14000, 14039, 0), new ScheduledTask(12000, 12024, 1), new ScheduledTask(9400, 9419, 2), new ScheduledTask(17900, 17939, 0), new ScheduledTask(18500, 18519, 1), new ScheduledTask(20780, 20790, 1), new ScheduledTask(22280, 22304, 0), new ScheduledTask(24680, 24714, 0), new ScheduledTask(14600, 14649, 3), new ScheduledTask(24400, 24415, 3), new ScheduledTask(22980, 23009, 2), new ScheduledTask(12250, 12269, 2), new ScheduledTask(28080, 28109, 0), new ScheduledTask(27700, 27719, 2), new ScheduledTask(25480, 25509, 1), new ScheduledTask(31050, 31094, 0), new ScheduledTask(28960, 29009, 1), new ScheduledTask(31380, 31429, 2), new ScheduledTask(28680, 28719, 3), new ScheduledTask(34840, 34869, 1), new ScheduledTask(35450, 35474, 0)};
-        int[] expectedProcessorEndTimes = new int[]{35474, 34869, 31429, 28719};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot83_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.83_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -12152,26 +7352,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 19, 0), new ScheduledTask(19, 48, 0), new ScheduledTask(0, 24, 1), new ScheduledTask(48, 92, 0), new ScheduledTask(0, 15, 2), new ScheduledTask(92, 116, 0), new ScheduledTask(53, 97, 1), new ScheduledTask(116, 140, 0), new ScheduledTask(22, 32, 2), new ScheduledTask(140, 179, 0), new ScheduledTask(120, 144, 1), new ScheduledTask(94, 113, 2), new ScheduledTask(179, 218, 0), new ScheduledTask(185, 204, 1), new ScheduledTask(204, 214, 1), new ScheduledTask(218, 242, 0), new ScheduledTask(242, 276, 0), new ScheduledTask(146, 195, 2), new ScheduledTask(154, 169, 3), new ScheduledTask(214, 243, 1), new ScheduledTask(116, 135, 4), new ScheduledTask(276, 305, 0), new ScheduledTask(247, 266, 1), new ScheduledTask(250, 279, 2), new ScheduledTask(305, 349, 0), new ScheduledTask(284, 333, 1), new ScheduledTask(309, 358, 2), new ScheduledTask(282, 321, 3), new ScheduledTask(311, 340, 4), new ScheduledTask(349, 373, 0)};
         int[] expectedProcessorEndTimes = new int[]{373, 333, 358, 321, 340};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot90_CCR_0dot10_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.90_CCR_0.10_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 427460;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 391, 0), new ScheduledTask(39100, 39589, 0), new ScheduledTask(0, 342, 1), new ScheduledTask(0, 294, 2), new ScheduledTask(88000, 88440, 0), new ScheduledTask(88900, 89242, 1), new ScheduledTask(132000, 132342, 0), new ScheduledTask(166200, 166689, 0), new ScheduledTask(129940, 130234, 1), new ScheduledTask(166600, 166894, 1), new ScheduledTask(132700, 132994, 2), new ScheduledTask(166600, 166796, 3), new ScheduledTask(215100, 215540, 0), new ScheduledTask(176800, 176898, 2), new ScheduledTask(215400, 215694, 1), new ScheduledTask(191500, 191598, 2), new ScheduledTask(250680, 251022, 1), new ScheduledTask(259100, 259345, 0), new ScheduledTask(283600, 284089, 0), new ScheduledTask(291720, 291818, 1), new ScheduledTask(303480, 303774, 1), new ScheduledTask(216100, 216296, 2), new ScheduledTask(205800, 205947, 3), new ScheduledTask(339360, 339654, 0), new ScheduledTask(304280, 304574, 2), new ScheduledTask(368760, 368956, 0), new ScheduledTask(388360, 388751, 0), new ScheduledTask(348780, 349025, 1), new ScheduledTask(292320, 292467, 3), new ScheduledTask(378180, 378278, 1)};
-        int[] expectedProcessorEndTimes = new int[]{388751, 378278, 304574, 292467};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -12321,66 +7501,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot93_CCR_10dot02_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.93_CCR_10.02_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 16900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(1000, 1008, 0), new ScheduledTask(2000, 2005, 0), new ScheduledTask(0, 10, 0), new ScheduledTask(0, 3, 1), new ScheduledTask(2500, 2505, 0), new ScheduledTask(1800, 1802, 0), new ScheduledTask(0, 6, 2), new ScheduledTask(3000, 3003, 0), new ScheduledTask(3800, 3803, 0), new ScheduledTask(7000, 7007, 0), new ScheduledTask(4100, 4110, 0), new ScheduledTask(5100, 5109, 0), new ScheduledTask(9400, 9410, 0), new ScheduledTask(4900, 4907, 3), new ScheduledTask(6000, 6010, 0), new ScheduledTask(9100, 9103, 0), new ScheduledTask(8200, 8209, 0), new ScheduledTask(7700, 7705, 0), new ScheduledTask(11300, 11310, 0), new ScheduledTask(10400, 10409, 0), new ScheduledTask(7300, 7305, 2), new ScheduledTask(4800, 4807, 1), new ScheduledTask(12300, 12308, 0), new ScheduledTask(15400, 15407, 0), new ScheduledTask(14400, 14410, 0), new ScheduledTask(13100, 13103, 0), new ScheduledTask(13400, 13410, 0), new ScheduledTask(14000, 14002, 3), new ScheduledTask(16100, 16108, 0), new ScheduledTask(15000, 15003, 2)};
-        int[] expectedProcessorEndTimes = new int[]{16108, 4807, 15003, 14002};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot97_CCR_0dot10_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.97_CCR_0.10_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 722800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(61300, 61658, 0), new ScheduledTask(0, 204, 0), new ScheduledTask(20400, 20502, 0), new ScheduledTask(97100, 97304, 0), new ScheduledTask(30600, 30907, 0), new ScheduledTask(148200, 148507, 0), new ScheduledTask(31400, 31502, 1), new ScheduledTask(117900, 118002, 2), new ScheduledTask(117500, 117807, 0), new ScheduledTask(179600, 179804, 0), new ScheduledTask(200000, 200307, 0), new ScheduledTask(61500, 61756, 3), new ScheduledTask(292100, 292407, 0), new ScheduledTask(322800, 323209, 0), new ScheduledTask(215100, 215253, 3), new ScheduledTask(230700, 231007, 0), new ScheduledTask(363700, 364109, 0), new ScheduledTask(261400, 261707, 0), new ScheduledTask(404600, 404856, 0), new ScheduledTask(293100, 293458, 2), new ScheduledTask(430200, 430404, 0), new ScheduledTask(508100, 508458, 0), new ScheduledTask(450600, 451060, 0), new ScheduledTask(615500, 616011, 0), new ScheduledTask(543900, 544258, 0), new ScheduledTask(579700, 580058, 0), new ScheduledTask(666600, 666958, 0), new ScheduledTask(404800, 405107, 3), new ScheduledTask(507900, 508156, 2), new ScheduledTask(702400, 702604, 0)};
-        int[] expectedProcessorEndTimes = new int[]{702604, 31502, 508156, 405107};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_4dot97_CCR_0dot10_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.97_CCR_0.10_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 453420;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 358, 0), new ScheduledTask(0, 204, 1), new ScheduledTask(24480, 24582, 1), new ScheduledTask(35800, 36004, 0), new ScheduledTask(36720, 37027, 1), new ScheduledTask(56200, 56507, 0), new ScheduledTask(37520, 37622, 3), new ScheduledTask(73760, 73862, 2), new ScheduledTask(73560, 73867, 1), new ScheduledTask(89560, 89764, 0), new ScheduledTask(110600, 110907, 0), new ScheduledTask(73760, 74016, 3), new ScheduledTask(141300, 141607, 0), new ScheduledTask(172000, 172409, 0), new ScheduledTask(124960, 125113, 3), new ScheduledTask(155560, 155867, 3), new ScheduledTask(212900, 213309, 0), new ScheduledTask(217460, 217767, 1), new ScheduledTask(253800, 254056, 0), new ScheduledTask(254300, 254658, 1), new ScheduledTask(279400, 279604, 0), new ScheduledTask(300500, 300858, 1), new ScheduledTask(299800, 300260, 0), new ScheduledTask(345800, 346311, 0), new ScheduledTask(346200, 346558, 1), new ScheduledTask(389160, 389518, 1), new ScheduledTask(396900, 397258, 0), new ScheduledTask(254000, 254307, 3), new ScheduledTask(346200, 346456, 3), new ScheduledTask(433020, 433224, 0)};
-        int[] expectedProcessorEndTimes = new int[]{433224, 389518, 73862, 346456};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot97_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.97_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -12441,26 +7561,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot00_CCR_9dot90_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.00_CCR_9.90_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 15000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(2500, 2507, 0), new ScheduledTask(3200, 3206, 0), new ScheduledTask(1600, 1609, 0), new ScheduledTask(3800, 3802, 0), new ScheduledTask(4000, 4009, 0), new ScheduledTask(500, 507, 0), new ScheduledTask(1200, 1204, 0), new ScheduledTask(4900, 4902, 0), new ScheduledTask(5100, 5104, 0), new ScheduledTask(8000, 8007, 0), new ScheduledTask(2100, 2105, 1), new ScheduledTask(5500, 5508, 0), new ScheduledTask(8700, 8708, 0), new ScheduledTask(6300, 6307, 0), new ScheduledTask(9500, 9507, 0), new ScheduledTask(7000, 7006, 0), new ScheduledTask(7600, 7604, 0), new ScheduledTask(8500, 8505, 2), new ScheduledTask(10200, 10204, 0), new ScheduledTask(11600, 11609, 0), new ScheduledTask(10600, 10606, 0), new ScheduledTask(13000, 13006, 0), new ScheduledTask(11200, 11204, 0), new ScheduledTask(13600, 13602, 0), new ScheduledTask(12500, 12505, 0), new ScheduledTask(14000, 14006, 0), new ScheduledTask(14600, 14604, 0), new ScheduledTask(13100, 13102, 3), new ScheduledTask(13800, 13802, 0)};
-        int[] expectedProcessorEndTimes = new int[]{14604, 2105, 8505, 13102};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot00_CCR_9dot90_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.00_CCR_9.90_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -12472,66 +7572,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(12, 19, 0), new ScheduledTask(19, 25, 0), new ScheduledTask(0, 9, 1), new ScheduledTask(25, 27, 0), new ScheduledTask(27, 36, 0), new ScheduledTask(5, 12, 0), new ScheduledTask(26, 30, 1), new ScheduledTask(36, 38, 0), new ScheduledTask(38, 42, 0), new ScheduledTask(47, 54, 1), new ScheduledTask(21, 26, 1), new ScheduledTask(42, 50, 0), new ScheduledTask(54, 62, 1), new ScheduledTask(50, 57, 0), new ScheduledTask(62, 69, 1), new ScheduledTask(57, 63, 0), new ScheduledTask(69, 73, 1), new ScheduledTask(78, 83, 0), new ScheduledTask(82, 86, 1), new ScheduledTask(73, 82, 1), new ScheduledTask(86, 92, 1), new ScheduledTask(91, 97, 0), new ScheduledTask(92, 96, 1), new ScheduledTask(102, 104, 1), new ScheduledTask(86, 91, 0), new ScheduledTask(104, 110, 1), new ScheduledTask(110, 114, 1), new ScheduledTask(96, 98, 1), new ScheduledTask(112, 114, 0)};
         int[] expectedProcessorEndTimes = new int[]{114, 114};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot03_CCR_0dot10_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.03_CCR_0.10_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 718500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 194, 0), new ScheduledTask(19400, 19788, 0), new ScheduledTask(82500, 82888, 0), new ScheduledTask(121300, 121640, 0), new ScheduledTask(58200, 58443, 0), new ScheduledTask(155300, 155494, 0), new ScheduledTask(174700, 175040, 0), new ScheduledTask(0, 291, 1), new ScheduledTask(228100, 228343, 0), new ScheduledTask(208700, 208894, 0), new ScheduledTask(286400, 286837, 0), new ScheduledTask(330100, 330440, 0), new ScheduledTask(252400, 252740, 0), new ScheduledTask(388400, 388740, 0), new ScheduledTask(364100, 364343, 0), new ScheduledTask(422400, 422546, 0), new ScheduledTask(174600, 174746, 1), new ScheduledTask(262400, 262837, 2), new ScheduledTask(543800, 544237, 0), new ScheduledTask(500100, 500537, 0), new ScheduledTask(466100, 466440, 0), new ScheduledTask(437000, 437291, 0), new ScheduledTask(631200, 631491, 0), new ScheduledTask(286600, 286891, 3), new ScheduledTask(660300, 660785, 0), new ScheduledTask(500800, 500946, 3), new ScheduledTask(587500, 587937, 0), new ScheduledTask(588500, 588694, 3), new ScheduledTask(587700, 587894, 2), new ScheduledTask(708800, 708897, 0)};
-        int[] expectedProcessorEndTimes = new int[]{708897, 174746, 587894, 588694};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot03_CCR_0dot10_WeightType_Random1_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.03_CCR_0.10_WeightType_Random#1_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 501300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 194, 0), new ScheduledTask(19400, 19788, 0), new ScheduledTask(58200, 58588, 0), new ScheduledTask(97000, 97340, 0), new ScheduledTask(58600, 58843, 1), new ScheduledTask(131000, 131194, 0), new ScheduledTask(150400, 150740, 0), new ScheduledTask(0, 291, 2), new ScheduledTask(107600, 107843, 3), new ScheduledTask(184400, 184594, 0), new ScheduledTask(203800, 204237, 0), new ScheduledTask(247500, 247840, 0), new ScheduledTask(156200, 156540, 3), new ScheduledTask(281500, 281840, 0), new ScheduledTask(282100, 282343, 3), new ScheduledTask(331400, 331546, 0), new ScheduledTask(58900, 59046, 3), new ScheduledTask(330700, 331137, 3), new ScheduledTask(380000, 380437, 0), new ScheduledTask(315700, 316137, 2), new ScheduledTask(346000, 346340, 0), new ScheduledTask(346800, 347091, 1), new ScheduledTask(423700, 423991, 0), new ScheduledTask(224400, 224691, 2), new ScheduledTask(452800, 453285, 0), new ScheduledTask(405700, 405846, 2), new ScheduledTask(405000, 405437, 1), new ScheduledTask(435400, 435594, 3), new ScheduledTask(434900, 435094, 2), new ScheduledTask(474200, 474297, 3)};
-        int[] expectedProcessorEndTimes = new int[]{453285, 405437, 435094, 474297};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot03_CCR_0dot10_WeightType_Random1_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.03_CCR_0.10_WeightType_Random#1_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 465900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 194, 0), new ScheduledTask(19400, 19788, 0), new ScheduledTask(58200, 58588, 0), new ScheduledTask(97000, 97340, 0), new ScheduledTask(58600, 58843, 1), new ScheduledTask(131000, 131194, 0), new ScheduledTask(150400, 150740, 0), new ScheduledTask(0, 291, 2), new ScheduledTask(97300, 97543, 3), new ScheduledTask(184400, 184594, 0), new ScheduledTask(203800, 204237, 0), new ScheduledTask(247500, 247840, 0), new ScheduledTask(151300, 151640, 2), new ScheduledTask(281500, 281840, 0), new ScheduledTask(282100, 282343, 1), new ScheduledTask(315800, 315946, 1), new ScheduledTask(58900, 59046, 3), new ScheduledTask(260700, 261137, 3), new ScheduledTask(333320, 333757, 1), new ScheduledTask(315500, 315937, 0), new ScheduledTask(333920, 334260, 2), new ScheduledTask(359200, 359491, 0), new ScheduledTask(388300, 388591, 0), new ScheduledTask(202500, 202791, 3), new ScheduledTask(417400, 417885, 0), new ScheduledTask(389000, 389146, 3), new ScheduledTask(384920, 385357, 2), new ScheduledTask(418700, 418894, 1), new ScheduledTask(418200, 418394, 3), new ScheduledTask(450470, 450567, 2)};
-        int[] expectedProcessorEndTimes = new int[]{417885, 418894, 450567, 418394};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -12601,46 +7641,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot03_CCR_0dot10_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.03_CCR_0.10_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 689900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(41800, 41957, 0), new ScheduledTask(26100, 26257, 0), new ScheduledTask(78400, 78870, 0), new ScheduledTask(0, 261, 0), new ScheduledTask(57500, 57709, 0), new ScheduledTask(172400, 172661, 0), new ScheduledTask(26900, 27214, 1), new ScheduledTask(0, 157, 2), new ScheduledTask(198500, 198970, 0), new ScheduledTask(245500, 245866, 0), new ScheduledTask(125400, 125870, 0), new ScheduledTask(282100, 282414, 0), new ScheduledTask(172700, 172961, 3), new ScheduledTask(313500, 313918, 0), new ScheduledTask(381400, 381766, 0), new ScheduledTask(215300, 215614, 1), new ScheduledTask(355300, 355561, 0), new ScheduledTask(94200, 94670, 2), new ScheduledTask(355700, 355909, 3), new ScheduledTask(418000, 418366, 0), new ScheduledTask(486000, 486470, 0), new ScheduledTask(454600, 454914, 0), new ScheduledTask(533000, 533105, 0), new ScheduledTask(559200, 559618, 0), new ScheduledTask(376200, 376409, 2), new ScheduledTask(502500, 502657, 3), new ScheduledTask(543500, 543657, 0), new ScheduledTask(601000, 601366, 0), new ScheduledTask(648100, 648518, 0), new ScheduledTask(637600, 637705, 0)};
-        int[] expectedProcessorEndTimes = new int[]{648518, 215614, 376409, 502657};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot03_CCR_0dot10_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.03_CCR_0.10_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 426080;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 157, 0), new ScheduledTask(0, 157, 1), new ScheduledTask(19740, 20210, 0), new ScheduledTask(0, 261, 2), new ScheduledTask(16400, 16609, 3), new ScheduledTask(66740, 67001, 0), new ScheduledTask(39950, 40264, 1), new ScheduledTask(39150, 39307, 2), new ScheduledTask(92840, 93310, 0), new ScheduledTask(77630, 77996, 1), new ScheduledTask(62700, 63170, 2), new ScheduledTask(139840, 140154, 0), new ScheduledTask(133500, 133761, 1), new ScheduledTask(172240, 172658, 1), new ScheduledTask(171240, 171606, 0), new ScheduledTask(93840, 94154, 3), new ScheduledTask(156640, 156901, 3), new ScheduledTask(133200, 133670, 2), new ScheduledTask(222400, 222609, 1), new ScheduledTask(209340, 209706, 0), new ScheduledTask(248380, 248850, 0), new ScheduledTask(246540, 246854, 2), new ScheduledTask(295380, 295485, 0), new ScheduledTask(305880, 306298, 0), new ScheduledTask(208840, 209049, 3), new ScheduledTask(250640, 250797, 3), new ScheduledTask(306580, 306737, 3), new ScheduledTask(347680, 348046, 0), new ScheduledTask(384280, 384698, 0), new ScheduledTask(384480, 384585, 3)};
-        int[] expectedProcessorEndTimes = new int[]{384698, 222609, 246854, 384585};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot03_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.03_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -12692,26 +7692,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 157, 0), new ScheduledTask(0, 157, 1), new ScheduledTask(166, 636, 0), new ScheduledTask(0, 261, 2), new ScheduledTask(164, 373, 1), new ScheduledTask(636, 897, 0), new ScheduledTask(261, 575, 2), new ScheduledTask(0, 157, 3), new ScheduledTask(897, 1367, 0), new ScheduledTask(575, 941, 2), new ScheduledTask(162, 632, 3), new ScheduledTask(1367, 1681, 0), new ScheduledTask(632, 893, 3), new ScheduledTask(1681, 2099, 0), new ScheduledTask(1691, 2057, 1), new ScheduledTask(907, 1221, 3), new ScheduledTask(1374, 1635, 2), new ScheduledTask(376, 846, 4), new ScheduledTask(2099, 2308, 0), new ScheduledTask(2057, 2423, 1), new ScheduledTask(2308, 2778, 0), new ScheduledTask(2423, 2737, 1), new ScheduledTask(2778, 2883, 0), new ScheduledTask(2883, 3301, 0), new ScheduledTask(1374, 1583, 3), new ScheduledTask(2427, 2584, 2), new ScheduledTask(2890, 3047, 1), new ScheduledTask(3301, 3667, 0), new ScheduledTask(3667, 4085, 0), new ScheduledTask(3669, 3774, 1)};
         int[] expectedProcessorEndTimes = new int[]{4085, 3774, 2584, 1583, 846};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot03_CCR_0dot99_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.03_CCR_0.99_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 43900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 40, 0), new ScheduledTask(0, 25, 1), new ScheduledTask(4000, 4045, 0), new ScheduledTask(0, 30, 2), new ScheduledTask(8500, 8540, 0), new ScheduledTask(8900, 8920, 1), new ScheduledTask(4500, 4515, 2), new ScheduledTask(11300, 11345, 1), new ScheduledTask(12500, 12550, 0), new ScheduledTask(5100, 5115, 3), new ScheduledTask(6750, 6770, 2), new ScheduledTask(8100, 8125, 3), new ScheduledTask(16700, 16720, 1), new ScheduledTask(19400, 19445, 0), new ScheduledTask(11800, 11840, 2), new ScheduledTask(23900, 23935, 0), new ScheduledTask(19100, 19125, 1), new ScheduledTask(27400, 27450, 0), new ScheduledTask(32400, 32420, 0), new ScheduledTask(17800, 17835, 2), new ScheduledTask(28100, 28130, 1), new ScheduledTask(34400, 34445, 0), new ScheduledTask(34700, 34735, 1), new ScheduledTask(32300, 32350, 2), new ScheduledTask(38900, 38910, 0), new ScheduledTask(39900, 39925, 0), new ScheduledTask(40100, 40110, 1), new ScheduledTask(41300, 41320, 1), new ScheduledTask(42400, 42415, 0), new ScheduledTask(41700, 41710, 2)};
-        int[] expectedProcessorEndTimes = new int[]{42415, 41320, 41710, 8125};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -12781,26 +7761,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot07_CCR_1dot00_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.07_CCR_1.00_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 42990;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 34, 0), new ScheduledTask(0, 34, 1), new ScheduledTask(0, 29, 2), new ScheduledTask(4680, 4714, 0), new ScheduledTask(0, 39, 3), new ScheduledTask(4350, 4360, 2), new ScheduledTask(8080, 8129, 0), new ScheduledTask(8600, 8639, 1), new ScheduledTask(12980, 12995, 0), new ScheduledTask(8480, 8529, 2), new ScheduledTask(14480, 14499, 0), new ScheduledTask(16380, 16424, 0), new ScheduledTask(17080, 17099, 1), new ScheduledTask(8680, 8690, 3), new ScheduledTask(19360, 19394, 1), new ScheduledTask(20780, 20809, 0), new ScheduledTask(24340, 24369, 0), new ScheduledTask(15830, 15859, 2), new ScheduledTask(27240, 27284, 0), new ScheduledTask(20980, 21004, 2), new ScheduledTask(24580, 24595, 2), new ScheduledTask(25380, 25409, 1), new ScheduledTask(31640, 31664, 0), new ScheduledTask(26830, 26845, 2), new ScheduledTask(32040, 32084, 1), new ScheduledTask(34040, 34069, 0), new ScheduledTask(34340, 34359, 2), new ScheduledTask(38190, 38209, 0), new ScheduledTask(32640, 32684, 3), new ScheduledTask(40090, 40119, 0)};
-        int[] expectedProcessorEndTimes = new int[]{40119, 32084, 34359, 32684};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot07_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.07_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -12832,66 +7792,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 34, 0), new ScheduledTask(0, 34, 1), new ScheduledTask(0, 29, 2), new ScheduledTask(40, 74, 0), new ScheduledTask(0, 39, 3), new ScheduledTask(29, 39, 2), new ScheduledTask(74, 123, 0), new ScheduledTask(79, 118, 1), new ScheduledTask(123, 138, 0), new ScheduledTask(78, 127, 2), new ScheduledTask(138, 157, 0), new ScheduledTask(157, 201, 0), new ScheduledTask(164, 183, 1), new ScheduledTask(80, 90, 3), new ScheduledTask(183, 217, 1), new ScheduledTask(201, 230, 0), new ScheduledTask(230, 259, 0), new ScheduledTask(148, 177, 2), new ScheduledTask(259, 303, 0), new ScheduledTask(203, 227, 2), new ScheduledTask(227, 242, 2), new ScheduledTask(235, 264, 1), new ScheduledTask(303, 327, 0), new ScheduledTask(242, 257, 2), new ScheduledTask(307, 351, 1), new ScheduledTask(327, 356, 0), new ScheduledTask(330, 349, 2), new ScheduledTask(359, 378, 0), new ScheduledTask(313, 357, 3), new ScheduledTask(378, 407, 0)};
         int[] expectedProcessorEndTimes = new int[]{407, 351, 349, 357};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot10_CCR_1dot00_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.10_CCR_1.00_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 76700;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 13, 0), new ScheduledTask(1300, 1319, 0), new ScheduledTask(3200, 3264, 0), new ScheduledTask(12800, 12845, 0), new ScheduledTask(9900, 9913, 1), new ScheduledTask(17300, 17313, 0), new ScheduledTask(9600, 9632, 0), new ScheduledTask(18600, 18619, 0), new ScheduledTask(20500, 20532, 0), new ScheduledTask(10100, 10125, 2), new ScheduledTask(0, 38, 3), new ScheduledTask(29500, 29519, 0), new ScheduledTask(28200, 28213, 0), new ScheduledTask(31400, 31413, 0), new ScheduledTask(23700, 23745, 0), new ScheduledTask(32700, 32732, 0), new ScheduledTask(20700, 20719, 1), new ScheduledTask(35900, 35945, 0), new ScheduledTask(40400, 40432, 0), new ScheduledTask(43600, 43638, 0), new ScheduledTask(32100, 32125, 1), new ScheduledTask(48700, 48732, 0), new ScheduledTask(47400, 47413, 0), new ScheduledTask(51900, 51957, 0), new ScheduledTask(61400, 61464, 0), new ScheduledTask(71600, 71651, 0), new ScheduledTask(67800, 67838, 0), new ScheduledTask(49100, 49119, 3), new ScheduledTask(57600, 57638, 0), new ScheduledTask(68400, 68413, 3)};
-        int[] expectedProcessorEndTimes = new int[]{71651, 32125, 10125, 68413};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot10_CCR_1dot00_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.10_CCR_1.00_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 59500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 13, 0), new ScheduledTask(1300, 1319, 0), new ScheduledTask(3200, 3264, 0), new ScheduledTask(0, 45, 1), new ScheduledTask(9900, 9913, 2), new ScheduledTask(9800, 9813, 1), new ScheduledTask(9600, 9632, 0), new ScheduledTask(13400, 13419, 0), new ScheduledTask(15300, 15332, 0), new ScheduledTask(10100, 10125, 3), new ScheduledTask(0, 38, 3), new ScheduledTask(18500, 18519, 0), new ScheduledTask(15100, 15113, 3), new ScheduledTask(21500, 21513, 3), new ScheduledTask(20400, 20445, 0), new ScheduledTask(24900, 24932, 0), new ScheduledTask(17700, 17719, 3), new ScheduledTask(28100, 28145, 0), new ScheduledTask(32600, 32632, 0), new ScheduledTask(35800, 35838, 0), new ScheduledTask(24100, 24125, 3), new ScheduledTask(39600, 39632, 0), new ScheduledTask(33400, 33413, 3), new ScheduledTask(42800, 42857, 0), new ScheduledTask(48500, 48564, 0), new ScheduledTask(49300, 49351, 3), new ScheduledTask(54900, 54938, 0), new ScheduledTask(36000, 36019, 3), new ScheduledTask(49100, 49138, 2), new ScheduledTask(56700, 56713, 2)};
-        int[] expectedProcessorEndTimes = new int[]{54938, 9813, 56713, 49351};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot10_CCR_1dot00_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.10_CCR_1.00_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 54740;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 13, 0), new ScheduledTask(1300, 1319, 0), new ScheduledTask(3200, 3264, 0), new ScheduledTask(0, 45, 3), new ScheduledTask(10900, 10913, 0), new ScheduledTask(9600, 9613, 0), new ScheduledTask(10000, 10032, 1), new ScheduledTask(12200, 12219, 0), new ScheduledTask(14540, 14572, 0), new ScheduledTask(10100, 10125, 3), new ScheduledTask(0, 38, 2), new ScheduledTask(17740, 17759, 0), new ScheduledTask(15100, 15113, 3), new ScheduledTask(19640, 19653, 0), new ScheduledTask(17940, 17985, 1), new ScheduledTask(20940, 20972, 0), new ScheduledTask(17700, 17719, 3), new ScheduledTask(24140, 24185, 0), new ScheduledTask(28640, 28672, 0), new ScheduledTask(31840, 31878, 0), new ScheduledTask(21500, 21525, 3), new ScheduledTask(35640, 35672, 0), new ScheduledTask(29440, 29453, 3), new ScheduledTask(38840, 38897, 0), new ScheduledTask(44540, 44604, 0), new ScheduledTask(45340, 45391, 2), new ScheduledTask(50940, 50978, 0), new ScheduledTask(32040, 32059, 3), new ScheduledTask(45140, 45178, 3), new ScheduledTask(51540, 51553, 1)};
-        int[] expectedProcessorEndTimes = new int[]{50978, 51553, 45391, 45178};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -12952,26 +7852,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 13, 0), new ScheduledTask(13, 32, 0), new ScheduledTask(32, 96, 0), new ScheduledTask(0, 45, 1), new ScheduledTask(99, 112, 2), new ScheduledTask(98, 111, 1), new ScheduledTask(96, 128, 0), new ScheduledTask(119, 138, 2), new ScheduledTask(138, 170, 2), new ScheduledTask(101, 126, 3), new ScheduledTask(144, 182, 0), new ScheduledTask(170, 189, 2), new ScheduledTask(131, 144, 0), new ScheduledTask(189, 202, 2), new ScheduledTask(172, 217, 4), new ScheduledTask(202, 234, 2), new ScheduledTask(140, 159, 5), new ScheduledTask(234, 279, 2), new ScheduledTask(279, 311, 2), new ScheduledTask(311, 349, 2), new ScheduledTask(184, 209, 5), new ScheduledTask(349, 381, 2), new ScheduledTask(287, 300, 5), new ScheduledTask(381, 438, 2), new ScheduledTask(438, 502, 2), new ScheduledTask(482, 533, 5), new ScheduledTask(502, 540, 2), new ScheduledTask(300, 319, 5), new ScheduledTask(444, 482, 5), new ScheduledTask(508, 521, 4)};
         int[] expectedProcessorEndTimes = new int[]{182, 111, 540, 126, 521, 533};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot13_CCR_9dot91_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.13_CCR_9.91_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 15400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(1100, 1105, 0), new ScheduledTask(2700, 2709, 0), new ScheduledTask(0, 6, 0), new ScheduledTask(3600, 3605, 0), new ScheduledTask(2100, 2106, 0), new ScheduledTask(1600, 1605, 0), new ScheduledTask(600, 605, 0), new ScheduledTask(4100, 4109, 0), new ScheduledTask(5000, 5010, 0), new ScheduledTask(6300, 6305, 0), new ScheduledTask(6000, 6003, 0), new ScheduledTask(7300, 7309, 0), new ScheduledTask(8100, 8103, 1), new ScheduledTask(6800, 6805, 0), new ScheduledTask(8200, 8203, 0), new ScheduledTask(11400, 11402, 0), new ScheduledTask(8500, 8508, 0), new ScheduledTask(9300, 9305, 0), new ScheduledTask(5400, 5408, 2), new ScheduledTask(11600, 11604, 0), new ScheduledTask(10700, 10706, 0), new ScheduledTask(12200, 12206, 0), new ScheduledTask(9800, 9809, 0), new ScheduledTask(12000, 12002, 0), new ScheduledTask(12800, 12804, 0), new ScheduledTask(13200, 13210, 0), new ScheduledTask(14700, 14707, 0), new ScheduledTask(14200, 14205, 0), new ScheduledTask(10300, 10303, 1), new ScheduledTask(12700, 12703, 3)};
-        int[] expectedProcessorEndTimes = new int[]{14707, 10303, 5408, 12703};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -13061,26 +7941,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot33_CCR_9dot94_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.33_CCR_9.94_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 15200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 3, 0), new ScheduledTask(2400, 2402, 0), new ScheduledTask(300, 308, 0), new ScheduledTask(2600, 2608, 0), new ScheduledTask(1100, 1110, 0), new ScheduledTask(3700, 3704, 0), new ScheduledTask(0, 3, 1), new ScheduledTask(3400, 3403, 0), new ScheduledTask(4100, 4102, 0), new ScheduledTask(6100, 6109, 0), new ScheduledTask(4300, 4309, 0), new ScheduledTask(2100, 2103, 0), new ScheduledTask(7000, 7009, 0), new ScheduledTask(5200, 5209, 0), new ScheduledTask(1800, 1808, 1), new ScheduledTask(2900, 2904, 2), new ScheduledTask(8900, 8909, 0), new ScheduledTask(7900, 7906, 0), new ScheduledTask(9800, 9803, 0), new ScheduledTask(10100, 10102, 0), new ScheduledTask(8300, 8304, 3), new ScheduledTask(8500, 8504, 0), new ScheduledTask(12200, 12209, 0), new ScheduledTask(11100, 11103, 0), new ScheduledTask(13100, 13110, 0), new ScheduledTask(10300, 10308, 0), new ScheduledTask(14100, 14105, 0), new ScheduledTask(11400, 11408, 0), new ScheduledTask(10700, 10706, 3), new ScheduledTask(14600, 14606, 0)};
-        int[] expectedProcessorEndTimes = new int[]{14606, 1808, 2904, 10706};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot33_CCR_9dot94_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.33_CCR_9.94_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -13092,66 +7952,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 3, 0), new ScheduledTask(3, 5, 0), new ScheduledTask(5, 13, 0), new ScheduledTask(9, 17, 1), new ScheduledTask(13, 23, 0), new ScheduledTask(23, 27, 0), new ScheduledTask(0, 3, 1), new ScheduledTask(21, 24, 1), new ScheduledTask(27, 29, 0), new ScheduledTask(42, 51, 1), new ScheduledTask(32, 41, 0), new ScheduledTask(29, 32, 0), new ScheduledTask(52, 61, 1), new ScheduledTask(49, 58, 0), new ScheduledTask(41, 49, 0), new ScheduledTask(17, 21, 1), new ScheduledTask(67, 76, 1), new ScheduledTask(61, 67, 1), new ScheduledTask(76, 79, 1), new ScheduledTask(79, 81, 1), new ScheduledTask(87, 91, 0), new ScheduledTask(83, 87, 0), new ScheduledTask(81, 90, 1), new ScheduledTask(91, 94, 0), new ScheduledTask(99, 109, 0), new ScheduledTask(90, 98, 1), new ScheduledTask(109, 114, 0), new ScheduledTask(112, 120, 1), new ScheduledTask(98, 104, 1), new ScheduledTask(114, 120, 0)};
         int[] expectedProcessorEndTimes = new int[]{120, 120};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot37_CCR_1dot00_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.37_CCR_1.00_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 79800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 22, 0), new ScheduledTask(2200, 2231, 0), new ScheduledTask(5300, 5340, 0), new ScheduledTask(9300, 9340, 0), new ScheduledTask(13300, 13326, 0), new ScheduledTask(15900, 15940, 0), new ScheduledTask(19900, 19931, 0), new ScheduledTask(13500, 13526, 1), new ScheduledTask(9900, 9918, 2), new ScheduledTask(26500, 26518, 0), new ScheduledTask(30100, 30144, 0), new ScheduledTask(38000, 38044, 0), new ScheduledTask(23000, 23035, 0), new ScheduledTask(16800, 16813, 3), new ScheduledTask(42400, 42413, 0), new ScheduledTask(43700, 43744, 0), new ScheduledTask(48100, 48140, 0), new ScheduledTask(34500, 34535, 0), new ScheduledTask(52100, 52135, 0), new ScheduledTask(55600, 55626, 0), new ScheduledTask(28700, 28722, 3), new ScheduledTask(58200, 58235, 0), new ScheduledTask(56200, 56222, 3), new ScheduledTask(64800, 64844, 0), new ScheduledTask(69600, 69640, 0), new ScheduledTask(49100, 49135, 2), new ScheduledTask(61700, 61731, 0), new ScheduledTask(73600, 73609, 0), new ScheduledTask(74500, 74540, 0), new ScheduledTask(78500, 78513, 0)};
-        int[] expectedProcessorEndTimes = new int[]{78513, 13526, 49135, 56222};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot37_CCR_1dot00_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.37_CCR_1.00_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 63500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 22, 0), new ScheduledTask(2200, 2231, 0), new ScheduledTask(5300, 5340, 0), new ScheduledTask(9300, 9340, 0), new ScheduledTask(13300, 13326, 0), new ScheduledTask(15900, 15940, 0), new ScheduledTask(19900, 19931, 0), new ScheduledTask(13500, 13526, 1), new ScheduledTask(9900, 9918, 2), new ScheduledTask(23000, 23018, 0), new ScheduledTask(24800, 24844, 0), new ScheduledTask(29200, 29244, 0), new ScheduledTask(24000, 24035, 1), new ScheduledTask(16800, 16813, 2), new ScheduledTask(33600, 33613, 0), new ScheduledTask(34900, 34944, 0), new ScheduledTask(29800, 29840, 2), new ScheduledTask(29700, 29735, 3), new ScheduledTask(39300, 39335, 0), new ScheduledTask(42800, 42826, 0), new ScheduledTask(31000, 31022, 1), new ScheduledTask(45400, 45435, 0), new ScheduledTask(43400, 43422, 1), new ScheduledTask(48900, 48944, 0), new ScheduledTask(53300, 53340, 0), new ScheduledTask(40300, 40335, 2), new ScheduledTask(49200, 49231, 1), new ScheduledTask(57300, 57309, 0), new ScheduledTask(58200, 58240, 0), new ScheduledTask(62200, 62213, 0)};
-        int[] expectedProcessorEndTimes = new int[]{62213, 49231, 40335, 29735};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot37_CCR_1dot00_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.37_CCR_1.00_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 61100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 22, 0), new ScheduledTask(2200, 2231, 0), new ScheduledTask(5300, 5340, 0), new ScheduledTask(9300, 9340, 0), new ScheduledTask(13300, 13326, 0), new ScheduledTask(15900, 15940, 0), new ScheduledTask(19900, 19931, 0), new ScheduledTask(13500, 13526, 1), new ScheduledTask(9900, 9918, 2), new ScheduledTask(23000, 23018, 0), new ScheduledTask(24800, 24844, 0), new ScheduledTask(29200, 29244, 0), new ScheduledTask(24000, 24035, 3), new ScheduledTask(16800, 16813, 3), new ScheduledTask(33600, 33613, 0), new ScheduledTask(34900, 34944, 0), new ScheduledTask(31000, 31040, 3), new ScheduledTask(29700, 29735, 2), new ScheduledTask(39300, 39335, 0), new ScheduledTask(42800, 42826, 0), new ScheduledTask(39000, 39022, 3), new ScheduledTask(45400, 45435, 0), new ScheduledTask(43400, 43422, 3), new ScheduledTask(48900, 48944, 0), new ScheduledTask(49600, 49640, 1), new ScheduledTask(43600, 43635, 2), new ScheduledTask(49200, 49231, 3), new ScheduledTask(54900, 54909, 0), new ScheduledTask(55800, 55840, 0), new ScheduledTask(59800, 59813, 0)};
-        int[] expectedProcessorEndTimes = new int[]{59813, 49640, 43635, 49231};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -13221,26 +8021,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot43_CCR_0dot10_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.43_CCR_0.10_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 469130;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 107, 0), new ScheduledTask(0, 107, 2), new ScheduledTask(16550, 17032, 0), new ScheduledTask(0, 429, 1), new ScheduledTask(64750, 65232, 0), new ScheduledTask(51480, 51909, 1), new ScheduledTask(16550, 16711, 3), new ScheduledTask(65450, 65664, 3), new ScheduledTask(112950, 113164, 0), new ScheduledTask(108250, 108357, 3), new ScheduledTask(108850, 109386, 1), new ScheduledTask(134350, 134832, 0), new ScheduledTask(129650, 129972, 3), new ScheduledTask(182550, 182764, 0), new ScheduledTask(195050, 195211, 2), new ScheduledTask(203950, 204111, 0), new ScheduledTask(220100, 220529, 0), new ScheduledTask(220750, 221125, 1), new ScheduledTask(219200, 219682, 2), new ScheduledTask(266650, 267132, 0), new ScheduledTask(194050, 194586, 3), new ScheduledTask(314850, 315172, 0), new ScheduledTask(301250, 301411, 3), new ScheduledTask(347050, 347264, 0), new ScheduledTask(347550, 347872, 1), new ScheduledTask(368450, 368718, 0), new ScheduledTask(386190, 386297, 1), new ScheduledTask(399430, 399859, 0), new ScheduledTask(399030, 399566, 1), new ScheduledTask(442330, 442598, 0)};
-        int[] expectedProcessorEndTimes = new int[]{442598, 399566, 219682, 301411};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot43_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.43_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -13292,26 +8072,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 107, 0), new ScheduledTask(0, 107, 1), new ScheduledTask(112, 594, 0), new ScheduledTask(0, 429, 2), new ScheduledTask(594, 1076, 0), new ScheduledTask(0, 429, 3), new ScheduledTask(114, 275, 1), new ScheduledTask(601, 815, 1), new ScheduledTask(1076, 1290, 0), new ScheduledTask(815, 922, 1), new ScheduledTask(821, 1357, 2), new ScheduledTask(1290, 1772, 0), new ScheduledTask(431, 753, 3), new ScheduledTask(1772, 1986, 0), new ScheduledTask(1357, 1518, 2), new ScheduledTask(1986, 2147, 0), new ScheduledTask(2147, 2576, 0), new ScheduledTask(2154, 2529, 1), new ScheduledTask(1518, 2000, 2), new ScheduledTask(2576, 3058, 0), new ScheduledTask(1776, 2312, 3), new ScheduledTask(3058, 3380, 0), new ScheduledTask(2582, 2743, 1), new ScheduledTask(3380, 3594, 0), new ScheduledTask(3385, 3707, 1), new ScheduledTask(3594, 3862, 0), new ScheduledTask(3707, 3814, 1), new ScheduledTask(3862, 4291, 0), new ScheduledTask(3814, 4350, 1), new ScheduledTask(4291, 4559, 0)};
         int[] expectedProcessorEndTimes = new int[]{4559, 4350, 2000, 2312};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalRandom_Nodes_30_Density_5dot57_CCR_10dot12_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.57_CCR_10.12_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(600, 606, 0), new ScheduledTask(0, 4, 0), new ScheduledTask(1200, 1202, 0), new ScheduledTask(400, 402, 0), new ScheduledTask(1400, 1402, 0), new ScheduledTask(2300, 2302, 0), new ScheduledTask(3900, 3909, 0), new ScheduledTask(2500, 2504, 0), new ScheduledTask(1600, 1607, 0), new ScheduledTask(3900, 3902, 1), new ScheduledTask(4800, 4804, 0), new ScheduledTask(6600, 6606, 0), new ScheduledTask(2900, 2910, 0), new ScheduledTask(5200, 5208, 0), new ScheduledTask(7200, 7202, 0), new ScheduledTask(6000, 6006, 0), new ScheduledTask(7400, 7409, 0), new ScheduledTask(2600, 2606, 2), new ScheduledTask(8300, 8307, 0), new ScheduledTask(10300, 10302, 0), new ScheduledTask(9000, 9009, 0), new ScheduledTask(11300, 11304, 0), new ScheduledTask(6500, 6506, 3), new ScheduledTask(9900, 9904, 0), new ScheduledTask(11700, 11708, 0), new ScheduledTask(10500, 10508, 0), new ScheduledTask(10100, 10105, 3), new ScheduledTask(10600, 10604, 2), new ScheduledTask(12800, 12803, 0), new ScheduledTask(12500, 12503, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12803, 3902, 10604, 10105};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -13461,46 +8221,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random2_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#2_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 170700;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 43, 0), new ScheduledTask(4300, 4414, 0), new ScheduledTask(15700, 15786, 0), new ScheduledTask(5200, 5300, 1), new ScheduledTask(47100, 47228, 0), new ScheduledTask(16700, 16757, 2), new ScheduledTask(34300, 34428, 0), new ScheduledTask(4900, 5000, 3), new ScheduledTask(24300, 24400, 0), new ScheduledTask(71300, 71386, 0), new ScheduledTask(59900, 60014, 0), new ScheduledTask(50900, 50957, 2), new ScheduledTask(65900, 65957, 1), new ScheduledTask(131300, 131400, 0), new ScheduledTask(121300, 121400, 0), new ScheduledTask(64900, 64943, 3), new ScheduledTask(87000, 87043, 0), new ScheduledTask(79900, 79971, 0), new ScheduledTask(91300, 91343, 0), new ScheduledTask(108500, 108628, 0), new ScheduledTask(98500, 98600, 0), new ScheduledTask(141300, 141443, 0), new ScheduledTask(96000, 96100, 3), new ScheduledTask(100100, 100186, 1), new ScheduledTask(85100, 85157, 2), new ScheduledTask(95600, 95629, 0), new ScheduledTask(121700, 121757, 2), new ScheduledTask(156400, 156443, 0), new ScheduledTask(160700, 160743, 0), new ScheduledTask(165000, 165057, 0)};
-        int[] expectedProcessorEndTimes = new int[]{165057, 100186, 121757, 96100};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random3_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#3_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 173500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 120, 0), new ScheduledTask(12000, 12080, 0), new ScheduledTask(20000, 20134, 0), new ScheduledTask(52200, 52294, 0), new ScheduledTask(20800, 20894, 1), new ScheduledTask(75000, 75134, 0), new ScheduledTask(61600, 61734, 0), new ScheduledTask(93800, 93907, 0), new ScheduledTask(33400, 33454, 0), new ScheduledTask(88400, 88454, 0), new ScheduledTask(77200, 77240, 1), new ScheduledTask(68900, 68940, 2), new ScheduledTask(92900, 92940, 2), new ScheduledTask(44900, 44940, 2), new ScheduledTask(42800, 42840, 0), new ScheduledTask(38800, 38840, 0), new ScheduledTask(104500, 104634, 0), new ScheduledTask(136600, 136720, 0), new ScheduledTask(117900, 118020, 0), new ScheduledTask(84600, 84707, 3), new ScheduledTask(20900, 20940, 2), new ScheduledTask(12600, 12720, 3), new ScheduledTask(101200, 101254, 1), new ScheduledTask(46800, 46854, 0), new ScheduledTask(149300, 149420, 0), new ScheduledTask(129900, 129967, 0), new ScheduledTask(116900, 116967, 2), new ScheduledTask(137000, 137040, 1), new ScheduledTask(161500, 161540, 0), new ScheduledTask(165500, 165580, 0)};
-        int[] expectedProcessorEndTimes = new int[]{165580, 137040, 116967, 84707};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random3_Homogeneous_6(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#3_Homogeneous-6.dot");
         int processorCount = 6;
@@ -13541,46 +8261,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random5_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#5_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 202200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 98, 0), new ScheduledTask(9800, 9914, 0), new ScheduledTask(21200, 21347, 0), new ScheduledTask(35900, 36030, 0), new ScheduledTask(36700, 36749, 1), new ScheduledTask(69000, 69114, 2), new ScheduledTask(49200, 49233, 2), new ScheduledTask(48900, 48949, 0), new ScheduledTask(94500, 94647, 0), new ScheduledTask(81500, 81630, 0), new ScheduledTask(158100, 158247, 0), new ScheduledTask(70100, 70214, 0), new ScheduledTask(53800, 53963, 0), new ScheduledTask(138600, 138730, 0), new ScheduledTask(36700, 36782, 3), new ScheduledTask(66100, 66182, 1), new ScheduledTask(128800, 128898, 0), new ScheduledTask(151600, 151665, 0), new ScheduledTask(137400, 137449, 2), new ScheduledTask(115300, 115414, 3), new ScheduledTask(119000, 119098, 0), new ScheduledTask(109200, 109298, 0), new ScheduledTask(172800, 172914, 0), new ScheduledTask(115300, 115365, 1), new ScheduledTask(85900, 85949, 3), new ScheduledTask(154300, 154349, 1), new ScheduledTask(184200, 184233, 0), new ScheduledTask(166800, 166833, 2), new ScheduledTask(187500, 187614, 0), new ScheduledTask(198900, 198933, 0)};
-        int[] expectedProcessorEndTimes = new int[]{198933, 154349, 166833, 115414};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random6_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#6_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 196300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 65, 0), new ScheduledTask(6500, 6617, 0), new ScheduledTask(18200, 18278, 0), new ScheduledTask(26000, 26065, 0), new ScheduledTask(32500, 32539, 0), new ScheduledTask(36400, 36517, 0), new ScheduledTask(48100, 48217, 0), new ScheduledTask(48600, 48678, 1), new ScheduledTask(127400, 127517, 0), new ScheduledTask(36700, 36791, 2), new ScheduledTask(59800, 59904, 0), new ScheduledTask(37000, 37052, 3), new ScheduledTask(68200, 68291, 3), new ScheduledTask(107900, 107991, 0), new ScheduledTask(98800, 98891, 0), new ScheduledTask(87100, 87217, 0), new ScheduledTask(76700, 76804, 0), new ScheduledTask(158600, 158691, 0), new ScheduledTask(95400, 95426, 1), new ScheduledTask(139100, 139230, 0), new ScheduledTask(122800, 122865, 3), new ScheduledTask(70200, 70265, 0), new ScheduledTask(152100, 152165, 0), new ScheduledTask(117000, 117104, 0), new ScheduledTask(91300, 91404, 2), new ScheduledTask(111000, 111104, 1), new ScheduledTask(167700, 167804, 0), new ScheduledTask(153700, 153739, 2), new ScheduledTask(178100, 178217, 0), new ScheduledTask(189800, 189865, 0)};
-        int[] expectedProcessorEndTimes = new int[]{189865, 111104, 153739, 122865};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random6_Homogeneous_6(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#6_Homogeneous-6.dot");
         int processorCount = 6;
@@ -13592,66 +8272,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 65, 0), new ScheduledTask(65, 182, 0), new ScheduledTask(182, 260, 0), new ScheduledTask(260, 325, 0), new ScheduledTask(325, 364, 0), new ScheduledTask(364, 481, 0), new ScheduledTask(481, 598, 0), new ScheduledTask(486, 564, 1), new ScheduledTask(598, 715, 0), new ScheduledTask(367, 458, 2), new ScheduledTask(604, 708, 1), new ScheduledTask(370, 422, 3), new ScheduledTask(607, 698, 2), new ScheduledTask(568, 659, 3), new ScheduledTask(571, 662, 4), new ScheduledTask(427, 544, 5), new ScheduledTask(544, 648, 5), new ScheduledTask(648, 739, 5), new ScheduledTask(659, 685, 3), new ScheduledTask(715, 845, 0), new ScheduledTask(662, 727, 4), new ScheduledTask(685, 750, 3), new ScheduledTask(698, 763, 2), new ScheduledTask(708, 812, 1), new ScheduledTask(727, 831, 4), new ScheduledTask(750, 854, 3), new ScheduledTask(763, 867, 2), new ScheduledTask(845, 884, 0), new ScheduledTask(884, 1001, 0), new ScheduledTask(1001, 1066, 0)};
         int[] expectedProcessorEndTimes = new int[]{1066, 812, 867, 854, 831, 739};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random7_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#7_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 185000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 97, 0), new ScheduledTask(9700, 9732, 0), new ScheduledTask(12900, 12981, 0), new ScheduledTask(21000, 21129, 0), new ScheduledTask(33900, 33932, 0), new ScheduledTask(37100, 37213, 0), new ScheduledTask(53900, 53964, 1), new ScheduledTask(64500, 64629, 0), new ScheduledTask(92500, 92661, 0), new ScheduledTask(51600, 51697, 0), new ScheduledTask(49000, 49064, 2), new ScheduledTask(48400, 48432, 0), new ScheduledTask(72800, 72832, 3), new ScheduledTask(87400, 87432, 2), new ScheduledTask(108600, 108664, 0), new ScheduledTask(34700, 34732, 1), new ScheduledTask(34400, 34464, 3), new ScheduledTask(126200, 126361, 0), new ScheduledTask(61300, 61332, 0), new ScheduledTask(92000, 92097, 3), new ScheduledTask(92300, 92397, 1), new ScheduledTask(77400, 77545, 0), new ScheduledTask(119800, 119864, 0), new ScheduledTask(106600, 106648, 2), new ScheduledTask(115000, 115048, 0), new ScheduledTask(151100, 151181, 0), new ScheduledTask(142300, 142381, 0), new ScheduledTask(135400, 135432, 2), new ScheduledTask(159200, 159329, 0), new ScheduledTask(172100, 172229, 0)};
-        int[] expectedProcessorEndTimes = new int[]{172229, 92397, 135432, 92097};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random7_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#7_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 136200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 97, 0), new ScheduledTask(9700, 9732, 0), new ScheduledTask(12900, 12981, 0), new ScheduledTask(21000, 21129, 0), new ScheduledTask(33900, 33932, 0), new ScheduledTask(37100, 37213, 0), new ScheduledTask(37600, 37664, 1), new ScheduledTask(48400, 48529, 0), new ScheduledTask(61300, 61461, 0), new ScheduledTask(41100, 41197, 2), new ScheduledTask(50400, 50464, 1), new ScheduledTask(60500, 60532, 2), new ScheduledTask(66900, 66932, 2), new ScheduledTask(73000, 73032, 3), new ScheduledTask(79700, 79764, 0), new ScheduledTask(34700, 34732, 2), new ScheduledTask(34400, 34464, 3), new ScheduledTask(86100, 86261, 0), new ScheduledTask(47200, 47232, 3), new ScheduledTask(53600, 53697, 3), new ScheduledTask(73300, 73397, 2), new ScheduledTask(63200, 63345, 1), new ScheduledTask(89000, 89064, 3), new ScheduledTask(79400, 79448, 3), new ScheduledTask(92200, 92248, 1), new ScheduledTask(92700, 92781, 2), new ScheduledTask(102300, 102381, 0), new ScheduledTask(101800, 101832, 3), new ScheduledTask(110400, 110529, 0), new ScheduledTask(123300, 123429, 0)};
-        int[] expectedProcessorEndTimes = new int[]{123429, 92248, 92781, 101832};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random7_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#7_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 123800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 97, 0), new ScheduledTask(9700, 9732, 0), new ScheduledTask(12900, 12981, 0), new ScheduledTask(21000, 21129, 0), new ScheduledTask(33900, 33932, 0), new ScheduledTask(37100, 37213, 0), new ScheduledTask(37600, 37664, 1), new ScheduledTask(48400, 48529, 0), new ScheduledTask(45280, 45441, 1), new ScheduledTask(41100, 41197, 3), new ScheduledTask(53600, 53664, 2), new ScheduledTask(48800, 48832, 2), new ScheduledTask(60500, 60532, 3), new ScheduledTask(63700, 63732, 0), new ScheduledTask(67400, 67464, 0), new ScheduledTask(34700, 34732, 3), new ScheduledTask(34400, 34464, 2), new ScheduledTask(73800, 73961, 0), new ScheduledTask(44000, 44032, 2), new ScheduledTask(63200, 63297, 2), new ScheduledTask(64600, 64697, 1), new ScheduledTask(76240, 76385, 1), new ScheduledTask(76500, 76564, 3), new ScheduledTask(66900, 66948, 3), new ScheduledTask(77750, 77798, 2), new ScheduledTask(84950, 85031, 2), new ScheduledTask(89900, 89981, 0), new ScheduledTask(93640, 93672, 1), new ScheduledTask(98000, 98129, 0), new ScheduledTask(110900, 111029, 0)};
-        int[] expectedProcessorEndTimes = new int[]{111029, 93672, 85031, 76564};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -13741,26 +8361,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random9_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#9_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 127620;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 103, 0), new ScheduledTask(10300, 10403, 0), new ScheduledTask(20600, 20677, 0), new ScheduledTask(21600, 21716, 1), new ScheduledTask(28300, 28364, 0), new ScheduledTask(21400, 21452, 2), new ScheduledTask(40900, 41029, 0), new ScheduledTask(35520, 35636, 1), new ScheduledTask(29700, 29726, 3), new ScheduledTask(35000, 35090, 3), new ScheduledTask(36220, 36272, 2), new ScheduledTask(35700, 35752, 0), new ScheduledTask(44020, 44123, 2), new ScheduledTask(49440, 49530, 1), new ScheduledTask(54000, 54077, 0), new ScheduledTask(61700, 61803, 0), new ScheduledTask(72000, 72064, 0), new ScheduledTask(78400, 78477, 0), new ScheduledTask(78600, 78652, 1), new ScheduledTask(78900, 78926, 3), new ScheduledTask(86100, 86229, 0), new ScheduledTask(73000, 73039, 2), new ScheduledTask(78850, 78902, 2), new ScheduledTask(84100, 84164, 3), new ScheduledTask(86650, 86689, 2), new ScheduledTask(99000, 99026, 0), new ScheduledTask(101600, 101716, 0), new ScheduledTask(101900, 102016, 1), new ScheduledTask(102000, 102052, 3), new ScheduledTask(116020, 116136, 0)};
-        int[] expectedProcessorEndTimes = new int[]{116136, 102016, 86689, 102052};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random9_Homogeneous_4(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#9_Homogeneous-4.dot");
         int processorCount = 4;
@@ -13821,26 +8421,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 173500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 113, 0), new ScheduledTask(11300, 11426, 0), new ScheduledTask(36500, 36601, 0), new ScheduledTask(23900, 23976, 0), new ScheduledTask(95600, 95713, 0), new ScheduledTask(24900, 24976, 1), new ScheduledTask(51600, 51726, 0), new ScheduledTask(49300, 49350, 2), new ScheduledTask(64300, 64325, 3), new ScheduledTask(84300, 84413, 0), new ScheduledTask(46600, 46650, 0), new ScheduledTask(31500, 31550, 0), new ScheduledTask(110700, 110826, 0), new ScheduledTask(79300, 79350, 0), new ScheduledTask(70500, 70588, 1), new ScheduledTask(79300, 79338, 3), new ScheduledTask(106900, 106938, 0), new ScheduledTask(123700, 123801, 0), new ScheduledTask(11500, 11563, 2), new ScheduledTask(11500, 11588, 3), new ScheduledTask(64200, 64301, 0), new ScheduledTask(133800, 133913, 0), new ScheduledTask(74300, 74350, 0), new ScheduledTask(79300, 79426, 2), new ScheduledTask(145100, 145125, 0), new ScheduledTask(134100, 134125, 1), new ScheduledTask(102100, 102188, 3), new ScheduledTask(149500, 149576, 0), new ScheduledTask(157100, 157138, 0), new ScheduledTask(160900, 161026, 0)};
-        int[] expectedProcessorEndTimes = new int[]{161026, 134125, 79426, 102188};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
@@ -13872,366 +8452,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 113, 0), new ScheduledTask(113, 239, 0), new ScheduledTask(239, 340, 0), new ScheduledTask(249, 325, 1), new ScheduledTask(340, 453, 0), new ScheduledTask(249, 325, 2), new ScheduledTask(325, 451, 1), new ScheduledTask(342, 392, 2), new ScheduledTask(345, 370, 3), new ScheduledTask(327, 440, 4), new ScheduledTask(333, 383, 5), new ScheduledTask(370, 420, 3), new ScheduledTask(453, 579, 0), new ScheduledTask(383, 433, 5), new ScheduledTask(451, 539, 1), new ScheduledTask(392, 430, 2), new ScheduledTask(443, 481, 2), new ScheduledTask(579, 680, 0), new ScheduledTask(420, 483, 3), new ScheduledTask(433, 521, 5), new ScheduledTask(483, 584, 3), new ScheduledTask(680, 793, 0), new ScheduledTask(521, 571, 5), new ScheduledTask(584, 710, 3), new ScheduledTask(690, 715, 1), new ScheduledTask(683, 708, 2), new ScheduledTask(571, 659, 5), new ScheduledTask(793, 869, 0), new ScheduledTask(869, 907, 0), new ScheduledTask(907, 1033, 0)};
         int[] expectedProcessorEndTimes = new int[]{1033, 715, 708, 710, 440, 659};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot97_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.97_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 19500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 3, 0), new ScheduledTask(300, 309, 0), new ScheduledTask(1200, 1211, 0), new ScheduledTask(4600, 4609, 0), new ScheduledTask(2300, 2315, 0), new ScheduledTask(2700, 2708, 1), new ScheduledTask(7500, 7512, 0), new ScheduledTask(600, 614, 2), new ScheduledTask(6100, 6114, 0), new ScheduledTask(7500, 7511, 1), new ScheduledTask(8700, 8712, 0), new ScheduledTask(3800, 3808, 0), new ScheduledTask(5500, 5506, 0), new ScheduledTask(8500, 8508, 3), new ScheduledTask(14300, 14306, 0), new ScheduledTask(9000, 9009, 2), new ScheduledTask(14900, 14905, 0), new ScheduledTask(10500, 10514, 0), new ScheduledTask(1300, 1312, 3), new ScheduledTask(15400, 15405, 0), new ScheduledTask(12400, 12408, 0), new ScheduledTask(13200, 13211, 0), new ScheduledTask(15900, 15914, 0), new ScheduledTask(9900, 9906, 0), new ScheduledTask(11900, 11905, 0), new ScheduledTask(14500, 14503, 2), new ScheduledTask(13300, 13306, 3), new ScheduledTask(17300, 17308, 0), new ScheduledTask(18100, 18109, 0), new ScheduledTask(19000, 19005, 0)};
-        int[] expectedProcessorEndTimes = new int[]{19005, 7511, 14503, 13306};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot99_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.99_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 17900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 11, 0), new ScheduledTask(1100, 1110, 0), new ScheduledTask(2100, 2108, 0), new ScheduledTask(2900, 2914, 0), new ScheduledTask(4300, 4310, 0), new ScheduledTask(6500, 6511, 0), new ScheduledTask(6000, 6003, 1), new ScheduledTask(5300, 5304, 0), new ScheduledTask(13600, 13614, 0), new ScheduledTask(11400, 11412, 0), new ScheduledTask(7600, 7611, 0), new ScheduledTask(10400, 10403, 0), new ScheduledTask(10200, 10203, 1), new ScheduledTask(7800, 7804, 1), new ScheduledTask(5700, 5708, 0), new ScheduledTask(6100, 6105, 2), new ScheduledTask(4800, 4807, 3), new ScheduledTask(12600, 12610, 0), new ScheduledTask(10700, 10707, 0), new ScheduledTask(15000, 15003, 0), new ScheduledTask(8700, 8712, 0), new ScheduledTask(9000, 9011, 3), new ScheduledTask(9100, 9111, 2), new ScheduledTask(9900, 9905, 0), new ScheduledTask(15300, 15303, 0), new ScheduledTask(16400, 16403, 0), new ScheduledTask(12000, 12007, 1), new ScheduledTask(15600, 15608, 0), new ScheduledTask(16700, 16708, 0), new ScheduledTask(17500, 17504, 0)};
-        int[] expectedProcessorEndTimes = new int[]{17504, 12007, 9111, 9011};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_1dot00_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_1.00_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 21200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 0), new ScheduledTask(800, 810, 0), new ScheduledTask(2800, 2810, 0), new ScheduledTask(2600, 2604, 1), new ScheduledTask(8400, 8413, 0), new ScheduledTask(2600, 2610, 2), new ScheduledTask(7400, 7410, 0), new ScheduledTask(5000, 5007, 1), new ScheduledTask(6100, 6113, 0), new ScheduledTask(3800, 3813, 0), new ScheduledTask(9700, 9703, 0), new ScheduledTask(10000, 10005, 0), new ScheduledTask(10500, 10513, 0), new ScheduledTask(5400, 5407, 0), new ScheduledTask(1800, 1810, 0), new ScheduledTask(8600, 8610, 2), new ScheduledTask(14000, 14010, 0), new ScheduledTask(12800, 12812, 0), new ScheduledTask(3700, 3707, 3), new ScheduledTask(11800, 11810, 0), new ScheduledTask(9200, 9208, 1), new ScheduledTask(5100, 5103, 0), new ScheduledTask(7900, 7913, 3), new ScheduledTask(15800, 15805, 0), new ScheduledTask(15000, 15008, 0), new ScheduledTask(16300, 16312, 0), new ScheduledTask(17500, 17512, 0), new ScheduledTask(19000, 19010, 0), new ScheduledTask(18700, 18703, 0), new ScheduledTask(20000, 20012, 0)};
-        int[] expectedProcessorEndTimes = new int[]{20012, 9208, 8610, 7913};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_1dot01_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_1.01_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 17400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(600, 608, 0), new ScheduledTask(1400, 1403, 0), new ScheduledTask(1700, 1709, 0), new ScheduledTask(6200, 6208, 0), new ScheduledTask(2600, 2608, 0), new ScheduledTask(8900, 8909, 0), new ScheduledTask(1800, 1803, 1), new ScheduledTask(8400, 8405, 0), new ScheduledTask(1800, 1806, 2), new ScheduledTask(7600, 7608, 0), new ScheduledTask(5400, 5412, 2), new ScheduledTask(3500, 3509, 3), new ScheduledTask(5200, 5210, 0), new ScheduledTask(10700, 10712, 0), new ScheduledTask(3400, 3408, 0), new ScheduledTask(1500, 1503, 3), new ScheduledTask(3600, 3606, 1), new ScheduledTask(7000, 7006, 0), new ScheduledTask(11900, 11905, 0), new ScheduledTask(4200, 4210, 0), new ScheduledTask(7200, 7210, 1), new ScheduledTask(9800, 9809, 0), new ScheduledTask(13400, 13405, 0), new ScheduledTask(12400, 12410, 0), new ScheduledTask(8900, 8909, 3), new ScheduledTask(13900, 13910, 0), new ScheduledTask(14900, 14903, 0), new ScheduledTask(15200, 15210, 0), new ScheduledTask(16200, 16212, 0)};
-        int[] expectedProcessorEndTimes = new int[]{16212, 7210, 5412, 8909};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_1dot01_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_1.01_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 17900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(900, 906, 0), new ScheduledTask(3600, 3616, 0), new ScheduledTask(9900, 9909, 0), new ScheduledTask(1800, 1806, 0), new ScheduledTask(6600, 6614, 0), new ScheduledTask(5200, 5211, 0), new ScheduledTask(6200, 6209, 1), new ScheduledTask(11600, 11616, 0), new ScheduledTask(2800, 2809, 2), new ScheduledTask(8200, 8206, 2), new ScheduledTask(10800, 10808, 0), new ScheduledTask(1500, 1503, 0), new ScheduledTask(11800, 11803, 2), new ScheduledTask(13500, 13509, 0), new ScheduledTask(8000, 8011, 0), new ScheduledTask(13200, 13203, 0), new ScheduledTask(9100, 9103, 0), new ScheduledTask(6300, 6303, 0), new ScheduledTask(2000, 2014, 3), new ScheduledTask(2400, 2412, 0), new ScheduledTask(14400, 14403, 0), new ScheduledTask(2200, 2206, 1), new ScheduledTask(14700, 14709, 0), new ScheduledTask(9400, 9405, 0), new ScheduledTask(10400, 10408, 3), new ScheduledTask(15600, 15603, 0), new ScheduledTask(11600, 11606, 1), new ScheduledTask(15900, 15911, 0), new ScheduledTask(17000, 17009, 0)};
-        int[] expectedProcessorEndTimes = new int[]{17009, 11606, 11803, 10408};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_1dot03_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_1.03_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 16400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(600, 603, 0), new ScheduledTask(900, 904, 0), new ScheduledTask(1900, 1913, 1), new ScheduledTask(1300, 1307, 0), new ScheduledTask(3000, 3004, 0), new ScheduledTask(2000, 2010, 0), new ScheduledTask(9100, 9107, 0), new ScheduledTask(8200, 8209, 0), new ScheduledTask(3800, 3806, 2), new ScheduledTask(4600, 4613, 0), new ScheduledTask(11400, 11406, 0), new ScheduledTask(10400, 10407, 0), new ScheduledTask(11100, 11103, 0), new ScheduledTask(6900, 6913, 0), new ScheduledTask(2200, 2212, 3), new ScheduledTask(9800, 9806, 0), new ScheduledTask(1700, 1703, 2), new ScheduledTask(3400, 3412, 0), new ScheduledTask(9700, 9703, 1), new ScheduledTask(12000, 12004, 0), new ScheduledTask(7400, 7410, 2), new ScheduledTask(5900, 5910, 0), new ScheduledTask(12400, 12403, 0), new ScheduledTask(11500, 11503, 1), new ScheduledTask(9400, 9407, 3), new ScheduledTask(12700, 12710, 0), new ScheduledTask(13700, 13707, 0), new ScheduledTask(14400, 14407, 0), new ScheduledTask(15100, 15113, 0)};
-        int[] expectedProcessorEndTimes = new int[]{15113, 11503, 7410, 9407};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_1dot10_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_1.10_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 0), new ScheduledTask(1600, 1609, 0), new ScheduledTask(800, 802, 0), new ScheduledTask(2500, 2506, 0), new ScheduledTask(1500, 1507, 1), new ScheduledTask(3100, 3108, 0), new ScheduledTask(1300, 1308, 2), new ScheduledTask(6200, 6207, 0), new ScheduledTask(7900, 7906, 0), new ScheduledTask(1500, 1503, 3), new ScheduledTask(4900, 4908, 0), new ScheduledTask(5700, 5702, 1), new ScheduledTask(4400, 4405, 0), new ScheduledTask(6900, 6910, 0), new ScheduledTask(3900, 3905, 0), new ScheduledTask(8500, 8506, 0), new ScheduledTask(4500, 4504, 3), new ScheduledTask(6100, 6104, 2), new ScheduledTask(1000, 1006, 0), new ScheduledTask(6900, 6905, 3), new ScheduledTask(9100, 9107, 0), new ScheduledTask(6900, 6906, 1), new ScheduledTask(3300, 3302, 3), new ScheduledTask(8500, 8503, 2), new ScheduledTask(10700, 10709, 0), new ScheduledTask(9800, 9809, 0), new ScheduledTask(5700, 5705, 0), new ScheduledTask(11600, 11604, 0), new ScheduledTask(12000, 12008, 0), new ScheduledTask(12800, 12802, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12802, 6906, 8503, 6905};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_10dot00_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_10.00_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 18200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1007, 0), new ScheduledTask(1700, 1709, 0), new ScheduledTask(3600, 3602, 0), new ScheduledTask(3800, 3806, 0), new ScheduledTask(11400, 11406, 0), new ScheduledTask(10200, 10209, 0), new ScheduledTask(9300, 9309, 0), new ScheduledTask(12000, 12008, 0), new ScheduledTask(8600, 8607, 0), new ScheduledTask(2600, 2610, 0), new ScheduledTask(4400, 4409, 0), new ScheduledTask(6400, 6409, 0), new ScheduledTask(5900, 5908, 1), new ScheduledTask(11100, 11103, 0), new ScheduledTask(13800, 13807, 0), new ScheduledTask(6200, 6202, 0), new ScheduledTask(7300, 7305, 0), new ScheduledTask(5300, 5309, 0), new ScheduledTask(6900, 6908, 2), new ScheduledTask(14500, 14503, 0), new ScheduledTask(13300, 13305, 0), new ScheduledTask(7800, 7808, 0), new ScheduledTask(14800, 14804, 0), new ScheduledTask(16400, 16407, 0), new ScheduledTask(15400, 15408, 0), new ScheduledTask(17100, 17103, 0), new ScheduledTask(15200, 15202, 0), new ScheduledTask(16200, 16202, 0), new ScheduledTask(17400, 17408, 0)};
-        int[] expectedProcessorEndTimes = new int[]{17408, 5908, 6908};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_10dot00_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_10.00_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 17200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1007, 0), new ScheduledTask(5200, 5209, 0), new ScheduledTask(9800, 9802, 0), new ScheduledTask(2600, 2606, 0), new ScheduledTask(7900, 7906, 0), new ScheduledTask(10000, 10009, 0), new ScheduledTask(10900, 10909, 0), new ScheduledTask(8500, 8508, 0), new ScheduledTask(11800, 11807, 0), new ScheduledTask(6100, 6110, 0), new ScheduledTask(3200, 3209, 0), new ScheduledTask(1700, 1709, 0), new ScheduledTask(7100, 7108, 0), new ScheduledTask(12500, 12503, 0), new ScheduledTask(12800, 12807, 0), new ScheduledTask(5000, 5002, 0), new ScheduledTask(6500, 6505, 1), new ScheduledTask(4100, 4109, 0), new ScheduledTask(5700, 5708, 2), new ScheduledTask(13500, 13503, 0), new ScheduledTask(9300, 9305, 0), new ScheduledTask(7500, 7508, 1), new ScheduledTask(13800, 13804, 0), new ScheduledTask(15400, 15407, 0), new ScheduledTask(14400, 14408, 0), new ScheduledTask(16100, 16103, 0), new ScheduledTask(14200, 14202, 0), new ScheduledTask(15200, 15202, 0), new ScheduledTask(16400, 16408, 0)};
-        int[] expectedProcessorEndTimes = new int[]{16408, 7508, 5708};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_10dot01_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_10.01_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 16000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(500, 502, 0), new ScheduledTask(700, 709, 0), new ScheduledTask(9800, 9809, 0), new ScheduledTask(3900, 3910, 0), new ScheduledTask(11900, 11907, 0), new ScheduledTask(9100, 9107, 0), new ScheduledTask(11300, 11306, 0), new ScheduledTask(10700, 10706, 0), new ScheduledTask(8900, 8902, 0), new ScheduledTask(5800, 5809, 0), new ScheduledTask(6500, 6507, 1), new ScheduledTask(7500, 7510, 0), new ScheduledTask(2100, 2108, 0), new ScheduledTask(6900, 6906, 0), new ScheduledTask(1600, 1605, 0), new ScheduledTask(13500, 13502, 0), new ScheduledTask(12600, 12609, 0), new ScheduledTask(6700, 6702, 0), new ScheduledTask(6100, 6110, 2), new ScheduledTask(3600, 3603, 0), new ScheduledTask(4900, 4909, 0), new ScheduledTask(8500, 8504, 0), new ScheduledTask(13700, 13706, 0), new ScheduledTask(2900, 2907, 0), new ScheduledTask(9000, 9004, 3), new ScheduledTask(14300, 14303, 0), new ScheduledTask(11400, 11402, 3), new ScheduledTask(14600, 14608, 0), new ScheduledTask(15400, 15406, 0)};
-        int[] expectedProcessorEndTimes = new int[]{15406, 6507, 6110, 11402};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_10dot01_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_10.01_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 14300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(500, 502, 0), new ScheduledTask(700, 709, 0), new ScheduledTask(6900, 6909, 0), new ScheduledTask(4100, 4110, 0), new ScheduledTask(9000, 9007, 0), new ScheduledTask(6000, 6007, 0), new ScheduledTask(8400, 8406, 0), new ScheduledTask(7800, 7806, 0), new ScheduledTask(5800, 5802, 0), new ScheduledTask(1600, 1609, 0), new ScheduledTask(5100, 5107, 0), new ScheduledTask(3100, 3110, 0), new ScheduledTask(4700, 4708, 1), new ScheduledTask(2500, 2506, 0), new ScheduledTask(7200, 7205, 2), new ScheduledTask(6700, 6702, 0), new ScheduledTask(9700, 9709, 0), new ScheduledTask(5700, 5702, 3), new ScheduledTask(8200, 8210, 2), new ScheduledTask(10300, 10303, 1), new ScheduledTask(7700, 7709, 1), new ScheduledTask(10900, 10904, 0), new ScheduledTask(11800, 11806, 0), new ScheduledTask(6300, 6307, 1), new ScheduledTask(9500, 9504, 1), new ScheduledTask(12400, 12403, 0), new ScheduledTask(10900, 10902, 1), new ScheduledTask(12900, 12908, 0), new ScheduledTask(13700, 13706, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13706, 10902, 8210, 5702};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_10dot02_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_10.02_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 2;
-        int expectedScheduleEndTime = 15900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 0), new ScheduledTask(3500, 3507, 0), new ScheduledTask(7600, 7610, 0), new ScheduledTask(9600, 9605, 0), new ScheduledTask(8600, 8602, 0), new ScheduledTask(5000, 5007, 0), new ScheduledTask(8800, 8808, 0), new ScheduledTask(6800, 6802, 0), new ScheduledTask(6500, 6503, 0), new ScheduledTask(4200, 4203, 0), new ScheduledTask(10100, 10103, 0), new ScheduledTask(5700, 5708, 0), new ScheduledTask(4500, 4505, 0), new ScheduledTask(7000, 7006, 0), new ScheduledTask(10400, 10405, 0), new ScheduledTask(800, 808, 0), new ScheduledTask(10900, 10904, 0), new ScheduledTask(2300, 2310, 0), new ScheduledTask(11300, 11307, 0), new ScheduledTask(1600, 1607, 0), new ScheduledTask(3600, 3603, 1), new ScheduledTask(12000, 12007, 0), new ScheduledTask(5700, 5706, 1), new ScheduledTask(3300, 3302, 0), new ScheduledTask(9300, 9302, 1), new ScheduledTask(12700, 12705, 0), new ScheduledTask(13200, 13210, 0), new ScheduledTask(14200, 14202, 0), new ScheduledTask(14400, 14410, 0), new ScheduledTask(15400, 15405, 0)};
-        int[] expectedProcessorEndTimes = new int[]{15405, 9302};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_10dot02_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_10.02_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 14000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 0), new ScheduledTask(1600, 1607, 0), new ScheduledTask(5700, 5710, 0), new ScheduledTask(7700, 7705, 0), new ScheduledTask(6700, 6702, 0), new ScheduledTask(3100, 3107, 0), new ScheduledTask(6900, 6908, 0), new ScheduledTask(4900, 4902, 0), new ScheduledTask(4600, 4603, 0), new ScheduledTask(2300, 2303, 0), new ScheduledTask(8200, 8203, 0), new ScheduledTask(3800, 3808, 0), new ScheduledTask(2600, 2605, 0), new ScheduledTask(5100, 5106, 0), new ScheduledTask(8500, 8505, 0), new ScheduledTask(800, 808, 0), new ScheduledTask(9000, 9004, 0), new ScheduledTask(3500, 3510, 1), new ScheduledTask(9400, 9407, 0), new ScheduledTask(6900, 6907, 2), new ScheduledTask(3600, 3603, 2), new ScheduledTask(10100, 10107, 0), new ScheduledTask(5700, 5706, 2), new ScheduledTask(5500, 5502, 1), new ScheduledTask(8300, 8302, 2), new ScheduledTask(10800, 10805, 0), new ScheduledTask(11300, 11310, 0), new ScheduledTask(12300, 12302, 0), new ScheduledTask(12500, 12510, 0), new ScheduledTask(13500, 13505, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13505, 5502, 8302};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot97_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.97_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 14800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(600, 603, 0), new ScheduledTask(900, 902, 0), new ScheduledTask(1100, 1107, 0), new ScheduledTask(5600, 5602, 0), new ScheduledTask(4700, 4707, 0), new ScheduledTask(6800, 6804, 0), new ScheduledTask(6500, 6503, 0), new ScheduledTask(3400, 3405, 0), new ScheduledTask(5800, 5807, 0), new ScheduledTask(5400, 5402, 0), new ScheduledTask(3900, 3908, 0), new ScheduledTask(7200, 7209, 0), new ScheduledTask(1800, 1804, 0), new ScheduledTask(8100, 8107, 0), new ScheduledTask(3000, 3008, 1), new ScheduledTask(2200, 2202, 0), new ScheduledTask(10400, 10408, 0), new ScheduledTask(9500, 9509, 0), new ScheduledTask(8800, 8807, 0), new ScheduledTask(12400, 12406, 0), new ScheduledTask(2400, 2410, 0), new ScheduledTask(3700, 3707, 2), new ScheduledTask(11200, 11207, 0), new ScheduledTask(3700, 3707, 3), new ScheduledTask(13000, 13008, 0), new ScheduledTask(11900, 11905, 0), new ScheduledTask(13800, 13803, 0), new ScheduledTask(14100, 14104, 0), new ScheduledTask(14500, 14503, 0)};
-        int[] expectedProcessorEndTimes = new int[]{14503, 3008, 3707, 3707};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot97_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.97_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 6, 0), new ScheduledTask(600, 603, 0), new ScheduledTask(900, 902, 0), new ScheduledTask(2700, 2707, 0), new ScheduledTask(5600, 5602, 0), new ScheduledTask(4700, 4707, 0), new ScheduledTask(6800, 6804, 0), new ScheduledTask(6500, 6503, 0), new ScheduledTask(3400, 3405, 0), new ScheduledTask(5800, 5807, 0), new ScheduledTask(5400, 5402, 0), new ScheduledTask(3900, 3908, 0), new ScheduledTask(7200, 7209, 0), new ScheduledTask(1100, 1104, 0), new ScheduledTask(8100, 8107, 0), new ScheduledTask(3000, 3008, 1), new ScheduledTask(1500, 1502, 0), new ScheduledTask(10900, 10908, 0), new ScheduledTask(10000, 10009, 0), new ScheduledTask(9300, 9307, 0), new ScheduledTask(4600, 4606, 1), new ScheduledTask(1700, 1710, 0), new ScheduledTask(3000, 3007, 2), new ScheduledTask(11700, 11707, 0), new ScheduledTask(3000, 3007, 3), new ScheduledTask(5800, 5808, 1), new ScheduledTask(8800, 8805, 0), new ScheduledTask(12400, 12403, 0), new ScheduledTask(12700, 12704, 0), new ScheduledTask(13100, 13103, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13103, 5808, 3007, 3007};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot98_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.98_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 15500;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(500, 503, 0), new ScheduledTask(800, 807, 0), new ScheduledTask(4700, 4710, 0), new ScheduledTask(5700, 5706, 0), new ScheduledTask(9300, 9307, 0), new ScheduledTask(6800, 6807, 0), new ScheduledTask(3300, 3306, 0), new ScheduledTask(1500, 1507, 0), new ScheduledTask(11400, 11406, 0), new ScheduledTask(11200, 11202, 0), new ScheduledTask(8700, 8703, 0), new ScheduledTask(8400, 8403, 0), new ScheduledTask(10700, 10705, 0), new ScheduledTask(7500, 7509, 0), new ScheduledTask(2200, 2209, 0), new ScheduledTask(6300, 6305, 0), new ScheduledTask(3900, 3908, 0), new ScheduledTask(12000, 12002, 0), new ScheduledTask(6800, 6803, 1), new ScheduledTask(9000, 9003, 0), new ScheduledTask(10000, 10007, 0), new ScheduledTask(3100, 3102, 0), new ScheduledTask(12200, 12210, 0), new ScheduledTask(4500, 4505, 2), new ScheduledTask(5200, 5202, 1), new ScheduledTask(7800, 7805, 2), new ScheduledTask(13200, 13210, 0), new ScheduledTask(14200, 14205, 0), new ScheduledTask(14700, 14708, 0)};
-        int[] expectedProcessorEndTimes = new int[]{14708, 6803, 7805};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot98_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.98_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(500, 503, 0), new ScheduledTask(800, 807, 0), new ScheduledTask(1500, 1510, 0), new ScheduledTask(2500, 2506, 0), new ScheduledTask(6100, 6107, 0), new ScheduledTask(3600, 3607, 0), new ScheduledTask(5100, 5106, 1), new ScheduledTask(3600, 3607, 2), new ScheduledTask(7500, 7506, 0), new ScheduledTask(7300, 7302, 0), new ScheduledTask(5500, 5503, 0), new ScheduledTask(5200, 5203, 0), new ScheduledTask(6800, 6805, 0), new ScheduledTask(4300, 4309, 0), new ScheduledTask(5000, 5009, 2), new ScheduledTask(3100, 3105, 0), new ScheduledTask(6300, 6308, 1), new ScheduledTask(8700, 8702, 0), new ScheduledTask(7900, 7903, 1), new ScheduledTask(5800, 5803, 0), new ScheduledTask(9900, 9907, 0), new ScheduledTask(6800, 6802, 2), new ScheduledTask(8900, 8910, 0), new ScheduledTask(8200, 8205, 0), new ScheduledTask(8900, 8902, 3), new ScheduledTask(10800, 10805, 0), new ScheduledTask(11300, 11310, 0), new ScheduledTask(12300, 12305, 0), new ScheduledTask(12800, 12808, 0)};
-        int[] expectedProcessorEndTimes = new int[]{12808, 7903, 6802, 8902};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot98_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.98_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 12300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(500, 503, 0), new ScheduledTask(800, 807, 0), new ScheduledTask(1500, 1510, 0), new ScheduledTask(2500, 2506, 0), new ScheduledTask(6100, 6107, 0), new ScheduledTask(3600, 3607, 0), new ScheduledTask(5100, 5106, 2), new ScheduledTask(3600, 3607, 1), new ScheduledTask(7500, 7506, 0), new ScheduledTask(7300, 7302, 0), new ScheduledTask(5500, 5503, 0), new ScheduledTask(5200, 5203, 0), new ScheduledTask(6800, 6805, 0), new ScheduledTask(4300, 4309, 0), new ScheduledTask(4440, 4449, 1), new ScheduledTask(3100, 3105, 0), new ScheduledTask(6000, 6008, 2), new ScheduledTask(8100, 8102, 0), new ScheduledTask(7200, 7203, 2), new ScheduledTask(5800, 5803, 0), new ScheduledTask(9300, 9307, 0), new ScheduledTask(5520, 5522, 1), new ScheduledTask(8300, 8310, 0), new ScheduledTask(6000, 6005, 1), new ScheduledTask(5760, 5762, 1), new ScheduledTask(6600, 6605, 1), new ScheduledTask(10000, 10010, 0), new ScheduledTask(11000, 11005, 0), new ScheduledTask(11500, 11508, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11508, 6605, 7203};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -14301,26 +8521,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot99_WeightType_Random1_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.99_WeightType_Random#1_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 12000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 2, 0), new ScheduledTask(200, 204, 0), new ScheduledTask(1700, 1702, 0), new ScheduledTask(1900, 1903, 1), new ScheduledTask(1900, 1903, 0), new ScheduledTask(5700, 5702, 0), new ScheduledTask(2200, 2210, 0), new ScheduledTask(2900, 2909, 1), new ScheduledTask(2500, 2502, 1), new ScheduledTask(600, 605, 0), new ScheduledTask(7600, 7606, 0), new ScheduledTask(3800, 3807, 0), new ScheduledTask(6800, 6808, 0), new ScheduledTask(3500, 3503, 0), new ScheduledTask(4700, 4708, 1), new ScheduledTask(6300, 6307, 1), new ScheduledTask(8800, 8807, 0), new ScheduledTask(6000, 6002, 2), new ScheduledTask(5900, 5909, 0), new ScheduledTask(9500, 9502, 0), new ScheduledTask(1100, 1106, 0), new ScheduledTask(3200, 3203, 0), new ScheduledTask(8200, 8206, 0), new ScheduledTask(3600, 3603, 3), new ScheduledTask(4500, 4510, 0), new ScheduledTask(9700, 9705, 0), new ScheduledTask(10200, 10203, 0), new ScheduledTask(10500, 10505, 0), new ScheduledTask(11000, 11003, 0), new ScheduledTask(11300, 11307, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11307, 6307, 6002, 3603};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot99_WeightType_Random2_Homogeneous_4(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.99_WeightType_Random#2_Homogeneous-4.dot");
         int processorCount = 4;
@@ -14361,46 +8561,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot99_WeightType_Random3_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.99_WeightType_Random#3_Heterogeneous-4-2.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 13900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(700, 705, 0), new ScheduledTask(3900, 3907, 0), new ScheduledTask(6700, 6705, 0), new ScheduledTask(5300, 5309, 0), new ScheduledTask(8600, 8603, 0), new ScheduledTask(7800, 7808, 0), new ScheduledTask(4600, 4602, 0), new ScheduledTask(7200, 7206, 0), new ScheduledTask(6200, 6205, 0), new ScheduledTask(8900, 8909, 0), new ScheduledTask(4800, 4805, 0), new ScheduledTask(3600, 3609, 1), new ScheduledTask(1200, 1206, 0), new ScheduledTask(9800, 9802, 0), new ScheduledTask(5400, 5406, 1), new ScheduledTask(1800, 1803, 0), new ScheduledTask(11300, 11305, 0), new ScheduledTask(10500, 10508, 0), new ScheduledTask(10000, 10005, 0), new ScheduledTask(2100, 2108, 0), new ScheduledTask(7600, 7603, 1), new ScheduledTask(5300, 5307, 2), new ScheduledTask(11800, 11803, 0), new ScheduledTask(6600, 6605, 1), new ScheduledTask(2900, 2910, 0), new ScheduledTask(12200, 12206, 0), new ScheduledTask(9300, 9310, 2), new ScheduledTask(12900, 12902, 0), new ScheduledTask(13100, 13108, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13108, 7603, 9310};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot99_WeightType_Random3_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.99_WeightType_Random#3_Heterogeneous-4-4.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 11900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(700, 705, 0), new ScheduledTask(1200, 1207, 0), new ScheduledTask(4000, 4005, 0), new ScheduledTask(2600, 2609, 0), new ScheduledTask(5900, 5903, 0), new ScheduledTask(5100, 5108, 0), new ScheduledTask(1900, 1902, 0), new ScheduledTask(4500, 4506, 0), new ScheduledTask(3500, 3505, 0), new ScheduledTask(6200, 6209, 0), new ScheduledTask(2100, 2105, 0), new ScheduledTask(3600, 3609, 2), new ScheduledTask(3600, 3606, 1), new ScheduledTask(7100, 7102, 0), new ScheduledTask(4950, 4956, 2), new ScheduledTask(4320, 4323, 1), new ScheduledTask(8600, 8605, 0), new ScheduledTask(7800, 7808, 0), new ScheduledTask(7300, 7305, 0), new ScheduledTask(4680, 4688, 1), new ScheduledTask(5850, 5853, 2), new ScheduledTask(6840, 6847, 1), new ScheduledTask(9100, 9103, 0), new ScheduledTask(6300, 6305, 2), new ScheduledTask(5640, 5650, 1), new ScheduledTask(10300, 10306, 0), new ScheduledTask(7680, 7690, 1), new ScheduledTask(10900, 10902, 0), new ScheduledTask(11100, 11108, 0)};
-        int[] expectedProcessorEndTimes = new int[]{11108, 7690, 6305};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot99_WeightType_Random3_Homogeneous_4(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.99_WeightType_Random#3_Homogeneous-4.dot");
         int processorCount = 3;
@@ -14432,66 +8592,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(7, 12, 0), new ScheduledTask(12, 19, 0), new ScheduledTask(40, 45, 0), new ScheduledTask(26, 35, 0), new ScheduledTask(59, 62, 0), new ScheduledTask(51, 59, 0), new ScheduledTask(19, 21, 0), new ScheduledTask(45, 51, 0), new ScheduledTask(35, 40, 0), new ScheduledTask(62, 71, 0), new ScheduledTask(21, 26, 0), new ScheduledTask(36, 45, 1), new ScheduledTask(36, 42, 2), new ScheduledTask(71, 73, 0), new ScheduledTask(45, 51, 1), new ScheduledTask(42, 45, 2), new ScheduledTask(86, 91, 0), new ScheduledTask(78, 86, 0), new ScheduledTask(73, 78, 0), new ScheduledTask(45, 53, 2), new ScheduledTask(51, 54, 1), new ScheduledTask(63, 70, 2), new ScheduledTask(91, 94, 0), new ScheduledTask(54, 59, 1), new ScheduledTask(53, 63, 2), new ScheduledTask(94, 100, 0), new ScheduledTask(70, 80, 2), new ScheduledTask(100, 102, 0), new ScheduledTask(102, 110, 0)};
         int[] expectedProcessorEndTimes = new int[]{110, 59, 80};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot99_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.99_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 18000;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(700, 704, 0), new ScheduledTask(1100, 1103, 0), new ScheduledTask(2900, 2906, 0), new ScheduledTask(3500, 3509, 0), new ScheduledTask(10400, 10407, 0), new ScheduledTask(10100, 10103, 0), new ScheduledTask(9500, 9506, 0), new ScheduledTask(11100, 11108, 0), new ScheduledTask(8200, 8203, 0), new ScheduledTask(6900, 6903, 1), new ScheduledTask(4400, 4404, 0), new ScheduledTask(8500, 8510, 0), new ScheduledTask(11900, 11903, 0), new ScheduledTask(12200, 12206, 0), new ScheduledTask(4800, 4805, 0), new ScheduledTask(1400, 1405, 0), new ScheduledTask(14000, 14008, 0), new ScheduledTask(12800, 12807, 0), new ScheduledTask(6200, 6210, 0), new ScheduledTask(13500, 13505, 0), new ScheduledTask(1900, 1910, 0), new ScheduledTask(5500, 5507, 0), new ScheduledTask(14800, 14809, 0), new ScheduledTask(5300, 5302, 0), new ScheduledTask(7100, 7110, 2), new ScheduledTask(7200, 7210, 0), new ScheduledTask(15700, 15706, 0), new ScheduledTask(16300, 16310, 0), new ScheduledTask(17300, 17307, 0)};
-        int[] expectedProcessorEndTimes = new int[]{17307, 6903, 7110};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot99_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.99_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 14600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(700, 704, 0), new ScheduledTask(1100, 1103, 0), new ScheduledTask(3000, 3006, 0), new ScheduledTask(6400, 6409, 0), new ScheduledTask(4900, 4907, 0), new ScheduledTask(7300, 7303, 0), new ScheduledTask(7600, 7606, 0), new ScheduledTask(5600, 5608, 0), new ScheduledTask(3600, 3603, 0), new ScheduledTask(8200, 8203, 0), new ScheduledTask(1400, 1404, 0), new ScheduledTask(3900, 3910, 0), new ScheduledTask(8500, 8503, 0), new ScheduledTask(8800, 8806, 0), new ScheduledTask(1800, 1805, 0), new ScheduledTask(3900, 3905, 1), new ScheduledTask(10600, 10608, 0), new ScheduledTask(9400, 9407, 0), new ScheduledTask(4800, 4810, 2), new ScheduledTask(10100, 10105, 0), new ScheduledTask(4900, 4910, 1), new ScheduledTask(2300, 2307, 0), new ScheduledTask(11400, 11409, 0), new ScheduledTask(4800, 4802, 3), new ScheduledTask(6900, 6910, 1), new ScheduledTask(8100, 8110, 2), new ScheduledTask(12300, 12306, 0), new ScheduledTask(12900, 12910, 0), new ScheduledTask(13900, 13907, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13907, 6910, 8110, 4802};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot99_WeightType_Random_Heterogeneous_4_4(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.99_WeightType_Random_Heterogeneous-4-4.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 14600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(700, 704, 0), new ScheduledTask(1100, 1103, 0), new ScheduledTask(3000, 3006, 0), new ScheduledTask(6400, 6409, 0), new ScheduledTask(4900, 4907, 0), new ScheduledTask(7300, 7303, 0), new ScheduledTask(7600, 7606, 0), new ScheduledTask(5600, 5608, 0), new ScheduledTask(3600, 3603, 0), new ScheduledTask(8200, 8203, 0), new ScheduledTask(1400, 1404, 0), new ScheduledTask(3900, 3910, 0), new ScheduledTask(8500, 8503, 0), new ScheduledTask(8800, 8806, 0), new ScheduledTask(1800, 1805, 0), new ScheduledTask(3900, 3905, 1), new ScheduledTask(10600, 10608, 0), new ScheduledTask(9400, 9407, 0), new ScheduledTask(4800, 4810, 3), new ScheduledTask(10100, 10105, 0), new ScheduledTask(4500, 4510, 1), new ScheduledTask(2300, 2307, 0), new ScheduledTask(11400, 11409, 0), new ScheduledTask(6800, 6802, 3), new ScheduledTask(5700, 5710, 1), new ScheduledTask(8100, 8110, 3), new ScheduledTask(12300, 12306, 0), new ScheduledTask(12900, 12910, 0), new ScheduledTask(13900, 13907, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13907, 5710, 0, 8110};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -14552,46 +8652,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 7, 0), new ScheduledTask(7, 11, 0), new ScheduledTask(11, 14, 0), new ScheduledTask(14, 20, 0), new ScheduledTask(39, 48, 0), new ScheduledTask(71, 78, 1), new ScheduledTask(48, 51, 0), new ScheduledTask(51, 57, 0), new ScheduledTask(78, 86, 1), new ScheduledTask(24, 27, 0), new ScheduledTask(57, 60, 0), new ScheduledTask(20, 24, 0), new ScheduledTask(61, 71, 1), new ScheduledTask(60, 63, 0), new ScheduledTask(86, 92, 1), new ScheduledTask(27, 32, 0), new ScheduledTask(39, 44, 2), new ScheduledTask(104, 112, 1), new ScheduledTask(92, 99, 1), new ScheduledTask(57, 67, 3), new ScheduledTask(99, 104, 1), new ScheduledTask(44, 54, 2), new ScheduledTask(32, 39, 0), new ScheduledTask(112, 121, 1), new ScheduledTask(57, 59, 4), new ScheduledTask(54, 64, 2), new ScheduledTask(90, 100, 3), new ScheduledTask(121, 127, 1), new ScheduledTask(127, 137, 1), new ScheduledTask(137, 144, 1)};
         int[] expectedProcessorEndTimes = new int[]{63, 144, 64, 100, 59};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_5_Nodes_30_CCR_0dot10_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-5_Nodes_30_CCR_0.10_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 187800;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 59, 0), new ScheduledTask(5900, 6048, 0), new ScheduledTask(20700, 20818, 0), new ScheduledTask(32500, 32530, 0), new ScheduledTask(36200, 36259, 1), new ScheduledTask(59100, 59159, 0), new ScheduledTask(137500, 137618, 0), new ScheduledTask(127100, 127204, 0), new ScheduledTask(72300, 72389, 2), new ScheduledTask(77100, 77174, 3), new ScheduledTask(35900, 35959, 2), new ScheduledTask(94600, 94689, 0), new ScheduledTask(70900, 70989, 0), new ScheduledTask(71600, 71659, 1), new ScheduledTask(90200, 90244, 0), new ScheduledTask(65000, 65059, 0), new ScheduledTask(32700, 32774, 3), new ScheduledTask(149300, 149418, 0), new ScheduledTask(47300, 47418, 0), new ScheduledTask(103500, 103618, 0), new ScheduledTask(115300, 115418, 0), new ScheduledTask(35500, 35574, 0), new ScheduledTask(107000, 107089, 1), new ScheduledTask(79800, 79904, 0), new ScheduledTask(42900, 42944, 0), new ScheduledTask(161100, 161204, 0), new ScheduledTask(121500, 121574, 3), new ScheduledTask(125700, 125774, 2), new ScheduledTask(171500, 171633, 0), new ScheduledTask(184800, 184830, 0)};
-        int[] expectedProcessorEndTimes = new int[]{184830, 107089, 125774, 121574};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_5_Nodes_30_CCR_0dot10_WeightType_Random3_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-5_Nodes_30_CCR_0.10_WeightType_Random#3_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 199200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 52, 0), new ScheduledTask(5200, 5269, 0), new ScheduledTask(27700, 27856, 0), new ScheduledTask(12100, 12256, 0), new ScheduledTask(12600, 12635, 1), new ScheduledTask(152300, 152473, 0), new ScheduledTask(126300, 126456, 0), new ScheduledTask(12400, 12452, 2), new ScheduledTask(85700, 85838, 3), new ScheduledTask(114200, 114321, 0), new ScheduledTask(43600, 43738, 2), new ScheduledTask(100400, 100538, 0), new ScheduledTask(90000, 90104, 0), new ScheduledTask(79600, 79704, 0), new ScheduledTask(44300, 44369, 3), new ScheduledTask(85200, 85269, 1), new ScheduledTask(33600, 33686, 1), new ScheduledTask(71000, 71086, 0), new ScheduledTask(64100, 64169, 0), new ScheduledTask(57200, 57269, 0), new ScheduledTask(43300, 43352, 0), new ScheduledTask(53700, 53735, 0), new ScheduledTask(13100, 13152, 3), new ScheduledTask(141900, 142004, 0), new ScheduledTask(169600, 169686, 0), new ScheduledTask(126400, 126486, 2), new ScheduledTask(126600, 126686, 1), new ScheduledTask(48500, 48552, 0), new ScheduledTask(178500, 178638, 0), new ScheduledTask(192300, 192369, 0)};
-        int[] expectedProcessorEndTimes = new int[]{192369, 126686, 126486, 85838};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -14672,186 +8732,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 79, 0), new ScheduledTask(79, 127, 0), new ScheduledTask(127, 270, 0), new ScheduledTask(270, 397, 0), new ScheduledTask(134, 261, 1), new ScheduledTask(280, 391, 1), new ScheduledTask(275, 370, 2), new ScheduledTask(273, 321, 3), new ScheduledTask(273, 305, 4), new ScheduledTask(85, 133, 5), new ScheduledTask(397, 524, 0), new ScheduledTask(268, 395, 5), new ScheduledTask(132, 243, 6), new ScheduledTask(141, 236, 7), new ScheduledTask(236, 284, 7), new ScheduledTask(243, 370, 6), new ScheduledTask(284, 316, 7), new ScheduledTask(305, 416, 4), new ScheduledTask(316, 380, 7), new ScheduledTask(524, 667, 0), new ScheduledTask(321, 369, 3), new ScheduledTask(369, 401, 3), new ScheduledTask(401, 480, 3), new ScheduledTask(370, 434, 6), new ScheduledTask(416, 464, 4), new ScheduledTask(667, 778, 0), new ScheduledTask(778, 889, 0), new ScheduledTask(787, 866, 1), new ScheduledTask(787, 851, 2), new ScheduledTask(889, 1000, 0)};
         int[] expectedProcessorEndTimes = new int[]{1000, 866, 851, 480, 464, 395, 434, 380};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_5_Nodes_30_CCR_0dot99_WeightType_Random1_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-5_Nodes_30_CCR_0.99_WeightType_Random#1_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 18100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 4, 0), new ScheduledTask(400, 410, 0), new ScheduledTask(1700, 1712, 1), new ScheduledTask(11800, 11810, 0), new ScheduledTask(5700, 5714, 0), new ScheduledTask(13500, 13508, 0), new ScheduledTask(12800, 12807, 0), new ScheduledTask(1400, 1406, 0), new ScheduledTask(4100, 4108, 0), new ScheduledTask(11100, 11107, 0), new ScheduledTask(8600, 8607, 2), new ScheduledTask(8900, 8906, 1), new ScheduledTask(3000, 3011, 0), new ScheduledTask(2000, 2010, 0), new ScheduledTask(8300, 8314, 0), new ScheduledTask(2600, 2612, 3), new ScheduledTask(15500, 15506, 0), new ScheduledTask(10000, 10011, 0), new ScheduledTask(7100, 7112, 0), new ScheduledTask(4900, 4908, 0), new ScheduledTask(6800, 6803, 2), new ScheduledTask(2000, 2008, 2), new ScheduledTask(14300, 14312, 0), new ScheduledTask(9700, 9703, 0), new ScheduledTask(9800, 9811, 3), new ScheduledTask(16100, 16106, 0), new ScheduledTask(12800, 12806, 2), new ScheduledTask(12500, 12506, 1), new ScheduledTask(16700, 16704, 0), new ScheduledTask(17100, 17110, 0)};
-        int[] expectedProcessorEndTimes = new int[]{17110, 12506, 12806, 9811};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_5_Nodes_30_CCR_0dot99_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-5_Nodes_30_CCR_0.99_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 17200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(500, 503, 0), new ScheduledTask(800, 812, 0), new ScheduledTask(2000, 2010, 0), new ScheduledTask(3000, 3004, 0), new ScheduledTask(3400, 3404, 0), new ScheduledTask(5600, 5604, 0), new ScheduledTask(3800, 3804, 0), new ScheduledTask(12200, 12214, 0), new ScheduledTask(4600, 4607, 1), new ScheduledTask(11100, 11111, 0), new ScheduledTask(7000, 7010, 0), new ScheduledTask(4400, 4404, 2), new ScheduledTask(8800, 8803, 1), new ScheduledTask(6900, 6908, 3), new ScheduledTask(9800, 9810, 0), new ScheduledTask(8000, 8014, 0), new ScheduledTask(9400, 9404, 0), new ScheduledTask(6000, 6010, 0), new ScheduledTask(4500, 4511, 0), new ScheduledTask(13600, 13614, 0), new ScheduledTask(4200, 4203, 0), new ScheduledTask(4500, 4504, 3), new ScheduledTask(10800, 10803, 0), new ScheduledTask(11700, 11704, 3), new ScheduledTask(6800, 6808, 2), new ScheduledTask(10600, 10607, 1), new ScheduledTask(11600, 11605, 2), new ScheduledTask(15000, 15012, 0), new ScheduledTask(16200, 16210, 0)};
-        int[] expectedProcessorEndTimes = new int[]{16210, 10607, 11605, 11704};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_5_Nodes_30_CCR_1dot01_WeightType_Random2_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-5_Nodes_30_CCR_1.01_WeightType_Random#2_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 17300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1006, 0), new ScheduledTask(11200, 11207, 0), new ScheduledTask(12600, 12614, 0), new ScheduledTask(11900, 11907, 0), new ScheduledTask(4000, 4008, 0), new ScheduledTask(1500, 1508, 1), new ScheduledTask(1400, 1406, 2), new ScheduledTask(3200, 3208, 0), new ScheduledTask(1800, 1808, 3), new ScheduledTask(14000, 14008, 0), new ScheduledTask(8800, 8813, 0), new ScheduledTask(6300, 6308, 1), new ScheduledTask(2200, 2210, 0), new ScheduledTask(7800, 7810, 0), new ScheduledTask(1600, 1606, 0), new ScheduledTask(7200, 7206, 0), new ScheduledTask(5000, 5011, 2), new ScheduledTask(10100, 10111, 0), new ScheduledTask(6500, 6507, 0), new ScheduledTask(5500, 5506, 0), new ScheduledTask(6600, 6608, 3), new ScheduledTask(6100, 6104, 0), new ScheduledTask(4800, 4807, 0), new ScheduledTask(14800, 14813, 0), new ScheduledTask(11100, 11107, 1), new ScheduledTask(11600, 11607, 2), new ScheduledTask(11500, 11507, 3), new ScheduledTask(16100, 16104, 0), new ScheduledTask(16500, 16508, 0)};
-        int[] expectedProcessorEndTimes = new int[]{16508, 11107, 11607, 11507};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_5_Nodes_30_CCR_1dot02_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-5_Nodes_30_CCR_1.02_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 19400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 8, 0), new ScheduledTask(800, 809, 0), new ScheduledTask(1700, 1704, 0), new ScheduledTask(2100, 2108, 0), new ScheduledTask(2900, 2905, 0), new ScheduledTask(3600, 3605, 1), new ScheduledTask(3400, 3411, 0), new ScheduledTask(4000, 4005, 2), new ScheduledTask(7500, 7509, 0), new ScheduledTask(10900, 10913, 0), new ScheduledTask(6200, 6213, 0), new ScheduledTask(3100, 3113, 3), new ScheduledTask(9800, 9811, 0), new ScheduledTask(7000, 7007, 2), new ScheduledTask(8900, 8909, 0), new ScheduledTask(8400, 8405, 0), new ScheduledTask(5300, 5309, 0), new ScheduledTask(4500, 4508, 0), new ScheduledTask(6600, 6604, 1), new ScheduledTask(12200, 12209, 0), new ScheduledTask(11200, 11203, 2), new ScheduledTask(10900, 10904, 3), new ScheduledTask(13200, 13208, 0), new ScheduledTask(9000, 9007, 1), new ScheduledTask(14000, 14011, 0), new ScheduledTask(15100, 15112, 0), new ScheduledTask(17700, 17708, 0), new ScheduledTask(16300, 16305, 0), new ScheduledTask(16800, 16809, 0), new ScheduledTask(18500, 18509, 0)};
-        int[] expectedProcessorEndTimes = new int[]{18509, 9007, 11203, 10904};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_5_Nodes_30_CCR_10dot02_WeightType_Random1_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-5_Nodes_30_CCR_10.02_WeightType_Random#1_Heterogeneous-4-2.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 14400;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 5, 0), new ScheduledTask(500, 505, 0), new ScheduledTask(1000, 1009, 0), new ScheduledTask(1900, 1908, 0), new ScheduledTask(5500, 5504, 0), new ScheduledTask(3000, 3007, 0), new ScheduledTask(9400, 9406, 0), new ScheduledTask(8500, 8509, 0), new ScheduledTask(7600, 7609, 0), new ScheduledTask(6800, 6808, 0), new ScheduledTask(2700, 2703, 0), new ScheduledTask(5100, 5104, 0), new ScheduledTask(5900, 5909, 0), new ScheduledTask(4300, 4308, 0), new ScheduledTask(5000, 5003, 1), new ScheduledTask(5000, 5010, 2), new ScheduledTask(7100, 7109, 2), new ScheduledTask(10000, 10010, 0), new ScheduledTask(8100, 8104, 3), new ScheduledTask(11000, 11009, 0), new ScheduledTask(5600, 5610, 1), new ScheduledTask(3700, 3706, 0), new ScheduledTask(8900, 8905, 3), new ScheduledTask(5600, 5602, 3), new ScheduledTask(11900, 11907, 0), new ScheduledTask(13300, 13302, 0), new ScheduledTask(13500, 13506, 0), new ScheduledTask(12600, 12605, 0), new ScheduledTask(13100, 13102, 0), new ScheduledTask(14100, 14103, 0)};
-        int[] expectedProcessorEndTimes = new int[]{14103, 5610, 7109, 8905};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_5_Nodes_30_CCR_9dot98_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-5_Nodes_30_CCR_9.98_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 2;
-        int expectedScheduleEndTime = 19100;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(900, 909, 0), new ScheduledTask(7300, 7304, 0), new ScheduledTask(3800, 3808, 0), new ScheduledTask(4600, 4607, 0), new ScheduledTask(7700, 7702, 0), new ScheduledTask(1800, 1806, 0), new ScheduledTask(7900, 7903, 0), new ScheduledTask(5300, 5310, 0), new ScheduledTask(2400, 2410, 0), new ScheduledTask(8200, 8203, 0), new ScheduledTask(6300, 6310, 0), new ScheduledTask(3400, 3404, 0), new ScheduledTask(8500, 8508, 0), new ScheduledTask(14100, 14107, 0), new ScheduledTask(14800, 14802, 0), new ScheduledTask(16400, 16404, 0), new ScheduledTask(12700, 12704, 0), new ScheduledTask(15000, 15005, 0), new ScheduledTask(15500, 15509, 0), new ScheduledTask(11200, 11205, 0), new ScheduledTask(10000, 10010, 0), new ScheduledTask(11700, 11710, 0), new ScheduledTask(16800, 16809, 0), new ScheduledTask(13100, 13110, 0), new ScheduledTask(11000, 11002, 0), new ScheduledTask(9300, 9307, 0), new ScheduledTask(11500, 11502, 1), new ScheduledTask(17700, 17704, 0), new ScheduledTask(18100, 18110, 0)};
-        int[] expectedProcessorEndTimes = new int[]{18110, 11502};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_5_Nodes_30_CCR_9dot98_WeightType_Random_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-5_Nodes_30_CCR_9.98_WeightType_Random_Heterogeneous-4-2.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 18600;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 9, 0), new ScheduledTask(900, 909, 0), new ScheduledTask(7300, 7304, 0), new ScheduledTask(3800, 3808, 0), new ScheduledTask(4600, 4607, 0), new ScheduledTask(7700, 7702, 0), new ScheduledTask(1800, 1806, 0), new ScheduledTask(7900, 7903, 0), new ScheduledTask(5300, 5310, 0), new ScheduledTask(2400, 2410, 0), new ScheduledTask(8200, 8203, 0), new ScheduledTask(6300, 6310, 0), new ScheduledTask(3400, 3404, 0), new ScheduledTask(8500, 8508, 0), new ScheduledTask(12600, 12607, 0), new ScheduledTask(15100, 15102, 0), new ScheduledTask(14700, 14704, 0), new ScheduledTask(11200, 11204, 0), new ScheduledTask(14200, 14205, 0), new ScheduledTask(13300, 13309, 0), new ScheduledTask(11600, 11605, 1), new ScheduledTask(10000, 10010, 0), new ScheduledTask(16200, 16210, 0), new ScheduledTask(15300, 15309, 0), new ScheduledTask(11600, 11610, 0), new ScheduledTask(11000, 11002, 0), new ScheduledTask(9300, 9307, 0), new ScheduledTask(11500, 11502, 2), new ScheduledTask(17200, 17204, 0), new ScheduledTask(17600, 17610, 0)};
-        int[] expectedProcessorEndTimes = new int[]{17610, 11605, 11502};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_5_Nodes_30_CCR_9dot99_WeightType_Random2_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-5_Nodes_30_CCR_9.99_WeightType_Random#2_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 15900;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1005, 0), new ScheduledTask(1500, 1502, 0), new ScheduledTask(1700, 1707, 0), new ScheduledTask(9600, 9602, 0), new ScheduledTask(5600, 5610, 0), new ScheduledTask(3700, 3702, 0), new ScheduledTask(9800, 9802, 0), new ScheduledTask(3900, 3908, 0), new ScheduledTask(6600, 6605, 0), new ScheduledTask(2400, 2406, 0), new ScheduledTask(10200, 10210, 0), new ScheduledTask(10000, 10002, 0), new ScheduledTask(8900, 8907, 0), new ScheduledTask(7000, 7002, 1), new ScheduledTask(7900, 7910, 0), new ScheduledTask(7100, 7108, 0), new ScheduledTask(6200, 6205, 2), new ScheduledTask(4700, 4709, 0), new ScheduledTask(12300, 12302, 0), new ScheduledTask(3000, 3007, 0), new ScheduledTask(11200, 11207, 0), new ScheduledTask(8600, 8602, 3), new ScheduledTask(11900, 11904, 0), new ScheduledTask(12500, 12502, 0), new ScheduledTask(12700, 12704, 0), new ScheduledTask(14100, 14107, 0), new ScheduledTask(13100, 13110, 0), new ScheduledTask(14800, 14808, 0), new ScheduledTask(15600, 15603, 0)};
-        int[] expectedProcessorEndTimes = new int[]{15603, 7002, 6205, 8602};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalSeriesParallel_MaxBf_5_Nodes_30_CCR_9dot99_WeightType_Random2_Heterogeneous_4_2(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-5_Nodes_30_CCR_9.99_WeightType_Random#2_Heterogeneous-4-2.dot");
-        int processorCount = 3;
-        int expectedScheduleEndTime = 14200;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(0, 10, 0), new ScheduledTask(1000, 1005, 0), new ScheduledTask(1500, 1502, 0), new ScheduledTask(1700, 1707, 0), new ScheduledTask(8300, 8302, 0), new ScheduledTask(2400, 2410, 0), new ScheduledTask(4500, 4502, 0), new ScheduledTask(8500, 8502, 0), new ScheduledTask(4700, 4708, 0), new ScheduledTask(3400, 3405, 0), new ScheduledTask(3900, 3906, 0), new ScheduledTask(8900, 8910, 0), new ScheduledTask(8700, 8702, 0), new ScheduledTask(7000, 7007, 1), new ScheduledTask(8100, 8102, 0), new ScheduledTask(7100, 7110, 0), new ScheduledTask(5400, 5408, 1), new ScheduledTask(7000, 7005, 2), new ScheduledTask(6200, 6209, 0), new ScheduledTask(10600, 10602, 0), new ScheduledTask(5500, 5507, 0), new ScheduledTask(9900, 9907, 0), new ScheduledTask(5400, 5402, 2), new ScheduledTask(8400, 8404, 1), new ScheduledTask(10800, 10802, 0), new ScheduledTask(11000, 11004, 0), new ScheduledTask(12400, 12407, 0), new ScheduledTask(11400, 11410, 0), new ScheduledTask(13100, 13108, 0), new ScheduledTask(13900, 13903, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13903, 8404, 7005};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         
@@ -15241,26 +9121,6 @@ public class OptimalSchedulerNodes30Test {
 
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalStencil_Nodes_30_CCR_10dot05_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_10.05_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 13700;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(1300, 1309, 0), new ScheduledTask(1000, 1003, 0), new ScheduledTask(400, 406, 0), new ScheduledTask(0, 6, 1), new ScheduledTask(0, 3, 2), new ScheduledTask(6500, 6510, 0), new ScheduledTask(0, 4, 0), new ScheduledTask(3100, 3110, 0), new ScheduledTask(4900, 4902, 3), new ScheduledTask(7500, 7503, 0), new ScheduledTask(2800, 2803, 0), new ScheduledTask(2200, 2206, 0), new ScheduledTask(8100, 8104, 0), new ScheduledTask(8900, 8909, 0), new ScheduledTask(4900, 4910, 0), new ScheduledTask(6100, 6102, 3), new ScheduledTask(7800, 7803, 0), new ScheduledTask(4100, 4108, 0), new ScheduledTask(10600, 10606, 0), new ScheduledTask(9800, 9808, 0), new ScheduledTask(11700, 11705, 0), new ScheduledTask(8500, 8504, 0), new ScheduledTask(5900, 5906, 0), new ScheduledTask(7800, 7806, 3), new ScheduledTask(12200, 12208, 0), new ScheduledTask(13200, 13205, 0), new ScheduledTask(11200, 11205, 0), new ScheduledTask(11400, 11403, 3), new ScheduledTask(11900, 11903, 2), new ScheduledTask(13000, 13002, 0)};
-        int[] expectedProcessorEndTimes = new int[]{13205, 6, 11903, 11403};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_9dot95_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_9.95_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
@@ -15292,26 +9152,6 @@ public class OptimalSchedulerNodes30Test {
 
         ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(8, 18, 0), new ScheduledTask(4, 8, 0), new ScheduledTask(0, 4, 0), new ScheduledTask(9, 15, 1), new ScheduledTask(4, 9, 1), new ScheduledTask(0, 4, 1), new ScheduledTask(18, 27, 0), new ScheduledTask(32, 38, 0), new ScheduledTask(28, 37, 1), new ScheduledTask(15, 22, 1), new ScheduledTask(23, 28, 1), new ScheduledTask(28, 32, 0), new ScheduledTask(38, 41, 0), new ScheduledTask(56, 60, 0), new ScheduledTask(41, 50, 1), new ScheduledTask(60, 69, 1), new ScheduledTask(47, 56, 0), new ScheduledTask(37, 41, 1), new ScheduledTask(74, 79, 1), new ScheduledTask(88, 96, 1), new ScheduledTask(68, 71, 0), new ScheduledTask(50, 58, 1), new ScheduledTask(70, 74, 1), new ScheduledTask(60, 68, 0), new ScheduledTask(71, 81, 0), new ScheduledTask(79, 86, 1), new ScheduledTask(104, 110, 1), new ScheduledTask(98, 104, 1), new ScheduledTask(105, 109, 0), new ScheduledTask(96, 98, 1)};
         int[] expectedProcessorEndTimes = new int[]{109, 110};
-
-        Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
-        
-        Assertions.assertEquals(expectedSchedule, actualSchedule);
-    }
-    
-
-    @ParameterizedTest
-    @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
-    void testOptimalStencil_Nodes_30_CCR_9dot98_WeightType_Random_Heterogeneous_4_2_strong(Scheduler scheduler) {
-        Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_9.98_WeightType_Random_Heterogeneous-4-2-strong.dot");
-        int processorCount = 4;
-        int expectedScheduleEndTime = 16300;
-
-        Schedule actualSchedule = scheduler.schedule(graph, processorCount);
-
-        Assertions.assertEquals(expectedScheduleEndTime, actualSchedule.getLatestEndTime());
-
-        ScheduledTask[] expectedScheduledTasks = new ScheduledTask[]{new ScheduledTask(2700, 2707, 0), new ScheduledTask(1700, 1710, 0), new ScheduledTask(0, 9, 0), new ScheduledTask(0, 2, 1), new ScheduledTask(900, 908, 0), new ScheduledTask(0, 5, 2), new ScheduledTask(6800, 6806, 0), new ScheduledTask(3900, 3909, 0), new ScheduledTask(6600, 6602, 0), new ScheduledTask(5800, 5808, 0), new ScheduledTask(3400, 3405, 0), new ScheduledTask(1900, 1907, 1), new ScheduledTask(9500, 9510, 0), new ScheduledTask(4800, 4810, 0), new ScheduledTask(9200, 9203, 0), new ScheduledTask(7800, 7807, 0), new ScheduledTask(7400, 7404, 0), new ScheduledTask(12000, 12004, 0), new ScheduledTask(8500, 8507, 0), new ScheduledTask(10500, 10507, 0), new ScheduledTask(11200, 11208, 0), new ScheduledTask(10500, 10503, 3), new ScheduledTask(13000, 13007, 0), new ScheduledTask(12400, 12406, 0), new ScheduledTask(14400, 14410, 0), new ScheduledTask(15400, 15409, 0), new ScheduledTask(12300, 12305, 3), new ScheduledTask(14000, 14004, 0), new ScheduledTask(13700, 13703, 0), new ScheduledTask(14800, 14802, 2)};
-        int[] expectedProcessorEndTimes = new int[]{15409, 1907, 14802, 12305};
 
         Schedule expectedSchedule = new Schedule(expectedScheduledTasks, expectedProcessorEndTimes, expectedScheduleEndTime, 30);
         

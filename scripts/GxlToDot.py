@@ -76,6 +76,7 @@ class Graph:
 
         attributes = parse_attributes(graph)
         self.optimal_schedule_end_time: int = attributes['Total schedule length']
+        self.is_heterogenous = attributes['TargetSystem'].startswith('Heterogeneous')
 
         self.nodes: List[Node] = []
         self.edges: List[Edge] = []
