@@ -119,7 +119,7 @@ public class DotGraphOutputTest {
   @Test
   public void testSingleProcessorIsolatedTasksGraphTest() {
     String expectedDotGraph = """
-        digraph "test1-output" {
+        digraph "test3-output" {
         A [Weight=2,Start=0,Processor=1];
         B [Weight=3,Start=2,Processor=1];
         C [Weight=1,Start=5,Processor=1];
@@ -148,7 +148,7 @@ public class DotGraphOutputTest {
     actualSchedule = actualSchedule.extendWithTask(taskD, 3);
     actualSchedule = actualSchedule.extendWithTask(taskE, 4);
 
-    String actualDotGraph = dotGraphIO.toDotString("test1-output", actualSchedule,
+    String actualDotGraph = dotGraphIO.toDotString("test3-output", actualSchedule,
         actualGraph);
 
     Assertions.assertEquals(expectedDotGraph, actualDotGraph);
@@ -161,7 +161,7 @@ public class DotGraphOutputTest {
   @Test
   public void testMultiProcessorIsolatedTasksGraphTest() {
     String expectedDotGraph = """
-        digraph "test2-output" {
+        digraph "test4-output" {
         A [Weight=2,Start=0,Processor=1];
         B [Weight=3,Start=2,Processor=1];
         C [Weight=1,Start=8,Processor=2];
@@ -190,7 +190,7 @@ public class DotGraphOutputTest {
     actualSchedule = actualSchedule.extendWithTask(taskD, 3);
     actualSchedule = actualSchedule.extendWithTask(taskE, 4);
 
-    String actualDotGraph = dotGraphIO.toDotString("test2-output", actualSchedule, actualGraph);
+    String actualDotGraph = dotGraphIO.toDotString("test4-output", actualSchedule, actualGraph);
 
     Assertions.assertEquals(expectedDotGraph, actualDotGraph);
   }
