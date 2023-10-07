@@ -1,0 +1,25 @@
+digraph "Pipeline_Nodes_10_CCR_0.10_WeightType_Random_Homogeneous-6" {
+0 [Weight=125];
+2 [Weight=100];
+1 [Weight=113];
+4 [Weight=125];
+3 [Weight=113];
+6 [Weight=75];
+5 [Weight=38];
+7 [Weight=100];
+8 [Weight=88];
+9 [Weight=75];
+6 -> 7 [Weight=10];
+7 -> 9 [Weight=4];
+2 -> 4 [Weight=7];
+5 -> 7 [Weight=4];
+8 -> 9 [Weight=9];
+4 -> 5 [Weight=10];
+0 -> 2 [Weight=9];
+0 -> 1 [Weight=10];
+3 -> 5 [Weight=7];
+1 -> 3 [Weight=3];
+6 -> 8 [Weight=7];
+2 -> 3 [Weight=10];
+4 -> 6 [Weight=5];
+}
