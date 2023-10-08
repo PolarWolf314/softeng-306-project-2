@@ -25,7 +25,7 @@ public class SchedulerFactory {
         return new AStarScheduler();
       }
       default -> throw new IllegalArgumentException(
-          "Invalid algorithm. " + algorithm + " is not a valid algorithm");
+          "Invalid algorithm. " + algorithm + " is not a valid algorithm.");
     }
   }
 }
