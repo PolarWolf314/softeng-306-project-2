@@ -14,6 +14,12 @@ public class CommandLineParser {
 
   private final ArgumentParser parser;
 
+  /**
+   * Note: Help messages use lowercase, not sentence case, to conform with the default
+   * {@code --help} message, which is not easily customised:
+   *
+   * <pre>show this help message and exit</pre>
+   */
   public CommandLineParser() {
     this.parser = ArgumentParsers.newFor("scheduler.jar")
         .build()
