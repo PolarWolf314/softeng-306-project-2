@@ -9,6 +9,7 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
 import nz.ac.auckland.se306.group12.io.FileIO;
 import nz.ac.auckland.se306.group12.models.CommandLineArguments;
+import nz.ac.auckland.se306.group12.visualizer.AnsiEscapeSequenceBuilder;
 
 public class CommandLineParser {
 
@@ -56,7 +57,12 @@ public class CommandLineParser {
     this.parser.addArgument("-o", "--output")
         .metavar("OUTPUT")
         .dest(Keys.OUTPUT_DOT_GRAPH)
-        .help("write the resultant DOT file to path OUTPUT (default is INPUT-output.dot)");
+        .help("write the resultant DOT file to path OUTPUT (default is INPUT-output.dot; has no "
+            + "effect if "
+            + new AnsiEscapeSequenceBuilder().bold()
+            + "-s"
+            + new AnsiEscapeSequenceBuilder().reset()
+            + " is also set)");
     this.parser.addArgument("-s", "--stdout")
         .action(Arguments.storeTrue())
         .dest(Keys.WRITE_TO_STD_OUT)
