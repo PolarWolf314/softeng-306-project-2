@@ -26,7 +26,7 @@ public class CommandLineParser {
                         
             """
             + "A program for finding the optimal solution to the parallel scheduling "
-            + "problem. Given a (small) set of tasks and their dependence relations, this program "
+            + "problem.  Given a (small) set of tasks and their dependence relations, this program "
             + "finds the optimal way to schedule them on a set of homogenous processors.");
     this.parser.addArgument(Keys.INPUT_DOT_GRAPH)
         .metavar("INPUT.dot")
