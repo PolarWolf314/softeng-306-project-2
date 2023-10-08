@@ -39,7 +39,7 @@ public class DfsScheduler implements Scheduler {
       }
 
       // Check to find if any tasks can be scheduled and schedule them
-      for (Task task : currentSchedule.getReadyTasks().toIterable(taskGraph)) {
+      for (Task task : currentSchedule.getReadyTasks()) {
         int[] latestStartTimes = currentSchedule.getLatestStartTimesOf(task);
         for (int i = 0; i < latestStartTimes.length; i++) {
           // Ensure that it either schedules by latest time or after the last task on the processor

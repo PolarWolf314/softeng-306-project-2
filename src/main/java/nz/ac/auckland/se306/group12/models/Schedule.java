@@ -41,8 +41,7 @@ public class Schedule {
     this.totalTaskWeights = taskGraph.getTotalTaskWeights();
     this.totalIdleTime = 0;
     this.estimatedMakespan = this.estimateIdleTimeMakespan(this.totalIdleTime);
-
-    this.readyTasks = new TaskSet();
+    this.readyTasks = new TaskSet(taskGraph);
     // Add all source tasks as a ready task
     for (Task task : taskGraph.getTasks()) {
       if (task.getParentTasks().isEmpty()) {
