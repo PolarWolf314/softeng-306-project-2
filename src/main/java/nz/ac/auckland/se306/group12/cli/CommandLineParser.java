@@ -30,7 +30,7 @@ public class CommandLineParser {
         .help("The number of processors to schedule the INPUT graph on");
     this.parser.addArgument("-a", "--algorithm")
         .metavar("ALGORITHM")
-        .choices("dfs", "astar")
+        .choices("astar", "dfs")
         .dest(Keys.ALGORITHM)
         .setDefault("dfs")
         .help("The algorithm to use to find the optimal schedule (default is dfs)");
