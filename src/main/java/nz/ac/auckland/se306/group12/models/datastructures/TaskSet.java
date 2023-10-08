@@ -11,9 +11,9 @@ import nz.ac.auckland.se306.group12.models.Task;
  * A set of {@link Task tasks} that is stored in a bitmap. This is used to increase performance of
  * operations like {@link #contains(Object)}, {@link #add(Task)} and {@link #remove(Object)}.
  * <p>
- * As this uses an integer for the bitmap, it is limited to 32 tasks, or a maximum index of 31.
- * Attempting to add a task with an index greater than 31 will throw an
- * {@link IllegalArgumentException}.
+ * As this uses an integer for the bitmap, it is limited to 32 tasks, or a maximum index of
+ * {@link #MAX_TASK_INDEX}. Attempting to add a task with an invalid index will cause an
+ * {@link IllegalArgumentException} to be thrown.
  * <p>
  * Additionally, operations like {@link #containsAll(Collection)}, {@link #addAll(Collection)},
  * {@link #removeAll(Collection)}, {@link #retainAll(Collection)} have been optimised when being
@@ -27,7 +27,7 @@ public class TaskSet implements Set<Task> {
    * As we are using an int to store the bitmap, we can only store up to 32 tasks, or a maximum
    * index of 31 as integers are 32 bits long.
    */
-  private static final int MAX_TASK_INDEX = 31;
+  public static final int MAX_TASK_INDEX = 31;
 
   private final Graph taskGraph;
   private int taskBitMap = 0;
@@ -83,6 +83,35 @@ public class TaskSet implements Set<Task> {
   }
 
   /**
+   * Checks that the index of the {@link Task} is within the allowed bounds of 0 to
+   * {@link #MAX_TASK_INDEX}. If the index is not valid an {@link IllegalArgumentException} is
+   * thrown.
+   *
+   * @param task The task to check the index of
+   * @throws IllegalArgumentException If the index of the task is not valid
+   */
+  private void assertValidTaskIndex(Task task) {
+    if (task.getIndex() < 0 || task.getIndex() > MAX_TASK_INDEX) {
+      throw new IllegalArgumentException(String.format(
+          "Task index %d is outside the range of supported indices (0 to %d) for TaskSet",
+          task.getIndex(),
+          MAX_TASK_INDEX));
+    }
+  }
+
+
+  /**
+   * Checks that this TaskSet contains a {@link Task} with the given index.
+   *
+   * @param taskIndex The index of the task to check for
+   * @return {@code true} if the task index is contained, {@code false} otherwise
+   */
+  private boolean containsTaskIndex(int taskIndex) {
+    // Check that there is a 1 bit at the taskIndex
+    return (this.taskBitMap & (1 << taskIndex)) != 0;
+  }
+
+  /**
    * @inheritDoc
    */
   @Override
@@ -106,20 +135,11 @@ public class TaskSet implements Set<Task> {
   @Override
   public boolean contains(Object object) {
     if (object instanceof Task task) {
+      // We have to check that the index of the task is valid to prevent it overflowing the int
+      this.assertValidTaskIndex(task);
       return this.containsTaskIndex(task.getIndex());
     }
     return false;
-  }
-
-  /**
-   * Checks that this TaskSet contains a {@link Task} with the given index.
-   *
-   * @param taskIndex The index of the task to check for
-   * @return {@code true} if the task index is contained, {@code false} otherwise
-   */
-  public boolean containsTaskIndex(int taskIndex) {
-    // Check that there is a 1 bit at the taskIndex
-    return (this.taskBitMap & (1 << taskIndex)) != 0;
   }
 
   /**
@@ -132,12 +152,7 @@ public class TaskSet implements Set<Task> {
       return false;
     }
 
-    if (task.getIndex() > MAX_TASK_INDEX) {
-      throw new IllegalArgumentException(
-          String.format("Task index %d exceeds maximum allowed %d for TaskSet", task.getIndex(),
-              MAX_TASK_INDEX));
-    }
-
+    // We know the index of the task is valid because of the contains check
     // Add a 1 bit to the taskBitMap at the index of the task
     this.taskBitMap |= (1 << task.getIndex());
     this.taskCount++;
@@ -153,7 +168,7 @@ public class TaskSet implements Set<Task> {
       return false;
     }
 
-    // We know that the object is a task because of the contains check
+    // We know that the object is a task and that the index is valid because of the contains check
     Task task = (Task) object;
     this.taskBitMap &= ~(1 << task.getIndex());
     this.taskCount--;
