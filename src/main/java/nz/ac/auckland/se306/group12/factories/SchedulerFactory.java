@@ -16,6 +16,9 @@ public class SchedulerFactory {
     if (algorithm.equals("dfs")) {
       return new DfsScheduler();
     } else if (algorithm.equals("astar")) {
+      //TODO: Implement A* scheduler
+      System.out.println("A* Scheduler not implemented");
+      System.exit(1);
       return new AStarScheduler();
     } else {
       throw new IllegalArgumentException("Invalid algorithm");

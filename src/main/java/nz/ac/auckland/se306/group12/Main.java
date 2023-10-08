@@ -25,12 +25,6 @@ public class Main {
 
       Scheduler scheduler = schedulerFactory.getScheduler(arguments.algorithm());
 
-      //TODO: Implement A* scheduler
-      if (arguments.algorithm().equals("astar")) {
-        System.out.println("A* Scheduler not implemented");
-        System.exit(1);
-      }
-
       Schedule schedule = scheduler.schedule(graph, arguments.processorCount());
 
       if (arguments.visualiseSearch()) {
