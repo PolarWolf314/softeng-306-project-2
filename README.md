@@ -6,26 +6,37 @@
 ## ⌨️ Command line interface
 
 ```
-usage: scheduler.jar INPUT.dot P [-h] [-p N] [-v] [-o OUTPUT] 
+usage: scheduler.jar [-h] [-a ALGORITHM] [-p N] [-v] [-o OUTPUT] [-s] INPUT.dot P
 
-An algorithm for finding the optimal schedule for a given set of tasks and processors.
+A program for finding the optimal solution to the parallel scheduling problem.
+Given a (small) set of tasks and their dependence relations, this program finds
+the optimal way to schedule them on a set of homogenous processors.
 
-Positional arguments:
-  INPUT.dot                  A task graph with integer weights in the dot format
-  P                          The number of processes to schedule the INPUT graph on
+positional arguments:
+  INPUT.dot              a task graph in DOT format, with non-negative integer
+                         weights
+  P                      the number of processors on which to schedule the INPUT
+                         graph
 
-Named arguments:
-  -h, --help                 show this help message and exit
-  -p N, --parallel N         Use N cores for execution in parallel (default is sequential)
-  -v, --visualise            Visualise the search
-  -o OUTPUT, --output OUTPUT The output file to write the schedule to (default is INPUT-output.dot)
+named arguments:
+  -h, --help             show this help message and exit
+  -a ALGORITHM, --algorithm ALGORITHM
+                         the algorithm with which to find the optimal schedule
+                         (default is dfs)
+  -p N, --parallel N     use N cores for execution in parallel (default is
+                         sequential)
+  -v, --visualise        visualise the search
+  -o OUTPUT, --output OUTPUT
+                         write the resultant DOT file to path OUTPUT (default is
+                         INPUT-output.dot)
+  -s, --stdout           write the schedule to stdout instead of a file
 ```
 
 By default, the output DOT file is saved to the same folder as the input DOT file.
 
 ## ☕ Building and running
 
-By default, the executable JAR file will be located at `/build/libs/scheduler.jar`
+By default, the executable JAR file will be located at `/build/libs/scheduler.jar`.
 
 ### 🐧 Unix-like OSs
 
