@@ -152,11 +152,8 @@ public class TerminalVisualizer implements Visualizer {
    * @see ScheduledTask
    */
   private int[][] scheduleToGantt(Schedule schedule) {
-    int processorCount = schedule.getProcessorEndTimes().length;
-    int makespan = schedule.getLatestEndTime();
-
     // Initialise Gantt matrix where all cores idle for the entire makespan
-    int[][] scheduleMatrix = new int[makespan][processorCount];
+    int[][] scheduleMatrix = new int[schedule.getLatestEndTime()][schedule.getProcessorCount()];
     for (int[] row : scheduleMatrix) {
       Arrays.fill(row, PROCESSOR_IDLE);
     }
@@ -165,9 +162,8 @@ public class TerminalVisualizer implements Visualizer {
     ScheduledTask[] tasks = schedule.getScheduledTasks();
     for (int i = 0, taskCount = schedule.getScheduledTaskCount(); i < taskCount; i++) {
       ScheduledTask task = tasks[i];
-      int processorIndex = task.getProcessorIndex();
       for (int time = task.getStartTime(); time < task.getEndTime(); time++) {
-        scheduleMatrix[time][processorIndex] = i;
+        scheduleMatrix[time][task.getProcessorIndex()] = i;
       }
     }
 
