@@ -7,11 +7,9 @@
 
 ```
 usage: scheduler.jar [-h] [-a ALGORITHM] [-p N] [-v] [-o OUTPUT] [-s] INPUT.dot P
+```
 
-A program for finding the optimal solution to the parallel scheduling problem.
-Given a (small) set of tasks and their dependence relations, this program finds
-the optimal way to schedule them on a set of homogenous processors.
-
+```
 positional arguments:
   INPUT.dot              a task graph in DOT format, with non-negative integer
                          weights
@@ -22,14 +20,16 @@ named arguments:
   -h, --help             show this help message and exit
   -a ALGORITHM, --algorithm ALGORITHM
                          the algorithm with which to find the optimal schedule
-                         (default is dfs)
-  -p N, --parallel N     use N cores for execution in parallel (default is
-                         sequential)
+                         (default is dfs); options are astar (A*) and dfs
+                         (depth-first search)
+  -p N, --parallel N     use N cores for execution in parallel (default is 1,
+                         sequential execution)
   -v, --visualise        visualise the search
   -o OUTPUT, --output OUTPUT
                          write the resultant DOT file to path OUTPUT (default is
-                         INPUT-output.dot)
-  -s, --stdout           write the schedule to stdout instead of a file
+                         INPUT-output.dot); has no effect if -s is also set
+  -s, --stdout           write the schedule to stdout instead of a file;
+                         nullifies the effect of -o
 ```
 
 By default, the output DOT file is saved to the same folder as the input DOT file.
