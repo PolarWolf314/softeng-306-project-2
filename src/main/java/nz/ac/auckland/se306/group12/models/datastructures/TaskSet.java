@@ -176,6 +176,10 @@ public class TaskSet implements Set<Task> {
   }
 
   /**
+   * If the collection is an {@link TaskSet} this will use bitwise operations to check if all the
+   * tasks are contained, which is significantly faster than the default implementation. Otherwise,
+   * it will iterate through the collection and check that each task is contained.
+   *
    * @inheritDoc
    */
   @Override
@@ -194,6 +198,10 @@ public class TaskSet implements Set<Task> {
   }
 
   /**
+   * If the collection is an {@link TaskSet} this will use bitwise operations to add all the tasks
+   * at once, which is significantly faster than the default implementation. Otherwise, it will
+   * iterate through the collection and add each task individually.
+   *
    * @inheritDoc
    */
   @Override
@@ -211,6 +219,11 @@ public class TaskSet implements Set<Task> {
   }
 
   /**
+   * If the collection is an {@link TaskSet} this will use bitwise operations retain only the tasks
+   * also in the other collection all at once, which is significantly faster than the default
+   * implementation. Otherwise, it will iterate through all the tasks in this set and remove each
+   * task individually if it's not contained in the collection.
+   *
    * @inheritDoc
    */
   @Override
@@ -223,6 +236,10 @@ public class TaskSet implements Set<Task> {
   }
 
   /**
+   * If the collection is an {@link TaskSet} this will use bitwise operations to remove all the
+   * tasks at once, which is significantly faster than the default implementation. Otherwise, it
+   * will iterate through the tasks in the collection and remove them individually.
+   *
    * @inheritDoc
    */
   @Override
@@ -232,7 +249,12 @@ public class TaskSet implements Set<Task> {
       return this.setTaskBitMap(this.taskBitMap & ~otherTaskSet.taskBitMap);
     }
 
-    return this.removeIf(collection::contains);
+    // It's likely faster to iterate through the other collection than to iterate through this one
+    int oldTaskCount = this.taskCount;
+    for (Object object : collection) {
+      this.remove(object);
+    }
+    return this.taskCount != oldTaskCount;
   }
 
   /**
