@@ -15,15 +15,16 @@ public class SchedulerFactory {
   public Scheduler getScheduler(String algorithm) {
     algorithm = algorithm.toLowerCase();
 
-    if (algorithm.equals("dfs")) {
-      return new DfsScheduler();
-    } else if (algorithm.equals("astar")) {
-      //TODO: Implement A* scheduler
-      System.out.println("A* Scheduler not implemented");
-      System.exit(1);
-      return new AStarScheduler();
-    } else {
-      throw new IllegalArgumentException(
+    switch (algorithm) {
+      case "dfs" -> {
+        return new DfsScheduler();
+      }
+      case "astar" -> {
+        System.out.println("A* Scheduler not implemented");
+        System.exit(1);
+        return new AStarScheduler();
+      }
+      default -> throw new IllegalArgumentException(
           "Invalid algorithm. " + algorithm + " is not a valid algorithm");
     }
   }
