@@ -7,6 +7,19 @@ import lombok.RequiredArgsConstructor;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Task;
 
+/**
+ * A set of {@link Task tasks} that is stored in a bitmap. This is used to increase performance of
+ * operations like {@link #contains(Object)}, {@link #add(Task)} and {@link #remove(Object)}.
+ * <p>
+ * As this uses an integer for the bitmap, it is limited to 32 tasks, or a maximum index of 31.
+ * Attempting to add a task with an index greater than 31 will throw an
+ * {@link IllegalArgumentException}.
+ * <p>
+ * Additionally, operations like {@link #containsAll(Collection)}, {@link #addAll(Collection)},
+ * {@link #removeAll(Collection)}, {@link #retainAll(Collection)} have been optimised when being
+ * used with another {@link TaskSet} as it leverages bitwise operations on the two bitmaps, which
+ * makes them significantly faster than the default implementations.
+ */
 @RequiredArgsConstructor
 public class TaskSet implements Set<Task> {
 
@@ -20,6 +33,15 @@ public class TaskSet implements Set<Task> {
   private int taskBitMap = 0;
   private int taskCount = 0;
 
+  /**
+   * Creates a new {@link TaskSet} from a {@link Set} that is actually an instance of TaskSet. This
+   * is simply a convenience method to avoid having to cast the set to a TaskSet, allowing
+   * abstraction to be maintained. Attempting to use this constructor with a set that is not an
+   * instance of TaskSet will cause an {@link IllegalArgumentException} to be thrown.
+   *
+   * @param existingTaskSet The existing {@link TaskSet} to create a new TaskSet from
+   * @throws IllegalArgumentException If the existingTaskSet is not an instance of {@link TaskSet}
+   */
   public TaskSet(Set<Task> existingTaskSet) {
     if (!(existingTaskSet instanceof TaskSet taskSet)) {
       throw new IllegalArgumentException("TaskSet can only be constructed from another TaskSet");
@@ -30,6 +52,11 @@ public class TaskSet implements Set<Task> {
     this.taskGraph = taskSet.taskGraph;
   }
 
+  /**
+   * Creates a new {@link TaskSet} from an existing TaskSet.
+   *
+   * @param existingTaskSet The existing {@link TaskSet} to create a new TaskSet from
+   */
   public TaskSet(TaskSet existingTaskSet) {
     this.taskBitMap = existingTaskSet.taskBitMap;
     this.taskCount = existingTaskSet.taskCount;
