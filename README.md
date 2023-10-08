@@ -1,4 +1,6 @@
-# Development
+# Optimal Parallel Scheduler
+
+A program for finding the optimal solution to the parallel scheduling problem. Given a (small) set of tasks and their dependence relations, this program finds the optimal schedule with which to run them on a homogenous system.
 
 > **Note**
 > Only JDK 17 is officially supported.
@@ -6,28 +8,39 @@
 ## ⌨️ Command line interface
 
 ```
-usage: scheduler.jar INPUT.dot P [-h] [-p N] [-v] [-o OUTPUT] 
+usage: scheduler.jar [-h] [-a ALGORITHM] [-p N] [-v] [-o OUTPUT] [-s] INPUT.dot P
+```
 
-An algorithm for finding the optimal schedule for a given set of tasks and processors.
+```
+positional arguments:
+  INPUT.dot              a task graph in DOT format, with non-negative integer
+                         weights
+  P                      the number of processors on which to schedule the INPUT
+                         graph
 
-Positional arguments:
-  INPUT.dot                  A task graph with integer weights in the dot format
-  P                          The number of processes to schedule the INPUT graph on
-
-Named arguments:
-  -h, --help                 show this help message and exit
-  -p N, --parallel N         Use N cores for execution in parallel (default is sequential)
-  -v, --visualise            Visualise the search
-  -o OUTPUT, --output OUTPUT The output file to write the schedule to (default is INPUT-output.dot)
+named arguments:
+  -h, --help             show this help message and exit
+  -a ALGORITHM, --algorithm ALGORITHM
+                         the algorithm with which to find the optimal schedule
+                         (default is dfs); options are astar (A*) and dfs
+                         (depth-first search branch and bound)
+  -p N, --parallel N     use N cores for execution in parallel (default is 1,
+                         sequential execution)
+  -v, --visualise        visualise the search
+  -o OUTPUT, --output OUTPUT
+                         write the resultant DOT file to path OUTPUT (default is
+                         INPUT-output.dot); has no effect if -s is also set
+  -s, --stdout           write the schedule to stdout instead of a file;
+                         nullifies the effect of -o
 ```
 
 By default, the output DOT file is saved to the same folder as the input DOT file.
 
 ## ☕ Building and running
 
-By default, the executable JAR file will be located at `/build/libs/scheduler.jar`
+By default, the executable JAR file will be located at `/build/libs/scheduler.jar`.
 
-### 🐧 Unix-like OSs
+### Unix-like OSs
 
 ```sh
 # Build JAR (with all dependencies included)
@@ -37,7 +50,7 @@ By default, the executable JAR file will be located at `/build/libs/scheduler.ja
 java -jar ./build/libs/scheduler.jar --help
 ```
 
-### 🪟 Windows
+### Windows
 
 ```sh
 # Build JAR (with all dependencies included)
@@ -49,14 +62,14 @@ java -jar .\build\libs\scheduler.jar --help
 
 ## 🐘 …Or use Gradle’s `run` task
 
-### 🐧 Unix-like OSs
+### Unix-like OSs
 
 ```sh
 # Run application and display help message
 ./gradlew run --args="--help"
 ```
 
-### 🪟 Windows
+### Windows
 
 ```sh
 # Run application and display help message
