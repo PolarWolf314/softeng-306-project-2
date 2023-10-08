@@ -38,7 +38,7 @@ By default, the output DOT file is saved to the same folder as the input DOT fil
 
 By default, the executable JAR file will be located at `/build/libs/scheduler.jar`.
 
-### 🐧 Unix-like OSs
+### Unix-like OSs
 
 ```sh
 # Build JAR (with all dependencies included)
@@ -48,7 +48,7 @@ By default, the executable JAR file will be located at `/build/libs/scheduler.ja
 java -jar ./build/libs/scheduler.jar --help
 ```
 
-### 🪟 Windows
+### Windows
 
 ```sh
 # Build JAR (with all dependencies included)
@@ -60,14 +60,14 @@ java -jar .\build\libs\scheduler.jar --help
 
 ## 🐘 …Or use Gradle’s `run` task
 
-### 🐧 Unix-like OSs
+### Unix-like OSs
 
 ```sh
 # Run application and display help message
 ./gradlew run --args="--help"
 ```
 
-### 🪟 Windows
+### Windows
 
 ```sh
 # Run application and display help message
