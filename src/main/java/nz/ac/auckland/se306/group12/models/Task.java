@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -34,6 +35,9 @@ public class Task {
   private final Set<Edge> outgoingEdges = new HashSet<>();
 
   private final int index;
+
+  @Setter
+  private int bottomLevel = 0;
 
   /**
    * This method should not be used in performance sensitive areas as it recreates the entire
@@ -75,5 +79,4 @@ public class Task {
   public boolean isSink() {
     return this.outgoingEdges.isEmpty();
   }
-
 }

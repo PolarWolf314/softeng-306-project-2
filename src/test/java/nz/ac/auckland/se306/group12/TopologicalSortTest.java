@@ -3,6 +3,7 @@ package nz.ac.auckland.se306.group12;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Edge;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Task;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 class TopologicalSortTest {
 
   private final TopologicalSorter sorter = new TopologicalSorter();
+  private final DotGraphIO dotGraphIO = new DotGraphIO();
 
   /**
    * Checks if a topological order returned by a graph is valid by iterating through each node in
