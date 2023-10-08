@@ -40,7 +40,7 @@ public class TaskSet {
   }
 
   public boolean add(Task task) {
-    boolean isContained = !this.contains(task);
+    boolean isContained = this.contains(task);
     if (isContained) {
       return false;
     }
