@@ -73,6 +73,7 @@ public class CommandLineParser {
       final int parallelisationProcessorCount = namespace.getInt(
           Keys.PARALLELISATION_PROCESSOR_COUNT);
       final int processorCount = namespace.getInt(Keys.PROCESSOR_COUNT);
+      final String algorithm = namespace.getString(Keys.ALGORITHM);
       final boolean visualiseSearch = namespace.getBoolean(Keys.VISUALISE_SEARCH);
       final boolean writeToStdOut = namespace.getBoolean(Keys.WRITE_TO_STD_OUT);
 
@@ -83,6 +84,7 @@ public class CommandLineParser {
       final CommandLineArguments arguments = new CommandLineArguments(
           new File(inputDotGraph),
           processorCount,
+          algorithm,
           parallelisationProcessorCount,
           visualiseSearch,
           new File(outputDotGraph),
