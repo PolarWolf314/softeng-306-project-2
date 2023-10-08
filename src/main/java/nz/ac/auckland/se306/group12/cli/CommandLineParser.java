@@ -17,7 +17,15 @@ public class CommandLineParser {
   public CommandLineParser() {
     this.parser = ArgumentParsers.newFor("scheduler.jar")
         .build()
-        .description("A program for finding the optimal solution to the parallel scheduling "
+        .description("""
+             ____   ___ _____   ____       _              _       _
+            |  _ \\ / _ \\_   _| / ___|  ___| |__   ___  __| |_   _| | ___ _ __
+            | | | | | | || |   \\___ \\ / __| '_ \\ / _ \\/ _` | | | | |/ _ \\ '__|
+            | |_| | |_| || |    ___) | (__| | | |  __/ (_| | |_| | |  __/ |
+            |____/ \\___/ |_|   |____/ \\___|_| |_|\\___|\\__,_|\\__,_|_|\\___|_|
+                        
+            """
+            + "A program for finding the optimal solution to the parallel scheduling "
             + "problem. Given a (small) set of tasks and their dependence relations, this program "
             + "finds the optimal way to schedule them on a set of homogenous processors.");
     this.parser.addArgument(Keys.INPUT_DOT_GRAPH)
