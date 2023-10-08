@@ -39,12 +39,10 @@ public class Schedule {
     this.processorEndTimes = new int[processorCount];
     this.scheduledTaskCount = 0;
     this.latestEndTime = 0;
+    this.readyTasks = taskGraph.getSourceTasks();
     this.totalTaskWeights = taskGraph.getTotalTaskWeights();
     this.totalIdleTime = 0;
     this.estimatedMakespan = this.estimateIdleTimeMakespan(this.totalIdleTime);
-    this.readyTasks = taskGraph.getTasks().stream()
-        .filter(Task::isSource)
-        .collect(TaskSet.collect(taskGraph));
   }
 
   /**

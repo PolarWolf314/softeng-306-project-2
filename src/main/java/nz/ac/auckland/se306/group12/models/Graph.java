@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.EqualsAndHashCode.Exclude;
 import lombok.Getter;
@@ -14,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import nz.ac.auckland.se306.group12.exceptions.DanglingEdgeException;
 import nz.ac.auckland.se306.group12.exceptions.IllegalEdgeWeightException;
+import nz.ac.auckland.se306.group12.models.datastructures.TaskSet;
 import nz.ac.auckland.se306.group12.scheduler.TopologicalSorter;
 
 /**
@@ -156,14 +156,14 @@ public class Graph {
   }
 
   /**
-   * A list of all the source tasks in the graph. A source task is one that has no incoming edges.
+   * A set of all the source tasks in the graph. A source task is one that has no incoming edges.
    *
-   * @return A list of all the source tasks in the graph
+   * @return A set of all the source tasks in the graph
    */
-  public List<Task> getSourceTasks() {
+  public Set<Task> getSourceTasks() {
     return this.tasks.stream()
         .filter(Task::isSource)
-        .collect(Collectors.toList());
+        .collect(TaskSet.collect(this));
   }
 
 }
