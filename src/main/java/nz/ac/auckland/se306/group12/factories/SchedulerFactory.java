@@ -21,7 +21,8 @@ public class SchedulerFactory {
       System.exit(1);
       return new AStarScheduler();
     } else {
-      throw new IllegalArgumentException("Invalid algorithm");
+      throw new IllegalArgumentException(
+          "Invalid algorithm. " + algorithm + " is not a valid algorithm");
     }
   }
 }
