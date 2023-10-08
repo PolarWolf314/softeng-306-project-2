@@ -31,12 +31,15 @@ def create_test_file_headers(graphs: List[Graph], output_path: str) -> None:
         class_name = os.path.basename(file_path).split('.')[0]
         test_file_header = f"""package nz.ac.auckland.se306.group12.optimal;
 
+import java.util.concurrent.TimeUnit;
 import nz.ac.auckland.se306.group12.ScheduleValidator;
 import nz.ac.auckland.se306.group12.TestUtil;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.Timeout.ThreadMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -48,6 +51,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  * <a href="https://parallel.auckland.ac.nz/OptimalTaskScheduling/OptimalSchedules.html">the amazing work</a>
  * done by the Parallel and Reconfigurable Computing Lab at the University of Auckland.
  */
+@Timeout(value = 2, unit = TimeUnit.MINUTES, threadMode = ThreadMode.SEPARATE_THREAD)
 public class {class_name} {{
 """
         # Open file in write mode to overwrite any existing content
