@@ -23,7 +23,7 @@ named arguments:
   -a ALGORITHM, --algorithm ALGORITHM
                          the algorithm with which to find the optimal schedule
                          (default is dfs); options are astar (A*) and dfs
-                         (depth-first search)
+                         (depth-first search branch and bound)
   -p N, --parallel N     use N cores for execution in parallel (default is 1,
                          sequential execution)
   -v, --visualise        visualise the search
