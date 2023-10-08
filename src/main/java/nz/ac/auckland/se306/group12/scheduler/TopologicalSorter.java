@@ -17,13 +17,13 @@ public class TopologicalSorter {
    * acyclic graph.
    * <p>
    * Although a DAG may have multiple valid topological orderings, the behaviour of this
-   * implementation is intentionally deterministic to aid unit testing. Given the same graph, it
-   * will return the same topological order.
+   * implementation is intentionally deterministic to aid unit testing. Given the same
+   * {@link Graph}, it will return the same topological order.
    *
-   * @param graph The dependence graph of tasks (a DAG) for which a topological order is to be
-   *              found.
+   * @param graph The dependence task graph (a DAG) for which a topological order is to be found.
    * @return A list of the {@link Task}s from the input graph, in a topological order.
    * @throws IllegalGraphException If given a cyclic digraph.
+   * @see TopologicalSorter#getAReverseTopologicalOrder(Graph)
    */
   public List<Task> getATopologicalOrder(Graph graph) {
     List<Task> topologicalOrder = this.getAReverseTopologicalOrder(graph);
@@ -32,17 +32,16 @@ public class TopologicalSorter {
   }
 
   /**
-   * Computes a reverse topological order of tasks in a directed acyclic graph (DAG).
-   * <p>
-   * This method finds a reverse topological order of tasks in the given dependence graph, which is
-   * assumed to be a directed acyclic graph (DAG). A reverse topological order represents an
-   * ordering of tasks such that for every directed edge (u, v), task 'u' appears before task 'v' in
-   * the order.
+   * This method finds a reverse topological order of tasks in the given dependence {@link Graph},
+   * which is assumed to be a directed acyclic graph (DAG). A reverse topological order represents
+   * an ordering of tasks such that for every directed edge (<var>u</var>, <var>v</var>), task
+   * <var>v</var> appears before task <var>u</var> in the order.
    *
-   * @param graph The dependence graph of tasks (a DAG) for which a topological order is to be
+   * @param graph The dependence task graph (a DAG) for which a reverse topological order is to be
    *              found.
-   * @return A list of the {@link Task}s from the input graph, in a topological order.
+   * @return A list of the {@link Task}s from the input graph, in a reverse topological order.
    * @throws IllegalGraphException If given a cyclic digraph.
+   * @see TopologicalSorter#getATopologicalOrder(Graph)
    */
   public List<Task> getAReverseTopologicalOrder(Graph graph) {
     Set<Task> visited = new HashSet<>(graph.taskCount());
