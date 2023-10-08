@@ -1,6 +1,7 @@
 package nz.ac.auckland.se306.group12.models;
 
 import java.util.Arrays;
+import java.util.Set;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class Schedule {
   private final int[] processorEndTimes;
   private final int latestEndTime;
   private final int scheduledTaskCount;
-  private final TaskSet readyTasks;
+  private final Set<Task> readyTasks;
 
   // Estimation variables
   private final int totalTaskWeights;
@@ -53,7 +54,7 @@ public class Schedule {
   /**
    * Returns a new schedule with the given task added to the end of the schedule
    *
-   * @param scheduledTask The scheduledTask repesentation of the task to add
+   * @param scheduledTask The scheduledTask representation of the task to add
    * @param task          The task to add
    * @return A new schedule with the given task added to the end of the schedule
    */
@@ -90,10 +91,10 @@ public class Schedule {
    *
    * @param task              The task that is being scheduled
    * @param newScheduledTasks List of scheduled tasks representing the schedule at the next state
-   * @return A {@link TaskSet} containing the tasks that are ready to be scheduled
+   * @return A {@link Set} containing the tasks that are ready to be scheduled
    */
-  private TaskSet getNewReadyTasks(Task task, ScheduledTask[] newScheduledTasks) {
-    TaskSet newReadyTasks = new TaskSet(this.readyTasks);
+  private Set<Task> getNewReadyTasks(Task task, ScheduledTask[] newScheduledTasks) {
+    Set<Task> newReadyTasks = new TaskSet(this.readyTasks);
     newReadyTasks.remove(task);
     for (Edge outEdge : task.getOutgoingEdges()) {
       Task child = outEdge.getDestination();
