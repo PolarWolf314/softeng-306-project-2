@@ -6,8 +6,8 @@ import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
 
 /**
- * A terminal-based class for visualising parallel schedules on systems with multiple homogenous
- * processors.
+ * A class for visualising parallel schedules on systems with multiple homogenous processors in a
+ * Terminal UI.
  */
 public class TerminalVisualizer implements Visualizer {
 
