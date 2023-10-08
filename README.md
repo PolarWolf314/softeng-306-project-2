@@ -1,4 +1,6 @@
-# Development
+# Optimal Parallel Scheduler
+
+A program for finding the optimal solution to the parallel scheduling problem. Given a (small) set of tasks and their dependence relations, this program finds the optimal schedule with which to run them on a homogenous system.
 
 > **Note**
 > Only JDK 17 is officially supported.
