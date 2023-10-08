@@ -4,7 +4,7 @@ import nz.ac.auckland.se306.group12.scheduler.AStarScheduler;
 import nz.ac.auckland.se306.group12.scheduler.DfsScheduler;
 import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 
-public class AlgorithmFactory {
+public class SchedulerFactory {
 
   /**
    * Returns a scheduler for the given algorithm

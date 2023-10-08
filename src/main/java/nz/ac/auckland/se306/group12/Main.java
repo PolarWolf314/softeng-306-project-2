@@ -2,7 +2,7 @@ package nz.ac.auckland.se306.group12;
 
 import java.io.IOException;
 import nz.ac.auckland.se306.group12.cli.CommandLineParser;
-import nz.ac.auckland.se306.group12.factories.AlgorithmFactory;
+import nz.ac.auckland.se306.group12.factories.SchedulerFactory;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 import nz.ac.auckland.se306.group12.models.Graph;
@@ -21,9 +21,9 @@ public class Main {
     try {
       Graph graph = dotGraphIO.readDotGraph(arguments.inputDotGraph());
 
-      AlgorithmFactory algorithmFactory = new AlgorithmFactory();
+      SchedulerFactory schedulerFactory = new SchedulerFactory();
 
-      Scheduler scheduler = algorithmFactory.getScheduler(arguments.algorithm());
+      Scheduler scheduler = schedulerFactory.getScheduler(arguments.algorithm());
 
       //TODO: Implement A* scheduler
       if (arguments.algorithm().equals("astar")) {
