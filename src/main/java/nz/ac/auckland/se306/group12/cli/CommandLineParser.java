@@ -9,7 +9,6 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
 import nz.ac.auckland.se306.group12.io.FileIO;
 import nz.ac.auckland.se306.group12.models.CommandLineArguments;
-import nz.ac.auckland.se306.group12.visualizer.AnsiEscapeSequenceBuilder;
 
 public class CommandLineParser {
 
@@ -32,41 +31,37 @@ public class CommandLineParser {
     this.parser.addArgument(Keys.INPUT_DOT_GRAPH)
         .metavar("INPUT.dot")
         .required(true)
-        .help("a task graph in DOT format, with non-negative integer weights");
+        .help("A task graph in DOT format, with non-negative integer weights.");
     this.parser.addArgument(Keys.PROCESSOR_COUNT)
         .metavar("P")
         .required(true)
         .type(Integer.class)
-        .help("the number of processors on which to schedule the INPUT graph");
+        .help("The number of processors on which to schedule the INPUT graph.");
     this.parser.addArgument("-a", "--algorithm")
         .metavar("ALGORITHM")
         .choices("astar", "dfs")
         .dest(Keys.ALGORITHM)
         .setDefault("dfs")
-        .help("the algorithm with which to find the optimal schedule (default is dfs)");
+        .help("The algorithm with which to find the optimal schedule (default is dfs).");
     this.parser.addArgument("-p", "--parallel")
         .metavar("N")
         .type(Integer.class)
         .dest(Keys.PARALLELISATION_PROCESSOR_COUNT)
         .setDefault(1)
-        .help("use N cores for execution in parallel (default is sequential)");
+        .help("Use N cores for execution in parallel (default is 1, sequential execution).");
     this.parser.addArgument("-v", "--visualise")
         .action(Arguments.storeTrue())
         .dest(Keys.VISUALISE_SEARCH)
-        .help("visualise the search");
+        .help("Visualise the search.");
     this.parser.addArgument("-o", "--output")
         .metavar("OUTPUT")
         .dest(Keys.OUTPUT_DOT_GRAPH)
-        .help("write the resultant DOT file to path OUTPUT (default is INPUT-output.dot; has no "
-            + "effect if "
-            + new AnsiEscapeSequenceBuilder().bold()
-            + "-s"
-            + new AnsiEscapeSequenceBuilder().reset()
-            + " is also set)");
+        .help("Write the resultant DOT file to path OUTPUT (default is INPUT-output.dot)."
+            + "  Has no effect if -s is also set.");
     this.parser.addArgument("-s", "--stdout")
         .action(Arguments.storeTrue())
         .dest(Keys.WRITE_TO_STD_OUT)
-        .help("write the schedule to stdout instead of a file");
+        .help("Write the schedule to stdout instead of a file.  Nullifies the effect of -o.");
   }
 
   /**
