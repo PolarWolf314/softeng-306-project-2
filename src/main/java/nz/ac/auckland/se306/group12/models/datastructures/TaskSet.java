@@ -37,6 +37,25 @@ public class TaskSet implements Set<Task> {
   }
 
   /**
+   * Updates the taskBitMap to the new value and recalculates the new taskCount. This should only be
+   * used when making large changes to the TaskSet as the cost of recalculating the taskCount is not
+   * justified when only adding/removing a single task. If the taskBitMap is not changed, this will
+   * not change anything or recalculate the taskCount.
+   *
+   * @param newTaskBitMap The new taskBitMap
+   * @return {@code true} if the taskBitMap was changed, {@code false} otherwise
+   */
+  private boolean setTaskBitMap(int newTaskBitMap) {
+    if (this.taskBitMap == newTaskBitMap) {
+      return false;
+    }
+
+    this.taskBitMap = newTaskBitMap;
+    this.taskCount = Integer.bitCount(this.taskBitMap);
+    return true;
+  }
+
+  /**
    * @inheritDoc
    */
   @Override
@@ -119,6 +138,10 @@ public class TaskSet implements Set<Task> {
    */
   @Override
   public boolean containsAll(Collection<?> collection) {
+    if (collection instanceof TaskSet otherTaskSet) {
+      return (this.taskBitMap & otherTaskSet.taskBitMap) == otherTaskSet.taskBitMap;
+    }
+
     for (Object object : collection) {
       if (!this.contains(object)) {
         return false;
@@ -133,11 +156,15 @@ public class TaskSet implements Set<Task> {
    */
   @Override
   public boolean addAll(Collection<? extends Task> collection) {
+    if (collection instanceof TaskSet otherTaskSet) {
+      // Combine the bitmaps of the two TaskSets
+      return this.setTaskBitMap(this.taskBitMap | otherTaskSet.taskBitMap);
+    }
+
     int oldTaskCount = this.taskCount;
     for (Task task : collection) {
       this.add(task);
     }
-
     return this.taskCount != oldTaskCount;
   }
 
@@ -146,6 +173,10 @@ public class TaskSet implements Set<Task> {
    */
   @Override
   public boolean retainAll(Collection<?> collection) {
+    if (collection instanceof TaskSet otherTaskSet) {
+      // Remove the bits of this TaskSet that are not in the other TaskSet
+      return this.setTaskBitMap(this.taskBitMap & otherTaskSet.taskBitMap);
+    }
     return this.removeIf(task -> !collection.contains(task));
   }
 
@@ -154,6 +185,11 @@ public class TaskSet implements Set<Task> {
    */
   @Override
   public boolean removeAll(Collection<?> collection) {
+    if (collection instanceof TaskSet otherTaskSet) {
+      // Remove the bits of the other TaskSet from this TaskSet
+      return this.setTaskBitMap(this.taskBitMap & ~otherTaskSet.taskBitMap);
+    }
+
     return this.removeIf(collection::contains);
   }
 
