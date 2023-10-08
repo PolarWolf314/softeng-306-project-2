@@ -7,7 +7,19 @@ import org.junit.jupiter.api.Test;
 
 public class BottomLevelTest {
 
-  String setBottoms(Graph graph) {
+  /**
+   * Creates a string representation of the bottom levels of tasks in the given graph.
+   * <p>
+   * This method calculates the bottom levels of tasks in the input graph using the
+   * 'setBottomLevels' method of the graph. It then constructs a string that includes the name of
+   * the graph and the bottom levels of each task in the graph, formatted as task label followed by
+   * its bottom level.
+   *
+   * @param graph The graph for which the bottom levels of tasks are to be calculated and
+   *              displayed.
+   * @return A formatted string containing the name of the graph and the bottom levels of its tasks.
+   */
+  String createBottomLevelsString(Graph graph) {
     graph.setBottomLevels();
     StringBuilder output = new StringBuilder();
     output.append(graph.getName())
@@ -35,7 +47,7 @@ public class BottomLevelTest {
         D: 6
         E: 2
         """;
-    Assertions.assertEquals(expected, setBottoms(graph));
+    Assertions.assertEquals(expected, createBottomLevelsString(graph));
   }
 
   /**
@@ -53,7 +65,7 @@ public class BottomLevelTest {
         E: 5
         F: 3
         """;
-    Assertions.assertEquals(expected, setBottoms(graph));
+    Assertions.assertEquals(expected, createBottomLevelsString(graph));
   }
 
   /**
@@ -75,7 +87,7 @@ public class BottomLevelTest {
         I: 2
         J: 7
         """;
-    Assertions.assertEquals(expected, setBottoms(graph));
+    Assertions.assertEquals(expected, createBottomLevelsString(graph));
   }
 
   /**
@@ -92,7 +104,7 @@ public class BottomLevelTest {
         D: 4
         E: 10
         """;
-    Assertions.assertEquals(expected, setBottoms(graph));
+    Assertions.assertEquals(expected, createBottomLevelsString(graph));
   }
 
   /**
@@ -115,6 +127,6 @@ public class BottomLevelTest {
         8: 50
         9: 20
         """;
-    Assertions.assertEquals(expected, setBottoms(graph));
+    Assertions.assertEquals(expected, createBottomLevelsString(graph));
   }
 }

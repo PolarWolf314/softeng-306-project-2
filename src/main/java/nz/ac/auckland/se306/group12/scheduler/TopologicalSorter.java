@@ -26,6 +26,25 @@ public class TopologicalSorter {
    * @throws IllegalGraphException If given a cyclic digraph.
    */
   public List<Task> getATopologicalOrder(Graph graph) {
+    List<Task> topologicalOrder = this.getAReverseTopologicalOrder(graph);
+    Collections.reverse(topologicalOrder);
+    return topologicalOrder;
+  }
+
+  /**
+   * Computes a reverse topological order of tasks in a directed acyclic graph (DAG).
+   * <p>
+   * This method finds a reverse topological order of tasks in the given dependence graph, which is
+   * assumed to be a directed acyclic graph (DAG). A reverse topological order represents an
+   * ordering of tasks such that for every directed edge (u, v), task 'u' appears before task 'v' in
+   * the order.
+   *
+   * @param graph The dependence graph of tasks (a DAG) for which a topological order is to be
+   *              found.
+   * @return A list of the {@link Task}s from the input graph, in a topological order.
+   * @throws IllegalGraphException If given a cyclic digraph.
+   */
+  public List<Task> getAReverseTopologicalOrder(Graph graph) {
     Set<Task> visited = new HashSet<>(graph.taskCount());
     List<Task> list = new ArrayList<>(graph.taskCount());
 
@@ -36,11 +55,9 @@ public class TopologicalSorter {
       }
     }
 
-    // Reverse output list to get a topological orderings (alternatively enqueue could be used)
-    Collections.reverse(list);
-
     return list;
   }
+
 
   /**
    * Recursive helper function for {@link #getATopologicalOrder(Graph)}.

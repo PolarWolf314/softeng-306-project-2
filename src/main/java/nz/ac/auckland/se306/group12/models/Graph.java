@@ -1,7 +1,6 @@
 package nz.ac.auckland.se306.group12.models;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -132,15 +131,14 @@ public class Graph {
    * bottom level is the maximum distance from the task to a sink task (task without children)
    */
   public void setBottomLevels() {
-    List<Task> topologicalOrder = topologicalSorter.getATopologicalOrder(this);
-    Collections.reverse(topologicalOrder);
+    List<Task> topologicalOrder = topologicalSorter.getAReverseTopologicalOrder(this);
 
     for (Task task : topologicalOrder) {
       if (task.isSink()) {
         task.setBottomLevel(task.getWeight());
       } else {
-        int max = task.getChildTasks().stream()
-            .mapToInt(Task::getBottomLevel)
+        int max = task.getOutgoingEdges().stream()
+            .mapToInt(edge -> edge.getDestination().getBottomLevel())
             .max()
             .orElse(0);
         task.setBottomLevel(task.getWeight() + max);
