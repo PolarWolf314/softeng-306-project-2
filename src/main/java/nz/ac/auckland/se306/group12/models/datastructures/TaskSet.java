@@ -35,7 +35,7 @@ public class TaskSet implements Set<Task> {
   public static final int MAX_TASK_INDEX = 31;
 
   private final Graph taskGraph;
-  private int taskBitMap = 0;
+  private int taskBitmap = 0;
   private int taskCount = 0;
 
   /**
@@ -52,7 +52,7 @@ public class TaskSet implements Set<Task> {
       throw new IllegalArgumentException("TaskSet can only be constructed from another TaskSet");
     }
 
-    this.taskBitMap = taskSet.taskBitMap;
+    this.taskBitmap = taskSet.taskBitmap;
     this.taskCount = taskSet.taskCount;
     this.taskGraph = taskSet.taskGraph;
   }
@@ -63,7 +63,7 @@ public class TaskSet implements Set<Task> {
    * @param existingTaskSet The existing {@link TaskSet} to create a new TaskSet from
    */
   public TaskSet(TaskSet existingTaskSet) {
-    this.taskBitMap = existingTaskSet.taskBitMap;
+    this.taskBitmap = existingTaskSet.taskBitmap;
     this.taskCount = existingTaskSet.taskCount;
     this.taskGraph = existingTaskSet.taskGraph;
   }
@@ -87,21 +87,21 @@ public class TaskSet implements Set<Task> {
   }
 
   /**
-   * Updates the taskBitMap to the new value and recalculates the new taskCount. This should only be
+   * Updates the taskBitmap to the new value and recalculates the new taskCount. This should only be
    * used when making large changes to the TaskSet as the cost of recalculating the taskCount is not
-   * justified when only adding/removing a single task. If the taskBitMap is not changed, this will
+   * justified when only adding/removing a single task. If the taskBitmap is not changed, this will
    * not change anything or recalculate the taskCount.
    *
-   * @param newTaskBitMap The new taskBitMap
-   * @return {@code true} if the taskBitMap was changed, {@code false} otherwise
+   * @param newTaskBitmap The new taskBitmap
+   * @return {@code true} if the taskBitmap was changed, {@code false} otherwise
    */
-  private boolean setTaskBitMap(int newTaskBitMap) {
-    if (this.taskBitMap == newTaskBitMap) {
+  private boolean setTaskBitmap(int newTaskBitmap) {
+    if (this.taskBitmap == newTaskBitmap) {
       return false;
     }
 
-    this.taskBitMap = newTaskBitMap;
-    this.taskCount = Integer.bitCount(this.taskBitMap);
+    this.taskBitmap = newTaskBitmap;
+    this.taskCount = Integer.bitCount(this.taskBitmap);
     return true;
   }
 
@@ -130,7 +130,7 @@ public class TaskSet implements Set<Task> {
    */
   private boolean containsTaskIndex(int taskIndex) {
     // Check that there is a 1 bit at the taskIndex
-    return (this.taskBitMap & (1 << taskIndex)) != 0;
+    return (this.taskBitmap & (1 << taskIndex)) != 0;
   }
 
   /**
@@ -175,8 +175,8 @@ public class TaskSet implements Set<Task> {
     }
 
     // We know the index of the task is valid because of the contains check
-    // Add a 1 bit to the taskBitMap at the index of the task
-    this.taskBitMap |= (1 << task.getIndex());
+    // Add a 1 bit to the taskBitmap at the index of the task
+    this.taskBitmap |= (1 << task.getIndex());
     this.taskCount++;
     return true;
   }
@@ -192,7 +192,7 @@ public class TaskSet implements Set<Task> {
 
     // We know that the object is a task and that the index is valid because of the contains check
     Task task = (Task) object;
-    this.taskBitMap &= ~(1 << task.getIndex());
+    this.taskBitmap &= ~(1 << task.getIndex());
     this.taskCount--;
     return true;
   }
@@ -207,7 +207,7 @@ public class TaskSet implements Set<Task> {
   @Override
   public boolean containsAll(Collection<?> collection) {
     if (collection instanceof TaskSet otherTaskSet) {
-      return (this.taskBitMap & otherTaskSet.taskBitMap) == otherTaskSet.taskBitMap;
+      return (this.taskBitmap & otherTaskSet.taskBitmap) == otherTaskSet.taskBitmap;
     }
 
     for (Object object : collection) {
@@ -230,7 +230,7 @@ public class TaskSet implements Set<Task> {
   public boolean addAll(Collection<? extends Task> collection) {
     if (collection instanceof TaskSet otherTaskSet) {
       // Combine the bitmaps of the two TaskSets
-      return this.setTaskBitMap(this.taskBitMap | otherTaskSet.taskBitMap);
+      return this.setTaskBitmap(this.taskBitmap | otherTaskSet.taskBitmap);
     }
 
     int oldTaskCount = this.taskCount;
@@ -252,7 +252,7 @@ public class TaskSet implements Set<Task> {
   public boolean retainAll(Collection<?> collection) {
     if (collection instanceof TaskSet otherTaskSet) {
       // Remove the bits of this TaskSet that are not in the other TaskSet
-      return this.setTaskBitMap(this.taskBitMap & otherTaskSet.taskBitMap);
+      return this.setTaskBitmap(this.taskBitmap & otherTaskSet.taskBitmap);
     }
     return this.removeIf(task -> !collection.contains(task));
   }
@@ -268,7 +268,7 @@ public class TaskSet implements Set<Task> {
   public boolean removeAll(Collection<?> collection) {
     if (collection instanceof TaskSet otherTaskSet) {
       // Remove the bits of the other TaskSet from this TaskSet
-      return this.setTaskBitMap(this.taskBitMap & ~otherTaskSet.taskBitMap);
+      return this.setTaskBitmap(this.taskBitmap & ~otherTaskSet.taskBitmap);
     }
 
     // It's likely faster to iterate through the other collection than to iterate through this one
@@ -285,7 +285,7 @@ public class TaskSet implements Set<Task> {
   @Override
   public void clear() {
     this.taskCount = 0;
-    this.taskBitMap = 0;
+    this.taskBitmap = 0;
   }
 
   /**
