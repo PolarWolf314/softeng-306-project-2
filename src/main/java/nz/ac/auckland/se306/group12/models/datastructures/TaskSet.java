@@ -36,16 +36,27 @@ public class TaskSet implements Set<Task> {
     this.taskGraph = existingTaskSet.taskGraph;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public int size() {
     return this.taskCount;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public boolean isEmpty() {
     return this.taskCount == 0;
   }
 
+  /**
+   * If the object is not an instance of {@link Task} this will always return {@code false}.
+   *
+   * @inheritDoc
+   */
   @Override
   public boolean contains(Object object) {
     if (object instanceof Task task) {
@@ -54,11 +65,20 @@ public class TaskSet implements Set<Task> {
     return false;
   }
 
+  /**
+   * Checks that this TaskSet contains a {@link Task} with the given index.
+   *
+   * @param taskIndex The index of the task to check for
+   * @return {@code true} if the task index is contained, {@code false} otherwise
+   */
   public boolean containsTaskIndex(int taskIndex) {
     // Check that there is a 1 bit at the taskIndex
     return (this.taskBitMap & (1 << taskIndex)) != 0;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public boolean add(Task task) {
     boolean isContained = this.contains(task);
@@ -78,6 +98,9 @@ public class TaskSet implements Set<Task> {
     return true;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public boolean remove(Object object) {
     if (!this.contains(object)) {
@@ -91,6 +114,9 @@ public class TaskSet implements Set<Task> {
     return true;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public boolean containsAll(Collection<?> collection) {
     for (Object object : collection) {
@@ -102,6 +128,9 @@ public class TaskSet implements Set<Task> {
     return true;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public boolean addAll(Collection<? extends Task> collection) {
     int oldTaskCount = this.taskCount;
@@ -112,22 +141,34 @@ public class TaskSet implements Set<Task> {
     return this.taskCount != oldTaskCount;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public boolean retainAll(Collection<?> collection) {
     return this.removeIf(task -> !collection.contains(task));
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public boolean removeAll(Collection<?> collection) {
     return this.removeIf(collection::contains);
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public void clear() {
     this.taskCount = 0;
     this.taskBitMap = 0;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public Iterator<Task> iterator() {
     return new Iterator<>() {
@@ -155,11 +196,23 @@ public class TaskSet implements Set<Task> {
     };
   }
 
+  /**
+   * This method has not been implemented as it is not required and I don't foresee any likely
+   * usages of it in the future. This can be added later if required.
+   *
+   * @throws UnsupportedOperationException If this method is called
+   */
   @Override
   public Object[] toArray() {
     throw new UnsupportedOperationException("toArray() is not supported on TaskSet");
   }
 
+  /**
+   * This method has not been implemented as it is not required and I don't foresee any likely
+   * usages of it in the future. This can be added later if required.
+   *
+   * @throws UnsupportedOperationException If this method is called
+   */
   @Override
   public <T> T[] toArray(T[] array) {
     throw new UnsupportedOperationException("toArray() is not supported on TaskSet");
