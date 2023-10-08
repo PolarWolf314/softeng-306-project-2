@@ -25,7 +25,7 @@ public class Schedule {
 
   // Estimation variables
   private final int totalTaskWeights;
-  private final int endTimeEstimate;
+  private final int estimatedMakespan;
   private final int totalIdleTime;
 
   /**
@@ -42,7 +42,7 @@ public class Schedule {
     this.readyTasks = taskGraph.getSourceTasks();
     this.totalTaskWeights = taskGraph.getTotalTaskWeights();
     this.totalIdleTime = 0;
-    this.endTimeEstimate = this.getIdleEndTimeEstimate(this.totalIdleTime);
+    this.estimatedMakespan = this.estimateIdleTimeMakespan(this.totalIdleTime);
   }
 
   /**
@@ -65,8 +65,7 @@ public class Schedule {
 
     int newTotalIdleTime = this.totalIdleTime + taskIdleTime;
     int newLatestEndTime = Math.max(this.latestEndTime, scheduledTask.getEndTime());
-    int newEndTimeEstimate = this.calculateNewEndTimeEstimate(
-        scheduledTask, task, newTotalIdleTime);
+    int newEstimatedMakespan = this.estimateNewMakespan(scheduledTask, task, newTotalIdleTime);
 
     return new Schedule(
         newScheduledTasks,
@@ -75,7 +74,7 @@ public class Schedule {
         this.scheduledTaskCount + 1,
         this.getNewReadyTasks(task, newScheduledTasks),
         this.totalTaskWeights,
-        newEndTimeEstimate,
+        newEstimatedMakespan,
         newTotalIdleTime
     );
   }
@@ -161,7 +160,7 @@ public class Schedule {
   }
 
   /**
-   * Determines the new end time estimate for the resulting schedule after adding a new scheduled
+   * Determines the new makespan estimate for the resulting schedule after adding a new scheduled
    * task. The estimate is admissible, which means that it will always be less than the actual time
    * of the resulting schedule. This ensures that we don't accidentally prune any optimal schedules
    * by thinking it will take longer than it actually does.
@@ -169,22 +168,18 @@ public class Schedule {
    * @param scheduledTask    The {@link ScheduledTask} that was added to this schedule
    * @param task             The corresponding {@link Task} for the scheduled task
    * @param newTotalIdleTime The new total idle time
-   * @return The new end time estimate
-   * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Optimal
-   * Scheduling of Task Graphs on Parallel Systems, Section 3.1</a>
+   * @return The new makespan estimate
+   * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Sinnen,
+   * Kozlov & Shahul: Optimal Scheduling of Task Graphs on Parallel Systems</a>, Section 3.1
    */
-  private int calculateNewEndTimeEstimate(
-      ScheduledTask scheduledTask,
-      Task task,
-      int newTotalIdleTime
-  ) {
+  private int estimateNewMakespan(ScheduledTask scheduledTask, Task task, int newTotalIdleTime) {
     return Math.max(
-        Math.max(this.endTimeEstimate, this.getIdleEndTimeEstimate(newTotalIdleTime)),
-        this.getBottomLevelEndTimeEstimate(scheduledTask, task));
+        Math.max(this.estimatedMakespan, this.estimateIdleTimeMakespan(newTotalIdleTime)),
+        this.estimateBottomLevelMakespan(scheduledTask, task));
   }
 
   /**
-   * A possible underestimate of the end time of this schedule is the total weight of all the tasks
+   * A possible underestimate of the makespan of this schedule is the total weight of all the tasks
    * and the new accumulated idle time divided by the number of processors. We know this will be an
    * underestimate because it assumes all tasks can be evenly divided between processors, and it
    * doesn't factor in transfer time between processors.
@@ -192,26 +187,26 @@ public class Schedule {
    * This type of underestimate is beneficial with task graphs that have few edges.
    *
    * @param newTotalIdleTime The new total idle time
-   * @return The idle underestimate of the end time
-   * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Optimal
-   * Scheduling of Task Graphs on Parallel Systems, Section 3.1</a>
+   * @return The idle underestimate of the makespan
+   * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Sinnen,
+   * Kozlov & Shahul: Optimal Scheduling of Task Graphs on Parallel Systems</a>, Section 3.1
    */
-  private int getIdleEndTimeEstimate(int newTotalIdleTime) {
+  private int estimateIdleTimeMakespan(int newTotalIdleTime) {
     return (newTotalIdleTime + this.totalTaskWeights) / this.getProcessorCount();
   }
 
   /**
-   * This method returns the bottom level estimate of the end time of this scheduled task. This
+   * This method returns the bottom level estimate of the makespan of this scheduled task. This
    * estimate is determined by the start time and the bottom level of the task. This will always be
    * an underestimate because it doesn't factor in the transfer time between processors.
    *
    * @param scheduledTask The {@link ScheduledTask} to get the bottom level estimate for
    * @param task          The corresponding {@link Task} for the scheduled task
    * @return The bottom level estimate of this scheduled task
-   * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Optimal
-   * Scheduling of Task Graphs on Parallel Systems, Section 3.1</a>
+   * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Sinnen,
+   * Kozlov & Shahul: Optimal Scheduling of Task Graphs on Parallel Systems</a>, Section 3.1
    */
-  private int getBottomLevelEndTimeEstimate(ScheduledTask scheduledTask, Task task) {
+  private int estimateBottomLevelMakespan(ScheduledTask scheduledTask, Task task) {
     return scheduledTask.getEndTime() + task.getBottomLevel();
   }
 

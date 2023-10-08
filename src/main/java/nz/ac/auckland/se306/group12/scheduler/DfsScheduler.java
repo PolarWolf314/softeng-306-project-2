@@ -27,8 +27,7 @@ public class DfsScheduler implements Scheduler {
       Schedule currentSchedule = stack.pop();
 
       // Prune if current schedule is worse than current best
-      if (currentSchedule.getEndTimeEstimate() >= this.currentMinMakespan ||
-          currentSchedule.getLatestEndTime() >= this.currentMinMakespan) {
+      if (currentSchedule.getEstimatedMakespan() >= this.currentMinMakespan) {
         continue;
       }
 
