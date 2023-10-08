@@ -31,6 +31,7 @@ public class CommandLineParser {
     this.parser.addArgument("-a", "--algorithm")
         .metavar("ALGORITHM")
         .choices("dfs", "astar")
+        .dest(Keys.ALGORITHM)
         .setDefault("dfs")
         .help("The algorithm to use to find the optimal schedule (default is dfs)");
     this.parser.addArgument("-p", "--parallel")
@@ -133,6 +134,7 @@ public class CommandLineParser {
 
     private static final String INPUT_DOT_GRAPH = "inputDotGraph";
     private static final String PROCESSOR_COUNT = "processorCount";
+    private static final String ALGORITHM = "algorithm";
     private static final String PARALLELISATION_PROCESSOR_COUNT = "parallelisationProcessorCount";
     private static final String VISUALISE_SEARCH = "visualise";
     private static final String OUTPUT_DOT_GRAPH = "output";
