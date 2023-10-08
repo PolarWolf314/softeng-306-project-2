@@ -42,13 +42,9 @@ public class Schedule {
     this.totalTaskWeights = taskGraph.getTotalTaskWeights();
     this.totalIdleTime = 0;
     this.estimatedMakespan = this.estimateIdleTimeMakespan(this.totalIdleTime);
-    this.readyTasks = new TaskSet(taskGraph);
-    // Add all source tasks as a ready task
-    for (Task task : taskGraph.getTasks()) {
-      if (task.getParentTasks().isEmpty()) {
-        this.readyTasks.add(task);
-      }
-    }
+    this.readyTasks = taskGraph.getTasks().stream()
+        .filter(Task::isSource)
+        .collect(TaskSet.collect(taskGraph));
   }
 
   /**
@@ -87,7 +83,7 @@ public class Schedule {
 
   /**
    * This method returns a set of tasks that are ready to be scheduled based on the current task
-   * being scheduled
+   * being scheduled. A task is considered ready if all its parent tasks have been scheduled.
    *
    * @param task              The task that is being scheduled
    * @param newScheduledTasks List of scheduled tasks representing the schedule at the next state
