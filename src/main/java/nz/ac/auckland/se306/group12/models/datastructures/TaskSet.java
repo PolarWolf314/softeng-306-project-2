@@ -71,8 +71,8 @@ public class TaskSet {
     this.taskBitMap = 0;
   }
 
-  public Iterable<Task> toIterable(Graph graph) {
-    return new IterableTaskSet(graph);
+  public Iterable<Task> toIterable(Graph taskGraph) {
+    return new IterableTaskSet(taskGraph);
   }
 
   @RequiredArgsConstructor
