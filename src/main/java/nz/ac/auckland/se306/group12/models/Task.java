@@ -79,4 +79,5 @@ public class Task {
   public boolean isSink() {
     return this.outgoingEdges.isEmpty();
   }
+
 }

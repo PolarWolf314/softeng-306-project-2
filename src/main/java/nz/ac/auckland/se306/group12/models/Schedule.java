@@ -3,7 +3,6 @@ package nz.ac.auckland.se306.group12.models;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -145,11 +144,11 @@ public class Schedule {
 
   /**
    * This method returns the number of processors in the schedule
-   * 
+   *
    * @return The number of processors in the schedule
    */
-  private int getProcessorCount() {
-    return processorEndTimes.length;
+  public int getProcessorCount() {
+    return this.processorEndTimes.length;
   }
 
 }
