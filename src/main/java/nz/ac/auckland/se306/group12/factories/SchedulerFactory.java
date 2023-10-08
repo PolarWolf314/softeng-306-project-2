@@ -13,6 +13,8 @@ public class SchedulerFactory {
    * @return A scheduler for the given algorithm
    */
   public Scheduler getScheduler(String algorithm) {
+    algorithm = algorithm.toLowerCase();
+
     if (algorithm.equals("dfs")) {
       return new DfsScheduler();
     } else if (algorithm.equals("astar")) {
