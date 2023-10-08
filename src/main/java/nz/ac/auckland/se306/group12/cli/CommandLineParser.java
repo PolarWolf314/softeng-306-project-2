@@ -17,41 +17,42 @@ public class CommandLineParser {
   public CommandLineParser() {
     this.parser = ArgumentParsers.newFor("scheduler.jar")
         .build()
-        .description(
-            "An algorithm for finding the optimal schedule for a given set of tasks and processors.");
+        .description("A program for finding the optimal solution to the parallel scheduling "
+            + "problem. Given a (small) set of tasks and their dependence relations, this program "
+            + "finds the optimal way to schedule them on a set of homogenous processors.");
     this.parser.addArgument(Keys.INPUT_DOT_GRAPH)
         .metavar("INPUT.dot")
         .required(true)
-        .help("A task graph with integer weights in the dot format");
+        .help("a task graph in DOT format, with non-negative integer weights");
     this.parser.addArgument(Keys.PROCESSOR_COUNT)
         .metavar("P")
         .required(true)
         .type(Integer.class)
-        .help("The number of processors to schedule the INPUT graph on");
+        .help("the number of processors on which to schedule the INPUT graph");
     this.parser.addArgument("-a", "--algorithm")
         .metavar("ALGORITHM")
         .choices("astar", "dfs")
         .dest(Keys.ALGORITHM)
         .setDefault("dfs")
-        .help("The algorithm to use to find the optimal schedule (default is dfs)");
+        .help("the algorithm with which to find the optimal schedule (default is dfs)");
     this.parser.addArgument("-p", "--parallel")
         .metavar("N")
         .type(Integer.class)
         .dest(Keys.PARALLELISATION_PROCESSOR_COUNT)
         .setDefault(1)
-        .help("Use N cores for execution in parallel (default is sequential)");
+        .help("use N cores for execution in parallel (default is sequential)");
     this.parser.addArgument("-v", "--visualise")
         .action(Arguments.storeTrue())
         .dest(Keys.VISUALISE_SEARCH)
-        .help("Visualise the search");
+        .help("visualise the search");
     this.parser.addArgument("-o", "--output")
         .metavar("OUTPUT")
         .dest(Keys.OUTPUT_DOT_GRAPH)
-        .help("The output file to write the schedule to (default is INPUT-output.dot)");
+        .help("write the resultant DOT file to path OUTPUT (default is INPUT-output.dot)");
     this.parser.addArgument("-s", "--stdout")
         .action(Arguments.storeTrue())
         .dest(Keys.WRITE_TO_STD_OUT)
-        .help("Write the schedule to stdout instead of a file");
+        .help("write the schedule to stdout instead of a file");
   }
 
   /**
