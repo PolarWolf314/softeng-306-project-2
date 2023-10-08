@@ -31,37 +31,38 @@ public class CommandLineParser {
     this.parser.addArgument(Keys.INPUT_DOT_GRAPH)
         .metavar("INPUT.dot")
         .required(true)
-        .help("A task graph in DOT format, with non-negative integer weights.");
+        .help("a task graph in DOT format, with non-negative integer weights");
     this.parser.addArgument(Keys.PROCESSOR_COUNT)
         .metavar("P")
         .required(true)
         .type(Integer.class)
-        .help("The number of processors on which to schedule the INPUT graph.");
+        .help("the number of processors on which to schedule the INPUT graph");
     this.parser.addArgument("-a", "--algorithm")
         .metavar("ALGORITHM")
         .choices("astar", "dfs")
         .dest(Keys.ALGORITHM)
         .setDefault("dfs")
-        .help("The algorithm with which to find the optimal schedule (default is dfs).");
+        .help("the algorithm with which to find the optimal schedule (default is dfs);"
+            + " options are astar (A*) and dfs (depth-first search)");
     this.parser.addArgument("-p", "--parallel")
         .metavar("N")
         .type(Integer.class)
         .dest(Keys.PARALLELISATION_PROCESSOR_COUNT)
         .setDefault(1)
-        .help("Use N cores for execution in parallel (default is 1, sequential execution).");
+        .help("use N cores for execution in parallel (default is 1, sequential execution)");
     this.parser.addArgument("-v", "--visualise")
         .action(Arguments.storeTrue())
         .dest(Keys.VISUALISE_SEARCH)
-        .help("Visualise the search.");
+        .help("visualise the search");
     this.parser.addArgument("-o", "--output")
         .metavar("OUTPUT")
         .dest(Keys.OUTPUT_DOT_GRAPH)
-        .help("Write the resultant DOT file to path OUTPUT (default is INPUT-output.dot)."
-            + "  Has no effect if -s is also set.");
+        .help("write the resultant DOT file to path OUTPUT (default is INPUT-output.dot);"
+            + " has no effect if -s is also set");
     this.parser.addArgument("-s", "--stdout")
         .action(Arguments.storeTrue())
         .dest(Keys.WRITE_TO_STD_OUT)
-        .help("Write the schedule to stdout instead of a file.  Nullifies the effect of -o.");
+        .help("write the schedule to stdout instead of a file; nullifies the effect of -o");
   }
 
   /**
@@ -123,7 +124,7 @@ public class CommandLineParser {
       throws ArgumentParserException {
     if (arguments.processorCount() < 1) {
       throw new ArgumentParserException(
-          "The number of processors (P) must be greater than 0", this.parser);
+          "The number of processors (P) must be greater than 0.", this.parser);
     }
     final int availableProcessors = Runtime.getRuntime().availableProcessors();
     if (arguments.parallelisationProcessorCount() < 1 ||
@@ -131,13 +132,13 @@ public class CommandLineParser {
     ) {
       throw new ArgumentParserException(
           String.format("The number of parallel processors (-p N) must be greater than 0 and "
-                  + "less than or equal to the number of available processors (%d)",
+                  + "no more than the number of available processors (%d).",
               availableProcessors), this.parser);
     }
 
     if (!arguments.inputDotGraph().exists()) {
       throw new ArgumentParserException(
-          String.format("The input dot graph file %s does not exist",
+          String.format("The input DOT graph file %s does not exist.",
               arguments.inputDotGraph().getPath()), this.parser);
     }
   }
