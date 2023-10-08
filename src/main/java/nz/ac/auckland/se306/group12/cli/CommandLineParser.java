@@ -49,7 +49,7 @@ public class CommandLineParser {
         .dest(Keys.ALGORITHM)
         .setDefault("dfs")
         .help("the algorithm with which to find the optimal schedule (default is dfs);"
-            + " options are astar (A*) and dfs (depth-first search)");
+            + " options are astar (A*) and dfs (depth-first search branch and bound)");
     this.parser.addArgument("-p", "--parallel")
         .metavar("N")
         .type(Integer.class)
