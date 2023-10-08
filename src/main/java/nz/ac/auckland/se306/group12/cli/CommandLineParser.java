@@ -28,6 +28,11 @@ public class CommandLineParser {
         .required(true)
         .type(Integer.class)
         .help("The number of processors to schedule the INPUT graph on");
+    this.parser.addArgument("-a", "--algorithm")
+        .metavar("ALGORITHM")
+        .choices("dfs", "astar")
+        .setDefault("dfs")
+        .help("The algorithm to use to find the optimal schedule (default is dfs)");
     this.parser.addArgument("-p", "--parallel")
         .metavar("N")
         .type(Integer.class)
