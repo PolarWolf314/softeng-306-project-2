@@ -128,7 +128,7 @@ public class Graph {
    */
   public void setBottomLevels() {
     for (Task task : this.getTasks()) {
-      task.setBottomLevel(task.findBottomLevel());
+      task.updateBottomLevel();
     }
   }
 }

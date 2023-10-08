@@ -84,10 +84,8 @@ public class Task {
   /**
    * This method finds the bottom level from the current task. The bottom level is the maximum
    * distance from the task to a sink task (task without children)
-   *
-   * @return the bottom level of a particular task.
    */
-  public int findBottomLevel() {
+  public void updateBottomLevel() {
     int cost = 0;
     int max = 0;
 
@@ -101,8 +99,8 @@ public class Task {
       Task current = taskStack.peek();
       Set<Task> children = current.getChildTasks();
 
-      // Arbitrary push an unvisited task on stack
-      for (Task task : current.getChildTasks()) {
+      // Arbitrary push an unvisited child task on stack
+      for (Task task : children) {
         if (!visited.contains(task)) {
           taskStack.push(task);
           break;
@@ -110,7 +108,7 @@ public class Task {
       }
 
       // Check if current task has already been calculated
-      if (!children.isEmpty() && visited.containsAll(current.getChildTasks())) {
+      if (!current.isSink() && visited.containsAll(children)) {
         visited.add(taskStack.pop());
         cost -= current.weight;
         continue;
@@ -125,11 +123,12 @@ public class Task {
       }
 
       // Account for sink tasks
-      if (children.isEmpty()) {
+      if (current.isSink()) {
         visited.add(taskStack.pop());
         cost -= current.weight;
       }
     }
-    return max;
+
+    this.bottomLevel = max;
   }
 }
