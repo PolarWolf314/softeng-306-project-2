@@ -3,6 +3,11 @@ package nz.ac.auckland.se306.group12.models.datastructures;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
 import lombok.RequiredArgsConstructor;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Task;
@@ -64,6 +69,24 @@ public class TaskSet implements Set<Task> {
   }
 
   /**
+   * Creates a new {@link TaskSetCollector} which can be used to collect a stream of
+   * {@link Task tasks} into a {@link TaskSet}.
+   * <p>
+   * E.g.
+   * <pre>
+   * taskGraph.getTasks().stream()
+   *         .filter(Task::isSource)
+   *         .collect(TaskSet.collect(taskGraph));
+   * </pre>
+   *
+   * @param taskGraph The {@link Graph} that the tasks are from
+   * @return A new {@link TaskSetCollector}
+   */
+  public static TaskSetCollector collect(Graph taskGraph) {
+    return new TaskSetCollector(taskGraph);
+  }
+
+  /**
    * Updates the taskBitMap to the new value and recalculates the new taskCount. This should only be
    * used when making large changes to the TaskSet as the cost of recalculating the taskCount is not
    * justified when only adding/removing a single task. If the taskBitMap is not changed, this will
@@ -98,7 +121,6 @@ public class TaskSet implements Set<Task> {
           MAX_TASK_INDEX));
     }
   }
-
 
   /**
    * Checks that this TaskSet contains a {@link Task} with the given index.
@@ -316,6 +338,61 @@ public class TaskSet implements Set<Task> {
   @Override
   public <T> T[] toArray(T[] array) {
     throw new UnsupportedOperationException("toArray() is not supported on TaskSet");
+  }
+
+  /**
+   * A custom {@link Collector} that can be used to convert a stream of {@link Task tasks} into a
+   * {@link TaskSet}.
+   */
+  @RequiredArgsConstructor
+  public static class TaskSetCollector implements Collector<Task, TaskSet, TaskSet> {
+
+    private final Graph taskGraph;
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public Supplier<TaskSet> supplier() {
+      return () -> new TaskSet(this.taskGraph);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public BiConsumer<TaskSet, Task> accumulator() {
+      return TaskSet::add;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public BinaryOperator<TaskSet> combiner() {
+      return (taskSet1, taskSet2) -> {
+        // This is going to be superfast because of the bitwise operations >:)
+        taskSet1.addAll(taskSet2);
+        return taskSet1;
+      };
+    }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public Function<TaskSet, TaskSet> finisher() {
+      return (taskSet) -> taskSet;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public Set<Characteristics> characteristics() {
+      return Set.of(Characteristics.UNORDERED);
+    }
+
   }
 
 }
