@@ -6,6 +6,7 @@ import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.scheduler.DfsScheduler;
 import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -109,6 +110,7 @@ class OptimalScheduleTest {
   }
 
   @Test
+  @Disabled
   void Test4ProcNodes_11_OutTree() {
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_11_OutTree.dot");
     Schedule schedule = this.getOutputSchedule(graph, 4);

@@ -5,6 +5,7 @@ import java.io.File;
 public record CommandLineArguments(
     File inputDotGraph,
     int processorCount,
+    String algorithm,
     int parallelisationProcessorCount,
     boolean visualiseSearch,
     File outputDotGraph,

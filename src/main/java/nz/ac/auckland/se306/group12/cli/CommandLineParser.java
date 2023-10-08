@@ -28,6 +28,12 @@ public class CommandLineParser {
         .required(true)
         .type(Integer.class)
         .help("The number of processors to schedule the INPUT graph on");
+    this.parser.addArgument("-a", "--algorithm")
+        .metavar("ALGORITHM")
+        .choices("astar", "dfs")
+        .dest(Keys.ALGORITHM)
+        .setDefault("dfs")
+        .help("The algorithm to use to find the optimal schedule (default is dfs)");
     this.parser.addArgument("-p", "--parallel")
         .metavar("N")
         .type(Integer.class)
@@ -67,6 +73,7 @@ public class CommandLineParser {
       final int parallelisationProcessorCount = namespace.getInt(
           Keys.PARALLELISATION_PROCESSOR_COUNT);
       final int processorCount = namespace.getInt(Keys.PROCESSOR_COUNT);
+      final String algorithm = namespace.getString(Keys.ALGORITHM);
       final boolean visualiseSearch = namespace.getBoolean(Keys.VISUALISE_SEARCH);
       final boolean writeToStdOut = namespace.getBoolean(Keys.WRITE_TO_STD_OUT);
 
@@ -77,6 +84,7 @@ public class CommandLineParser {
       final CommandLineArguments arguments = new CommandLineArguments(
           new File(inputDotGraph),
           processorCount,
+          algorithm,
           parallelisationProcessorCount,
           visualiseSearch,
           new File(outputDotGraph),
@@ -128,6 +136,7 @@ public class CommandLineParser {
 
     private static final String INPUT_DOT_GRAPH = "inputDotGraph";
     private static final String PROCESSOR_COUNT = "processorCount";
+    private static final String ALGORITHM = "algorithm";
     private static final String PARALLELISATION_PROCESSOR_COUNT = "parallelisationProcessorCount";
     private static final String VISUALISE_SEARCH = "visualise";
     private static final String OUTPUT_DOT_GRAPH = "output";

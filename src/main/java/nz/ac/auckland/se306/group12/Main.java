@@ -2,11 +2,11 @@ package nz.ac.auckland.se306.group12;
 
 import java.io.IOException;
 import nz.ac.auckland.se306.group12.cli.CommandLineParser;
+import nz.ac.auckland.se306.group12.factories.SchedulerFactory;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
-import nz.ac.auckland.se306.group12.scheduler.DfsScheduler;
 import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 import nz.ac.auckland.se306.group12.visualizer.TerminalVisualizer;
 import nz.ac.auckland.se306.group12.visualizer.Visualizer;
@@ -21,7 +21,10 @@ public class Main {
     try {
       Graph graph = dotGraphIO.readDotGraph(arguments.inputDotGraph());
 
-      Scheduler scheduler = new DfsScheduler();
+      SchedulerFactory schedulerFactory = new SchedulerFactory();
+
+      Scheduler scheduler = schedulerFactory.getScheduler(arguments.algorithm());
+
       Schedule schedule = scheduler.schedule(graph, arguments.processorCount());
 
       if (arguments.visualiseSearch()) {
