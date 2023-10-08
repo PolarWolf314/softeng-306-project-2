@@ -35,6 +35,12 @@ public class TaskSet implements Set<Task> {
   public static final int MAX_TASK_INDEX = 31;
 
   private final Graph taskGraph;
+
+  /**
+   * The bitmap stores the tasks in this set. Each bit represents a task where the position of the
+   * bit corresponds to the index of the task. If the bit is set ({@code 1}) then that task is
+   * present in the set, otherwise if it is unset ({@code 0}) then that task is not present.
+   */
   private int taskBitmap = 0;
   private int taskCount = 0;
 
