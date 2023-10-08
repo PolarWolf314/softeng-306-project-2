@@ -1,12 +1,11 @@
 package nz.ac.auckland.se306.group12.models;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import nz.ac.auckland.se306.group12.models.datastructures.TaskSet;
 
 /**
  * Schedule class represents a schedule of tasks
@@ -21,7 +20,7 @@ public class Schedule {
   private final int[] processorEndTimes;
   private final int latestEndTime;
   private final int scheduledTaskCount;
-  private final List<Task> readyTasks;
+  private final TaskSet readyTasks;
 
   // Estimation variables
   private final int totalTaskWeights;
@@ -39,10 +38,17 @@ public class Schedule {
     this.processorEndTimes = new int[processorCount];
     this.scheduledTaskCount = 0;
     this.latestEndTime = 0;
-    this.readyTasks = taskGraph.getSourceTasks();
     this.totalTaskWeights = taskGraph.getTotalTaskWeights();
     this.totalIdleTime = 0;
     this.estimatedMakespan = this.estimateIdleTimeMakespan(this.totalIdleTime);
+
+    this.readyTasks = new TaskSet();
+    // Add all source tasks as a ready task
+    for (Task task : taskGraph.getTasks()) {
+      if (task.getParentTasks().isEmpty()) {
+        this.readyTasks.add(task);
+      }
+    }
   }
 
   /**
@@ -80,15 +86,15 @@ public class Schedule {
   }
 
   /**
-   * This method returns a list of tasks that are ready to be scheduled based on the current task
+   * This method returns a set of tasks that are ready to be scheduled based on the current task
    * being scheduled
    *
    * @param task              The task that is being scheduled
    * @param newScheduledTasks List of scheduled tasks representing the schedule at the next state
-   * @return List of tasks that are ready to be scheduled
+   * @return A {@link TaskSet} containing the tasks that are ready to be scheduled
    */
-  private List<Task> getNewReadyTasks(Task task, ScheduledTask[] newScheduledTasks) {
-    List<Task> newReadyTasks = new ArrayList<>(this.readyTasks);
+  private TaskSet getNewReadyTasks(Task task, ScheduledTask[] newScheduledTasks) {
+    TaskSet newReadyTasks = new TaskSet(this.readyTasks);
     newReadyTasks.remove(task);
     for (Edge outEdge : task.getOutgoingEdges()) {
       Task child = outEdge.getDestination();
