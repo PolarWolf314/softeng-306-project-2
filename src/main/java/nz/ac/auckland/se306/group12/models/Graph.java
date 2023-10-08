@@ -1,6 +1,7 @@
 package nz.ac.auckland.se306.group12.models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import nz.ac.auckland.se306.group12.exceptions.DanglingEdgeException;
 import nz.ac.auckland.se306.group12.exceptions.IllegalEdgeWeightException;
+import nz.ac.auckland.se306.group12.scheduler.TopologicalSorter;
 
 /**
  * Represents a graph of tasks and their dependences to create a schedule
@@ -32,6 +34,8 @@ public class Graph {
   private final Set<Edge> edges = new HashSet<>();
   @Exclude
   private final Map<String, Integer> taskIndexMap = new HashMap<>();
+  @Exclude
+  private final TopologicalSorter topologicalSorter = new TopologicalSorter();
 
   public Graph() {
     // Default name, for when the graph name doesn't matter
@@ -124,11 +128,23 @@ public class Graph {
   }
 
   /**
-   * Sets each task's bottom level used for underestimates.
+   * This method finds the bottom level for every task, using the reverse topological order. The
+   * bottom level is the maximum distance from the task to a sink task (task without children)
    */
   public void setBottomLevels() {
-    for (Task task : this.getTasks()) {
-      task.updateBottomLevel();
+    List<Task> topologicalOrder = topologicalSorter.getATopologicalOrder(this);
+    Collections.reverse(topologicalOrder);
+
+    for (Task task : topologicalOrder) {
+      if (task.isSink()) {
+        task.setBottomLevel(task.getWeight());
+      } else {
+        int max = task.getChildTasks().stream()
+            .mapToInt(Task::getBottomLevel)
+            .max()
+            .orElse(0);
+        task.setBottomLevel(task.getWeight() + max);
+      }
     }
   }
 }

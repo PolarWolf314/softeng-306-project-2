@@ -2,7 +2,6 @@ package nz.ac.auckland.se306.group12.models;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Stack;
 import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -79,56 +78,5 @@ public class Task {
    */
   public boolean isSink() {
     return this.outgoingEdges.isEmpty();
-  }
-
-  /**
-   * This method finds the bottom level from the current task. The bottom level is the maximum
-   * distance from the task to a sink task (task without children)
-   */
-  public void updateBottomLevel() {
-    int cost = 0;
-    int max = 0;
-
-    Stack<Task> taskStack = new Stack<>();
-    Set<Task> visited = new HashSet<>();
-
-    // Root task (current)
-    taskStack.push(this);
-
-    while (!taskStack.isEmpty()) {
-      Task current = taskStack.peek();
-      Set<Task> children = current.getChildTasks();
-
-      // Arbitrary push an unvisited child task on stack
-      for (Task task : children) {
-        if (!visited.contains(task)) {
-          taskStack.push(task);
-          break;
-        }
-      }
-
-      // Check if current task has already been calculated
-      if (!current.isSink() && visited.containsAll(children)) {
-        visited.add(taskStack.pop());
-        cost -= current.weight;
-        continue;
-      } else {
-        if (!visited.contains(current)) {
-          cost += current.weight;
-          visited.add(current);
-        }
-        if (cost > max) {
-          max = cost;
-        }
-      }
-
-      // Account for sink tasks
-      if (current.isSink()) {
-        visited.add(taskStack.pop());
-        cost -= current.weight;
-      }
-    }
-
-    this.bottomLevel = max;
   }
 }
