@@ -16,13 +16,13 @@ public class SchedulerFactory {
     algorithm = algorithm.toLowerCase();
 
     switch (algorithm) {
-      case "dfs" -> {
-        return new DfsScheduler();
-      }
       case "astar" -> {
         System.out.println("A* Scheduler not implemented");
         System.exit(1);
         return new AStarScheduler();
+      }
+      case "dfs" -> {
+        return new DfsScheduler();
       }
       default -> throw new IllegalArgumentException(
           "Invalid algorithm. " + algorithm + " is not a valid algorithm.");
