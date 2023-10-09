@@ -42,13 +42,9 @@ public class TerminalVisualizer implements Visualizer {
   /**
    * Renders the given {@link Schedule}, and prints it to system out.
    * <p>
-   * The output produced is intended for a window of width 80 characters. If the terminal window
-   * display the visualiser output is any narrower, soft wrapping will break its comprehensibility.
-   * Wider windows will simply not fill the available width.
-   * <p>
-   * If given a schedule for more than 10 processors, the output will be wider than 80 characters.
-   * For now, at least, just widen the terminal window to make the output look acceptable. A future
-   * release may dynamically adapt to different window widths.
+   * The visualiser tries to scale gracefully to the width of the terminal window (if the width can
+   * be detected). Nevertheless, at narrow widths (about 3 times the number of processors), any soft
+   * wrapping done by the terminal will break comprehensibility of the Gantt chart.
    */
   @Override
   public void visualize(Schedule schedule) {
@@ -79,7 +75,7 @@ public class TerminalVisualizer implements Visualizer {
   private void updateTerminalWidth() {
     int width = terminalWidthManager.getTerminalWidth();
     if (width > 0) {
-      terminalWidth = width;
+      terminalWidth = width - 2;
     }
   }
 
@@ -92,11 +88,18 @@ public class TerminalVisualizer implements Visualizer {
    * @param schedule The schedule to be rendered graphically (or... terminally?).
    */
   private void drawGanttChart(Schedule schedule) {
+    // Clamp the width of each column to between 2ch and 15ch (excl. 1ch gap between columns)
+    int columnWidth = Math.max(2, Math.min(terminalWidth / schedule.getProcessorCount(), 15));
+    String columnSlice = " ".repeat(columnWidth);
+
     // Chart header
-    for (int processorIndex = 1; processorIndex <= schedule.getProcessorEndTimes().length;
+    for (int processorIndex = 1;
+        processorIndex <= schedule.getProcessorEndTimes().length;
         processorIndex++) {
-      sb.append(String.format("P%-7s", processorIndex));
+      // -1 to account for the `P`
+      sb.append(String.format("P%-" + columnWidth + "s", processorIndex));
     }
+    sb.deleteCharAt(sb.length() - 1); // Trim trailing padding
     sb.append(NEW_LINE);
 
     // Chart body
@@ -109,14 +112,15 @@ public class TerminalVisualizer implements Visualizer {
         if (activeTaskIndex == PROCESSOR_IDLE) {
           // Processor idling
           sb.append(new AnsiEscapeSequenceBuilder().background(7))
-              .append("       "); // 7 spaces (chart columns are 7ch long, excl. padding)
+              .append(columnSlice);
         } else {
           sb.append(new AnsiEscapeSequenceBuilder().bold()
                   .foreground(AnsiColor.EIGHT_BIT_COLOR_CUBE[5][5][5])
                   .background(AnsiColor.EIGHT_BIT_COLOR_CUBE[activeTaskIndex % 6][0][4]))
               .append(taskRenderStarted[activeTaskIndex]
-                  ? "       "
-                  : String.format(" %-5.5s ", taskGraph.getTask(activeTaskIndex).getLabel()));
+                  ? columnSlice
+                  : String.format(" %-" + (columnWidth - 2) + "." + (columnWidth - 2) + "s ",
+                      taskGraph.getTask(activeTaskIndex).getLabel()));
 
           taskRenderStarted[activeTaskIndex] = true;
         }
@@ -124,6 +128,7 @@ public class TerminalVisualizer implements Visualizer {
         sb.append(new AnsiEscapeSequenceBuilder().reset()).append(" "); // Padding between columns
       }
 
+      sb.deleteCharAt(sb.length() - 1); // Trim trailing padding
       sb.append(NEW_LINE);
     }
   }
@@ -133,22 +138,23 @@ public class TerminalVisualizer implements Visualizer {
             .foreground(255, 255, 255)
             .background(255, 95, 135))
         .append(
-            String.format("%-14s", " SCHEDULED ")) // TODO: Re-architect to support live-updating
+            String.format("%-14.14s", " SCHEDULED ")) // TODO: Re-architect to support live-updating
         .append(new AnsiEscapeSequenceBuilder().normalIntensity()
             .foreground(52, 52, 52)
             .background(190, 190, 190))
-        .append(String.format(" %-64s ", taskGraph.getName()))
+        .append(String.format(" %-" + (terminalWidth - 16) + "." + (terminalWidth - 16) + "s ",
+            taskGraph.getName()))
         .append(new AnsiEscapeSequenceBuilder().reset())
         .append(NEW_LINE);
   }
 
   /**
-   * Adds a solid horizontal line, 80 characters wide, to the output.
+   * Adds a solid horizontal line to the output.
    */
   private void addDivider() {
     // Note: 8-bit fallback colour is `AnsiColor.EIGHT_BIT_COLOR_CUBE[2][0][5]`
     sb.append(new AnsiEscapeSequenceBuilder().foreground(125, 86, 243))
-        .append("─".repeat(80))
+        .append("─".repeat(terminalWidth))
         .append(new AnsiEscapeSequenceBuilder().reset())
         .append(NEW_LINE);
   }
