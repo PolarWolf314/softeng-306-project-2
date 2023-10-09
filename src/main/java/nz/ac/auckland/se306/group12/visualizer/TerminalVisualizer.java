@@ -88,27 +88,30 @@ public class TerminalVisualizer implements Visualizer {
    * @param schedule The schedule to be rendered graphically (or... terminally?).
    */
   private void drawGanttChart(Schedule schedule) {
+    int timeLabelWidth = 6; // Accommodates up to 5-digit makespans with 1ch spare for padding
+
     // Clamp the width of each column to between 2ch and 15ch (excl. 1ch gap between columns)
-    int columnWidth = Math.max(2, Math.min(terminalWidth / schedule.getProcessorCount(), 15));
+    // +1 in the denominator to accomodate labels along the time axis
+    int columnWidth = Math.max(2, Math.min(terminalWidth / (schedule.getProcessorCount() + 1), 15));
     String columnSlice = " ".repeat(columnWidth);
 
     // Chart header
     for (int processorIndex = 1;
         processorIndex <= schedule.getProcessorEndTimes().length;
         processorIndex++) {
-      // -1 to account for the `P`
-      sb.append(String.format("P%-" + columnWidth + "s", processorIndex));
+      sb.append(String.format("P%-" + columnWidth + "d", processorIndex));
     }
-    sb.deleteCharAt(sb.length() - 1); // Trim trailing padding
-    sb.append(NEW_LINE);
+    sb.append(String.format("%" + (timeLabelWidth - 1) + "s", "time")).append(NEW_LINE);
 
     // Chart body
     int[][] verticalGantt = this.scheduleToGantt(schedule);
 
     boolean[] taskRenderStarted = new boolean[schedule.getScheduledTaskCount()];
-    for (int[] unitTime : verticalGantt) {
-      for (int activeTaskIndex : unitTime) {
+    for (int time = 0; time < verticalGantt.length; time++) {
 
+      // Slight abuse of term, this time slice always has duration 1
+      int[] timeSlice = verticalGantt[time];
+      for (int activeTaskIndex : timeSlice) {
         if (activeTaskIndex == PROCESSOR_IDLE) {
           // Processor idling
           sb.append(new AnsiEscapeSequenceBuilder().background(7))
@@ -129,6 +132,15 @@ public class TerminalVisualizer implements Visualizer {
       }
 
       sb.deleteCharAt(sb.length() - 1); // Trim trailing padding
+
+      // Time axis label
+      sb.append(time % 5 == 4
+          ? String.format("%s%" + timeLabelWidth + "d%s",
+          new AnsiEscapeSequenceBuilder().faint().underline(),
+          time + 1,
+          new AnsiEscapeSequenceBuilder().reset())
+          : columnSlice);
+
       sb.append(NEW_LINE);
     }
   }
