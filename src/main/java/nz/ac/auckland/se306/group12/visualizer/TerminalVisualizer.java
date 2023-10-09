@@ -60,6 +60,7 @@ public class TerminalVisualizer implements Visualizer {
    */
   @Override
   public void visualize(Schedule schedule) {
+    eraseDisplay();
     updateTerminalWidth();
 
     this.addDivider(); // Top border
@@ -100,17 +101,15 @@ public class TerminalVisualizer implements Visualizer {
    * @param schedule The schedule to be rendered graphically (or... terminally?).
    */
   private void drawGanttChart(Schedule schedule) {
-    int timeLabelWidth = 6; // Accommodates up to 5-digit makespans with 1ch spare for padding
-
     // Clamp the width of each column to between 2ch and 15ch (excl. 1ch gap between columns)
     // +1 in the denominator to accommodate labels along the time axis
     int columnWidth = Math.max(2, Math.min(terminalWidth / (schedule.getProcessorCount() + 1), 15));
     String columnSlice = " ".repeat(columnWidth);
 
+    int timeLabelWidth = Math.max(6, columnWidth);
+
     // Horizontal axis labels: processors
-    for (int processorIndex = 1;
-        processorIndex <= schedule.getProcessorEndTimes().length;
-        processorIndex++) {
+    for (int processorIndex = 1; processorIndex <= schedule.getProcessorCount(); processorIndex++) {
       sb.append(String.format("P%-" + columnWidth + "d", processorIndex));
     }
 
@@ -128,10 +127,10 @@ public class TerminalVisualizer implements Visualizer {
       for (int activeTaskIndex : timeSlice) {
         if (activeTaskIndex == PROCESSOR_IDLE) {
           // Processor idling
-          sb.append(new AnsiEscapeSequenceBuilder().background(7))
+          sb.append(new AnsiSgrSequenceBuilder().background(7))
               .append(columnSlice);
         } else {
-          sb.append(new AnsiEscapeSequenceBuilder().bold()
+          sb.append(new AnsiSgrSequenceBuilder().bold()
                   .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][5][5])
                   .background(AnsiColor.COLOR_CUBE_8_BIT[activeTaskIndex % 6][0][4]))
               .append(taskRenderStarted[activeTaskIndex]
@@ -142,17 +141,19 @@ public class TerminalVisualizer implements Visualizer {
           taskRenderStarted[activeTaskIndex] = true;
         }
 
-        sb.append(new AnsiEscapeSequenceBuilder().reset()).append(" "); // Padding between columns
+        sb.append(new AnsiSgrSequenceBuilder().reset()).append(" "); // Padding between columns
       }
 
       sb.deleteCharAt(sb.length() - 1); // Trim trailing padding
 
       // Vertical axis label: time
+      // Not enforcing maximum length in case of long makespans (this may cause text wrap issues in
+      // narrow terminals)
       sb.append(time % 5 == 4
           ? String.format("%s%" + timeLabelWidth + "d%s",
-          new AnsiEscapeSequenceBuilder().faint().underline(),
+          new AnsiSgrSequenceBuilder().faint().underline(),
           time + 1,
-          new AnsiEscapeSequenceBuilder().reset())
+          new AnsiSgrSequenceBuilder().reset())
           : columnSlice);
 
       sb.append(NEW_LINE);
@@ -160,17 +161,17 @@ public class TerminalVisualizer implements Visualizer {
   }
 
   private void populateStatusBar() {
-    sb.append(new AnsiEscapeSequenceBuilder().bold()
+    sb.append(new AnsiSgrSequenceBuilder().bold()
             .foreground(255, 255, 255)
             .background(255, 95, 135))
         .append(
             String.format("%-14.14s", " SCHEDULED ")) // TODO: Re-architect to support live-updating
-        .append(new AnsiEscapeSequenceBuilder().normalIntensity()
+        .append(new AnsiSgrSequenceBuilder().normalIntensity()
             .foreground(52, 52, 52)
             .background(190, 190, 190))
         .append(String.format(" %-" + (terminalWidth - 16) + "." + (terminalWidth - 16) + "s ",
             taskGraph.getName()))
-        .append(new AnsiEscapeSequenceBuilder().reset())
+        .append(new AnsiSgrSequenceBuilder().reset())
         .append(NEW_LINE);
   }
 
@@ -179,9 +180,9 @@ public class TerminalVisualizer implements Visualizer {
    */
   private void addDivider() {
     // Note: 8-bit fallback colour is `AnsiColor.EIGHT_BIT_COLOR_CUBE[2][0][5]`
-    sb.append(new AnsiEscapeSequenceBuilder().foreground(125, 86, 243))
+    sb.append(new AnsiSgrSequenceBuilder().foreground(125, 86, 243))
         .append("─".repeat(terminalWidth))
-        .append(new AnsiEscapeSequenceBuilder().reset())
+        .append(new AnsiSgrSequenceBuilder().reset())
         .append(NEW_LINE);
   }
 
@@ -219,6 +220,13 @@ public class TerminalVisualizer implements Visualizer {
     }
 
     return scheduleMatrix;
+  }
+
+  /**
+   * Moves the cursor to upper left and clears the entire screen.
+   */
+  private void eraseDisplay() {
+    System.out.print("\033[H\033[2J");
   }
 
 }

@@ -4,14 +4,15 @@ import nz.ac.auckland.se306.group12.exceptions.InvalidColorException;
 
 /**
  * A helper class for building ANSI escape sequences (or control sequences) to be used as in-band
- * formatting signals when outputting to console. This class has particular focus on <a
+ * formatting signals when outputting to console. In particular, this class creates sequences using
+ * <a
  * href="https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters"
  * >Select Graphic Rendition</a> (SGA) parameters.
  * <p>
- * All methods in this builder class (except {@link AnsiEscapeSequenceBuilder#toString()}) return
- * the object on which it was called (i.e. {@code this}), so calls may be chained.
+ * All methods in this builder class (except {@link AnsiSgrSequenceBuilder#toString()}) return the
+ * object on which it was called (i.e. {@code this}), so calls may be chained.
  */
-public class AnsiEscapeSequenceBuilder {
+public class AnsiSgrSequenceBuilder {
 
   private static final String CONTROL_SEQUENCE_INTRODUCER = "\033[";
   private static final String CONTROL_SEQUENCE_DELIMITER = "m";
@@ -22,7 +23,7 @@ public class AnsiEscapeSequenceBuilder {
   /**
    * Resets (disables) all display attributes.
    */
-  public AnsiEscapeSequenceBuilder reset() {
+  public AnsiSgrSequenceBuilder reset() {
     stringBuilder.append("0").append(SEPARATOR);
     return this;
   }
@@ -30,7 +31,7 @@ public class AnsiEscapeSequenceBuilder {
   /**
    * Sets bold, or increased intensity. Rendered as a colour change in some terminals.
    */
-  public AnsiEscapeSequenceBuilder bold() {
+  public AnsiSgrSequenceBuilder bold() {
     stringBuilder.append("1").append(SEPARATOR);
     return this;
   }
@@ -39,7 +40,7 @@ public class AnsiEscapeSequenceBuilder {
    * Sets faint, or decreased intensity. Some terminals may render this as a different font weight,
    * such as light or bold.
    */
-  public AnsiEscapeSequenceBuilder faint() {
+  public AnsiSgrSequenceBuilder faint() {
     stringBuilder.append("2").append(SEPARATOR);
     return this;
   }
@@ -47,7 +48,7 @@ public class AnsiEscapeSequenceBuilder {
   /**
    * Sets single underline.
    */
-  public AnsiEscapeSequenceBuilder underline() {
+  public AnsiSgrSequenceBuilder underline() {
     return this.underline(true);
   }
 
@@ -65,7 +66,7 @@ public class AnsiEscapeSequenceBuilder {
    *
    * @param enable {@code true} to enable underline; {@code false} to disable underline.
    */
-  public AnsiEscapeSequenceBuilder underline(boolean enable) {
+  public AnsiSgrSequenceBuilder underline(boolean enable) {
     stringBuilder.append(enable ? "4" : "24").append(SEPARATOR);
     return this;
   }
@@ -73,7 +74,7 @@ public class AnsiEscapeSequenceBuilder {
   /**
    * Sets normal intensity. That is, neither bold nor faint.
    */
-  public AnsiEscapeSequenceBuilder normalIntensity() {
+  public AnsiSgrSequenceBuilder normalIntensity() {
     stringBuilder.append("22").append(SEPARATOR);
     return this;
   }
@@ -81,7 +82,7 @@ public class AnsiEscapeSequenceBuilder {
   /**
    * Sets no underline. That is, neither singly nor doubly underlined.
    */
-  public AnsiEscapeSequenceBuilder noUnderline() {
+  public AnsiSgrSequenceBuilder noUnderline() {
     return this.underline(false);
   }
 
@@ -89,7 +90,7 @@ public class AnsiEscapeSequenceBuilder {
    * Sets foreground colour with 256-colour mode, based on the pre-defined lookup table (available
    * <a href="https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit">on Wikipedia</a>).
    */
-  public AnsiEscapeSequenceBuilder foreground(int colorCode8Bit) {
+  public AnsiSgrSequenceBuilder foreground(int colorCode8Bit) {
     if (colorCode8Bit < 0 || colorCode8Bit > 255) {
       throw new InvalidColorException("SGR code %d is not a valid colour code in 256-colour mode.");
     }
@@ -103,7 +104,7 @@ public class AnsiEscapeSequenceBuilder {
    * Resets foreground colour to default. This is terminal-implementation-dependent, and may vary
    * with user configuration.
    */
-  public AnsiEscapeSequenceBuilder defaultForeground() {
+  public AnsiSgrSequenceBuilder defaultForeground() {
     stringBuilder.append("39").append(SEPARATOR);
     return this;
   }
@@ -111,7 +112,7 @@ public class AnsiEscapeSequenceBuilder {
   /**
    * Sets RGB foreground colour with 24-bit "true colour" mode.
    */
-  public AnsiEscapeSequenceBuilder foreground(int r, int g, int b) {
+  public AnsiSgrSequenceBuilder foreground(int r, int g, int b) {
     if (r < 0 || g < 0 || b < 0 || r > 255 || g > 255 || b > 255) {
       throw new InvalidColorException("rgb(%d %d %d) is not a valid colour.");
     }
@@ -127,7 +128,7 @@ public class AnsiEscapeSequenceBuilder {
    * Sets background colour with 256-colour mode, based on the pre-defined lookup table (available
    * <a href="https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit">on Wikipedia</a>).
    */
-  public AnsiEscapeSequenceBuilder background(int colorCode8Bit) {
+  public AnsiSgrSequenceBuilder background(int colorCode8Bit) {
     if (colorCode8Bit < 0 || colorCode8Bit > 255) {
       throw new InvalidColorException("SGR code %d is not a valid colour code in 256-colour mode.");
     }
@@ -140,7 +141,7 @@ public class AnsiEscapeSequenceBuilder {
   /**
    * Sets RGB background colour with 24-bit "true colour" mode.
    */
-  public AnsiEscapeSequenceBuilder background(int r, int g, int b) {
+  public AnsiSgrSequenceBuilder background(int r, int g, int b) {
     stringBuilder.append("48").append(SEPARATOR)
         .append("2").append(SEPARATOR)
         .append(r).append(SEPARATOR)
@@ -154,7 +155,7 @@ public class AnsiEscapeSequenceBuilder {
    * Resets background colour to default. This is terminal-implementation-dependent, and may vary
    * with user configuration.
    */
-  public AnsiEscapeSequenceBuilder defaultBackground() {
+  public AnsiSgrSequenceBuilder defaultBackground() {
     stringBuilder.append("49").append(SEPARATOR);
     return this;
   }
