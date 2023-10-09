@@ -13,6 +13,7 @@ import nz.ac.auckland.se306.group12.models.ScheduledTask;
 public class TerminalVisualizer implements Visualizer {
 
   private static final String NEW_LINE = System.getProperty("line.separator");
+
   /**
    * Used to indicate processor idle time in the 2D matrix representing the Gantt chart of a
    * {@link Schedule}.
@@ -20,14 +21,25 @@ public class TerminalVisualizer implements Visualizer {
    * @see TerminalVisualizer#scheduleToGantt(Schedule)
    */
   private static final int PROCESSOR_IDLE = -1;
-  private static final int DEFAULT_TERMINAL_WIDTH = 80;
 
+  /**
+   * Used to detect the width (in characters) of the visualiser's output terminal window.
+   *
+   * @see #terminalWidth
+   */
   private final TerminalWidth terminalWidthManager = new TerminalWidth();
-  private int terminalWidth = DEFAULT_TERMINAL_WIDTH;
+
+  /**
+   * Used to adapt the visualiser output to the terminal window width. If
+   * {@link #terminalWidthManager} cannot detect the window width, the fallback value 80 is used.
+   */
+  private int terminalWidth = 80;
+
   /**
    * The task graph whose schedules (partial or complete) are to be visualised.
    */
   private final Graph taskGraph;
+
   /**
    * This visualiser’s output is just a massive string. This is where the heavy lifting gets done.
    * Initial capacity of 2000 is actually conservative, but already miles more appropriate than the
@@ -69,8 +81,8 @@ public class TerminalVisualizer implements Visualizer {
    * its output.
    * <p>
    * Likely to work on Unix-like operating systems (Linux and macOS), but Windows support may be
-   * hit-or-miss. If the terminal width cannot be determined, the fallback value
-   * {@link #DEFAULT_TERMINAL_WIDTH} will be used.
+   * hit-or-miss. If the terminal width cannot be determined, the fallback (initial) value will be
+   * used.
    */
   private void updateTerminalWidth() {
     int width = terminalWidthManager.getTerminalWidth();
