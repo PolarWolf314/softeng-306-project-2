@@ -9,4 +9,5 @@ public interface IndexableResolver<T extends Indexable> {
    * @return The {@link Indexable} corresponding to the given index
    */
   T resolveFromIndex(int index);
+
 }

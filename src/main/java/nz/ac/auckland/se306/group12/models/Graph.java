@@ -174,4 +174,5 @@ public class Graph implements IndexableResolver<Task> {
   public Task resolveFromIndex(int index) {
     return this.getTask(index);
   }
+
 }
