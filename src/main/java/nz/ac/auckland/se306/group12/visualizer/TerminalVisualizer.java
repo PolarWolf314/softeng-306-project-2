@@ -118,8 +118,8 @@ public class TerminalVisualizer implements Visualizer {
               .append(columnSlice);
         } else {
           sb.append(new AnsiEscapeSequenceBuilder().bold()
-                  .foreground(AnsiColor.EIGHT_BIT_COLOR_CUBE[5][5][5])
-                  .background(AnsiColor.EIGHT_BIT_COLOR_CUBE[activeTaskIndex % 6][0][4]))
+                  .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][5][5])
+                  .background(AnsiColor.COLOR_CUBE_8_BIT[activeTaskIndex % 6][0][4]))
               .append(taskRenderStarted[activeTaskIndex]
                   ? columnSlice
                   : String.format(" %-" + (columnWidth - 2) + "." + (columnWidth - 2) + "s ",
