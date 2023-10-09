@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import nz.ac.auckland.se306.group12.models.datastructures.TaskSet;
+import nz.ac.auckland.se306.group12.models.datastructures.BitSet;
 
 /**
  * Schedule class represents a schedule of tasks
@@ -89,7 +89,7 @@ public class Schedule {
    * @return A {@link Set} containing the tasks that are ready to be scheduled
    */
   private Set<Task> getNewReadyTasks(Task task, ScheduledTask[] newScheduledTasks) {
-    Set<Task> newReadyTasks = new TaskSet(this.readyTasks);
+    Set<Task> newReadyTasks = new BitSet(this.readyTasks);
     newReadyTasks.remove(task);
     for (Edge outEdge : task.getOutgoingEdges()) {
       Task child = outEdge.getDestination();
