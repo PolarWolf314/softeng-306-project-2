@@ -87,7 +87,7 @@ public class TerminalVisualizer implements Visualizer {
   private void updateTerminalWidth() {
     int width = terminalWidthManager.getTerminalWidth();
     if (width > 0) {
-      terminalWidth = width - 2;
+      terminalWidth = width - 2; // -2 for wiggle room
     }
   }
 
