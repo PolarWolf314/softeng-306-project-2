@@ -103,7 +103,7 @@ public class TerminalVisualizer implements Visualizer {
     int timeLabelWidth = 6; // Accommodates up to 5-digit makespans with 1ch spare for padding
 
     // Clamp the width of each column to between 2ch and 15ch (excl. 1ch gap between columns)
-    // +1 in the denominator to accomodate labels along the time axis
+    // +1 in the denominator to accommodate labels along the time axis
     int columnWidth = Math.max(2, Math.min(terminalWidth / (schedule.getProcessorCount() + 1), 15));
     String columnSlice = " ".repeat(columnWidth);
 
