@@ -106,7 +106,7 @@ public class TerminalVisualizer implements Visualizer {
     int columnWidth = Math.max(2, Math.min(terminalWidth / (schedule.getProcessorCount() + 1), 15));
     String columnSlice = " ".repeat(columnWidth);
 
-    int timeLabelWidth = Math.max(6, columnWidth);
+    int timeLabelWidth = Math.min(6, columnWidth);
 
     // Horizontal axis labels: processors
     for (int processorIndex = 1; processorIndex <= schedule.getProcessorCount(); processorIndex++) {
