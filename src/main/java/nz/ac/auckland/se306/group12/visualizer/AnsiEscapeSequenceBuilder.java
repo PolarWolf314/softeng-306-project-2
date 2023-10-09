@@ -170,7 +170,9 @@ public class AnsiEscapeSequenceBuilder {
   @Override
   public String toString() {
     // Remove trailing separator
-    stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+    if (!stringBuilder.isEmpty()) {
+      stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+    }
 
     // Delimit control sequence
     stringBuilder.insert(0, CONTROL_SEQUENCE_INTRODUCER);
