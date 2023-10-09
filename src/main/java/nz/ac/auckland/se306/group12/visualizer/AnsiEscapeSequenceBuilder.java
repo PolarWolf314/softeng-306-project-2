@@ -36,6 +36,15 @@ public class AnsiEscapeSequenceBuilder {
   }
 
   /**
+   * Sets faint, or decreased intensity. Some terminals may render this as a different font weight,
+   * such as light or bold.
+   */
+  public AnsiEscapeSequenceBuilder faint() {
+    stringBuilder.append("2").append(SEPARATOR);
+    return this;
+  }
+
+  /**
    * Set single underline, or disable underline (single or double).
    * <p>
    * Further styling is supported by Kitty, VTE, mintty, iTerm2 and Konsole, but this class does not
