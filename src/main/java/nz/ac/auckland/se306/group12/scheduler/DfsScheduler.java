@@ -14,9 +14,9 @@ public class DfsScheduler implements Scheduler {
   private int currentMinMakespan = Integer.MAX_VALUE;
 
   @Getter
-  private long searchedCount;
+  private long searchedCount = 0;
   @Getter
-  private long prunedCount;
+  private long prunedCount = 0;
   @Getter
   private SchedulerStatus status = SchedulerStatus.IDLE;
   @Getter
@@ -38,9 +38,12 @@ public class DfsScheduler implements Scheduler {
 
       // Prune if current schedule is worse than current best
       if (currentSchedule.getEstimatedMakespan() >= this.currentMinMakespan) {
+        this.prunedCount++;
         continue;
       }
 
+      this.searchedCount++;
+      
       // Check if current schedule is complete
       if (currentSchedule.getScheduledTaskCount() == taskGraph.taskCount()) {
         this.currentMinMakespan = currentSchedule.getLatestEndTime();
