@@ -6,6 +6,24 @@ import nz.ac.auckland.se306.group12.models.Schedule;
 public interface Scheduler {
 
   /**
+   * Returns the number of partial schedules that have been searched so far by the scheduler. A
+   * partial schedule is considered searched if it is not pruned and is therefore a potential
+   * candidate for an optimal schedule.
+   *
+   * @return The number of searched partial schedules
+   */
+  long getSearchedCount();
+
+  /**
+   * Returns the number of partial schedules that have been pruned so far by the scheduler. A
+   * partial schedule is considered pruned if it is not a potential candidate for a valid schedule
+   * and is not explored any further.
+   *
+   * @return The number of pruned partial schedules
+   */
+  long getPrunedCount();
+
+  /**
    * Finds a valid schedule for the given graph of tasks on the specified number of processors. A
    * valid schedule will ensure that the start time of any task is after the end time of all it's
    * dependences and that, if scheduled on a different processor, after the end time + transfer time

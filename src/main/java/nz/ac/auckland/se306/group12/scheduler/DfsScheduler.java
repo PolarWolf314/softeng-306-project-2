@@ -2,6 +2,7 @@ package nz.ac.auckland.se306.group12.scheduler;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import lombok.Getter;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
@@ -10,6 +11,12 @@ import nz.ac.auckland.se306.group12.models.Task;
 public class DfsScheduler implements Scheduler {
 
   private int currentMinMakespan = Integer.MAX_VALUE;
+
+  @Getter
+  private long searchedCount;
+  @Getter
+  private long prunedCount;
+  @Getter
   private Schedule bestSchedule = null;
 
   /*
