@@ -107,12 +107,14 @@ public class TerminalVisualizer implements Visualizer {
     int columnWidth = Math.max(2, Math.min(terminalWidth / (schedule.getProcessorCount() + 1), 15));
     String columnSlice = " ".repeat(columnWidth);
 
-    // Chart header
+    // Horizontal axis labels: processors
     for (int processorIndex = 1;
         processorIndex <= schedule.getProcessorEndTimes().length;
         processorIndex++) {
       sb.append(String.format("P%-" + columnWidth + "d", processorIndex));
     }
+
+    // Horizontal axis label: time
     sb.append(String.format("%" + (timeLabelWidth - 1) + "s", "time")).append(NEW_LINE);
 
     // Chart body
@@ -121,7 +123,7 @@ public class TerminalVisualizer implements Visualizer {
     boolean[] taskRenderStarted = new boolean[schedule.getScheduledTaskCount()];
     for (int time = 0; time < verticalGantt.length; time++) {
 
-      // Slight abuse of term, this time slice always has duration 1
+      // Slight abuse of term, this "time slice" always has duration 1
       int[] timeSlice = verticalGantt[time];
       for (int activeTaskIndex : timeSlice) {
         if (activeTaskIndex == PROCESSOR_IDLE) {
@@ -145,7 +147,7 @@ public class TerminalVisualizer implements Visualizer {
 
       sb.deleteCharAt(sb.length() - 1); // Trim trailing padding
 
-      // Time axis label
+      // Vertical axis label: time
       sb.append(time % 5 == 4
           ? String.format("%s%" + timeLabelWidth + "d%s",
           new AnsiEscapeSequenceBuilder().faint().underline(),
