@@ -3,13 +3,18 @@ package nz.ac.auckland.se306.group12.models;
 public enum SchedulerStatus {
 
   /**
-   * The scheduler is currently idle and has either not started scheduling or has finished.
+   * The scheduler is currently idle and has not started scheduling.
    */
   IDLE,
 
   /**
-   * The scheduler is currently running and is in the process of finding an optimal schedule.
+   * The scheduler is currently running and is in the process of finding a valid schedule.
    */
-  RUNNING
+  SCHEDULING,
+
+  /**
+   * The scheduler has finished scheduling and has found a valid schedule.
+   */
+  SCHEDULED
 
 }

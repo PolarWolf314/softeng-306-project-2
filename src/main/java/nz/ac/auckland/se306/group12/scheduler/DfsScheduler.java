@@ -27,7 +27,7 @@ public class DfsScheduler implements Scheduler {
    */
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
-    this.status = SchedulerStatus.RUNNING;
+    this.status = SchedulerStatus.SCHEDULING;
     Deque<Schedule> stack = new ArrayDeque<>();
 
     stack.push(new Schedule(taskGraph, processorCount));
@@ -43,7 +43,7 @@ public class DfsScheduler implements Scheduler {
       }
 
       this.searchedCount++;
-      
+
       // Check if current schedule is complete
       if (currentSchedule.getScheduledTaskCount() == taskGraph.taskCount()) {
         this.currentMinMakespan = currentSchedule.getLatestEndTime();
@@ -64,7 +64,7 @@ public class DfsScheduler implements Scheduler {
       }
     }
 
-    this.status = SchedulerStatus.IDLE;
+    this.status = SchedulerStatus.SCHEDULED;
     return this.bestSchedule;
   }
 
