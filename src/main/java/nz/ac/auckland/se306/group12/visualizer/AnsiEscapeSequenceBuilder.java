@@ -45,6 +45,13 @@ public class AnsiEscapeSequenceBuilder {
   }
 
   /**
+   * Sets single underline.
+   */
+  public AnsiEscapeSequenceBuilder underline() {
+    return this.underline(true);
+  }
+
+  /**
    * Set single underline, or disable underline (single or double).
    * <p>
    * Further styling is supported by Kitty, VTE, mintty, iTerm2 and Konsole, but this class does not
