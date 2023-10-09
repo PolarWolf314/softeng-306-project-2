@@ -24,6 +24,15 @@ public interface Scheduler {
   long getPrunedCount();
 
   /**
+   * Returns the best schedule found so far by the scheduler. This can be null if no schedules have
+   * been explored yet and so any usage of this method must check that the return value is not
+   * null.
+   *
+   * @return The current best schedule found by the scheduler
+   */
+  Schedule getBestSchedule();
+
+  /**
    * Finds a valid schedule for the given graph of tasks on the specified number of processors. A
    * valid schedule will ensure that the start time of any task is after the end time of all it's
    * dependences and that, if scheduled on a different processor, after the end time + transfer time

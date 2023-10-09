@@ -9,6 +9,7 @@ public class AStarScheduler implements Scheduler {
 
   private long searchedCount;
   private long prunedCount;
+  private Schedule bestSchedule;
 
   @Override
   public Schedule schedule(Graph graph, int processorCount) {
