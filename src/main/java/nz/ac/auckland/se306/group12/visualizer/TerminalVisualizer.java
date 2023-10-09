@@ -1,6 +1,7 @@
 package nz.ac.auckland.se306.group12.visualizer;
 
 import java.util.Arrays;
+import net.sourceforge.argparse4j.internal.TerminalWidth;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
@@ -12,7 +13,6 @@ import nz.ac.auckland.se306.group12.models.ScheduledTask;
 public class TerminalVisualizer implements Visualizer {
 
   private static final String NEW_LINE = System.getProperty("line.separator");
-
   /**
    * Used to indicate processor idle time in the 2D matrix representing the Gantt chart of a
    * {@link Schedule}.
@@ -20,12 +20,14 @@ public class TerminalVisualizer implements Visualizer {
    * @see TerminalVisualizer#scheduleToGantt(Schedule)
    */
   private static final int PROCESSOR_IDLE = -1;
+  private static final int DEFAULT_TERMINAL_WIDTH = 80;
 
+  private final TerminalWidth terminalWidthManager = new TerminalWidth();
+  private int terminalWidth = DEFAULT_TERMINAL_WIDTH;
   /**
    * The task graph whose schedules (partial or complete) are to be visualised.
    */
   private final Graph taskGraph;
-
   /**
    * This visualiser’s output is just a massive string. This is where the heavy lifting gets done.
    * Initial capacity of 2000 is actually conservative, but already miles more appropriate than the
@@ -50,6 +52,8 @@ public class TerminalVisualizer implements Visualizer {
    */
   @Override
   public void visualize(Schedule schedule) {
+    updateTerminalWidth();
+
     this.addDivider(); // Top border
     sb.append(NEW_LINE);
 
@@ -62,6 +66,21 @@ public class TerminalVisualizer implements Visualizer {
     this.addDivider(); // Bottom border
 
     System.out.println(sb);
+  }
+
+  /**
+   * Attempts to get and store the width of the terminal window where this visualiser is rendering
+   * its output.
+   * <p>
+   * Likely to work on Unix-like operating systems (Linux and macOS), but Windows support may be
+   * hit-or-miss. If the terminal width cannot be determined, the fallback value
+   * {@link #DEFAULT_TERMINAL_WIDTH} will be used.
+   */
+  private void updateTerminalWidth() {
+    int width = terminalWidthManager.getTerminalWidth();
+    if (width > 0) {
+      terminalWidth = width;
+    }
   }
 
   /**
