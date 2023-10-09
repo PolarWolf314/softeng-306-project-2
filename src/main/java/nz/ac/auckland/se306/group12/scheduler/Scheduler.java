@@ -2,6 +2,7 @@ package nz.ac.auckland.se306.group12.scheduler;
 
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
+import nz.ac.auckland.se306.group12.models.SchedulerStatus;
 
 public interface Scheduler {
 
@@ -31,6 +32,14 @@ public interface Scheduler {
    * @return The current best schedule found by the scheduler
    */
   Schedule getBestSchedule();
+
+  /**
+   * Returns the current status of the scheduler.
+   *
+   * @return The current status of the scheduler
+   * @see SchedulerStatus
+   */
+  SchedulerStatus getStatus();
 
   /**
    * Finds a valid schedule for the given graph of tasks on the specified number of processors. A

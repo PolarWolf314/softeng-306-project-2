@@ -6,6 +6,7 @@ import lombok.Getter;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
+import nz.ac.auckland.se306.group12.models.SchedulerStatus;
 import nz.ac.auckland.se306.group12.models.Task;
 
 public class DfsScheduler implements Scheduler {
@@ -17,6 +18,8 @@ public class DfsScheduler implements Scheduler {
   @Getter
   private long prunedCount;
   @Getter
+  private SchedulerStatus status = SchedulerStatus.IDLE;
+  @Getter
   private Schedule bestSchedule = null;
 
   /*
@@ -24,7 +27,7 @@ public class DfsScheduler implements Scheduler {
    */
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
-
+    this.status = SchedulerStatus.RUNNING;
     Deque<Schedule> stack = new ArrayDeque<>();
 
     stack.push(new Schedule(taskGraph, processorCount));
@@ -58,6 +61,7 @@ public class DfsScheduler implements Scheduler {
       }
     }
 
+    this.status = SchedulerStatus.IDLE;
     return this.bestSchedule;
   }
 
