@@ -1,4 +1,13 @@
-FROM ubuntu:latest
-LABEL authors="aaron"
+# Use openjdk17 as the base image
+FROM openjdk:17-jdk
 
-ENTRYPOINT ["top", "-b"]
+# Set the working directory in the image
+WORKDIR /app
+
+# Copy the Gradle project files (including build.gradle and settings.gradle)
+COPY . .
+
+RUN ./gradlew build -x test
+
+# Run your test suite and redirect output to a file
+CMD ["sh", "-c", "./gradlew test | tee /app/build/test-results/test-output.txt"]
