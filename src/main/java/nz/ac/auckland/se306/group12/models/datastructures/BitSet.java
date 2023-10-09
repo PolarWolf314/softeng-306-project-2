@@ -72,6 +72,15 @@ public class BitSet<T extends Indexable> implements Set<T> {
   }
 
   /**
+   * Creates a new {@link BitSet}. As no {@link IndexableResolver} is specified, this {@link BitSet}
+   * cannot be iterated over. Attempting to do so will generate an
+   * {@link UnsupportedOperationException}.
+   */
+  public BitSet() {
+    this.indexableResolver = null;
+  }
+
+  /**
    * Creates a new {@link BitSetCollector} which can be used to collect a stream of
    * {@link T indexables} into a {@link BitSet}.
    * <p>
@@ -104,7 +113,8 @@ public class BitSet<T extends Indexable> implements Set<T> {
    * </pre>
    * <p>
    * Note that by not specifying an {@link IndexableResolver} you will not be able to iterate over
-   * the {@link BitSet} using {@link #iterator()}.
+   * the {@link BitSet}. Attempting to do so will generate an
+   * {@link UnsupportedOperationException}.
    *
    * @return A new {@link BitSetCollector}
    */
