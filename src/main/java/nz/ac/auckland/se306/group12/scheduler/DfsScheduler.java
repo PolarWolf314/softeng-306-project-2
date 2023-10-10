@@ -28,13 +28,13 @@ public class DfsScheduler implements Scheduler {
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
     this.status = SchedulerStatus.SCHEDULING;
-    Queue<Schedule> stack = Collections.asLifoQueue(new ArrayDeque<>());
+    Queue<Schedule> queue = Collections.asLifoQueue(new ArrayDeque<>());
 
-    stack.add(new Schedule(taskGraph, processorCount));
+    queue.add(new Schedule(taskGraph, processorCount));
 
     // DFS iteration (no optimisations)
-    while (!stack.isEmpty()) {
-      Schedule currentSchedule = stack.remove();
+    while (!queue.isEmpty()) {
+      Schedule currentSchedule = queue.remove();
 
       // Prune if current schedule is worse than current best
       if (currentSchedule.getEstimatedMakespan() >= this.currentMinMakespan) {
@@ -51,7 +51,7 @@ public class DfsScheduler implements Scheduler {
         continue;
       }
 
-      currentSchedule.extendSchedule(stack);
+      currentSchedule.extendSchedule(queue);
     }
 
     this.status = SchedulerStatus.SCHEDULED;

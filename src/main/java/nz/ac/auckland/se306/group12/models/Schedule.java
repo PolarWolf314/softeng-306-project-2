@@ -214,9 +214,9 @@ public class Schedule {
   /**
    * This method adds all children of the current schedule to the stack
    *
-   * @param stack Stack to add children to
+   * @param queue Queue to add children to
    */
-  public void extendSchedule(Queue<Schedule> stack) {
+  public void extendSchedule(Queue<Schedule> queue) {
     // Check to find if any tasks can be scheduled and schedule them
     for (Task task : getReadyTasks()) {
       int[] latestStartTimes = getLatestStartTimesOf(task);
@@ -225,7 +225,7 @@ public class Schedule {
         int startTime = Math.max(latestStartTimes[i], getProcessorEndTimes()[i]);
         int endTime = startTime + task.getWeight();
         ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, i);
-        stack.add(extendWithTask(newScheduledTask, task));
+        queue.add(extendWithTask(newScheduledTask, task));
       }
     }
   }
