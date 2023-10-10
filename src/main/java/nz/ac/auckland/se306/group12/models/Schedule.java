@@ -211,12 +211,13 @@ public class Schedule {
   }
 
   /**
-   * Compares the schedule with another schedule
-   *
-   * @param comparison {@link Schedule} to compare with
-   * @return whether the schedule is equal
+   * @inheritDoc
    */
-  public boolean equals(Schedule comparison) {
+  @Override
+  public boolean equals(Object object) {
+    if (!(object instanceof Schedule comparison)) {
+      return false;
+    }
     ScheduledTask[] comparisonTaskList = comparison.getScheduledTasks();
     for (int i = 0; i < this.scheduledTasks.length; i++) {
       if (this.scheduledTasks[i] != comparisonTaskList[i]) {
