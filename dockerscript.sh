@@ -11,4 +11,4 @@ docker rmi $(docker images -q)
 docker build -t se306 .
 
 # runs the new docker image in a container with 50% cpu utilisation
-docker run --cpus 6 -v $(pwd)/build/test-results:/app/build/test-results se306
+docker run --cpus 6 -v $(pwd)/build/reports:/app/build/reports se306
