@@ -1,7 +1,9 @@
 package nz.ac.auckland.se306.group12.scheduler;
 
 import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.Collections;
+import java.util.Queue;
+
 import lombok.Getter;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
@@ -26,13 +28,13 @@ public class DfsScheduler implements Scheduler {
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
     this.status = SchedulerStatus.SCHEDULING;
-    Deque<Schedule> stack = new ArrayDeque<>();
+    Queue<Schedule> stack = Collections.asLifoQueue(new ArrayDeque<>());
 
-    stack.push(new Schedule(taskGraph, processorCount));
+    stack.add(new Schedule(taskGraph, processorCount));
 
     // DFS iteration (no optimisations)
     while (!stack.isEmpty()) {
-      Schedule currentSchedule = stack.pop();
+      Schedule currentSchedule = stack.remove();
 
       // Prune if current schedule is worse than current best
       if (currentSchedule.getEstimatedMakespan() >= this.currentMinMakespan) {
