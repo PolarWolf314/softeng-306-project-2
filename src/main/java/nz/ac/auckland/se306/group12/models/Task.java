@@ -39,6 +39,8 @@ public class Task implements Indexable {
 
   @Setter
   private int bottomLevel = 0;
+  @Setter
+  private int topLevel = 0;
 
   /**
    * This method should not be used in performance sensitive areas as it recreates the entire

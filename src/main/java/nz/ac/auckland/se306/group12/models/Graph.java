@@ -137,22 +137,38 @@ public class Graph implements IndexableResolver<Task> {
   }
 
   /**
-   * This method finds the bottom level for every task, using the reverse topological order. The
-   * bottom level is the maximum distance from the task to a sink task (task without children)
+   * This method finds the top and bottom level for every task, using a topological order. The
+   * bottom level is the maximum distance from the task to a sink task (task without children). The
+   * top level is the maximum distance from the task to a source task excluding its own weight. Both
+   * of these do not consider transfer times.
    */
-  public void setBottomLevels() {
-    List<Task> topologicalOrder = this.topologicalSorter.getAReverseTopologicalOrder(this);
+  public void setTopAndBottomLevels() {
+    List<Task> reverseTopologicalOrder = this.topologicalSorter.getAReverseTopologicalOrder(this);
 
-    for (Task task : topologicalOrder) {
-      if (task.isSink()) {
-        task.setBottomLevel(task.getWeight());
-      } else {
-        int max = task.getOutgoingEdges().stream()
-            .mapToInt(edge -> edge.getDestination().getBottomLevel())
-            .max()
-            .orElse(0);
-        task.setBottomLevel(task.getWeight() + max);
-      }
+    for (Task task : reverseTopologicalOrder) {
+      int maxChildBottomLevel = task.getOutgoingEdges()
+          .stream()
+          .mapToInt(edge -> edge.getDestination().getBottomLevel())
+          .max()
+          .orElse(0);
+      task.setBottomLevel(task.getWeight() + maxChildBottomLevel);
+    }
+
+    for (int index = reverseTopologicalOrder.size() - 1; index >= 0; index--) {
+      Task task = reverseTopologicalOrder.get(index);
+
+      int maxParentTopLevel = task.getIncomingEdges()
+          .stream()
+          .mapToInt(edge -> {
+            Task parentTask = edge.getSource();
+            // The parents top level doesn't include its own weight, but we need to add it for the
+            // child's top level
+            return parentTask.getTopLevel() + parentTask.getWeight();
+          })
+          .max()
+          .orElse(0);
+
+      task.setTopLevel(maxParentTopLevel);
     }
   }
 
