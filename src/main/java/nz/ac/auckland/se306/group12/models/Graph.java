@@ -136,8 +136,10 @@ public class Graph {
   }
 
   /**
-   * This method finds the bottom level for every task, using the reverse topological order. The
-   * bottom level is the maximum distance from the task to a sink task (task without children)
+   * This method finds the top and bottom level for every task, using a topological order. The
+   * bottom level is the maximum distance from the task to a sink task (task without children). The
+   * top level is the maximum distance from the task to a source task excluding its own weight. Both
+   * of these do not consider transfer times.
    */
   public void setTopAndBottomLevels() {
     List<Task> topologicalOrder = this.topologicalSorter.getAReverseTopologicalOrder(this);
