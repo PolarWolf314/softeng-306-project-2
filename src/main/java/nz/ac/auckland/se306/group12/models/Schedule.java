@@ -211,7 +211,7 @@ public class Schedule {
   }
 
   /**
-   * @inheritDoc
+   * Computes whether a schedule is equal to another by matching their scheduled tasks.
    */
   @Override
   public boolean equals(Object object) {
