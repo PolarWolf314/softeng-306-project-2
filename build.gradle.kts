@@ -49,4 +49,9 @@ tasks.test {
         // Don't run the generated tests as this may cause us to run out of GitHub workflow minutes.
         exclude("**/optimal/**")
     }
+
+    // Shows the tests results in the console
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }
