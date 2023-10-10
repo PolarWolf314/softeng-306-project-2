@@ -4,6 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Set;
 
+import nz.ac.auckland.se306.group12.models.AOSchedule;
 import nz.ac.auckland.se306.group12.models.Allocation;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
@@ -42,6 +43,11 @@ public class DfsAOScheduler implements Scheduler {
     }
 
     return this.bestSchedule;
+  }
+
+  private void order(Allocation allocation) {
+    Deque<AOSchedule> stack = new ArrayDeque<>();
+
   }
 
   private void printAllProcessors(Allocation currentAllocation) {
