@@ -5,7 +5,7 @@ docker stop $(docker ps -aq)
 docker rm $(docker ps -aq)
 
 # deletes all docker images
-docker rmi "$(docker images -q)"
+docker rmi $(docker images -q)
 
 # creates a new docker image
 docker build -t se306 .
