@@ -21,11 +21,12 @@ public class DfsAOScheduler implements Scheduler {
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
     Deque<Allocation> stack = new ArrayDeque<>();
-    stack.push(new Allocation(taskGraph, processorCount));
+    Queue<Allocation> stack = Collections.asLifoQueue(new ArrayDeque<>());
+    stack.add(new Allocation(taskGraph, processorCount));
 
     // DFS iteration (no optimisations)
     while (!stack.isEmpty()) {
-      Allocation currentAllocation = stack.pop();
+      Allocation currentAllocation = stack.remove();
 
       // Prune if current allocation is worse than current best schedule
       // Later change this to the allocation heuristic check
@@ -46,7 +47,7 @@ public class DfsAOScheduler implements Scheduler {
   }
 
   private void order(Allocation allocation) {
-    Deque<AOSchedule> stack = new ArrayDeque<>();
+    Queue<AOSchedule> queue = Collections.asLifoQueue(new ArrayDeque<>());
 
   }
 

@@ -1,7 +1,7 @@
 package nz.ac.auckland.se306.group12.models;
 
 import java.util.Arrays;
-import java.util.Deque;
+import java.util.Queue;
 import java.util.Set;
 
 import lombok.Getter;
@@ -32,9 +32,9 @@ public class Allocation {
   /**
    * Pushes all the child allocations that can be made from this allocation onto the stack
    * 
-   * @param stack The stack to push the child allocations onto
+   * @param queue The queue to add the child allocations onto
    */
-  public void extendAllocation(Deque<Allocation> stack) {
+  public void extendAllocation(Queue<Allocation> queue) {
     Task newTask = taskGraph.getTask(allocationCount);
     // boolean to handle exit early if creating a new processor
     boolean complete = true;
@@ -55,7 +55,7 @@ public class Allocation {
         newProcessors[i].add(newTask);
       }
       // Add the new allocation to the stack
-      stack.push(new Allocation(
+      queue.add(new Allocation(
           newProcessors,
           newProcessorWeights,
           this.allocationCount + 1,
