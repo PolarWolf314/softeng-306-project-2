@@ -14,7 +14,7 @@ import nz.ac.auckland.se306.group12.models.datastructures.BitSet;
 @Getter
 @RequiredArgsConstructor
 @ToString
-public class Schedule {
+public class Schedule implements Comparable<Schedule> {
 
   private final ScheduledTask[] scheduledTasks;
   private final int[] processorEndTimes;
@@ -210,20 +210,20 @@ public class Schedule {
   }
 
   /**
-   * This method adds all children of the current schedule to the stack
+   * <<<<<<< HEAD This method adds all children of the current schedule to the stack
    *
    * @param queue Queue to add children to
    */
   public void extendSchedule(Queue<Schedule> queue) {
     // Check to find if any tasks can be scheduled and schedule them
-    for (Task task : getReadyTasks()) {
-      int[] latestStartTimes = getLatestStartTimesOf(task);
+    for (Task task : this.getReadyTasks()) {
+      int[] latestStartTimes = this.getLatestStartTimesOf(task);
       for (int i = 0; i < latestStartTimes.length; i++) {
         // Ensure that it either schedules by latest time or after the last task on the processor
-        int startTime = Math.max(latestStartTimes[i], getProcessorEndTimes()[i]);
+        int startTime = Math.max(latestStartTimes[i], this.getProcessorEndTimes()[i]);
         int endTime = startTime + task.getWeight();
         ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, i);
-        queue.add(extendWithTask(newScheduledTask, task));
+        queue.add(this.extendWithTask(newScheduledTask, task));
       }
     }
   }
@@ -244,6 +244,21 @@ public class Schedule {
       }
     }
     return true;
+  }
+
+  /**
+   * Compares this schedule with another schedule based on the estimated makespan of the schedule.
+   * The schedule with the lowest estimated makespan will have a higher priority.
+   *
+   * @param otherSchedule The {@link Schedule} to compare to
+   * @return A positive integer if this schedule has a lower estimated makespan, 0 if they're equal
+   * or a negative integer if this schedule has a higher estimated makespan
+   */
+  @Override
+  public int compareTo(Schedule otherSchedule) {
+    // Take the negative of the comparison so that the schedule with the lowest estimated makespan
+    // has a higher priority
+    return -Integer.compare(this.estimatedMakespan, otherSchedule.estimatedMakespan);
   }
 
 }
