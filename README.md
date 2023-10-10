@@ -1,6 +1,8 @@
 # Optimal Parallel Scheduler
 
-A program for finding the optimal solution to the parallel scheduling problem. Given a (small) set of tasks and their dependence relations, this program finds the optimal schedule with which to run them on a homogenous system.
+A program for finding the optimal solution to the parallel scheduling problem. Given a (small) set
+of tasks and their dependence relations, this program finds the optimal schedule with which to run
+them on a homogenous system.
 
 > **Note**
 > Only JDK 17 is officially supported.
@@ -78,4 +80,76 @@ java -jar .\build\libs\scheduler.jar --help
 
 # Notes
 
-- We’re using the Gradle [Shadow](https://imperceptiblethoughts.com/shadow) plugin in order to bundle all our dependencies into a single executable JAR file (known as a *fat-JAR*).
+- We’re using the Gradle [Shadow](https://imperceptiblethoughts.com/shadow) plugin in order to
+  bundle all our dependencies into a single executable JAR file (known as a *fat-JAR*).
+
+# Testing using Docker
+
+In order to take advantage of docker, ensure that docker is installed and running, and then run the
+following commands:
+
+### Building the docker image
+
+```
+docker build -t {name-of-docker-image} .
+```
+
+An example would look like:
+
+```
+docker build -t se306 .
+```
+
+This will build a docker image.
+
+### Running the docker image
+
+Use the following
+
+```
+docker run --cpus {number-of-cores} {name-of-docker-image}
+```
+
+An example is:
+
+```
+docker run --cpus 5 se306
+```
+
+### Terminating the docker image
+
+If the docker image is currently running, then you need to open a new instance of the terminal and
+run:
+
+```
+docker kill $(docker ps -q)
+```
+
+### Deleting docker images
+
+List all the docker images currently created:
+
+```
+docker images -a
+```
+
+Then remove the image:
+
+```
+docker rmi {your-image-id}
+```
+
+---
+
+Note: In the event you get an error message such as the following:
+
+```
+Error response from daemon: conflict: unable to remove repository reference "se306" (must force) - container 1198400b4fcb is using its referenced image 404fb12e3abc
+```
+
+Then run the following commands:
+
+```
+docker stop 1198400b4fcb //replace this with whatever the terminal says is the container ID
+docker rm 1198400b4fcb
+```
