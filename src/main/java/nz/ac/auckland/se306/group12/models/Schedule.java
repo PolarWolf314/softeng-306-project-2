@@ -210,4 +210,19 @@ public class Schedule {
     return scheduledTask.getEndTime() + task.getBottomLevel();
   }
 
+  /**
+   * Compares the schedule with another schedule
+   *
+   * @param comparison {@link Schedule} to compare with
+   * @return whether the schedule is equal
+   */
+  public boolean equals(Schedule comparison) {
+    ScheduledTask[] comparisonTaskList = comparison.getScheduledTasks();
+    for (int i = 0; i < this.scheduledTasks.length; i++) {
+      if (this.scheduledTasks[i] != comparisonTaskList[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
