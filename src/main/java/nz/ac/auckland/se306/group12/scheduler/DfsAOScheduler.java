@@ -1,18 +1,29 @@
 package nz.ac.auckland.se306.group12.scheduler;
 
 import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.Collections;
+import java.util.Queue;
 import java.util.Set;
 
+import lombok.Getter;
 import nz.ac.auckland.se306.group12.models.AOSchedule;
 import nz.ac.auckland.se306.group12.models.Allocation;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
+import nz.ac.auckland.se306.group12.models.SchedulerStatus;
 import nz.ac.auckland.se306.group12.models.Task;
 
 public class DfsAOScheduler implements Scheduler {
 
   private int currentMinMakespan = Integer.MAX_VALUE;
+
+  @Getter
+  private long searchedCount = 0;
+  @Getter
+  private long prunedCount = 0;
+  @Getter
+  private SchedulerStatus status = SchedulerStatus.IDLE;
+  @Getter
   private Schedule bestSchedule = null;
 
   /*
@@ -20,7 +31,7 @@ public class DfsAOScheduler implements Scheduler {
    */
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
-    Deque<Allocation> stack = new ArrayDeque<>();
+    this.status = SchedulerStatus.SCHEDULING;
     Queue<Allocation> stack = Collections.asLifoQueue(new ArrayDeque<>());
     stack.add(new Allocation(taskGraph, processorCount));
 
@@ -31,8 +42,10 @@ public class DfsAOScheduler implements Scheduler {
       // Prune if current allocation is worse than current best schedule
       // Later change this to the allocation heuristic check
       if (currentAllocation.getMaxWeight() >= currentMinMakespan) {
+        // pruned count here is pruning allocations which is technically different from pruning branches
         continue;
       }
+      // Same for searching here
 
       // Check if current allocation is complete
       if (currentAllocation.getAllocationCount() == taskGraph.taskCount()) {
@@ -43,6 +56,7 @@ public class DfsAOScheduler implements Scheduler {
       currentAllocation.extendAllocation(stack);
     }
 
+    this.status = SchedulerStatus.SCHEDULED;
     return this.bestSchedule;
   }
 
