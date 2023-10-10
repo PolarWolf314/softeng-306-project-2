@@ -13,7 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import nz.ac.auckland.se306.group12.exceptions.DanglingEdgeException;
 import nz.ac.auckland.se306.group12.exceptions.IllegalEdgeWeightException;
-import nz.ac.auckland.se306.group12.models.datastructures.TaskSet;
+import nz.ac.auckland.se306.group12.models.datastructures.BitSet;
+import nz.ac.auckland.se306.group12.models.datastructures.IndexableResolver;
 import nz.ac.auckland.se306.group12.scheduler.TopologicalSorter;
 
 /**
@@ -22,7 +23,7 @@ import nz.ac.auckland.se306.group12.scheduler.TopologicalSorter;
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor
-public class Graph {
+public class Graph implements IndexableResolver<Task> {
 
   @Getter
   @Exclude
@@ -163,7 +164,15 @@ public class Graph {
   public Set<Task> getSourceTasks() {
     return this.tasks.stream()
         .filter(Task::isSource)
-        .collect(TaskSet.collect(this));
+        .collect(BitSet.collect(this));
+  }
+
+  /**
+   * @inheritDoc
+   */
+  @Override
+  public Task resolveFromIndex(int index) {
+    return this.getTask(index);
   }
 
 }
