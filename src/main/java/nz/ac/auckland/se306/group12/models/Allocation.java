@@ -49,6 +49,7 @@ public class Allocation {
           this.tasksProcessor.length);
 
       newProcessorWeights[i] += newTask.getWeight();
+      newTasksProcessor[newTask.getIndex()] = i;
 
       // If processor is null, create a new one and assign the task to it 
       if (processors[i] == null) {
