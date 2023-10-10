@@ -160,7 +160,8 @@ public class Graph {
           .stream()
           .mapToInt(edge -> {
             Task parentTask = edge.getSource();
-            // The parents top level doesn't include its own weight, but we need to add it for the child's top level
+            // The parents top level doesn't include its own weight, but we need to add it for the
+            // child's top level
             return parentTask.getTopLevel() + parentTask.getWeight();
           })
           .max()
