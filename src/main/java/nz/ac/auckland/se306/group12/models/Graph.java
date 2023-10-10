@@ -142,18 +142,19 @@ public class Graph {
    * of these do not consider transfer times.
    */
   public void setTopAndBottomLevels() {
-    List<Task> topologicalOrder = this.topologicalSorter.getAReverseTopologicalOrder(this);
+    List<Task> reverseTopologicalOrder = this.topologicalSorter.getAReverseTopologicalOrder(this);
 
-    for (Task task : topologicalOrder) {
-      int maxChildBottomLevel = task.getOutgoingEdges().stream()
+    for (Task task : reverseTopologicalOrder) {
+      int maxChildBottomLevel = task.getOutgoingEdges()
+          .stream()
           .mapToInt(edge -> edge.getDestination().getBottomLevel())
           .max()
           .orElse(0);
       task.setBottomLevel(task.getWeight() + maxChildBottomLevel);
     }
 
-    for (int index = topologicalOrder.size() - 1; index >= 0; index--) {
-      Task task = topologicalOrder.get(index);
+    for (int index = reverseTopologicalOrder.size() - 1; index >= 0; index--) {
+      Task task = reverseTopologicalOrder.get(index);
 
       int maxParentTopLevel = task.getIncomingEdges()
           .stream()
