@@ -107,16 +107,17 @@ This will build a docker image.
 
 ### Running the docker image
 
-Use the following
+Use the following. This runs the docker file with a specified number of cores, and then copies the
+test results to the local machine.
 
 ```
-docker run --cpus {number-of-cores} {name-of-docker-image}
+docker run --cpus {number-of-cores} -v $(pwd)/build/test-results:/app/build/test-results {name-of-docker-image}
 ```
 
 An example is:
 
 ```
-docker run --cpus 5 se306
+docker run --cpus 6 -v $(pwd)/build/test-results:/app/build/test-results se306
 ```
 
 ### Terminating the docker image
