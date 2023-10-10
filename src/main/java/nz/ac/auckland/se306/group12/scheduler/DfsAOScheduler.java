@@ -50,6 +50,7 @@ public class DfsAOScheduler implements Scheduler {
       // Check if current allocation is complete
       if (currentAllocation.getAllocationCount() == taskGraph.taskCount()) {
         // TODO: do the ordering algorithm
+        order(currentAllocation);
         // printAllProcessors(currentAllocation);
         continue;
       }
@@ -62,6 +63,8 @@ public class DfsAOScheduler implements Scheduler {
 
   private void order(Allocation allocation) {
     Queue<AOSchedule> queue = Collections.asLifoQueue(new ArrayDeque<>());
+    queue.add(new AOSchedule(allocation.getTaskGraph(), allocation.getProcessors().length,
+        allocation));
 
   }
 
