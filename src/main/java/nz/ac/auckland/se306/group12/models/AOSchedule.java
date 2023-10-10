@@ -1,5 +1,7 @@
 package nz.ac.auckland.se306.group12.models;
 
+import java.util.Arrays;
+import java.util.Queue;
 import java.util.Set;
 
 import nz.ac.auckland.se306.group12.models.datastructures.TaskSet;
@@ -28,6 +30,57 @@ public class AOSchedule extends Schedule {
       }
     }
 
+  }
+
+  /**
+   * This method adds all children of the current schedule to the stack
+   *
+   * @param queue Queue to add children to
+   */
+  public void extendSchedule(Queue<Schedule> queue) {
+    // Check to find if any tasks can be scheduled and schedule them
+    for (Task task : getReadyTasks()) {
+      int latestStartTime = getLatestStartTimeOf(task);
+      // Ensure that it either schedules by latest time or after the last task on the processor
+      int startTime = Math.max(latestStartTime, getProcessorEndTimes()[this.processorIndex]);
+      int endTime = startTime + task.getWeight();
+      ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, this.processorIndex);
+      queue.add(extendWithTask(newScheduledTask, task));
+    }
+  }
+
+  /**
+   * Returns a new schedule with the given task added to the end of the schedule
+   *
+   * @param scheduledTask The scheduledTask representation of the task to add
+   * @param task          The task to add
+   * @return A new schedule with the given task added to the end of the schedule
+   */
+  public Schedule extendWithTask(ScheduledTask scheduledTask, Task task) {
+    ScheduledTask[] newScheduledTasks = Arrays.copyOf(this.scheduledTasks,
+        this.scheduledTasks.length);
+    int[] newProcessorEndTimes = Arrays.copyOf(this.processorEndTimes,
+        this.processorEndTimes.length);
+
+    newScheduledTasks[task.getIndex()] = scheduledTask;
+    int processorIndex = scheduledTask.getProcessorIndex();
+    int taskIdleTime = scheduledTask.getStartTime() - newProcessorEndTimes[processorIndex];
+    newProcessorEndTimes[processorIndex] = scheduledTask.getEndTime();
+
+    int newTotalIdleTime = this.totalIdleTime + taskIdleTime;
+    int newLatestEndTime = Math.max(this.latestEndTime, scheduledTask.getEndTime());
+    int newEstimatedMakespan = this.estimateNewMakespan(scheduledTask, task, newTotalIdleTime);
+
+    return new Schedule(
+        newScheduledTasks,
+        newProcessorEndTimes,
+        newLatestEndTime,
+        this.scheduledTaskCount + 1,
+        this.getNewReadyTasks(task, newScheduledTasks),
+        this.totalTaskWeights,
+        newEstimatedMakespan,
+        newTotalIdleTime
+    );
   }
 
   /**
@@ -83,6 +136,18 @@ public class AOSchedule extends Schedule {
     }
     return latestStartTime;
 
+  }
+
+  private Set<Task> getNewReadyTasks(Task task, ScheduledTask[] newScheduledTasks) {
+    Set<Task> newReadyTasks = new TaskSet(this.readyTasks);
+    newReadyTasks.remove(task);
+    for (Edge outEdge : task.getOutgoingEdges()) {
+      Task child = outEdge.getDestination();
+      if (this.isTaskReady(newScheduledTasks, child)) {
+        newReadyTasks.add(child);
+      }
+    }
+    return newReadyTasks;
   }
 
 }
