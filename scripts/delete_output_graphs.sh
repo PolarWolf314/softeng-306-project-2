@@ -6,5 +6,5 @@ if [[ $PWD == *"project-2-team-12" ]]; then
 	done
 else
 	echo -e "\e[33;4mdelete_output_graphs.sh\e[24m must be run from project root\e[m"
-	echo -e "cd to root, then run \e[1mscripts/delete_output_graphs.sh\e[m"
+	echo -e "cd to root, then run \e[1mscripts/delete_output_graphs.sh"
 fi
