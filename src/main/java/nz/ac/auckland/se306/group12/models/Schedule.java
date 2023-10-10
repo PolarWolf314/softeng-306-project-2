@@ -258,7 +258,7 @@ public class Schedule implements Comparable<Schedule> {
   public int compareTo(Schedule otherSchedule) {
     // Take the negative of the comparison so that the schedule with the lowest estimated makespan
     // has a higher priority
-    return -Integer.compare(this.estimatedMakespan, otherSchedule.estimatedMakespan);
+    return Integer.compare(this.estimatedMakespan, otherSchedule.estimatedMakespan);
   }
 
 }

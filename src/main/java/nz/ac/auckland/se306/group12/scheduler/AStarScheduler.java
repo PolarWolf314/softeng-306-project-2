@@ -1,7 +1,5 @@
 package nz.ac.auckland.se306.group12.scheduler;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import lombok.Getter;
@@ -28,13 +26,12 @@ public class AStarScheduler implements Scheduler {
   public Schedule schedule(Graph taskGraph, int processorCount) {
     this.priorityQueue.clear();
     this.status = SchedulerStatus.SCHEDULING;
-    Deque<Schedule> stack = new ArrayDeque<>();
 
-    stack.push(new Schedule(taskGraph, processorCount));
+    this.priorityQueue.add(new Schedule(taskGraph, processorCount));
 
     // DFS iteration (no optimisations)
-    while (!stack.isEmpty()) {
-      Schedule currentSchedule = stack.peek();
+    while (!this.priorityQueue.isEmpty()) {
+      Schedule currentSchedule = this.priorityQueue.peek();
       this.searchedCount++;
 
       // Check if current schedule is complete. The first complete schedule is the best schedule
@@ -44,7 +41,7 @@ public class AStarScheduler implements Scheduler {
       }
 
       // Only remove it now so that if we found the best schedule we can still access it through peeking
-      stack.pop();
+      this.priorityQueue.poll();
 
       // Check to find if any tasks can be scheduled and schedule them
       for (Task task : currentSchedule.getReadyTasks()) {
@@ -54,7 +51,7 @@ public class AStarScheduler implements Scheduler {
           int startTime = Math.max(latestStartTimes[i], currentSchedule.getProcessorEndTimes()[i]);
           int endTime = startTime + task.getWeight();
           ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, i);
-          stack.push(currentSchedule.extendWithTask(newScheduledTask, task));
+          this.priorityQueue.add(currentSchedule.extendWithTask(newScheduledTask, task));
         }
       }
     }
