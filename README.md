@@ -85,6 +85,9 @@ java -jar .\build\libs\scheduler.jar --help
 
 # Testing using Docker
 
+We have decided to use docker to help us limit the resource use from our testing suite, and to be
+able to deploy the testing of the application on a remote machine in an easy way.
+
 In order to take advantage of docker, ensure that docker is installed and running, and then run the
 following commands:
 
@@ -153,3 +156,9 @@ Then run the following commands:
 docker stop 1198400b4fcb //replace this with whatever the terminal says is the container ID
 docker rm 1198400b4fcb
 ```
+
+### Note
+
+There is a `dockerscript.sh` script provided that automates the cleaning and creating of the docker
+image. However, **please be careful running this on your local machine as it will delete every
+docker image and container you have on your system**.
