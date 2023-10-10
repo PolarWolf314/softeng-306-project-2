@@ -173,7 +173,7 @@ public class Schedule {
    * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Sinnen,
    *      Kozlov & Shahul: Optimal Scheduling of Task Graphs on Parallel Systems</a>, Section 3.1
    */
-  private int estimateNewMakespan(ScheduledTask scheduledTask, Task task, int newTotalIdleTime) {
+  protected int estimateNewMakespan(ScheduledTask scheduledTask, Task task, int newTotalIdleTime) {
     return Math.max(
         Math.max(this.estimatedMakespan, this.estimateIdleTimeMakespan(newTotalIdleTime)),
         this.estimateBottomLevelMakespan(scheduledTask, task));
@@ -192,7 +192,7 @@ public class Schedule {
    * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Sinnen,
    *      Kozlov & Shahul: Optimal Scheduling of Task Graphs on Parallel Systems</a>, Section 3.1
    */
-  private int estimateIdleTimeMakespan(int newTotalIdleTime) {
+  protected int estimateIdleTimeMakespan(int newTotalIdleTime) {
     return (newTotalIdleTime + this.totalTaskWeights) / this.getProcessorCount();
   }
 
@@ -207,7 +207,7 @@ public class Schedule {
    * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Sinnen,
    *      Kozlov & Shahul: Optimal Scheduling of Task Graphs on Parallel Systems</a>, Section 3.1
    */
-  private int estimateBottomLevelMakespan(ScheduledTask scheduledTask, Task task) {
+  protected int estimateBottomLevelMakespan(ScheduledTask scheduledTask, Task task) {
     return scheduledTask.getEndTime() + task.getBottomLevel();
   }
 
