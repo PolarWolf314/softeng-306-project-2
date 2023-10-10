@@ -1,6 +1,7 @@
 package nz.ac.auckland.se306.group12.visualizer;
 
 import java.util.Arrays;
+import net.sourceforge.argparse4j.internal.TerminalWidth;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
@@ -22,6 +23,19 @@ public class TerminalVisualizer implements Visualizer {
   private static final int PROCESSOR_IDLE = -1;
 
   /**
+   * Used to detect the width (in characters) of the visualiser's output terminal window.
+   *
+   * @see #terminalWidth
+   */
+  private final TerminalWidth terminalWidthManager = new TerminalWidth();
+
+  /**
+   * Used to adapt the visualiser output to the terminal window width. If
+   * {@link #terminalWidthManager} cannot detect the window width, the fallback value 80 is used.
+   */
+  private int terminalWidth = 80;
+
+  /**
    * The task graph whose schedules (partial or complete) are to be visualised.
    */
   private final Graph taskGraph;
@@ -40,16 +54,15 @@ public class TerminalVisualizer implements Visualizer {
   /**
    * Renders the given {@link Schedule}, and prints it to system out.
    * <p>
-   * The output produced is intended for a window of width 80 characters. If the terminal window
-   * display the visualiser output is any narrower, soft wrapping will break its comprehensibility.
-   * Wider windows will simply not fill the available width.
-   * <p>
-   * If given a schedule for more than 10 processors, the output will be wider than 80 characters.
-   * For now, at least, just widen the terminal window to make the output look acceptable. A future
-   * release may dynamically adapt to different window widths.
+   * The visualiser tries to scale gracefully to the width of the terminal window (if the width can
+   * be detected). Nevertheless, at narrow widths (about 3 times the number of processors), any soft
+   * wrapping done by the terminal will break comprehensibility of the Gantt chart.
    */
   @Override
   public void visualize(Schedule schedule) {
+    eraseDisplay();
+    updateTerminalWidth();
+
     this.addDivider(); // Top border
     sb.append(NEW_LINE);
 
@@ -65,6 +78,21 @@ public class TerminalVisualizer implements Visualizer {
   }
 
   /**
+   * Attempts to get and store the width of the terminal window where this visualiser is rendering
+   * its output.
+   * <p>
+   * Likely to work on Unix-like operating systems (Linux and macOS), but Windows support may be
+   * hit-or-miss. If the terminal width cannot be determined, the fallback (initial) value will be
+   * used.
+   */
+  private void updateTerminalWidth() {
+    int width = terminalWidthManager.getTerminalWidth();
+    if (width > 0) {
+      terminalWidth = width - 2; // -2 for wiggle room
+    }
+  }
+
+  /**
    * Takes a {@link Schedule}, and creates a Gantt Chart representation of it in plaintext (with
    * some in-band formatting using ANSI control sequences). The plaintext chart is then appended to
    * this visualiser's string builder to be drawing (printing) in
@@ -73,64 +101,88 @@ public class TerminalVisualizer implements Visualizer {
    * @param schedule The schedule to be rendered graphically (or... terminally?).
    */
   private void drawGanttChart(Schedule schedule) {
-    // Chart header
-    for (int processorIndex = 1; processorIndex <= schedule.getProcessorEndTimes().length;
-        processorIndex++) {
-      sb.append(String.format("P%-7s", processorIndex));
+    // Clamp the width of each column to between 2ch and 15ch (excl. 1ch gap between columns)
+    // +1 in the denominator to accommodate labels along the time axis
+    int columnWidth = Math.max(2, Math.min(terminalWidth / (schedule.getProcessorCount() + 1), 15));
+    String columnSlice = " ".repeat(columnWidth);
+
+    int timeLabelWidth = Math.min(6, columnWidth);
+
+    // Horizontal axis labels: processors
+    for (int processorIndex = 1; processorIndex <= schedule.getProcessorCount(); processorIndex++) {
+      sb.append(String.format("P%-" + columnWidth + "d", processorIndex));
     }
-    sb.append(NEW_LINE);
+
+    // Horizontal axis label: time
+    sb.append(String.format("%" + (timeLabelWidth - 1) + "s", "time")).append(NEW_LINE);
 
     // Chart body
     int[][] verticalGantt = this.scheduleToGantt(schedule);
 
     boolean[] taskRenderStarted = new boolean[schedule.getScheduledTaskCount()];
-    for (int[] unitTime : verticalGantt) {
-      for (int activeTaskIndex : unitTime) {
+    for (int time = 0; time < verticalGantt.length; time++) {
 
+      // Slight abuse of term, this "time slice" always has duration 1
+      int[] timeSlice = verticalGantt[time];
+      for (int activeTaskIndex : timeSlice) {
         if (activeTaskIndex == PROCESSOR_IDLE) {
           // Processor idling
-          sb.append(new AnsiEscapeSequenceBuilder().background(7))
-              .append("       "); // 7 spaces (chart columns are 7ch long, excl. padding)
+          sb.append(new AnsiSgrSequenceBuilder().background(7))
+              .append(columnSlice);
         } else {
-          sb.append(new AnsiEscapeSequenceBuilder().bold()
-                  .foreground(AnsiColor.EIGHT_BIT_COLOR_CUBE[5][5][5])
-                  .background(AnsiColor.EIGHT_BIT_COLOR_CUBE[activeTaskIndex % 6][0][4]))
+          sb.append(new AnsiSgrSequenceBuilder().bold()
+                  .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][5][5])
+                  .background(AnsiColor.COLOR_CUBE_8_BIT[activeTaskIndex % 6][0][4]))
               .append(taskRenderStarted[activeTaskIndex]
-                  ? "       "
-                  : String.format(" %-5.5s ", taskGraph.getTask(activeTaskIndex).getLabel()));
+                  ? columnSlice
+                  : String.format(" %-" + (columnWidth - 2) + "." + (columnWidth - 2) + "s ",
+                      taskGraph.getTask(activeTaskIndex).getLabel()));
 
           taskRenderStarted[activeTaskIndex] = true;
         }
 
-        sb.append(new AnsiEscapeSequenceBuilder().reset()).append(" "); // Padding between columns
+        sb.append(new AnsiSgrSequenceBuilder().reset()).append(" "); // Padding between columns
       }
+
+      sb.deleteCharAt(sb.length() - 1); // Trim trailing padding
+
+      // Vertical axis label: time
+      // Not enforcing maximum length in case of long makespans (this may cause text wrap issues in
+      // narrow terminals)
+      sb.append(time % 5 == 4
+          ? String.format("%s%" + timeLabelWidth + "d%s",
+          new AnsiSgrSequenceBuilder().faint().underline(),
+          time + 1,
+          new AnsiSgrSequenceBuilder().reset())
+          : columnSlice);
 
       sb.append(NEW_LINE);
     }
   }
 
   private void populateStatusBar() {
-    sb.append(new AnsiEscapeSequenceBuilder().bold()
+    sb.append(new AnsiSgrSequenceBuilder().bold()
             .foreground(255, 255, 255)
             .background(255, 95, 135))
         .append(
-            String.format("%-14s", " SCHEDULED ")) // TODO: Re-architect to support live-updating
-        .append(new AnsiEscapeSequenceBuilder().normalIntensity()
+            String.format("%-14.14s", " SCHEDULED ")) // TODO: Re-architect to support live-updating
+        .append(new AnsiSgrSequenceBuilder().normalIntensity()
             .foreground(52, 52, 52)
             .background(190, 190, 190))
-        .append(String.format(" %-64s ", taskGraph.getName()))
-        .append(new AnsiEscapeSequenceBuilder().reset())
+        .append(String.format(" %-" + (terminalWidth - 16) + "." + (terminalWidth - 16) + "s ",
+            taskGraph.getName()))
+        .append(new AnsiSgrSequenceBuilder().reset())
         .append(NEW_LINE);
   }
 
   /**
-   * Adds a solid horizontal line, 80 characters wide, to the output.
+   * Adds a solid horizontal line to the output.
    */
   private void addDivider() {
     // Note: 8-bit fallback colour is `AnsiColor.EIGHT_BIT_COLOR_CUBE[2][0][5]`
-    sb.append(new AnsiEscapeSequenceBuilder().foreground(125, 86, 243))
-        .append("─".repeat(80))
-        .append(new AnsiEscapeSequenceBuilder().reset())
+    sb.append(new AnsiSgrSequenceBuilder().foreground(125, 86, 243))
+        .append("─".repeat(terminalWidth))
+        .append(new AnsiSgrSequenceBuilder().reset())
         .append(NEW_LINE);
   }
 
@@ -168,6 +220,13 @@ public class TerminalVisualizer implements Visualizer {
     }
 
     return scheduleMatrix;
+  }
+
+  /**
+   * Moves the cursor to upper left and clears the entire screen.
+   */
+  private void eraseDisplay() {
+    System.out.print("\033[H\033[2J");
   }
 
 }
