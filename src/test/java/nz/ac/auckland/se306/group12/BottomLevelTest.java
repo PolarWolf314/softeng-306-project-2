@@ -42,11 +42,11 @@ public class BottomLevelTest {
     Graph graph = TestUtil.loadGraph("./graphs/test1.dot");
     String expected = """
         TestGraph1_Variation1
-        A: 12
-        B: 10
-        C: 7
-        D: 6
-        E: 2
+        A: 0, 12
+        B: 2, 10
+        C: 5, 7
+        D: 6, 6
+        E: 10, 2
         """;
     Assertions.assertEquals(expected, createTopAndBottomLevelsString(graph));
   }
@@ -59,12 +59,12 @@ public class BottomLevelTest {
     Graph graph = TestUtil.loadGraph("./graphs/test_disjoint_graphs.dot");
     String expected = """
         DisjointGraphs
-        A: 9
-        B: 7
-        C: 5
-        D: 4
-        E: 5
-        F: 3
+        A: 0, 9
+        B: 2, 7
+        C: 2, 5
+        D: 5, 4
+        E: 0, 5
+        F: 2, 3
         """;
     Assertions.assertEquals(expected, createTopAndBottomLevelsString(graph));
   }
@@ -77,16 +77,16 @@ public class BottomLevelTest {
     Graph graph = TestUtil.loadGraph("./graphs/test_annoying.dot");
     String expected = """
         Test_Annoying
-        A: 17
-        B: 18
-        C: 15
-        D: 9
-        E: 14
-        F: 5
-        G: 12
-        H: 2
-        I: 2
-        J: 7
+        A: 0, 17
+        B: 0, 18
+        C: 3, 15
+        D: 3, 9
+        E: 4, 14
+        F: 7, 5
+        G: 6, 12
+        H: 10, 2
+        I: 10, 2
+        J: 11, 7
         """;
     Assertions.assertEquals(expected, createTopAndBottomLevelsString(graph));
   }
@@ -99,11 +99,11 @@ public class BottomLevelTest {
     Graph graph = TestUtil.loadGraph("./graphs/test_unintuitive_shortest_path.dot");
     String expected = """
         WeirdPath
-        A: 12
-        B: 8
-        C: 5
-        D: 4
-        E: 10
+        A: 0, 12
+        B: 2, 8
+        C: 5, 5
+        D: 6, 4
+        E: 2, 10
         """;
     Assertions.assertEquals(expected, createTopAndBottomLevelsString(graph));
   }
@@ -116,17 +116,17 @@ public class BottomLevelTest {
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_11_OutTree.dot");
     String expected = """
         "OutTree-Balanced-MaxBf-3_Nodes_11_CCR_0.1_WeightType_Random"
-        0: 220
-        1: 170
-        10: 20
-        2: 170
-        3: 120
-        4: 40
-        5: 20
-        6: 100
-        7: 80
-        8: 50
-        9: 20
+        0: 0, 220
+        1: 50, 170
+        10: 150, 20
+        2: 50, 170
+        3: 50, 120
+        4: 120, 40
+        5: 120, 20
+        6: 120, 100
+        7: 140, 80
+        8: 140, 50
+        9: 140, 20
         """;
     Assertions.assertEquals(expected, createTopAndBottomLevelsString(graph));
   }
