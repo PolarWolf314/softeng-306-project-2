@@ -20,7 +20,7 @@ public class BottomLevelTest {
    * @return A formatted string containing the name of the graph and the bottom levels of its tasks.
    */
   String createBottomLevelsString(Graph graph) {
-    graph.setBottomLevels();
+    graph.setTopAndBottomLevels();
     StringBuilder output = new StringBuilder();
     output.append(graph.getName())
         .append("\n");

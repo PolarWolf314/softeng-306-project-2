@@ -139,19 +139,31 @@ public class Graph {
    * This method finds the bottom level for every task, using the reverse topological order. The
    * bottom level is the maximum distance from the task to a sink task (task without children)
    */
-  public void setBottomLevels() {
+  public void setTopAndBottomLevels() {
     List<Task> topologicalOrder = this.topologicalSorter.getAReverseTopologicalOrder(this);
 
     for (Task task : topologicalOrder) {
-      if (task.isSink()) {
-        task.setBottomLevel(task.getWeight());
-      } else {
-        int max = task.getOutgoingEdges().stream()
-            .mapToInt(edge -> edge.getDestination().getBottomLevel())
-            .max()
-            .orElse(0);
-        task.setBottomLevel(task.getWeight() + max);
-      }
+      int maxChildBottomLevel = task.getOutgoingEdges().stream()
+          .mapToInt(edge -> edge.getDestination().getBottomLevel())
+          .max()
+          .orElse(0);
+      task.setBottomLevel(task.getWeight() + maxChildBottomLevel);
+    }
+
+    for (int index = topologicalOrder.size() - 1; index >= 0; index--) {
+      Task task = topologicalOrder.get(index);
+
+      int maxParentTopLevel = task.getIncomingEdges()
+          .stream()
+          .mapToInt(edge -> {
+            Task parentTask = edge.getSource();
+            // The parents top level doesn't include its own weight, but we need to add it for the child's top level
+            return parentTask.getBottomLevel() + parentTask.getWeight();
+          })
+          .max()
+          .orElse(0);
+
+      task.setTopLevel(maxParentTopLevel);
     }
   }
 
