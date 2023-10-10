@@ -17,7 +17,7 @@ public class Allocation {
 
   private final Set<Task>[] processors;
   private final int[] processorWeights;
-  private final int[] taskProcessorAllocations;
+  private final int[] tasksProcessor;
   private final int allocationCount;
   private final int maxWeight;
   private final Graph taskGraph;
@@ -28,7 +28,7 @@ public class Allocation {
     this.processorWeights = new int[processorCount];
     this.maxWeight = 0;
     this.taskGraph = taskGraph;
-    this.taskProcessorAllocations = new int[taskGraph.taskCount()];
+    this.tasksProcessor = new int[taskGraph.taskCount()];
   }
 
   /**
@@ -45,8 +45,8 @@ public class Allocation {
       Set<Task>[] newProcessors = deepCopyProcessors();
       int[] newProcessorWeights = Arrays.copyOf(this.processorWeights,
           this.processorWeights.length);
-      int[] newTaskProcessorAllocations = Arrays.copyOf(this.taskProcessorAllocations,
-          this.taskProcessorAllocations.length);
+      int[] newTasksProcessor = Arrays.copyOf(this.tasksProcessor,
+          this.tasksProcessor.length);
 
       newProcessorWeights[i] += newTask.getWeight();
 
@@ -62,7 +62,7 @@ public class Allocation {
       queue.add(new Allocation(
           newProcessors,
           newProcessorWeights,
-          newTaskProcessorAllocations,
+          newTasksProcessor,
           this.allocationCount + 1,
           Math.max(this.maxWeight, processorWeights[i]),
           this.taskGraph
