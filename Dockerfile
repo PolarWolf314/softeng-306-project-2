@@ -10,4 +10,4 @@ COPY . .
 RUN ./gradlew build -x test
 
 # Run your test suite and redirect output to a file
-CMD ["sh", "-c", "./gradlew test --tests nz.ac.auckland.se306.group12.optimal.OptimalSchedulerNodes10Test | tee /app/build/test-results/test-output.txt"]
+CMD ["sh", "-c", "./gradlew test --tests nz.ac.auckland.se306.group12.optimal.OptimalSchedulerNodes10Test | tee ./build/reports/test-output.txt"]
