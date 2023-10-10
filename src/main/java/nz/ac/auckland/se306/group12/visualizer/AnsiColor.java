@@ -62,14 +62,14 @@ public class AnsiColor {
    * accessed via a read-only method.) However, the priority is to minimise performance overhead, so
    * using an array, despite elements being mutable.
    */
-  public static final int[][][] EIGHT_BIT_COLOR_CUBE = new int[6][6][6];
+  public static final int[][][] COLOR_CUBE_8_BIT = new int[6][6][6];
 
   static {
     int sgrColorCode = 16;
     for (int r = 0; r < 6; r++) {
       for (int g = 0; g < 6; g++) {
         for (int b = 0; b < 6; b++) {
-          EIGHT_BIT_COLOR_CUBE[r][g][b] = sgrColorCode++;
+          COLOR_CUBE_8_BIT[r][g][b] = sgrColorCode++;
         }
       }
     }
