@@ -28,11 +28,11 @@ public class Main {
       Schedule schedule = scheduler.schedule(graph, arguments.processorCount());
 
       if (arguments.visualiseSearch()) {
-        Visualizer visualizer = new TerminalVisualizer(graph);
-        visualizer.visualize(schedule);
+        Visualizer visualizer = new TerminalVisualizer(graph, scheduler);
+        visualizer.run();
       }
 
-      System.out.println(schedule.getLatestEndTime());
+//      System.out.println(schedule.getLatestEndTime());
       dotGraphIO.writeDotGraph(arguments, schedule, graph);
 
     } catch (IOException e) {

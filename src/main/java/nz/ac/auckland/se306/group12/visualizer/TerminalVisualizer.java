@@ -1,10 +1,14 @@
 package nz.ac.auckland.se306.group12.visualizer;
 
 import java.util.Arrays;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import net.sourceforge.argparse4j.internal.TerminalWidth;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
+import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 
 /**
  * A class for visualising parallel schedules on systems with multiple homogenous processors in a
@@ -41,14 +45,29 @@ public class TerminalVisualizer implements Visualizer {
   private final Graph taskGraph;
 
   /**
+   * The {@link Schedule} whose progress to visualise.
+   */
+  private final Scheduler scheduler;
+
+  /**
    * This visualiser’s output is just a massive string. This is where the heavy lifting gets done.
    * Initial capacity of 2000 is actually conservative, but already miles more appropriate than the
    * default 16.
    */
   private final StringBuilder sb = new StringBuilder(2000);
 
-  public TerminalVisualizer(Graph taskGraph) {
+  public TerminalVisualizer(Graph taskGraph, Scheduler scheduler) {
     this.taskGraph = taskGraph;
+    this.scheduler = scheduler;
+  }
+
+  @Override
+  public void run() {
+    ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+    executorService.scheduleAtFixedRate(this::visualize,
+        0,
+        250,
+        TimeUnit.MILLISECONDS);
   }
 
   /**
@@ -58,8 +77,7 @@ public class TerminalVisualizer implements Visualizer {
    * be detected). Nevertheless, at narrow widths (about 3 times the number of processors), any soft
    * wrapping done by the terminal will break comprehensibility of the Gantt chart.
    */
-  @Override
-  public void visualize(Schedule schedule) {
+  private void visualize() {
     eraseDisplay();
     updateTerminalWidth();
 
@@ -69,7 +87,7 @@ public class TerminalVisualizer implements Visualizer {
     this.populateStatusBar();
     sb.append(NEW_LINE);
 
-    this.drawGanttChart(schedule);
+    this.drawGanttChart(scheduler.getBestSchedule());
     sb.append(NEW_LINE);
 
     this.addDivider(); // Bottom border
@@ -223,7 +241,27 @@ public class TerminalVisualizer implements Visualizer {
   }
 
   /**
-   * Moves the cursor to upper left and clears the entire screen.
+   * Moves the cursor to the upper left of the terminal.
+   */
+  private void cursorToStart() {
+    System.out.print("\033[H");
+  }
+
+  /**
+   * Erases the terminal from the current cursor position to the end of the terminal.
+   *
+   * @see #eraseDisplay()
+   */
+  private void eraseToEnd() {
+    System.out.print("\033[2J");
+  }
+
+  /**
+   * Clears the entire terminal window. Equivalent to:
+   * <pre> {@code
+   *   cursorToStart();
+   *   eraseToEnd();
+   * }</pre>
    */
   private void eraseDisplay() {
     System.out.print("\033[H\033[2J");
