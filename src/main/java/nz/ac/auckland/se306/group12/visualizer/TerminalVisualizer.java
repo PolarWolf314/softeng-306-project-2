@@ -67,10 +67,10 @@ public class TerminalVisualizer implements Visualizer {
 
   /**
    * This visualiser’s output is just a massive string. This is where the heavy lifting gets done.
-   * Initial capacity of 2000 is actually conservative, but already miles more appropriate than the
+   * Initial capacity of 1000 is actually conservative, but already miles more appropriate than the
    * default 16.
    */
-  private final StringBuilder sb = new StringBuilder(2000);
+  private final StringBuilder sb = new StringBuilder(1000);
 
   public TerminalVisualizer(Graph taskGraph, Scheduler scheduler) {
     this.taskGraph = taskGraph;
@@ -113,6 +113,11 @@ public class TerminalVisualizer implements Visualizer {
     if (scheduler.getStatus() == SchedulerStatus.SCHEDULED) {
       this.executorService.shutdownNow();
     }
+
+    // Clear the string builder
+    int len = sb.length();
+    sb.setLength(0);
+    sb.setLength(len);
   }
 
   /**
@@ -263,22 +268,6 @@ public class TerminalVisualizer implements Visualizer {
     }
 
     return scheduleMatrix;
-  }
-
-  /**
-   * Moves the cursor to the upper left of the terminal.
-   */
-  private void cursorToStart() {
-    System.out.print("\033[H");
-  }
-
-  /**
-   * Erases the terminal from the current cursor position to the end of the terminal.
-   *
-   * @see #eraseDisplay()
-   */
-  private void eraseToEnd() {
-    System.out.print("\033[0J");
   }
 
   /**
