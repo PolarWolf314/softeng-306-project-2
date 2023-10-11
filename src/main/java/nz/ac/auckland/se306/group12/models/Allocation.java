@@ -6,7 +6,7 @@ import java.util.Set;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import nz.ac.auckland.se306.group12.models.datastructures.TaskSet;
+import nz.ac.auckland.se306.group12.models.datastructures.BitSet;
 
 /*
  * An allocation represents a state in a partition of tasks allocated on a processor
@@ -23,7 +23,7 @@ public class Allocation {
   private final Graph taskGraph;
 
   public Allocation(Graph taskGraph, int processorCount) {
-    this.processors = new TaskSet[processorCount];
+    this.processors = new BitSet[processorCount];
     this.allocationCount = 0;
     this.processorWeights = new int[processorCount];
     this.maxWeight = 0;
@@ -53,7 +53,7 @@ public class Allocation {
 
       // If processor is null, create a new one and assign the task to it 
       if (processors[i] == null) {
-        newProcessors[i] = new TaskSet(taskGraph);
+        newProcessors[i] = new BitSet<Task>(taskGraph);
         newProcessors[i].add(newTask);
         complete = false;
       } else {
@@ -77,12 +77,12 @@ public class Allocation {
    * @return
    */
   private Set<Task>[] deepCopyProcessors() {
-    Set<Task>[] newProcessors = new TaskSet[this.processors.length];
+    Set<Task>[] newProcessors = new BitSet[this.processors.length];
     for (int i = 0; i < this.processors.length; i++) {
       if (this.processors[i] == null) {
         break;
       }
-      newProcessors[i] = new TaskSet(this.processors[i]);
+      newProcessors[i] = new BitSet<Task>(this.processors[i]);
     }
     return newProcessors;
   }
