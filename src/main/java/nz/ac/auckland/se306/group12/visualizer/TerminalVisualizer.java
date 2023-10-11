@@ -150,7 +150,7 @@ public class TerminalVisualizer implements Visualizer {
   private void updateTerminalDimensions() {
     int width = terminalWidthManager.getTerminalWidth();
     if (width > 0) {
-      terminalWidth = width;
+      terminalWidth = width - 1;
     }
 
     int height = terminalHeightManager.getTerminalHeight();
