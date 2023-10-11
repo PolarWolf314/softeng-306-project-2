@@ -114,6 +114,9 @@ public class TerminalVisualizer implements Visualizer {
     this.drawStatusBar();
     sb.append(NEW_LINE);
 
+    this.drawStatistics();
+    sb.append(NEW_LINE);
+
     this.drawGanttChart(scheduler.getBestSchedule());
     sb.append(NEW_LINE);
 
@@ -225,17 +228,20 @@ public class TerminalVisualizer implements Visualizer {
 
     switch (schedulerStatus) {
       case IDLE -> {
-        sb.append(new AnsiSgrSequenceBuilder().background(3)) // Yellow
+        sb.append(
+                new AnsiSgrSequenceBuilder().background(AnsiColor.COLOR_CUBE_8_BIT[5][2][0])) // Orange
             .append(' ')
             .append(spinner.nextFrame());
       }
       case SCHEDULING -> {
-        sb.append(new AnsiSgrSequenceBuilder().background(5)) // Magenta
+        sb.append(
+                new AnsiSgrSequenceBuilder().background(AnsiColor.COLOR_CUBE_8_BIT[5][1][2])) // Magenta
             .append(' ')
             .append(spinner.nextFrame());
       }
       case SCHEDULED -> {
-        sb.append(new AnsiSgrSequenceBuilder().background(2)) // Green
+        sb.append(
+                new AnsiSgrSequenceBuilder().background(AnsiColor.COLOR_CUBE_8_BIT[0][3][0])) // Green
             .append(' ')
             .append(spinner.doneFrame());
       }
@@ -247,6 +253,33 @@ public class TerminalVisualizer implements Visualizer {
             .background(190, 190, 190))
         .append(String.format(" %-" + (terminalWidth - 16) + "." + (terminalWidth - 16) + "s ",
             taskGraph.getName()))
+        .append(new AnsiSgrSequenceBuilder().reset())
+        .append(NEW_LINE);
+  }
+
+  private void drawStatistics() {
+    // Heading
+    sb.append("Possible schedules: ");
+
+    // Search count token
+    sb.append(new AnsiSgrSequenceBuilder()
+            .background(AnsiColor.COLOR_CUBE_8_BIT[3][4][5]) // 153 light blue
+            .foreground(AnsiColor.COLOR_CUBE_8_BIT[0][1][2])) // 23 dark blue
+        .append("  ")
+        .append(scheduler.getSearchedCount())
+        .append(" searched  ")
+        .append(new AnsiSgrSequenceBuilder().reset());
+
+    // Padding
+    sb.append(' ');
+
+    // Prune count token
+    sb.append(new AnsiSgrSequenceBuilder()
+            .background(AnsiColor.COLOR_CUBE_8_BIT[5][4][1]) // 221 pale gold
+            .foreground(AnsiColor.COLOR_CUBE_8_BIT[2][1][0])) // 94 dark orange
+        .append("  ")
+        .append(scheduler.getPrunedCount())
+        .append(" pruned  ")
         .append(new AnsiSgrSequenceBuilder().reset())
         .append(NEW_LINE);
   }
