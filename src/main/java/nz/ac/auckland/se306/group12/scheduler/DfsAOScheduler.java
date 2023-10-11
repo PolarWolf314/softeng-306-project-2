@@ -25,6 +25,7 @@ public class DfsAOScheduler implements Scheduler {
   private SchedulerStatus status = SchedulerStatus.IDLE;
   @Getter
   private Schedule bestSchedule = null;
+  private AOSchedule bestAOSchedule = null;
 
   /*
    * @inheritDoc
@@ -50,7 +51,7 @@ public class DfsAOScheduler implements Scheduler {
       // Check if current allocation is complete
       if (currentAllocation.getAllocationCount() == taskGraph.taskCount()) {
         // TODO: do the ordering algorithm
-        order(currentAllocation);
+        order(currentAllocation, taskGraph);
         // printAllProcessors(currentAllocation);
         continue;
       }
@@ -61,10 +62,31 @@ public class DfsAOScheduler implements Scheduler {
     return this.bestSchedule;
   }
 
-  private void order(Allocation allocation) {
+  private void order(Allocation allocation, Graph taskGraph) {
     Queue<AOSchedule> queue = Collections.asLifoQueue(new ArrayDeque<>());
     queue.add(new AOSchedule(allocation.getTaskGraph(), allocation.getProcessors().length,
         allocation));
+
+    while (!queue.isEmpty()) {
+      AOSchedule currentSchedule = queue.remove();
+
+      // Prune if current schedule is worse than current best
+      if (currentSchedule.getLatestEndTime() >= this.currentMinMakespan) {
+        this.prunedCount++;
+        continue;
+      }
+
+      this.searchedCount++;
+
+      // Check if current schedule is complete
+      if (currentSchedule.getScheduledTaskCount() == taskGraph.taskCount()) {
+        this.currentMinMakespan = currentSchedule.getLatestEndTime();
+        this.bestAOSchedule = currentSchedule;
+        continue;
+      }
+
+      currentSchedule.extendSchedule(queue);
+    }
 
   }
 

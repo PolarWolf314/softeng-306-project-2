@@ -4,12 +4,21 @@ import java.util.Arrays;
 import java.util.Queue;
 import java.util.Set;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import nz.ac.auckland.se306.group12.models.datastructures.TaskSet;
 
 /**
  * AOSchedule
  */
-public class AOSchedule extends Schedule {
+@Getter
+@RequiredArgsConstructor
+public class AOSchedule {
+
+  private final ScheduledTask[] scheduledTasks;
+  private final int[] processorEndTimes;
+  private final int latestEndTime;
+  private final int scheduledTaskCount;
 
   private final Allocation allocation;
   private final int processorIndex;
@@ -19,22 +28,26 @@ public class AOSchedule extends Schedule {
 
   public AOSchedule(Graph taskGraph, int processorCount, Allocation allocation) {
     // readyTasks defined in super constructor will get overwritten
-    super(taskGraph, processorCount);
+    this.scheduledTasks = new ScheduledTask[taskGraph.taskCount()];
+    this.processorEndTimes = new int[processorCount];
+    this.scheduledTaskCount = 0;
+    this.latestEndTime = 0;
+
     this.allocation = allocation;
     this.processorIndex = 0;
-    this.readyTasks = getProcessorReadyTasks(taskGraph, processorIndex);
     this.taskGraph = taskGraph;
+    this.readyTasks = getProcessorReadyTasks(0);
     this.localOrderedCount = 0;
 
   }
 
-  private Set<Task> getProcessorReadyTasks(Graph taskGraph, int processorIndex) {
-    Set<Task> newReadyTasks = new TaskSet(taskGraph);
+  private Set<Task> getProcessorReadyTasks(int processorIndex) {
+    Set<Task> newReadyTasks = new TaskSet(this.taskGraph);
     for (Task task : taskGraph.getTasks()) {
       // check if the task being checked is the current local processor
       if (getTaskProcessor(task) == processorIndex) {
         if (isTaskReady(this.scheduledTasks, task)) {
-          this.readyTasks.add(task);
+          newReadyTasks.add(task);
         }
       }
     }
@@ -46,7 +59,7 @@ public class AOSchedule extends Schedule {
    *
    * @param queue Queue to add children to
    */
-  public void extendSchedule(Queue<Schedule> queue) {
+  public void extendSchedule(Queue<AOSchedule> queue) {
     // Check to find if any tasks can be scheduled and schedule them
     for (Task task : getReadyTasks()) {
       int latestStartTime = getLatestStartTimeOf(task);
@@ -65,7 +78,7 @@ public class AOSchedule extends Schedule {
    * @param task          The task to add
    * @return A new schedule with the given task added to the end of the schedule
    */
-  public Schedule extendWithTask(ScheduledTask scheduledTask, Task task) {
+  public AOSchedule extendWithTask(ScheduledTask scheduledTask, Task task) {
     ScheduledTask[] newScheduledTasks = Arrays.copyOf(this.scheduledTasks,
         this.scheduledTasks.length);
     int[] newProcessorEndTimes = Arrays.copyOf(this.processorEndTimes,
@@ -73,23 +86,19 @@ public class AOSchedule extends Schedule {
 
     newScheduledTasks[task.getIndex()] = scheduledTask;
     int processorIndex = scheduledTask.getProcessorIndex();
-    int taskIdleTime = scheduledTask.getStartTime() - newProcessorEndTimes[processorIndex];
     newProcessorEndTimes[processorIndex] = scheduledTask.getEndTime();
 
-    int newTotalIdleTime = this.totalIdleTime + taskIdleTime;
-    int newLatestEndTime = Math.max(this.latestEndTime, scheduledTask.getEndTime());
-    int newEstimatedMakespan = this.estimateNewMakespan(scheduledTask, task, newTotalIdleTime);
-
-    return new Schedule(
+    return new AOSchedule(
         newScheduledTasks,
         newProcessorEndTimes,
-        newLatestEndTime,
-        this.scheduledTaskCount + 1,
-        this.getNewReadyTasks(task, newScheduledTasks),
-        this.totalTaskWeights,
-        newEstimatedMakespan,
-        newTotalIdleTime
-    );
+        latestEndTime,
+        scheduledTaskCount + 1,
+        allocation,
+        processorIndex,
+        localOrderedCount,
+        readyTasks,
+        taskGraph);
+
   }
 
   /**
