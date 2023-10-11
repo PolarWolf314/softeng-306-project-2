@@ -10,6 +10,11 @@ import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
 import nz.ac.auckland.se306.group12.models.SchedulerStatus;
 import nz.ac.auckland.se306.group12.scheduler.Scheduler;
+import nz.ac.auckland.se306.group12.visualizer.util.AnsiColor;
+import nz.ac.auckland.se306.group12.visualizer.util.AnsiSgrSequenceBuilder;
+import nz.ac.auckland.se306.group12.visualizer.util.AsciiSpinner;
+import nz.ac.auckland.se306.group12.visualizer.util.BrailleSpinner;
+import nz.ac.auckland.se306.group12.visualizer.util.TerminalHeight;
 
 /**
  * A class for visualising parallel schedules on systems with multiple homogenous processors in a

@@ -1,4 +1,4 @@
-package nz.ac.auckland.se306.group12.visualizer;
+package nz.ac.auckland.se306.group12.visualizer.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
