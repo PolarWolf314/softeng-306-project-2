@@ -95,7 +95,6 @@ public class AOSchedule {
     newScheduledTasks[task.getIndex()] = scheduledTask;
     int processorIndex = scheduledTask.getProcessorIndex();
     newProcessorEndTimes[processorIndex] = scheduledTask.getEndTime();
-    int newLatestEndTime = Math.max(this.latestEndTime, scheduledTask.getEndTime());
     int newLocalOrderedCount = this.localOrderedCount + 1;
     int newLocalOrderedWeight = this.localOrderedWeight + task.getWeight();
     int newLocalIndex = this.localIndex;
@@ -107,6 +106,8 @@ public class AOSchedule {
     }
     int newPreviousTaskIndex = task.getIndex();
     this.propagate(newScheduledTasks, scheduledTask, task, newProcessorEndTimes);
+    int newLatestEndTime = Math.max(this.latestEndTime, Arrays.stream(newProcessorEndTimes).max()
+        .getAsInt());
 
     Set<Task> newReadyTasks;
     // if all tasks on current processor have been allocated move to next processor
@@ -138,6 +139,10 @@ public class AOSchedule {
   private void propagate(ScheduledTask[] newScheduledTasks, ScheduledTask scheduledTask,
       Task task, int[] newProcessorEndTimes) {
     for (Edge outEdge : task.getOutgoingEdges()) {
+      if (scheduledTask.getEndTime() > taskGraph.getTotalTaskWeights()) {
+        // could be replaced with an early return out of recursion somehow instead of this
+        return;
+      }
       Task child = outEdge.getDestination();
       ScheduledTask childScheduledTask = newScheduledTasks[child.getIndex()];
       if (childScheduledTask == null) {
@@ -152,8 +157,8 @@ public class AOSchedule {
             .getProcessorIndex()]) {
           newProcessorEndTimes[childScheduledTask.getProcessorIndex()] = childScheduledTask
               .getEndTime();
+          propagate(newScheduledTasks, childScheduledTask, child, newProcessorEndTimes);
         }
-        propagate(newScheduledTasks, childScheduledTask, child, newProcessorEndTimes);
       }
     }
     // propagate the decendant (this will be on the same processor)
@@ -167,8 +172,8 @@ public class AOSchedule {
           .getProcessorIndex()]) {
         newProcessorEndTimes[decendantScheduledTask.getProcessorIndex()] = decendantScheduledTask
             .getEndTime();
+        propagate(newScheduledTasks, decendantScheduledTask, decendant, newProcessorEndTimes);
       }
-      propagate(newScheduledTasks, decendantScheduledTask, decendant, newProcessorEndTimes);
     }
   }
 
@@ -182,11 +187,12 @@ public class AOSchedule {
   private boolean isTaskReady(ScheduledTask[] newScheduledTasks, Task child) {
     int processorNumber = getTaskProcessor(child);
     for (Edge incomingEdge : child.getIncomingEdges()) {
-      int parentIndex = incomingEdge.getSource().getIndex();
+      Task parentTask = incomingEdge.getSource();
+      int parentIndex = parentTask.getIndex();
       ScheduledTask parent = newScheduledTasks[parentIndex];
 
       // return not ready if the parent isn't scheduled and is allocated on the same processor
-      if (parent == null && this.allocation.getTasksProcessor()[parentIndex] == processorNumber) {
+      if (parent == null && getTaskProcessor(parentTask) == processorNumber) {
         return false;
       }
     }
@@ -232,11 +238,19 @@ public class AOSchedule {
     newReadyTasks.remove(task);
     for (Edge outEdge : task.getOutgoingEdges()) {
       Task child = outEdge.getDestination();
-      if (this.isTaskReady(newScheduledTasks, child)) {
-        newReadyTasks.add(child);
+      if (getTaskProcessor(child) == getTaskProcessor(task)) {
+        if (this.isTaskReady(newScheduledTasks, child)) {
+          newReadyTasks.add(child);
+        }
       }
     }
     return newReadyTasks;
+  }
+
+  public Schedule asSchedule() {
+    return new Schedule(this.scheduledTasks, this.processorEndTimes, this.scheduledTaskCount,
+        Arrays.stream(this.processorEndTimes).max().getAsInt(), this.readyTasks, taskGraph
+            .getTotalTaskWeights(), 0, 0);
   }
 
 }

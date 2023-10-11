@@ -59,7 +59,7 @@ public class DfsAOScheduler implements Scheduler {
     }
 
     this.status = SchedulerStatus.SCHEDULED;
-    return this.bestSchedule;
+    return this.bestAOSchedule.asSchedule();
   }
 
   private void order(Allocation allocation, Graph taskGraph) {
