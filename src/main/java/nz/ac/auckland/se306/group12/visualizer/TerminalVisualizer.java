@@ -100,7 +100,7 @@ public class TerminalVisualizer implements Visualizer {
     this.addDivider(); // Top border
     sb.append(NEW_LINE);
 
-    this.populateStatusBar();
+    this.drawStatusBar();
     sb.append(NEW_LINE);
 
     this.drawGanttChart(scheduler.getBestSchedule());
@@ -208,7 +208,7 @@ public class TerminalVisualizer implements Visualizer {
     }
   }
 
-  private void populateStatusBar() {
+  private void drawStatusBar() {
     sb.append(new AnsiSgrSequenceBuilder().bold()
             .foreground(255, 255, 255)
             .background(255, 95, 135))
