@@ -1,12 +1,13 @@
 package nz.ac.auckland.se306.group12.models;
 
 import java.util.Arrays;
+import java.util.Queue;
 import java.util.Set;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import nz.ac.auckland.se306.group12.models.datastructures.TaskSet;
+import nz.ac.auckland.se306.group12.models.datastructures.BitSet;
 
 /**
  * Schedule class represents a schedule of tasks
@@ -88,7 +89,7 @@ public class Schedule {
    * @return A {@link Set} containing the tasks that are ready to be scheduled
    */
   private Set<Task> getNewReadyTasks(Task task, ScheduledTask[] newScheduledTasks) {
-    Set<Task> newReadyTasks = new TaskSet(this.readyTasks);
+    Set<Task> newReadyTasks = new BitSet(this.readyTasks);
     newReadyTasks.remove(task);
     for (Edge outEdge : task.getOutgoingEdges()) {
       Task child = outEdge.getDestination();
@@ -211,6 +212,25 @@ public class Schedule {
   }
 
   /**
+   * This method adds all children of the current schedule to the stack
+   *
+   * @param queue Queue to add children to
+   */
+  public void extendSchedule(Queue<Schedule> queue) {
+    // Check to find if any tasks can be scheduled and schedule them
+    for (Task task : getReadyTasks()) {
+      int[] latestStartTimes = getLatestStartTimesOf(task);
+      for (int i = 0; i < latestStartTimes.length; i++) {
+        // Ensure that it either schedules by latest time or after the last task on the processor
+        int startTime = Math.max(latestStartTimes[i], getProcessorEndTimes()[i]);
+        int endTime = startTime + task.getWeight();
+        ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, i);
+        queue.add(extendWithTask(newScheduledTask, task));
+      }
+    }
+  }
+  
+  /**
    * Computes whether a schedule is equal to another by iterating through their scheduled tasks,
    * returning false if any of the tasks are not the same else returns true.
    */
@@ -227,5 +247,5 @@ public class Schedule {
     }
     return true;
   }
-
+  
 }
