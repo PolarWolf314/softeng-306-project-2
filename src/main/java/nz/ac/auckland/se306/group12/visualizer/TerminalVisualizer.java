@@ -79,7 +79,7 @@ public class TerminalVisualizer implements Visualizer {
   public void run() {
     this.executorService.scheduleAtFixedRate(this::visualize,
         0,
-        250,
+        200,
         TimeUnit.MILLISECONDS);
   }
 
