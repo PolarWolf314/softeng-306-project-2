@@ -86,11 +86,6 @@ public class TerminalVisualizer implements Visualizer {
         TimeUnit.MILLISECONDS);
   }
 
-  @Override
-  public void stop() {
-    this.executorService.shutdown();
-  }
-
   /**
    * Renders the given {@link Schedule}, and prints it to system out.
    * <p>
@@ -99,8 +94,8 @@ public class TerminalVisualizer implements Visualizer {
    * wrapping done by the terminal will break comprehensibility of the Gantt chart.
    */
   private void visualize() {
-    cursorToStart();
     updateTerminalDimensions();
+    eraseDisplay();
 
     this.addDivider(); // Top border
     sb.append(NEW_LINE);
@@ -213,8 +208,7 @@ public class TerminalVisualizer implements Visualizer {
             .foreground(255, 255, 255)
             .background(255, 95, 135))
         .append(
-            String.format(" %-10.10s ",
-                this.scheduler.getStatus())) // TODO: Re-architect to support live-updating
+            String.format(" %-10.10s ", this.scheduler.getStatus()))
         .append(new AnsiSgrSequenceBuilder().normalIntensity()
             .foreground(52, 52, 52)
             .background(190, 190, 190))
