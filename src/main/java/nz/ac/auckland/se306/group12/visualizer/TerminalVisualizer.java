@@ -18,7 +18,6 @@ import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 public class TerminalVisualizer implements Visualizer {
 
   private static final String NEW_LINE = System.getProperty("line.separator");
-
   /**
    * Used to indicate processor idle time in the 2D matrix representing the Gantt chart of a
    * {@link Schedule}.
@@ -31,18 +30,15 @@ public class TerminalVisualizer implements Visualizer {
    * Used to detect the width (in characters) of the visualiser's output terminal window.
    */
   private final TerminalWidth terminalWidthManager = new TerminalWidth();
-
   /**
    * Used to detect the height (in lines) of the visualiser's output terminal window.
    */
   private final TerminalHeight terminalHeightManager = new TerminalHeight();
-
   /**
    * Used to adapt the visualiser output to the terminal window width. If
    * {@link #terminalWidthManager} cannot detect the window width, the fallback value 80 is used.
    */
   private int terminalWidth = 80;
-
   /**
    * Used to adapt the visualiser output to the terminal window height. If
    * {@link #terminalHeightManager} cannot detect the window height, the fallback value 24 is used.
