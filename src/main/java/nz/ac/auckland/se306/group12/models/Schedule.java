@@ -3,7 +3,6 @@ package nz.ac.auckland.se306.group12.models;
 import java.util.Arrays;
 import java.util.Queue;
 import java.util.Set;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -13,7 +12,6 @@ import nz.ac.auckland.se306.group12.models.datastructures.BitSet;
  * Schedule class represents a schedule of tasks
  */
 @Getter
-@EqualsAndHashCode
 @RequiredArgsConstructor
 @ToString
 public class Schedule {
@@ -229,7 +227,7 @@ public class Schedule {
       }
     }
   }
-  
+
   /**
    * Computes whether a schedule is equal to another by iterating through their scheduled tasks,
    * returning false if any of the tasks are not the same else returns true.
@@ -247,5 +245,5 @@ public class Schedule {
     }
     return true;
   }
-  
+
 }

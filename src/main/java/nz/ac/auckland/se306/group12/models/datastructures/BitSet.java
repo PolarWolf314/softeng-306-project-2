@@ -1,5 +1,6 @@
 package nz.ac.auckland.se306.group12.models.datastructures;
 
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
@@ -361,25 +362,37 @@ public class BitSet<T extends Indexable> implements Set<T> {
   }
 
   /**
-   * This method has not been implemented as it is not required and I don't foresee any likely
-   * usages of it in the future. This can be added later if required.
-   *
-   * @throws UnsupportedOperationException If this method is called
+   * The resulting array will only contain the included elements. They will be ordered based on
+   * their {@link Indexable} index, but the index will not match their position in the array, i.e.
+   * {@code null} will not be used to pad the array for missing elements.
+   * <p>
+   * {@inheritDoc}
    */
   @Override
   public Object[] toArray() {
-    throw new UnsupportedOperationException("toArray() is not supported on BitSet");
+    Object[] array = new Object[this.count];
+    return this.toArray(array);
   }
 
   /**
-   * This method has not been implemented as it is not required and I don't foresee any likely
-   * usages of it in the future. This can be added later if required.
-   *
-   * @throws UnsupportedOperationException If this method is called
+   * The resulting array will only contain the included elements. They will be ordered based on
+   * their {@link Indexable} index, but the index will not match their position in the array, i.e.
+   * {@code null} will not be used to pad the array for missing elements.
+   * <p>
+   * {@inheritDoc}
    */
   @Override
-  public <T> T[] toArray(T[] array) {
-    throw new UnsupportedOperationException("toArray() is not supported on BitSet");
+  @SuppressWarnings("unchecked")
+  public <K> K[] toArray(K[] array) {
+    if (array.length < this.count) {
+      array = (K[]) Array.newInstance(array.getClass().getComponentType(), this.count);
+    }
+    int index = 0;
+    for (T indexable : this) {
+      array[index++] = (K) indexable;
+    }
+
+    return array;
   }
 
   /**
