@@ -4,4 +4,6 @@ public interface AsciiSpinner {
 
   String nextFrame();
 
+  String doneFrame();
+
 }

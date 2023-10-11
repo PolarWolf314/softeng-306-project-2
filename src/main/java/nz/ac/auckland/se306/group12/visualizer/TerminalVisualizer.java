@@ -71,6 +71,7 @@ public class TerminalVisualizer implements Visualizer {
    * default 16.
    */
   private final StringBuilder sb = new StringBuilder(1000);
+  private final AsciiSpinner spinner = new BrailleSpinner();
 
   public TerminalVisualizer(Graph taskGraph, Scheduler scheduler) {
     this.taskGraph = taskGraph;
@@ -209,9 +210,27 @@ public class TerminalVisualizer implements Visualizer {
 
   private void drawStatusBar() {
     sb.append(new AnsiSgrSequenceBuilder().bold()
-            .foreground(255, 255, 255)
-            .background(255, 95, 135))
-        .append(
+        .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][5][5]));
+
+    switch (this.scheduler.getStatus()) {
+      case IDLE -> {
+        sb.append(new AnsiSgrSequenceBuilder().background(3)) // Yellow
+            .append(' ')
+            .append(spinner.nextFrame());
+      }
+      case SCHEDULING -> {
+        sb.append(new AnsiSgrSequenceBuilder().background(5)) // Magenta
+            .append(' ')
+            .append(spinner.nextFrame());
+      }
+      case SCHEDULED -> {
+        sb.append(new AnsiSgrSequenceBuilder().background(2)) // Green
+            .append(' ')
+            .append(spinner.doneFrame());
+      }
+    }
+
+    sb.append(
             String.format(" %-10.10s ", this.scheduler.getStatus()))
         .append(new AnsiSgrSequenceBuilder().normalIntensity()
             .foreground(52, 52, 52)
