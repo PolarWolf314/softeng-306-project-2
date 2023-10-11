@@ -54,6 +54,7 @@ public class TerminalVisualizer implements Visualizer {
    * The {@link Schedule} whose progress to visualise.
    */
   private final Scheduler scheduler;
+  private SchedulerStatus schedulerStatus;
 
   /**
    * The executor service responsible for re-rendering the visualisation on a regular basis, based
@@ -90,6 +91,7 @@ public class TerminalVisualizer implements Visualizer {
    * wrapping done by the terminal will break comprehensibility of the Gantt chart.
    */
   private void visualize() {
+    this.schedulerStatus = scheduler.getStatus();
     updateTerminalDimensions();
     eraseDisplay();
 
@@ -106,7 +108,7 @@ public class TerminalVisualizer implements Visualizer {
 
     System.out.println(sb);
 
-    if (scheduler.getStatus() == SchedulerStatus.SCHEDULED) {
+    if (schedulerStatus == SchedulerStatus.SCHEDULED) {
       this.executorService.shutdownNow();
     }
 
@@ -208,7 +210,7 @@ public class TerminalVisualizer implements Visualizer {
     sb.append(new AnsiSgrSequenceBuilder().bold()
         .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][5][5]));
 
-    switch (this.scheduler.getStatus()) {
+    switch (schedulerStatus) {
       case IDLE -> {
         sb.append(new AnsiSgrSequenceBuilder().background(3)) // Yellow
             .append(' ')
@@ -226,8 +228,7 @@ public class TerminalVisualizer implements Visualizer {
       }
     }
 
-    sb.append(
-            String.format(" %-10.10s ", this.scheduler.getStatus()))
+    sb.append(String.format(" %-10.10s ", schedulerStatus))
         .append(new AnsiSgrSequenceBuilder().normalIntensity()
             .foreground(52, 52, 52)
             .background(190, 190, 190))
