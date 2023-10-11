@@ -58,7 +58,7 @@ public class TerminalVisualizer implements Visualizer {
    */
   private final Graph taskGraph;
   /**
-   * The {@link Schedule} whose progress to visualise.
+   * The {@link Scheduler} whose progress to visualise.
    */
   private final Scheduler scheduler;
   /**
@@ -73,11 +73,11 @@ public class TerminalVisualizer implements Visualizer {
   private SchedulerStatus schedulerStatus;
 
   /**
-   * The executor service responsible for re-rendering the visualisation on a regular basis, based
-   * on the {@link #scheduler}'s best-so-far schedule.
+   * Responsible for re-rendering the visualisation * on a regular basis, based on the
+   * {@link #scheduler}'s best-so-far schedule.
    */
-  private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-  private LocalDateTime startTime;
+  private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+  private final LocalDateTime startTime;
 
   /**
    * This visualiser’s output is just a massive string. This is where the heavy lifting gets done.
@@ -87,14 +87,20 @@ public class TerminalVisualizer implements Visualizer {
   private final StringBuilder sb = new StringBuilder(1000);
   private final AsciiSpinner spinner = new BrailleSpinner();
 
+  /**
+   * Instantiates and <strong>immediately begins running</strong> a visualiser.
+   *
+   * @param taskGraph The task graph whose schedules (partial and/or complete) are to be
+   *                  visualised.
+   * @param scheduler The {@link Scheduler} whose progress to visualise.
+   */
   public TerminalVisualizer(Graph taskGraph, Scheduler scheduler) {
     this.taskGraph = taskGraph;
     this.scheduler = scheduler;
-  }
 
-  @Override
-  public void run() {
-    this.executorService.scheduleAtFixedRate(this::visualize,
+    // No need to keep the returned ScheduledFuture; the ScheduledExecutorService shutdown takes
+    // care of cancelling this future
+    this.executor.scheduleAtFixedRate(this::visualize,
         0,
         200,
         TimeUnit.MILLISECONDS);
@@ -130,7 +136,7 @@ public class TerminalVisualizer implements Visualizer {
     System.out.println(sb);
 
     if (schedulerStatus == SchedulerStatus.SCHEDULED) {
-      this.executorService.shutdownNow();
+      this.executor.shutdown();
     }
 
     // Clear the string builder

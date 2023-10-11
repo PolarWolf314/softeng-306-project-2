@@ -9,7 +9,6 @@ import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 import nz.ac.auckland.se306.group12.visualizer.TerminalVisualizer;
-import nz.ac.auckland.se306.group12.visualizer.Visualizer;
 
 public class Main {
 
@@ -23,8 +22,7 @@ public class Main {
       Scheduler scheduler = new SchedulerFactory().getScheduler(arguments.algorithm());
 
       if (arguments.visualiseSearch()) {
-        Visualizer visualizer = new TerminalVisualizer(graph, scheduler);
-        visualizer.run();
+        new TerminalVisualizer(graph, scheduler);
       }
 
       Schedule schedule = scheduler.schedule(graph, arguments.processorCount());
