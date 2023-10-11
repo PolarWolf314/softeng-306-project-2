@@ -21,8 +21,9 @@ public class AOSchedule {
   private final int scheduledTaskCount;
 
   private final Allocation allocation;
-  private final int processorIndex;
+  private final int localIndex;
   private final int localOrderedCount;
+  private final int localOrderedWeight;
   private final Set<Task> readyTasks;
   private final Graph taskGraph;
 
@@ -34,10 +35,11 @@ public class AOSchedule {
     this.latestEndTime = 0;
 
     this.allocation = allocation;
-    this.processorIndex = 0;
+    this.localIndex = 0;
     this.taskGraph = taskGraph;
     this.readyTasks = getProcessorReadyTasks(0);
     this.localOrderedCount = 0;
+    this.localOrderedWeight = 0;
 
   }
 
@@ -64,9 +66,9 @@ public class AOSchedule {
     for (Task task : getReadyTasks()) {
       int latestStartTime = getLatestStartTimeOf(task);
       // Ensure that it either schedules by latest time or after the last task on the processor
-      int startTime = Math.max(latestStartTime, getProcessorEndTimes()[this.processorIndex]);
+      int startTime = Math.max(latestStartTime, getProcessorEndTimes()[this.localIndex]);
       int endTime = startTime + task.getWeight();
-      ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, this.processorIndex);
+      ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, this.localIndex);
       queue.add(extendWithTask(newScheduledTask, task));
     }
   }
@@ -87,18 +89,31 @@ public class AOSchedule {
     newScheduledTasks[task.getIndex()] = scheduledTask;
     int processorIndex = scheduledTask.getProcessorIndex();
     newProcessorEndTimes[processorIndex] = scheduledTask.getEndTime();
+    int newLatestEndTime = Math.max(this.latestEndTime, scheduledTask.getEndTime());
+    int newLocalOrderedCount = this.localOrderedCount + 1;
+    int newLocalOrderedWeight = this.localOrderedWeight + task.getWeight();
+    int newLocalIndex = this.localIndex;
+    Set<Task> newReadyTasks;
+    // if all tasks on current processor have been allocated move to next processor
+    if (this.localOrderedCount == this.allocation.getProcessors()[this.localIndex].size()) {
+      newLocalOrderedCount = 0;
+      newLocalOrderedWeight = 0;
+      newLocalIndex++;
+      newReadyTasks = this.getProcessorReadyTasks(newLocalIndex);
+    } else {
+      newReadyTasks = this.getNewReadyTasks(task, newScheduledTasks);
+    }
 
-    return new AOSchedule(
-        newScheduledTasks,
+    return new AOSchedule(newScheduledTasks,
         newProcessorEndTimes,
-        latestEndTime,
+        newLatestEndTime,
         scheduledTaskCount + 1,
         allocation,
-        processorIndex,
-        localOrderedCount,
-        readyTasks,
+        newLocalIndex,
+        newLocalOrderedCount,
+        newLocalOrderedWeight,
+        newReadyTasks,
         taskGraph);
-
   }
 
   /**
