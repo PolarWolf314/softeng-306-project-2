@@ -32,6 +32,17 @@ import java.util.regex.Pattern;
  */
 public class TerminalHeight {
 
+  /**
+   * Extract rows from a line such as this:
+   * <pre>speed 9600 baud; rows 50; columns 83; line = 0;</pre>
+   */
+  public static final Pattern LINUX_ROWS_PATTERN = Pattern.compile("rows (\\d+)");
+  /**
+   * Extract rows from a line such as this:
+   * <pre>speed 9600 baud; 39 rows; 80 columns;</pre>
+   */
+  public static final Pattern MACOS_ROWS_PATTERN = Pattern.compile("(\\d+) rows");
+
   private static final int UNKNOWN_HEIGHT = -1;
 
   public int getTerminalHeight() {
@@ -55,9 +66,9 @@ public class TerminalHeight {
   // https://web.archive.org/web/20160410082524/http://grokbase.com/t/gg/clojure/127qwgscvc/how-do-you-determine-terminal-console-width-in-%60lein-repl%60
   private int getTerminalHeight2() throws IOException {
     String osName = System.getProperty("os.name");
-    boolean isOSX = osName.startsWith("Mac OS X");
+    boolean isMacOs = osName.startsWith("Mac OS X");
     boolean isLinux = osName.startsWith("Linux") || osName.startsWith("LINUX");
-    if (!isLinux && !isOSX) {
+    if (!isLinux && !isMacOs) {
       // actually, this might also work on Solaris but this hasn't been tested
       return UNKNOWN_HEIGHT;
     }
@@ -87,17 +98,7 @@ public class TerminalHeight {
       return UNKNOWN_HEIGHT;
     }
 
-    String pattern;
-    if (isOSX) {
-      // Extract rows from a line such as this:
-      // speed 9600 baud; 39 rows; 80 columns;
-      pattern = "(\\d+) rows";
-    } else {
-      // Extract rows from a line such as this:
-      // speed 9600 baud; rows 50; columns 83; line = 0;
-      pattern = "rows (\\d+)";
-    }
-    Matcher m = Pattern.compile(pattern).matcher(result);
+    Matcher m = (isMacOs ? MACOS_ROWS_PATTERN : LINUX_ROWS_PATTERN).matcher(result);
     if (!m.find()) {
       return UNKNOWN_HEIGHT;
     }
