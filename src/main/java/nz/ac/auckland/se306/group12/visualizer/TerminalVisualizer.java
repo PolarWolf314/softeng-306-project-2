@@ -79,10 +79,9 @@ public class TerminalVisualizer implements Visualizer {
 
   @Override
   public void run() {
-    eraseDisplay();
     this.executorService.scheduleAtFixedRate(this::visualize,
         0,
-        1000,
+        250,
         TimeUnit.MILLISECONDS);
   }
 
