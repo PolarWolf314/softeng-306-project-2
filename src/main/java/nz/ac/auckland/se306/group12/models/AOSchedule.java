@@ -13,23 +13,32 @@ public class AOSchedule extends Schedule {
 
   private final Allocation allocation;
   private final int processorIndex;
+  private final int localOrderedCount;
   private final Set<Task> readyTasks;
+  private final Graph taskGraph;
 
   public AOSchedule(Graph taskGraph, int processorCount, Allocation allocation) {
     // readyTasks defined in super constructor will get overwritten
     super(taskGraph, processorCount);
     this.allocation = allocation;
     this.processorIndex = 0;
-    this.readyTasks = new TaskSet(taskGraph);
+    this.readyTasks = getProcessorReadyTasks(taskGraph, processorIndex);
+    this.taskGraph = taskGraph;
+    this.localOrderedCount = 0;
+
+  }
+
+  private Set<Task> getProcessorReadyTasks(Graph taskGraph, int processorIndex) {
+    Set<Task> newReadyTasks = new TaskSet(taskGraph);
     for (Task task : taskGraph.getTasks()) {
       // check if the task being checked is the current local processor
-      if (getTaskProcessor(task) == this.processorIndex) {
+      if (getTaskProcessor(task) == processorIndex) {
         if (isTaskReady(this.scheduledTasks, task)) {
           this.readyTasks.add(task);
         }
       }
     }
-
+    return newReadyTasks;
   }
 
   /**
