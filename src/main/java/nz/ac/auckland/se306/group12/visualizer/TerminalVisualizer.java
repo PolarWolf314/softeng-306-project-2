@@ -54,11 +54,19 @@ public class TerminalVisualizer implements Visualizer {
    * The task graph whose schedules (partial or complete) are to be visualised.
    */
   private final Graph taskGraph;
-
   /**
    * The {@link Schedule} whose progress to visualise.
    */
   private final Scheduler scheduler;
+  /**
+   * If the visualiser could run instantaneously, then this field would be redundant. However, if
+   * individual methods in this class each call {@link Scheduler#getStatus()} separately, then we
+   * may run into the scenario where the scheduler is {@link SchedulerStatus#SCHEDULING} at the
+   * start of a visualisation cycle, but has {@link SchedulerStatus#SCHEDULED} midway through the
+   * cycle. This results in a single visualisation "snapshot" apparently showing conflicting
+   * information, where part of the output says that the scheduler is running and another says that
+   * it has finished.
+   */
   private SchedulerStatus schedulerStatus;
 
   /**
