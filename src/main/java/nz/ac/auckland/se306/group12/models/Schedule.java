@@ -229,5 +229,23 @@ public class Schedule {
       }
     }
   }
-
+  
+  /**
+   * Computes whether a schedule is equal to another by iterating through their scheduled tasks,
+   * returning false if any of the tasks are not the same else returns true.
+   */
+  @Override
+  public boolean equals(Object object) {
+    if (!(object instanceof Schedule comparison)) {
+      return false;
+    }
+    ScheduledTask[] comparisonTaskList = comparison.getScheduledTasks();
+    for (int i = 0; i < this.scheduledTasks.length; i++) {
+      if (this.scheduledTasks[i] != comparisonTaskList[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
 }
