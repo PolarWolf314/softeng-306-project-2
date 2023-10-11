@@ -8,6 +8,7 @@ import net.sourceforge.argparse4j.internal.TerminalWidth;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
+import nz.ac.auckland.se306.group12.models.SchedulerStatus;
 import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 
 /**
@@ -28,16 +29,25 @@ public class TerminalVisualizer implements Visualizer {
 
   /**
    * Used to detect the width (in characters) of the visualiser's output terminal window.
-   *
-   * @see #terminalWidth
    */
   private final TerminalWidth terminalWidthManager = new TerminalWidth();
+
+  /**
+   * Used to detect the height (in lines) of the visualiser's output terminal window.
+   */
+  private final TerminalHeight terminalHeightManager = new TerminalHeight();
 
   /**
    * Used to adapt the visualiser output to the terminal window width. If
    * {@link #terminalWidthManager} cannot detect the window width, the fallback value 80 is used.
    */
   private int terminalWidth = 80;
+
+  /**
+   * Used to adapt the visualiser output to the terminal window height. If
+   * {@link #terminalHeightManager} cannot detect the window height, the fallback value 24 is used.
+   */
+  private int terminalHeight = 24;
 
   /**
    * The task graph whose schedules (partial or complete) are to be visualised.
@@ -48,6 +58,12 @@ public class TerminalVisualizer implements Visualizer {
    * The {@link Schedule} whose progress to visualise.
    */
   private final Scheduler scheduler;
+
+  /**
+   * The executor service responsible for re-rendering the visualisation on a regular basis, based
+   * on the {@link #scheduler}'s best-so-far schedule.
+   */
+  private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
   /**
    * This visualiser’s output is just a massive string. This is where the heavy lifting gets done.
@@ -63,11 +79,16 @@ public class TerminalVisualizer implements Visualizer {
 
   @Override
   public void run() {
-    ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-    executorService.scheduleAtFixedRate(this::visualize,
+    eraseDisplay();
+    this.executorService.scheduleAtFixedRate(this::visualize,
         0,
-        250,
+        1000,
         TimeUnit.MILLISECONDS);
+  }
+
+  @Override
+  public void stop() {
+    this.executorService.shutdown();
   }
 
   /**
@@ -78,8 +99,8 @@ public class TerminalVisualizer implements Visualizer {
    * wrapping done by the terminal will break comprehensibility of the Gantt chart.
    */
   private void visualize() {
-    eraseDisplay();
-    updateTerminalWidth();
+    cursorToStart();
+    updateTerminalDimensions();
 
     this.addDivider(); // Top border
     sb.append(NEW_LINE);
@@ -93,6 +114,10 @@ public class TerminalVisualizer implements Visualizer {
     this.addDivider(); // Bottom border
 
     System.out.println(sb);
+
+    if (scheduler.getStatus() == SchedulerStatus.SCHEDULED) {
+      this.executorService.shutdownNow();
+    }
   }
 
   /**
@@ -103,10 +128,15 @@ public class TerminalVisualizer implements Visualizer {
    * hit-or-miss. If the terminal width cannot be determined, the fallback (initial) value will be
    * used.
    */
-  private void updateTerminalWidth() {
+  private void updateTerminalDimensions() {
     int width = terminalWidthManager.getTerminalWidth();
     if (width > 0) {
       terminalWidth = width - 2; // -2 for wiggle room
+    }
+
+    int height = terminalHeightManager.getTerminalHeight();
+    if (height > 0) {
+      terminalHeight = height;
     }
   }
 
@@ -114,7 +144,7 @@ public class TerminalVisualizer implements Visualizer {
    * Takes a {@link Schedule}, and creates a Gantt Chart representation of it in plaintext (with
    * some in-band formatting using ANSI control sequences). The plaintext chart is then appended to
    * this visualiser's string builder to be drawing (printing) in
-   * {@link TerminalVisualizer#visualize(Schedule)}.
+   * {@link TerminalVisualizer#visualize()}.
    *
    * @param schedule The schedule to be rendered graphically (or... terminally?).
    */
@@ -183,7 +213,8 @@ public class TerminalVisualizer implements Visualizer {
             .foreground(255, 255, 255)
             .background(255, 95, 135))
         .append(
-            String.format("%-14.14s", " SCHEDULED ")) // TODO: Re-architect to support live-updating
+            String.format(" %-10.10s ",
+                this.scheduler.getStatus())) // TODO: Re-architect to support live-updating
         .append(new AnsiSgrSequenceBuilder().normalIntensity()
             .foreground(52, 52, 52)
             .background(190, 190, 190))
