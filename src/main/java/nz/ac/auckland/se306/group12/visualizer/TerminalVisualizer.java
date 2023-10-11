@@ -253,7 +253,7 @@ public class TerminalVisualizer implements Visualizer {
    * @see #eraseDisplay()
    */
   private void eraseToEnd() {
-    System.out.print("\033[2J");
+    System.out.print("\033[0J");
   }
 
   /**
