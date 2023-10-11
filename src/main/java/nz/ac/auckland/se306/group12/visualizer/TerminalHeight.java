@@ -52,13 +52,14 @@ public class TerminalHeight {
   }
 
   // see
-  // http://grokbase.com/t/gg/clojure/127qwgscvc/how-do-you-determine-terminal-console-width-in-%60lein-repl%60
+  // https://web.archive.org/web/20160410082524/http://grokbase.com/t/gg/clojure/127qwgscvc/how-do-you-determine-terminal-console-width-in-%60lein-repl%60
   private int getTerminalHeight2() throws IOException {
     String osName = System.getProperty("os.name");
     boolean isOSX = osName.startsWith("Mac OS X");
     boolean isLinux = osName.startsWith("Linux") || osName.startsWith("LINUX");
     if (!isLinux && !isOSX) {
-      return UNKNOWN_HEIGHT; // actually, this might also work on Solaris but this hasn't been tested
+      // actually, this might also work on Solaris but this hasn't been tested
+      return UNKNOWN_HEIGHT;
     }
     ProcessBuilder builder = new ProcessBuilder(whichSh().toString(),
         "-c", "stty -a < /dev/tty");
