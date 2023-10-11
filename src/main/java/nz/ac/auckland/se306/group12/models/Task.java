@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import nz.ac.auckland.se306.group12.models.datastructures.Indexable;
 
 /**
  * Node class represents a task in a schedule
@@ -16,7 +17,7 @@ import lombok.ToString;
 @ToString
 @RequiredArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Task {
+public class Task implements Indexable {
 
   /**
    * The name of this task. Unique within a task graph.
@@ -38,6 +39,8 @@ public class Task {
 
   @Setter
   private int bottomLevel = 0;
+  @Setter
+  private int topLevel = 0;
 
   /**
    * This method should not be used in performance sensitive areas as it recreates the entire
