@@ -1,5 +1,8 @@
 package nz.ac.auckland.se306.group12.visualizer;
 
+import static java.time.temporal.ChronoUnit.SECONDS;
+
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -74,6 +77,7 @@ public class TerminalVisualizer implements Visualizer {
    * on the {@link #scheduler}'s best-so-far schedule.
    */
   private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+  private LocalDateTime startTime;
 
   /**
    * This visualiser’s output is just a massive string. This is where the heavy lifting gets done.
@@ -94,6 +98,7 @@ public class TerminalVisualizer implements Visualizer {
         0,
         200,
         TimeUnit.MILLISECONDS);
+    this.startTime = LocalDateTime.now();
   }
 
   /**
@@ -145,7 +150,7 @@ public class TerminalVisualizer implements Visualizer {
   private void updateTerminalDimensions() {
     int width = terminalWidthManager.getTerminalWidth();
     if (width > 0) {
-      terminalWidth = width - 2; // -2 for wiggle room
+      terminalWidth = width;
     }
 
     int height = terminalHeightManager.getTerminalHeight();
@@ -228,20 +233,20 @@ public class TerminalVisualizer implements Visualizer {
 
     switch (schedulerStatus) {
       case IDLE -> {
-        sb.append(
-                new AnsiSgrSequenceBuilder().background(AnsiColor.COLOR_CUBE_8_BIT[5][2][0])) // Orange
+        sb.append(new AnsiSgrSequenceBuilder()
+                .background(AnsiColor.COLOR_CUBE_8_BIT[5][2][0])) // Orange
             .append(' ')
             .append(spinner.nextFrame());
       }
       case SCHEDULING -> {
-        sb.append(
-                new AnsiSgrSequenceBuilder().background(AnsiColor.COLOR_CUBE_8_BIT[5][1][2])) // Magenta
+        sb.append(new AnsiSgrSequenceBuilder()
+                .background(AnsiColor.COLOR_CUBE_8_BIT[5][1][2])) // Magenta
             .append(' ')
             .append(spinner.nextFrame());
       }
       case SCHEDULED -> {
-        sb.append(
-                new AnsiSgrSequenceBuilder().background(AnsiColor.COLOR_CUBE_8_BIT[0][3][0])) // Green
+        sb.append(new AnsiSgrSequenceBuilder()
+                .background(AnsiColor.COLOR_CUBE_8_BIT[0][3][0])) // Green
             .append(' ')
             .append(spinner.doneFrame());
       }
@@ -251,8 +256,11 @@ public class TerminalVisualizer implements Visualizer {
         .append(new AnsiSgrSequenceBuilder().normalIntensity()
             .foreground(52, 52, 52)
             .background(190, 190, 190))
-        .append(String.format(" %-" + (terminalWidth - 16) + "." + (terminalWidth - 16) + "s ",
-            taskGraph.getName()))
+        .append(String.format(" %-" + (terminalWidth - 23) + "." + (terminalWidth - 23) + "s ",
+            taskGraph.getName()));
+
+    long elapsedTime = SECONDS.between(startTime, LocalDateTime.now());
+    sb.append(String.format(" %4.4s s", elapsedTime))
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
   }
@@ -265,9 +273,7 @@ public class TerminalVisualizer implements Visualizer {
     sb.append(new AnsiSgrSequenceBuilder()
             .background(AnsiColor.COLOR_CUBE_8_BIT[3][4][5]) // 153 light blue
             .foreground(AnsiColor.COLOR_CUBE_8_BIT[0][1][2])) // 23 dark blue
-        .append("  ")
-        .append(scheduler.getSearchedCount())
-        .append(" searched  ")
+        .append(String.format("  %,d searched  ", scheduler.getPrunedCount()))
         .append(AnsiSgrSequenceBuilder.RESET);
 
     // Padding
@@ -277,9 +283,7 @@ public class TerminalVisualizer implements Visualizer {
     sb.append(new AnsiSgrSequenceBuilder()
             .background(AnsiColor.COLOR_CUBE_8_BIT[5][4][1]) // 221 pale gold
             .foreground(AnsiColor.COLOR_CUBE_8_BIT[2][1][0])) // 94 dark orange
-        .append("  ")
-        .append(scheduler.getPrunedCount())
-        .append(" pruned  ")
+        .append(String.format("  %,d pruned  ", scheduler.getPrunedCount()))
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
   }
