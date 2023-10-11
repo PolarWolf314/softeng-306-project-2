@@ -20,19 +20,15 @@ public class Main {
     CommandLineArguments arguments = parser.parse(args);
     try {
       Graph graph = dotGraphIO.readDotGraph(arguments.inputDotGraph());
-
-      SchedulerFactory schedulerFactory = new SchedulerFactory();
-
-      Scheduler scheduler = schedulerFactory.getScheduler(arguments.algorithm());
-
-      Schedule schedule = scheduler.schedule(graph, arguments.processorCount());
+      Scheduler scheduler = new SchedulerFactory().getScheduler(arguments.algorithm());
 
       if (arguments.visualiseSearch()) {
         Visualizer visualizer = new TerminalVisualizer(graph, scheduler);
         visualizer.run();
       }
 
-//      System.out.println(schedule.getLatestEndTime());
+      Schedule schedule = scheduler.schedule(graph, arguments.processorCount());
+
       dotGraphIO.writeDotGraph(arguments, schedule, graph);
 
     } catch (IOException e) {
