@@ -203,7 +203,7 @@ public class TerminalVisualizer implements Visualizer {
           taskRenderStarted[activeTaskIndex] = true;
         }
 
-        sb.append(new AnsiSgrSequenceBuilder().reset()).append(" "); // Padding between columns
+        sb.append(AnsiSgrSequenceBuilder.RESET).append(" "); // Padding between columns
       }
 
       sb.deleteCharAt(sb.length() - 1); // Trim trailing padding
@@ -215,7 +215,7 @@ public class TerminalVisualizer implements Visualizer {
           ? String.format("%s%" + timeLabelWidth + "d%s",
           new AnsiSgrSequenceBuilder().faint().underline(),
           time + 1,
-          new AnsiSgrSequenceBuilder().reset())
+          AnsiSgrSequenceBuilder.RESET)
           : columnSlice);
 
       sb.append(NEW_LINE);
@@ -253,7 +253,7 @@ public class TerminalVisualizer implements Visualizer {
             .background(190, 190, 190))
         .append(String.format(" %-" + (terminalWidth - 16) + "." + (terminalWidth - 16) + "s ",
             taskGraph.getName()))
-        .append(new AnsiSgrSequenceBuilder().reset())
+        .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
   }
 
@@ -268,7 +268,7 @@ public class TerminalVisualizer implements Visualizer {
         .append("  ")
         .append(scheduler.getSearchedCount())
         .append(" searched  ")
-        .append(new AnsiSgrSequenceBuilder().reset());
+        .append(AnsiSgrSequenceBuilder.RESET);
 
     // Padding
     sb.append(' ');
@@ -280,7 +280,7 @@ public class TerminalVisualizer implements Visualizer {
         .append("  ")
         .append(scheduler.getPrunedCount())
         .append(" pruned  ")
-        .append(new AnsiSgrSequenceBuilder().reset())
+        .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
   }
 
@@ -291,7 +291,7 @@ public class TerminalVisualizer implements Visualizer {
     // Note: 8-bit fallback colour is `AnsiColor.EIGHT_BIT_COLOR_CUBE[2][0][5]`
     sb.append(new AnsiSgrSequenceBuilder().foreground(125, 86, 243))
         .append("─".repeat(terminalWidth))
-        .append(new AnsiSgrSequenceBuilder().reset())
+        .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
   }
 

@@ -14,6 +14,8 @@ import nz.ac.auckland.se306.group12.exceptions.InvalidColorException;
  */
 public class AnsiSgrSequenceBuilder {
 
+  public static final String RESET = new AnsiSgrSequenceBuilder().toString();
+
   private static final String CONTROL_SEQUENCE_INTRODUCER = "\033[";
   private static final String CONTROL_SEQUENCE_DELIMITER = "m";
   private static final String SEPARATOR = ";";
