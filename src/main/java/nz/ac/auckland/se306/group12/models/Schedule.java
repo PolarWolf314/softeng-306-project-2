@@ -87,7 +87,7 @@ public class Schedule implements Comparable<Schedule> {
    * @return A {@link Set} containing the tasks that are ready to be scheduled
    */
   private Set<Task> getNewReadyTasks(Task task, ScheduledTask[] newScheduledTasks) {
-    Set<Task> newReadyTasks = new BitSet(this.readyTasks);
+    Set<Task> newReadyTasks = new BitSet<>(this.readyTasks);
     newReadyTasks.remove(task);
     for (Edge outEdge : task.getOutgoingEdges()) {
       Task child = outEdge.getDestination();
@@ -210,7 +210,7 @@ public class Schedule implements Comparable<Schedule> {
   }
 
   /**
-   * <<<<<<< HEAD This method adds all children of the current schedule to the stack
+   * This method adds all children of the current schedule to the stack
    *
    * @param queue Queue to add children to
    */
@@ -226,6 +226,22 @@ public class Schedule implements Comparable<Schedule> {
         queue.add(this.extendWithTask(newScheduledTask, task));
       }
     }
+  }
+
+
+  /**
+   * Compares this schedule with another schedule based on the estimated makespan of the schedule.
+   * The schedule with the lowest estimated makespan will have a higher priority.
+   *
+   * @param otherSchedule The {@link Schedule} to compare to
+   * @return A positive integer if this schedule has a lower estimated makespan, 0 if they're equal
+   * or a negative integer if this schedule has a higher estimated makespan
+   */
+  @Override
+  public int compareTo(Schedule otherSchedule) {
+    // Take the negative of the comparison so that the schedule with the lowest estimated makespan
+    // has a higher priority
+    return Integer.compare(this.estimatedMakespan, otherSchedule.estimatedMakespan);
   }
 
   /**
@@ -246,19 +262,8 @@ public class Schedule implements Comparable<Schedule> {
     return true;
   }
 
-  /**
-   * Compares this schedule with another schedule based on the estimated makespan of the schedule.
-   * The schedule with the lowest estimated makespan will have a higher priority.
-   *
-   * @param otherSchedule The {@link Schedule} to compare to
-   * @return A positive integer if this schedule has a lower estimated makespan, 0 if they're equal
-   * or a negative integer if this schedule has a higher estimated makespan
-   */
   @Override
-  public int compareTo(Schedule otherSchedule) {
-    // Take the negative of the comparison so that the schedule with the lowest estimated makespan
-    // has a higher priority
-    return Integer.compare(this.estimatedMakespan, otherSchedule.estimatedMakespan);
+  public int hashCode() {
+    return Arrays.hashCode(this.scheduledTasks);
   }
-
 }
