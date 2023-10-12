@@ -189,9 +189,8 @@ public class TerminalVisualizer implements Visualizer {
     int timeLabelWidth = Math.min(6, columnWidth);
 
     // Horizontal axis labels: processors
-    for (int processorIndex = 1;
-        processorIndex <= this.currentSchedule.getProcessorCount();
-        processorIndex++) {
+    int processorCount = this.currentSchedule.getProcessorCount();
+    for (int processorIndex = 1; processorIndex <= processorCount; processorIndex++) {
       sb.append(String.format("P%-" + columnWidth + "d", processorIndex));
     }
 
