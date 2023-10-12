@@ -204,7 +204,7 @@ public class TerminalVisualizer implements Visualizer {
               .append(columnSlice);
         } else {
           sb.append(new AnsiSgrSequenceBuilder().bold()
-                  .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][5][5])
+                  .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][5][5]) // White
                   .background(AnsiColor.COLOR_CUBE_8_BIT[activeTaskIndex % 6][0][4]))
               .append(taskRenderStarted[activeTaskIndex]
                   ? columnSlice
