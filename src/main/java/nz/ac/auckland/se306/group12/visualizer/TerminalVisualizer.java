@@ -97,6 +97,7 @@ public class TerminalVisualizer implements Visualizer {
   public TerminalVisualizer(Graph taskGraph, Scheduler scheduler) {
     this.taskGraph = taskGraph;
     this.scheduler = scheduler;
+    this.startTime = LocalDateTime.now();
 
     // No need to keep the returned ScheduledFuture; the ScheduledExecutorService shutdown takes
     // care of cancelling this future
@@ -104,7 +105,6 @@ public class TerminalVisualizer implements Visualizer {
         0,
         500,
         TimeUnit.MILLISECONDS);
-    this.startTime = LocalDateTime.now();
   }
 
   /**
