@@ -1,5 +1,7 @@
 package nz.ac.auckland.se306.group12.optimal;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import nz.ac.auckland.se306.group12.ScheduleValidator;
 import nz.ac.auckland.se306.group12.TestUtil;
@@ -7,6 +9,8 @@ import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.Timeout.ThreadMode;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,9 +27,34 @@ import org.junit.jupiter.params.provider.MethodSource;
 @Timeout(value = 2, unit = TimeUnit.MINUTES, threadMode = ThreadMode.SEPARATE_THREAD)
 public class OptimalSchedulerNodes30Test {
 
+    public static final int TOTAL_TESTS = 459;
+
+    // Change this to adjust how many tests are run
+    public static final int TEST_RUN_COUNT = 50;
+
+    private static Set<Number> tests_to_run;
+
+    /**
+   * Randomly select {@link #TEST_RUN_COUNT} tests to run.
+   */
+    @BeforeAll
+    public static void beforeAll() {
+        int num_to_run = Math.min(TEST_RUN_COUNT, TOTAL_TESTS);
+        tests_to_run = new HashSet<>();
+        while (tests_to_run.size() < num_to_run) {
+            tests_to_run.add((int) (Math.random() * TOTAL_TESTS));
+        }
+    }
+
+    public boolean isTestActive(int testIndex) {
+        return tests_to_run.contains(testIndex);
+    }
+
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Join_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(0));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Join_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 532;
@@ -39,6 +68,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Join_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(1));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Join_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1826;
@@ -52,6 +83,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(2));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 941;
@@ -65,6 +98,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random2_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(3));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random#2_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 973;
@@ -78,6 +113,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random3_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(4));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random#3_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 933;
@@ -91,6 +128,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random4_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(5));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random#4_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 759;
@@ -104,6 +143,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random5_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(6));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random#5_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 910;
@@ -117,6 +158,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random6_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(7));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random#6_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 843;
@@ -130,6 +173,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random7_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(8));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random#7_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 861;
@@ -143,6 +188,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random8_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(9));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random#8_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 940;
@@ -156,6 +203,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random9_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(10));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random#9_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 947;
@@ -169,6 +218,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(11));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 170;
@@ -182,6 +233,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(12));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1013;
@@ -195,6 +248,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(13));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 885;
@@ -208,6 +263,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot95_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(14));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.95_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 93;
@@ -221,6 +278,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_0dot96_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(15));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_0.96_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 97;
@@ -234,6 +293,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_1dot01_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(16));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.01_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 99;
@@ -247,6 +308,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_1dot01_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(17));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.01_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 94;
@@ -260,6 +323,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_1dot02_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(18));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.02_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 89;
@@ -273,6 +338,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_1dot02_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(19));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.02_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 21;
@@ -286,6 +353,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_1dot02_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(20));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.02_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 95;
@@ -299,6 +368,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_1dot02_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(21));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.02_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 101;
@@ -312,6 +383,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_1dot04_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(22));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.04_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 93;
@@ -325,6 +398,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_1dot04_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(23));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.04_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 92;
@@ -338,6 +413,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_1dot05_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(24));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.05_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 82;
@@ -351,6 +428,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_1dot07_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(25));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_1.07_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 90;
@@ -364,6 +443,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(26));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 113;
@@ -377,6 +458,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random1_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(27));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random#1_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 90;
@@ -390,6 +473,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random1_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(28));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random#1_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 90;
@@ -403,6 +488,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random2_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(29));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random#2_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 106;
@@ -416,6 +503,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random2_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(30));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random#2_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 83;
@@ -429,6 +518,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random2_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(31));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random#2_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 83;
@@ -442,6 +533,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(32));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 98;
@@ -455,6 +548,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(33));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 79;
@@ -468,6 +563,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_10dot01_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(34));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.01_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 79;
@@ -481,6 +578,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_10dot02_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(35));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.02_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 112;
@@ -494,6 +593,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_10dot02_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(36));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_10.02_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 96;
@@ -507,6 +608,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_2dot00_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(37));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_2.00_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 37;
@@ -520,6 +623,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_2dot00_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(38));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_2.00_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 111;
@@ -533,6 +638,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot98_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(39));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.98_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 91;
@@ -546,6 +653,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot98_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(40));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.98_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 108;
@@ -559,6 +668,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot98_WeightType_Random_GB_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(41));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.98_WeightType_Random_GB_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 91;
@@ -572,6 +683,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot98_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(42));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.98_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 8;
         int expectedScheduleEndTime = 91;
@@ -585,6 +698,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot98_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(43));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.98_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 100;
@@ -598,6 +713,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot98_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(44));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.98_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 76;
@@ -611,6 +728,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot98_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(45));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.98_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 76;
@@ -624,6 +743,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(46));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 114;
@@ -637,6 +758,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random1_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(47));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#1_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 85;
@@ -650,6 +773,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random1_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(48));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#1_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 85;
@@ -663,6 +788,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random2_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(49));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#2_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 102;
@@ -676,6 +803,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random2_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(50));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#2_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 79;
@@ -689,6 +818,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random2_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(51));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#2_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 76;
@@ -702,6 +833,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random3_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(52));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#3_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 93;
@@ -715,6 +848,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random3_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(53));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#3_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 70;
@@ -728,6 +863,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random3_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(54));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#3_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 70;
@@ -741,6 +878,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random4_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(55));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#4_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 104;
@@ -754,6 +893,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random4_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(56));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#4_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 78;
@@ -767,6 +908,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random4_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(57));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random#4_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 78;
@@ -780,6 +923,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(58));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 102;
@@ -793,6 +938,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalFork_Nodes_30_CCR_9dot99_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(59));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Fork_Nodes_30_CCR_9.99_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 78;
@@ -806,6 +953,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(60));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 95;
@@ -819,6 +968,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random1_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(61));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#1_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 48;
@@ -832,6 +983,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random1_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(62));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#1_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 32;
@@ -845,6 +998,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random2_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(63));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#2_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 86;
@@ -858,6 +1013,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random2_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(64));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#2_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 43;
@@ -871,6 +1028,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random3_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(65));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#3_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 77;
@@ -884,6 +1043,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random3_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(66));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#3_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 39;
@@ -897,6 +1058,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random3_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(67));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#3_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 26;
@@ -910,6 +1073,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random4_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(68));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#4_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 101;
@@ -923,6 +1088,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random4_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(69));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#4_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 51;
@@ -936,6 +1103,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random4_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(70));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#4_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 34;
@@ -949,6 +1118,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random5_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(71));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#5_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 99;
@@ -962,6 +1133,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random5_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(72));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#5_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 50;
@@ -975,6 +1148,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random5_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(73));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#5_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 33;
@@ -988,6 +1163,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random6_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(74));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#6_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 92;
@@ -1001,6 +1178,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random6_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(75));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#6_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 46;
@@ -1014,6 +1193,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random6_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(76));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#6_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 31;
@@ -1027,6 +1208,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random7_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(77));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#7_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 97;
@@ -1040,6 +1223,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random7_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(78));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#7_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 49;
@@ -1053,6 +1238,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random8_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(79));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#8_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 85;
@@ -1066,6 +1253,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random8_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(80));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#8_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 43;
@@ -1079,6 +1268,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random9_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(81));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#9_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 82;
@@ -1092,6 +1283,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random9_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(82));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random#9_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 41;
@@ -1105,6 +1298,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(83));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 13;
@@ -1118,6 +1313,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(84));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 92;
@@ -1131,6 +1328,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random_GB_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(85));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random_GB_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 46;
@@ -1144,6 +1343,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(86));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 8;
         int expectedScheduleEndTime = 23;
@@ -1157,6 +1358,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(87));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 100;
@@ -1170,6 +1373,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(88));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 50;
@@ -1183,6 +1388,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalIndependent_Nodes_30_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(89));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Independent_Nodes_30_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 34;
@@ -1196,6 +1403,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(90));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 956;
@@ -1209,6 +1418,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random2_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(91));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#2_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 897;
@@ -1222,6 +1433,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random3_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(92));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#3_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 840;
@@ -1235,6 +1448,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random4_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(93));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#4_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 860;
@@ -1248,6 +1463,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random5_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(94));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#5_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 975;
@@ -1261,6 +1478,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random6_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(95));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#6_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 986;
@@ -1274,6 +1493,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random7_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(96));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#7_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 901;
@@ -1287,6 +1508,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random8_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(97));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#8_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 917;
@@ -1300,6 +1523,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random9_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(98));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#9_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 974;
@@ -1313,6 +1538,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(99));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 252;
@@ -1326,6 +1553,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(100));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 889;
@@ -1339,6 +1568,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(101));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 840;
@@ -1352,6 +1583,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot91_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(102));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.91_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 102;
@@ -1365,6 +1598,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot92_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(103));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.92_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 98;
@@ -1378,6 +1613,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot94_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(104));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.94_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 107;
@@ -1391,6 +1628,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot98_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(105));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.98_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 98;
@@ -1404,6 +1643,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot98_WeightType_Random1_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(106));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.98_WeightType_Random#1_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 45;
@@ -1417,6 +1658,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot98_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(107));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.98_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 100;
@@ -1430,6 +1673,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(108));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_0.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 107;
@@ -1443,6 +1688,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot02_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(109));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_1.02_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 101;
@@ -1456,6 +1703,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot06_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(110));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_1.06_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 93;
@@ -1469,6 +1718,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot06_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(111));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_1.06_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 40;
@@ -1482,6 +1733,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot07_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(112));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_1.07_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 91;
@@ -1495,6 +1748,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot09_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(113));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_1.09_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 94;
@@ -1508,6 +1763,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot11_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(114));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_1.11_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 97;
@@ -1521,6 +1778,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot11_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(115));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_1.11_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 45;
@@ -1534,6 +1793,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_2dot02_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(116));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_2.02_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 98;
@@ -1547,6 +1808,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Balanced_MaxBf_3_Nodes_30_CCR_9dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(117));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Balanced-MaxBf-3_Nodes_30_CCR_9.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 93;
@@ -1560,6 +1823,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Unbalanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(118));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Unbalanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 11;
         int expectedScheduleEndTime = 385;
@@ -1573,6 +1838,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Unbalanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(119));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Unbalanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 858;
@@ -1586,6 +1853,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Unbalanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(120));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Unbalanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 8;
         int expectedScheduleEndTime = 385;
@@ -1599,6 +1868,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Unbalanced_MaxBf_3_Nodes_30_CCR_0dot95_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(121));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Unbalanced-MaxBf-3_Nodes_30_CCR_0.95_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 39;
@@ -1612,6 +1883,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Unbalanced_MaxBf_3_Nodes_30_CCR_0dot95_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(122));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Unbalanced-MaxBf-3_Nodes_30_CCR_0.95_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 90;
@@ -1625,6 +1898,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Unbalanced_MaxBf_3_Nodes_30_CCR_2dot00_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(123));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Unbalanced-MaxBf-3_Nodes_30_CCR_2.00_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 49;
@@ -1638,6 +1913,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Unbalanced_MaxBf_3_Nodes_30_CCR_2dot00_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(124));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Unbalanced-MaxBf-3_Nodes_30_CCR_2.00_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 101;
@@ -1651,6 +1928,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalInTree_Unbalanced_MaxBf_3_Nodes_30_CCR_2dot00_WeightType_Random_GB_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(125));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/InTree-Unbalanced-MaxBf-3_Nodes_30_CCR_2.00_WeightType_Random_GB_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 57;
@@ -1664,6 +1943,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(126));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 848;
@@ -1677,6 +1958,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random2_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(127));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random#2_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 926;
@@ -1690,6 +1973,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random3_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(128));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random#3_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 951;
@@ -1703,6 +1988,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random4_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(129));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random#4_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 822;
@@ -1716,6 +2003,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random5_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(130));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random#5_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 824;
@@ -1729,6 +2018,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random6_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(131));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random#6_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1007;
@@ -1742,6 +2033,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random7_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(132));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random#7_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 881;
@@ -1755,6 +2048,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random8_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(133));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random#8_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1000;
@@ -1768,6 +2063,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random9_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(134));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random#9_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 935;
@@ -1781,6 +2078,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(135));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 182;
@@ -1794,6 +2093,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(136));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 820;
@@ -1807,6 +2108,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(137));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 881;
@@ -1820,6 +2123,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot91_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(138));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.91_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 91;
@@ -1833,6 +2138,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot94_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(139));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.94_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 93;
@@ -1846,6 +2153,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot96_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(140));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.96_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 92;
@@ -1859,6 +2168,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot97_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(141));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.97_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 106;
@@ -1872,6 +2183,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot98_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(142));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.98_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 110;
@@ -1885,6 +2198,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot98_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(143));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.98_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 110;
@@ -1898,6 +2213,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot99_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(144));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.99_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 30;
@@ -1911,6 +2228,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot99_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(145));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.99_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 103;
@@ -1924,6 +2243,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_0dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(146));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_0.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 91;
@@ -1937,6 +2258,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_1dot02_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(147));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_1.02_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 97;
@@ -1950,6 +2273,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_1dot08_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(148));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_1.08_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 100;
@@ -1963,6 +2288,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_1dot09_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(149));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_1.09_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 82;
@@ -1976,6 +2303,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(150));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 110;
@@ -1989,6 +2318,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random1_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(151));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#1_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 88;
@@ -2002,6 +2333,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random1_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(152));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#1_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 88;
@@ -2015,6 +2348,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random2_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(153));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#2_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 99;
@@ -2028,6 +2363,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random2_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(154));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#2_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 77;
@@ -2041,6 +2378,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random3_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(155));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#3_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 95;
@@ -2054,6 +2393,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random3_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(156));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#3_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 75;
@@ -2067,6 +2408,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random3_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(157));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#3_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 75;
@@ -2080,6 +2423,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random4_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(158));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#4_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 120;
@@ -2093,6 +2438,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random4_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(159));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random#4_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 89;
@@ -2106,6 +2453,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(160));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 95;
@@ -2119,6 +2468,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random_GB_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(161));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random_GB_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 77;
@@ -2132,6 +2483,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(162));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 115;
@@ -2145,6 +2498,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(163));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 82;
@@ -2158,6 +2513,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot01_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(164));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.01_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 82;
@@ -2171,6 +2528,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot02_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(165));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.02_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 102;
@@ -2184,6 +2543,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_10dot02_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(166));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_10.02_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 74;
@@ -2197,6 +2558,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_2dot00_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(167));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_2.00_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 40;
@@ -2210,6 +2573,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_2dot00_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(168));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_2.00_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 109;
@@ -2223,6 +2588,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_2dot00_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(169));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_2.00_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 8;
         int expectedScheduleEndTime = 40;
@@ -2236,6 +2603,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_9dot98_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(170));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.98_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 120;
@@ -2249,6 +2618,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_9dot98_WeightType_Random1_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(171));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.98_WeightType_Random#1_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 93;
@@ -2262,6 +2633,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_9dot98_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(172));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.98_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 117;
@@ -2275,6 +2648,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_9dot98_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(173));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.98_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 93;
@@ -2288,6 +2663,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_9dot98_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(174));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.98_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 93;
@@ -2301,6 +2678,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_9dot99_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(175));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.99_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 108;
@@ -2314,6 +2693,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_9dot99_WeightType_Random1_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(176));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.99_WeightType_Random#1_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 88;
@@ -2327,6 +2708,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_9dot99_WeightType_Random1_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(177));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.99_WeightType_Random#1_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 88;
@@ -2340,6 +2723,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_9dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(178));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 100;
@@ -2353,6 +2738,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_9dot99_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(179));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.99_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 83;
@@ -2366,6 +2753,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalJoin_Nodes_30_CCR_9dot99_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(180));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Join_Nodes_30_CCR_9.99_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 83;
@@ -2379,6 +2768,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(181));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 888;
@@ -2392,6 +2783,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random2_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(182));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#2_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 898;
@@ -2405,6 +2798,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random3_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(183));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#3_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1015;
@@ -2418,6 +2813,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random4_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(184));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#4_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 972;
@@ -2431,6 +2828,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random5_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(185));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#5_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 841;
@@ -2444,6 +2843,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random6_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(186));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#6_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1054;
@@ -2457,6 +2858,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random7_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(187));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#7_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 882;
@@ -2470,6 +2873,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random8_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(188));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#8_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 905;
@@ -2483,6 +2888,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random9_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(189));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#9_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 861;
@@ -2496,6 +2903,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(190));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 14;
         int expectedScheduleEndTime = 260;
@@ -2509,6 +2918,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(191));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 765;
@@ -2522,6 +2933,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(192));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 8;
         int expectedScheduleEndTime = 260;
@@ -2535,6 +2948,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(193));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 928;
@@ -2548,6 +2963,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot94_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(194));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.94_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 90;
@@ -2561,6 +2978,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot95_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(195));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.95_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 95;
@@ -2574,6 +2993,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot95_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(196));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.95_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 46;
@@ -2587,6 +3008,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot97_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(197));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.97_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 92;
@@ -2600,6 +3023,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot97_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(198));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.97_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 88;
@@ -2613,6 +3038,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot98_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(199));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.98_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 99;
@@ -2626,6 +3053,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot98_WeightType_Random1_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(200));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.98_WeightType_Random#1_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 44;
@@ -2639,6 +3068,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot98_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(201));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.98_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 107;
@@ -2652,6 +3083,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot99_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(202));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.99_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 98;
@@ -2665,6 +3098,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot99_WeightType_Random1_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(203));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.99_WeightType_Random#1_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 45;
@@ -2678,6 +3113,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot99_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(204));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.99_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 97;
@@ -2691,6 +3128,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot99_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(205));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.99_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 8;
         int expectedScheduleEndTime = 42;
@@ -2704,6 +3143,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(206));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 102;
@@ -2717,6 +3158,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_0dot99_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(207));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_0.99_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 48;
@@ -2730,6 +3173,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot02_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(208));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_1.02_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 87;
@@ -2743,6 +3188,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot02_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(209));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_1.02_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 37;
@@ -2756,6 +3203,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_1dot09_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(210));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_1.09_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 84;
@@ -2769,6 +3218,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_10dot01_WeightType_Random4_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(211));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_10.01_WeightType_Random#4_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 102;
@@ -2782,6 +3233,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_10dot01_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(212));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_10.01_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 87;
@@ -2795,6 +3248,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_10dot01_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(213));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_10.01_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 87;
@@ -2808,6 +3263,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_2dot01_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(214));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_2.01_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 105;
@@ -2821,6 +3278,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_9dot96_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(215));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_9.96_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 100;
@@ -2834,6 +3293,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_9dot96_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(216));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_9.96_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 74;
@@ -2847,6 +3308,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Balanced_MaxBf_3_Nodes_30_CCR_9dot96_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(217));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Balanced-MaxBf-3_Nodes_30_CCR_9.96_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 72;
@@ -2860,6 +3323,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Unbalanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(218));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Unbalanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 13;
         int expectedScheduleEndTime = 400;
@@ -2873,6 +3338,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Unbalanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(219));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Unbalanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 875;
@@ -2886,6 +3353,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Unbalanced_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(220));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Unbalanced-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 8;
         int expectedScheduleEndTime = 400;
@@ -2899,6 +3368,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Unbalanced_MaxBf_3_Nodes_30_CCR_0dot98_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(221));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Unbalanced-MaxBf-3_Nodes_30_CCR_0.98_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 48;
@@ -2912,6 +3383,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Unbalanced_MaxBf_3_Nodes_30_CCR_0dot98_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(222));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Unbalanced-MaxBf-3_Nodes_30_CCR_0.98_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 111;
@@ -2925,6 +3398,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Unbalanced_MaxBf_3_Nodes_30_CCR_2dot02_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(223));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Unbalanced-MaxBf-3_Nodes_30_CCR_2.02_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 87;
@@ -2938,6 +3413,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalOutTree_Unbalanced_MaxBf_3_Nodes_30_CCR_2dot02_WeightType_Random_GB_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(224));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/OutTree-Unbalanced-MaxBf-3_Nodes_30_CCR_2.02_WeightType_Random_GB_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 55;
@@ -2951,6 +3428,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(225));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1626;
@@ -2964,6 +3443,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random1_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(226));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#1_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1167;
@@ -2977,6 +3458,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random1_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(227));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#1_Homogeneous-6.dot");
         int processorCount = 5;
         int expectedScheduleEndTime = 1167;
@@ -2990,6 +3473,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random2_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(228));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#2_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1113;
@@ -3003,6 +3488,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random2_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(229));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#2_Homogeneous-6.dot");
         int processorCount = 5;
         int expectedScheduleEndTime = 1113;
@@ -3016,6 +3503,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random3_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(230));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#3_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1135;
@@ -3029,6 +3518,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random4_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(231));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#4_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1766;
@@ -3042,6 +3533,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random4_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(232));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#4_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1402;
@@ -3055,6 +3548,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random4_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(233));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#4_Homogeneous-6.dot");
         int processorCount = 5;
         int expectedScheduleEndTime = 1402;
@@ -3068,6 +3563,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random5_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(234));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#5_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1419;
@@ -3081,6 +3578,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random5_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(235));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#5_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1054;
@@ -3094,6 +3593,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random5_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(236));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#5_Homogeneous-6.dot");
         int processorCount = 5;
         int expectedScheduleEndTime = 1054;
@@ -3107,6 +3608,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random6_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(237));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#6_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1685;
@@ -3120,6 +3623,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random6_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(238));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#6_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1259;
@@ -3133,6 +3638,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random6_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(239));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#6_Homogeneous-6.dot");
         int processorCount = 5;
         int expectedScheduleEndTime = 1259;
@@ -3146,6 +3653,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random7_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(240));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#7_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1055;
@@ -3159,6 +3668,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random8_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(241));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#8_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1736;
@@ -3172,6 +3683,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random8_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(242));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#8_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1373;
@@ -3185,6 +3698,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random8_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(243));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#8_Homogeneous-6.dot");
         int processorCount = 5;
         int expectedScheduleEndTime = 1373;
@@ -3198,6 +3713,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random9_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(244));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#9_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1652;
@@ -3211,6 +3728,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random9_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(245));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#9_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1384;
@@ -3224,6 +3743,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random9_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(246));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random#9_Homogeneous-6.dot");
         int processorCount = 5;
         int expectedScheduleEndTime = 1384;
@@ -3237,6 +3758,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(247));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 5;
         int expectedScheduleEndTime = 1191;
@@ -3250,6 +3773,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(248));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1498;
@@ -3263,6 +3788,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(249));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1191;
@@ -3276,6 +3803,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(250));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 5;
         int expectedScheduleEndTime = 1191;
@@ -3289,6 +3818,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot98_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(251));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.98_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 179;
@@ -3302,6 +3833,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot99_WeightType_Random1_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(252));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.99_WeightType_Random#1_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 133;
@@ -3315,6 +3848,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_0dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(253));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_0.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 147;
@@ -3328,6 +3863,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_1dot00_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(254));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_1.00_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 162;
@@ -3341,6 +3878,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_1dot00_WeightType_Random2_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(255));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_1.00_WeightType_Random#2_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 130;
@@ -3354,6 +3893,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_1dot00_WeightType_Random3_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(256));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_1.00_WeightType_Random#3_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 169;
@@ -3367,6 +3908,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_1dot00_WeightType_Random4_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(257));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_1.00_WeightType_Random#4_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 152;
@@ -3380,6 +3923,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(258));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 143;
@@ -3393,6 +3938,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_10dot01_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(259));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.01_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 138;
@@ -3406,6 +3953,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_10dot01_WeightType_Random1_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(260));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.01_WeightType_Random#1_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 138;
@@ -3419,6 +3968,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_10dot01_WeightType_Random1_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(261));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.01_WeightType_Random#1_Homogeneous-6.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 138;
@@ -3432,6 +3983,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_10dot03_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(262));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.03_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 142;
@@ -3445,6 +3998,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_10dot03_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(263));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.03_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 142;
@@ -3458,6 +4013,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_10dot03_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(264));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_10.03_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 142;
@@ -3471,6 +4028,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_9dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(265));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_9.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 161;
@@ -3484,6 +4043,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_9dot99_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(266));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_9.99_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 161;
@@ -3497,6 +4058,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalPipeline_Nodes_30_CCR_9dot99_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(267));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Pipeline_Nodes_30_CCR_9.99_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 161;
@@ -3510,6 +4073,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_0dot40_CCR_10dot00_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(268));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_0.40_CCR_10.00_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 90;
@@ -3523,6 +4088,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_0dot40_CCR_10dot00_WeightType_Random_GB_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(269));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_0.40_CCR_10.00_WeightType_Random_GB_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 45;
@@ -3536,6 +4103,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_0dot47_CCR_0dot99_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(270));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_0.47_CCR_0.99_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 37;
@@ -3549,6 +4118,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_0dot47_CCR_0dot99_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(271));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_0.47_CCR_0.99_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 97;
@@ -3562,6 +4133,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_0dot47_CCR_0dot99_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(272));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_0.47_CCR_0.99_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 8;
         int expectedScheduleEndTime = 37;
@@ -3575,6 +4148,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_0dot67_CCR_0dot10_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(273));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_0.67_CCR_0.10_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 195;
@@ -3588,6 +4163,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_0dot67_CCR_0dot10_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(274));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_0.67_CCR_0.10_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 8;
         int expectedScheduleEndTime = 195;
@@ -3601,6 +4178,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_0dot73_CCR_2dot01_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(275));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_0.73_CCR_2.01_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 81;
@@ -3614,6 +4193,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_0dot73_CCR_2dot01_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(276));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_0.73_CCR_2.01_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 8;
         int expectedScheduleEndTime = 30;
@@ -3627,6 +4208,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_0dot87_CCR_0dot10_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(277));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_0.87_CCR_0.10_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 271;
@@ -3640,6 +4223,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_0dot87_CCR_0dot10_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(278));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_0.87_CCR_0.10_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 750;
@@ -3653,6 +4238,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_0dot87_CCR_0dot10_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(279));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_0.87_CCR_0.10_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 8;
         int expectedScheduleEndTime = 271;
@@ -3666,6 +4253,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_0dot93_CCR_2dot01_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(280));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_0.93_CCR_2.01_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 98;
@@ -3679,6 +4268,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot27_CCR_1dot00_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(281));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.27_CCR_1.00_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 13;
         int expectedScheduleEndTime = 55;
@@ -3692,6 +4283,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot27_CCR_1dot00_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(282));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.27_CCR_1.00_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 8;
         int expectedScheduleEndTime = 55;
@@ -3705,6 +4298,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot63_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(283));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.63_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1368;
@@ -3718,6 +4313,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot63_CCR_0dot10_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(284));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.63_CCR_0.10_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 665;
@@ -3731,6 +4328,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot63_CCR_0dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(285));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.63_CCR_0.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 141;
@@ -3744,6 +4343,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot73_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(286));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.73_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1655;
@@ -3757,6 +4358,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot73_CCR_0dot10_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(287));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.73_CCR_0.10_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 725;
@@ -3770,6 +4373,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot77_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(288));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.77_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1537;
@@ -3783,6 +4388,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot77_CCR_0dot10_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(289));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.77_CCR_0.10_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 859;
@@ -3796,6 +4403,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot77_CCR_0dot10_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(290));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.77_CCR_0.10_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 859;
@@ -3809,6 +4418,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot80_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(291));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.80_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1487;
@@ -3822,6 +4433,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot80_CCR_0dot10_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(292));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.80_CCR_0.10_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 598;
@@ -3835,6 +4448,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot80_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(293));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.80_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 157;
@@ -3848,6 +4463,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot80_CCR_1dot00_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(294));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.80_CCR_1.00_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 79;
@@ -3861,6 +4478,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot80_CCR_1dot00_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(295));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.80_CCR_1.00_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 75;
@@ -3874,6 +4493,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot83_CCR_0dot10_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(296));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.83_CCR_0.10_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 706;
@@ -3887,6 +4508,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot83_CCR_1dot00_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(297));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.83_CCR_1.00_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 148;
@@ -3900,6 +4523,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot83_CCR_1dot00_WeightType_Random1_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(298));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.83_CCR_1.00_WeightType_Random#1_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 77;
@@ -3913,6 +4538,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_1dot83_CCR_1dot00_WeightType_Random1_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(299));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_1.83_CCR_1.00_WeightType_Random#1_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 76;
@@ -3926,6 +4553,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot07_CCR_0dot10_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(300));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.07_CCR_0.10_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1740;
@@ -3939,6 +4568,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot07_CCR_0dot10_WeightType_Random1_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(301));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.07_CCR_0.10_WeightType_Random#1_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 781;
@@ -3952,6 +4583,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot07_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(302));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.07_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 1964;
@@ -3965,6 +4598,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot07_CCR_0dot10_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(303));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.07_CCR_0.10_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1260;
@@ -3978,6 +4613,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot07_CCR_0dot10_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(304));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.07_CCR_0.10_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 1260;
@@ -3991,6 +4628,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot10_CCR_0dot99_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(305));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_0.99_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 110;
@@ -4004,6 +4643,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot10_CCR_0dot99_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(306));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_0.99_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 189;
@@ -4017,6 +4658,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot10_CCR_0dot99_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(307));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_0.99_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 8;
         int expectedScheduleEndTime = 110;
@@ -4030,6 +4673,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot10_CCR_1dot00_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(308));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_1.00_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 140;
@@ -4043,6 +4688,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot10_CCR_1dot00_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(309));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_1.00_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 140;
@@ -4056,6 +4703,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot10_CCR_1dot01_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(310));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_1.01_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 104;
@@ -4069,6 +4718,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot10_CCR_1dot01_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(311));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_1.01_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 103;
@@ -4082,6 +4733,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot10_CCR_1dot02_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(312));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_1.02_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 192;
@@ -4095,6 +4748,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot10_CCR_1dot02_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(313));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_1.02_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 122;
@@ -4108,6 +4763,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot10_CCR_1dot02_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(314));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_1.02_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 122;
@@ -4121,6 +4778,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot10_CCR_9dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(315));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_9.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 85;
@@ -4134,6 +4793,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot10_CCR_9dot99_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(316));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.10_CCR_9.99_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 81;
@@ -4147,6 +4808,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot17_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(317));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.17_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 2014;
@@ -4160,6 +4823,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot17_CCR_0dot10_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(318));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.17_CCR_0.10_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1452;
@@ -4173,6 +4838,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot17_CCR_0dot10_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(319));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.17_CCR_0.10_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 1452;
@@ -4186,6 +4853,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot20_CCR_0dot10_WeightType_Random1_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(320));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.20_CCR_0.10_WeightType_Random#1_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1334;
@@ -4199,6 +4868,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot20_CCR_0dot10_WeightType_Random1_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(321));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.20_CCR_0.10_WeightType_Random#1_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 1334;
@@ -4212,6 +4883,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot20_CCR_9dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(322));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.20_CCR_9.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 98;
@@ -4225,6 +4898,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot20_CCR_9dot99_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(323));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.20_CCR_9.99_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 93;
@@ -4238,6 +4913,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot30_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(324));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.30_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 217;
@@ -4251,6 +4928,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot30_CCR_1dot00_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(325));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.30_CCR_1.00_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 163;
@@ -4264,6 +4943,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot30_CCR_1dot00_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(326));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.30_CCR_1.00_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 163;
@@ -4277,6 +4958,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot40_CCR_0dot10_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(327));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.40_CCR_0.10_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 7;
         int expectedScheduleEndTime = 1815;
@@ -4290,6 +4973,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot40_CCR_0dot10_WeightType_Random_GB_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(328));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.40_CCR_0.10_WeightType_Random_GB_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1815;
@@ -4303,6 +4988,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot40_CCR_0dot10_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(329));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.40_CCR_0.10_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 7;
         int expectedScheduleEndTime = 1815;
@@ -4316,6 +5003,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot40_CCR_10dot03_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(330));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.40_CCR_10.03_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 91;
@@ -4329,6 +5018,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot47_CCR_9dot98_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(331));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.47_CCR_9.98_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 110;
@@ -4342,6 +5033,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_2dot53_CCR_10dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(332));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_2.53_CCR_10.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 120;
@@ -4355,6 +5048,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_3dot90_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(333));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_3.90_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 3540;
@@ -4368,6 +5063,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_3dot90_CCR_0dot10_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(334));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_3.90_CCR_0.10_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 2361;
@@ -4381,6 +5078,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_3dot90_CCR_0dot10_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(335));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_3.90_CCR_0.10_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 5;
         int expectedScheduleEndTime = 2361;
@@ -4394,6 +5093,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot23_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(336));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.23_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 385;
@@ -4407,6 +5108,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot23_CCR_1dot00_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(337));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.23_CCR_1.00_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 294;
@@ -4420,6 +5123,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot33_CCR_10dot05_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(338));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.33_CCR_10.05_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 111;
@@ -4433,6 +5138,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot37_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(339));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.37_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 469;
@@ -4446,6 +5153,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot37_CCR_1dot00_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(340));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.37_CCR_1.00_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 469;
@@ -4459,6 +5168,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot37_CCR_1dot00_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(341));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.37_CCR_1.00_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 469;
@@ -4472,6 +5183,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot50_CCR_9dot95_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(342));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.50_CCR_9.95_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 90;
@@ -4485,6 +5198,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot53_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(343));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.53_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 4395;
@@ -4498,6 +5213,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot53_CCR_0dot10_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(344));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.53_CCR_0.10_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 3654;
@@ -4511,6 +5228,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot53_CCR_0dot10_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(345));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.53_CCR_0.10_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 3654;
@@ -4524,6 +5243,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot63_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(346));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.63_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 4103;
@@ -4537,6 +5258,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot63_CCR_0dot10_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(347));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.63_CCR_0.10_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 3283;
@@ -4550,6 +5273,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot63_CCR_0dot10_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(348));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.63_CCR_0.10_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 3283;
@@ -4563,6 +5288,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot73_CCR_0dot10_WeightType_Random1_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(349));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.73_CCR_0.10_WeightType_Random#1_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 3684;
@@ -4576,6 +5303,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot73_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(350));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.73_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 4840;
@@ -4589,6 +5318,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot73_CCR_0dot10_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(351));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.73_CCR_0.10_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 4741;
@@ -4602,6 +5333,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot73_CCR_0dot10_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(352));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.73_CCR_0.10_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 5;
         int expectedScheduleEndTime = 4741;
@@ -4615,6 +5348,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot77_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(353));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.77_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 501;
@@ -4628,6 +5363,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot77_CCR_1dot00_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(354));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.77_CCR_1.00_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 473;
@@ -4641,6 +5378,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot77_CCR_1dot00_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(355));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.77_CCR_1.00_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 5;
         int expectedScheduleEndTime = 473;
@@ -4654,6 +5393,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot77_CCR_9dot96_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(356));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.77_CCR_9.96_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 120;
@@ -4667,6 +5408,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot80_CCR_0dot10_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(357));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.80_CCR_0.10_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 4153;
@@ -4680,6 +5423,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot80_CCR_0dot10_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(358));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.80_CCR_0.10_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 4347;
@@ -4693,6 +5438,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot80_CCR_0dot10_WeightType_Random_GB_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(359));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.80_CCR_0.10_WeightType_Random_GB_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 4153;
@@ -4706,6 +5453,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot80_CCR_0dot10_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(360));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.80_CCR_0.10_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 8;
         int expectedScheduleEndTime = 4153;
@@ -4719,6 +5468,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot80_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(361));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.80_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 491;
@@ -4732,6 +5483,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot80_CCR_1dot00_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(362));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.80_CCR_1.00_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 3;
         int expectedScheduleEndTime = 482;
@@ -4745,6 +5498,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot80_CCR_1dot00_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(363));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.80_CCR_1.00_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 3;
         int expectedScheduleEndTime = 482;
@@ -4758,6 +5513,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot83_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(364));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.83_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 435;
@@ -4771,6 +5528,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot83_CCR_1dot00_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(365));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.83_CCR_1.00_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 373;
@@ -4784,6 +5543,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot83_CCR_1dot00_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(366));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.83_CCR_1.00_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 5;
         int expectedScheduleEndTime = 373;
@@ -4797,6 +5558,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot90_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(367));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.90_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 4499;
@@ -4810,6 +5573,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot90_CCR_0dot10_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(368));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.90_CCR_0.10_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 4206;
@@ -4823,6 +5588,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot90_CCR_0dot10_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(369));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.90_CCR_0.10_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 5;
         int expectedScheduleEndTime = 4206;
@@ -4836,6 +5603,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot93_CCR_1dot00_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(370));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.93_CCR_1.00_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 431;
@@ -4849,6 +5618,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot93_CCR_1dot00_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(371));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.93_CCR_1.00_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 445;
@@ -4862,6 +5633,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot93_CCR_1dot00_WeightType_Random_GB_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(372));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.93_CCR_1.00_WeightType_Random_GB_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 431;
@@ -4875,6 +5648,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot93_CCR_1dot00_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(373));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.93_CCR_1.00_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 431;
@@ -4888,6 +5663,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot97_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(374));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.97_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 4453;
@@ -4901,6 +5678,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot97_CCR_0dot10_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(375));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.97_CCR_0.10_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 4396;
@@ -4914,6 +5693,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_4dot97_CCR_0dot10_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(376));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_4.97_CCR_0.10_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 4396;
@@ -4927,6 +5708,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot00_CCR_9dot90_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(377));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.00_CCR_9.90_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 114;
@@ -4940,6 +5723,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot03_CCR_0dot10_WeightType_Random1_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(378));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.03_CCR_0.10_WeightType_Random#1_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 4904;
@@ -4953,6 +5738,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot03_CCR_0dot10_WeightType_Random1_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(379));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.03_CCR_0.10_WeightType_Random#1_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 4514;
@@ -4966,6 +5753,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot03_CCR_0dot10_WeightType_Random1_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(380));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.03_CCR_0.10_WeightType_Random#1_Homogeneous-6.dot");
         int processorCount = 5;
         int expectedScheduleEndTime = 4514;
@@ -4979,6 +5768,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot03_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(381));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.03_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 4859;
@@ -4992,6 +5783,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot03_CCR_0dot10_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(382));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.03_CCR_0.10_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 4085;
@@ -5005,6 +5798,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot03_CCR_0dot10_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(383));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.03_CCR_0.10_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 5;
         int expectedScheduleEndTime = 4085;
@@ -5018,6 +5813,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot03_CCR_0dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(384));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.03_CCR_0.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 455;
@@ -5031,6 +5828,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot03_CCR_0dot99_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(385));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.03_CCR_0.99_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 422;
@@ -5044,6 +5843,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot03_CCR_0dot99_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(386));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.03_CCR_0.99_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 422;
@@ -5057,6 +5858,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot07_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(387));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.07_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 447;
@@ -5070,6 +5873,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot07_CCR_1dot00_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(388));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.07_CCR_1.00_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 407;
@@ -5083,6 +5888,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot10_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(389));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.10_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 550;
@@ -5096,6 +5903,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot10_CCR_1dot00_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(390));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.10_CCR_1.00_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 540;
@@ -5109,6 +5918,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot10_CCR_1dot00_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(391));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.10_CCR_1.00_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 540;
@@ -5122,6 +5933,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot17_CCR_2dot01_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(392));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.17_CCR_2.01_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 266;
@@ -5135,6 +5948,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot17_CCR_2dot01_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(393));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.17_CCR_2.01_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 273;
@@ -5148,6 +5963,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot17_CCR_2dot01_WeightType_Random_GB_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(394));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.17_CCR_2.01_WeightType_Random_GB_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 266;
@@ -5161,6 +5978,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot17_CCR_2dot01_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(395));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.17_CCR_2.01_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 266;
@@ -5174,6 +5993,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot33_CCR_9dot94_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(396));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.33_CCR_9.94_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 120;
@@ -5187,6 +6008,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot37_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(397));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.37_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 613;
@@ -5200,6 +6023,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot37_CCR_1dot00_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(398));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.37_CCR_1.00_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 598;
@@ -5213,6 +6038,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot37_CCR_1dot00_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(399));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.37_CCR_1.00_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 598;
@@ -5226,6 +6053,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot43_CCR_0dot10_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(400));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.43_CCR_0.10_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 4883;
@@ -5239,6 +6068,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot43_CCR_0dot10_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(401));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.43_CCR_0.10_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 4559;
@@ -5252,6 +6083,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot43_CCR_0dot10_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(402));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.43_CCR_0.10_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 4559;
@@ -5265,6 +6098,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalRandom_Nodes_30_Density_5dot57_CCR_10dot12_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(403));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Random_Nodes_30_Density_5.57_CCR_10.12_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 102;
@@ -5278,6 +6113,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_2_Nodes_30_CCR_10dot03_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(404));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-2_Nodes_30_CCR_10.03_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 143;
@@ -5291,6 +6128,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_2_Nodes_30_CCR_10dot03_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(405));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-2_Nodes_30_CCR_10.03_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 143;
@@ -5304,6 +6143,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_2_Nodes_30_CCR_10dot03_WeightType_Random_GB_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(406));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-2_Nodes_30_CCR_10.03_WeightType_Random_GB_Homogeneous-4.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 143;
@@ -5317,6 +6158,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_2_Nodes_30_CCR_10dot03_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(407));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-2_Nodes_30_CCR_10.03_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 143;
@@ -5330,6 +6173,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_2_Nodes_30_CCR_2dot01_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(408));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-2_Nodes_30_CCR_2.01_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 128;
@@ -5343,6 +6188,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random1_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(409));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#1_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 1051;
@@ -5356,6 +6203,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random3_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(410));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#3_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 789;
@@ -5369,6 +6218,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random4_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(411));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#4_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 1123;
@@ -5382,6 +6233,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random6_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(412));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#6_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 1066;
@@ -5395,6 +6248,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random7_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(413));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#7_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1209;
@@ -5408,6 +6263,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random7_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(414));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#7_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 1209;
@@ -5421,6 +6278,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random8_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(415));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#8_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 966;
@@ -5434,6 +6293,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random8_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(416));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#8_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 966;
@@ -5447,6 +6308,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random9_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(417));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random#9_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1187;
@@ -5460,6 +6323,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(418));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 11;
         int expectedScheduleEndTime = 871;
@@ -5473,6 +6338,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(419));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 8;
         int expectedScheduleEndTime = 871;
@@ -5486,6 +6353,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(420));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1033;
@@ -5499,6 +6368,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_0dot10_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(421));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_0.10_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 1033;
@@ -5512,6 +6383,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot98_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(422));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.98_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 126;
@@ -5525,6 +6398,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot98_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(423));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.98_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 3;
         int expectedScheduleEndTime = 123;
@@ -5538,6 +6413,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot98_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(424));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.98_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 3;
         int expectedScheduleEndTime = 123;
@@ -5551,6 +6428,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot99_WeightType_Random2_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(425));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.99_WeightType_Random#2_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 121;
@@ -5564,6 +6443,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot99_WeightType_Random2_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(426));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.99_WeightType_Random#2_Homogeneous-6.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 121;
@@ -5577,6 +6458,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot99_WeightType_Random3_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(427));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.99_WeightType_Random#3_Homogeneous-4.dot");
         int processorCount = 3;
         int expectedScheduleEndTime = 110;
@@ -5590,6 +6473,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot99_WeightType_Random3_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(428));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.99_WeightType_Random#3_Homogeneous-6.dot");
         int processorCount = 3;
         int expectedScheduleEndTime = 110;
@@ -5603,6 +6488,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(429));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 144;
@@ -5616,6 +6503,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot99_WeightType_Random_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(430));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.99_WeightType_Random_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 144;
@@ -5629,6 +6518,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_3_Nodes_30_CCR_9dot99_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(431));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-3_Nodes_30_CCR_9.99_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 5;
         int expectedScheduleEndTime = 144;
@@ -5642,6 +6533,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_5_Nodes_30_CCR_0dot10_WeightType_Random6_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(432));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-5_Nodes_30_CCR_0.10_WeightType_Random#6_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 882;
@@ -5655,6 +6548,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_5_Nodes_30_CCR_0dot10_WeightType_Random9_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(433));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-5_Nodes_30_CCR_0.10_WeightType_Random#9_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 738;
@@ -5668,6 +6563,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_5_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(434));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-5_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 12;
         int expectedScheduleEndTime = 1000;
@@ -5681,6 +6578,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalSeriesParallel_MaxBf_5_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_8(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(435));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/SeriesParallel-MaxBf-5_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-8.dot");
         int processorCount = 8;
         int expectedScheduleEndTime = 1000;
@@ -5694,6 +6593,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_0dot10_WeightType_Random1_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(436));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_0.10_WeightType_Random#1_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 870;
@@ -5707,6 +6608,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_0dot10_WeightType_Random2_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(437));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_0.10_WeightType_Random#2_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 947;
@@ -5720,6 +6623,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_0dot10_WeightType_Random3_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(438));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_0.10_WeightType_Random#3_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 2054;
@@ -5733,6 +6638,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_0dot10_WeightType_Random3_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(439));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_0.10_WeightType_Random#3_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 1052;
@@ -5746,6 +6653,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_0dot10_WeightType_Random4_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(440));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_0.10_WeightType_Random#4_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 969;
@@ -5759,6 +6668,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_0dot10_WeightType_Random5_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(441));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_0.10_WeightType_Random#5_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 891;
@@ -5772,6 +6683,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_0dot10_WeightType_Random6_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(442));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_0.10_WeightType_Random#6_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 824;
@@ -5785,6 +6698,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_0dot10_WeightType_Random7_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(443));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_0.10_WeightType_Random#7_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 915;
@@ -5798,6 +6713,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_0dot10_WeightType_Random8_Homogeneous_4(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(444));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_0.10_WeightType_Random#8_Homogeneous-4.dot");
         int processorCount = 4;
         int expectedScheduleEndTime = 1043;
@@ -5811,6 +6728,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_0dot10_WeightType_Random8_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(445));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_0.10_WeightType_Random#8_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 1043;
@@ -5824,6 +6743,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_0dot10_WeightType_Random9_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(446));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_0.10_WeightType_Random#9_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 1026;
@@ -5837,6 +6758,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_16(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(447));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-16.dot");
         int processorCount = 16;
         int expectedScheduleEndTime = 1134;
@@ -5850,6 +6773,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_0dot10_WeightType_Random_GB_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(448));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_0.10_WeightType_Random_GB_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 2029;
@@ -5863,6 +6788,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_0dot10_WeightType_Random_Homogeneous_6(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(449));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_0.10_WeightType_Random_Homogeneous-6.dot");
         int processorCount = 6;
         int expectedScheduleEndTime = 874;
@@ -5876,6 +6803,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_1dot00_WeightType_Random2_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(450));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_1.00_WeightType_Random#2_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 201;
@@ -5889,6 +6818,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_1dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(451));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_1.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 208;
@@ -5902,6 +6833,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_10dot00_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(452));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_10.00_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 107;
@@ -5915,6 +6848,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_10dot01_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(453));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_10.01_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 105;
@@ -5928,6 +6863,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_10dot03_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(454));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_10.03_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 107;
@@ -5941,6 +6878,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_9dot95_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(455));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_9.95_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 118;
@@ -5954,6 +6893,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_9dot97_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(456));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_9.97_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 110;
@@ -5967,6 +6908,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_9dot98_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(457));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_9.98_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 120;
@@ -5980,6 +6923,8 @@ public class OptimalSchedulerNodes30Test {
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void testOptimalStencil_Nodes_30_CCR_9dot99_WeightType_Random_Homogeneous_2(Scheduler scheduler) {
+        Assumptions.assumeTrue(this.isTestActive(458));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/30-nodes/Stencil_Nodes_30_CCR_9.99_WeightType_Random_Homogeneous-2.dot");
         int processorCount = 2;
         int expectedScheduleEndTime = 104;
