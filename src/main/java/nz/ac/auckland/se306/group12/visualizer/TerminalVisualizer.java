@@ -106,7 +106,7 @@ public class TerminalVisualizer implements Visualizer {
     // care of cancelling this future
     this.executor.scheduleAtFixedRate(this::visualize,
         0,
-        500,
+        250,
         TimeUnit.MILLISECONDS);
   }
 
@@ -118,6 +118,8 @@ public class TerminalVisualizer implements Visualizer {
    * wrapping done by the terminal will break comprehensibility of the Gantt chart.
    */
   private void visualize() {
+    sb.append("\033[H\033[2J"); // Erase display
+
     this.addDivider(); // Top border
     sb.append(NEW_LINE);
 
@@ -139,8 +141,8 @@ public class TerminalVisualizer implements Visualizer {
 
     sb.append(NEW_LINE);
     this.addDivider(); // Bottom border
+    sb.deleteCharAt(sb.length() - 1); // Trim trailing newline
 
-    eraseDisplay();
     System.out.println(sb);
 
     if (schedulerStatus == SchedulerStatus.SCHEDULED) {
