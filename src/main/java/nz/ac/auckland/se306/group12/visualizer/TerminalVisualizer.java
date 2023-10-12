@@ -102,7 +102,7 @@ public class TerminalVisualizer implements Visualizer {
     // care of cancelling this future
     this.executor.scheduleAtFixedRate(this::visualize,
         0,
-        200,
+        500,
         TimeUnit.MILLISECONDS);
     this.startTime = LocalDateTime.now();
   }
@@ -117,7 +117,6 @@ public class TerminalVisualizer implements Visualizer {
   private void visualize() {
     this.schedulerStatus = scheduler.getStatus();
     updateTerminalDimensions();
-    eraseDisplay();
 
     this.addDivider(); // Top border
     sb.append(NEW_LINE);
@@ -133,6 +132,7 @@ public class TerminalVisualizer implements Visualizer {
 
     this.addDivider(); // Bottom border
 
+    eraseDisplay();
     System.out.println(sb);
 
     if (schedulerStatus == SchedulerStatus.SCHEDULED) {
