@@ -136,6 +136,15 @@ public class AOSchedule {
     );
   }
 
+  /**
+   * Recursively propagate the new scheduled task's end time to all children nodes (graph-wise) and
+   * decendants (processor-wise)
+   *
+   * @param newScheduledTasks
+   * @param scheduledTask
+   * @param task
+   * @param newProcessorEndTimes
+   */
   private void propagate(ScheduledTask[] newScheduledTasks, ScheduledTask scheduledTask,
       Task task, int[] newProcessorEndTimes) {
     for (Edge outEdge : task.getOutgoingEdges()) {
@@ -233,6 +242,14 @@ public class AOSchedule {
 
   }
 
+  /**
+   * This method returns a set of locally ready tasks based on the processor of the current task
+   * being scheduled
+   *
+   * @param task              Current task being scheduled
+   * @param newScheduledTasks List of scheduled tasks representing the schedule at the next state
+   * @return Set of locally ready tasks
+   */
   private Set<Task> getNewReadyTasks(Task task, ScheduledTask[] newScheduledTasks) {
     Set<Task> newReadyTasks = new BitSet<Task>(this.readyTasks);
     newReadyTasks.remove(task);
@@ -247,6 +264,13 @@ public class AOSchedule {
     return newReadyTasks;
   }
 
+  /**
+   * Temporary implementation to convert AOSchedule to Schedule
+   * <p>
+   * Better would be to use the penguin thing and have AOSCheduler implement a schedule
+   * 
+   * @return Schedule representation of the AOSchedule
+   */
   public Schedule asSchedule() {
     return new Schedule(this.scheduledTasks, this.processorEndTimes, this.scheduledTaskCount,
         Arrays.stream(this.processorEndTimes).max().getAsInt(), this.readyTasks, taskGraph
