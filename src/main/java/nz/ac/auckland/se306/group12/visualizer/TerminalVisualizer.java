@@ -279,8 +279,8 @@ public class TerminalVisualizer implements Visualizer {
 
     // Graph name
     sb.append(new AnsiSgrSequenceBuilder().normalIntensity()
-            .foreground(52, 52, 52)
-            .background(190, 190, 190))
+            .background(AnsiColor.COLOR_CUBE_8_BIT[4][4][5]) // 189 lilac-ish
+            .foreground(AnsiColor.COLOR_CUBE_8_BIT[0][0][1])) // 18 blue-black
         .append(String.format(" %-"
                 + (terminalWidth - 16 - stopwatchLength)
                 + "."
@@ -325,8 +325,8 @@ public class TerminalVisualizer implements Visualizer {
    * Adds a solid horizontal line to the output.
    */
   private void addDivider() {
-    // Note: 8-bit fallback colour is `AnsiColor.EIGHT_BIT_COLOR_CUBE[2][0][5]`
-    sb.append(new AnsiSgrSequenceBuilder().foreground(125, 86, 243))
+    sb.append(new AnsiSgrSequenceBuilder()
+            .foreground(AnsiColor.COLOR_CUBE_8_BIT[1][1][5])) // 63 lavender-ish
         .append("─".repeat(terminalWidth))
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
