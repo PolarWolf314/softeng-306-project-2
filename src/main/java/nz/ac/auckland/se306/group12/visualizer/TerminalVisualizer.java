@@ -235,11 +235,12 @@ public class TerminalVisualizer implements Visualizer {
 
   /**
    * <pre>
-   * ┌──────────────────┬──────────────────────────────────────┬───────────────┐
-   * │ SCHEDULER STATUS │              GRAPH NAME              │   STOPWATCH   │
-   * │ width 14 (fixed) │         fill remaining space         │ min. width 11 │
-   * └──────────────────┴──────────────────────────────────────┴───────────────┘
+   * +------------------+--------------------------------------+---------------+
+   * | SCHEDULER STATUS |              GRAPH NAME              |   STOPWATCH   |
+   * | width 14 (fixed) |         fill remaining space         | min. width 11 |
+   * +------------------+--------------------------------------+---------------+
    * </pre>
+   * (Hideous ASCII characters because Windows can't handle box-drawing characters smh.)
    */
   private void drawStatusBar() {
     // Scheduler status
