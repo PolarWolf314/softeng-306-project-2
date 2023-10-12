@@ -233,41 +233,67 @@ public class TerminalVisualizer implements Visualizer {
     }
   }
 
+  /**
+   * <pre>
+   * ┌──────────────────┬─────────────────────────────────────┬────────────────┐
+   * │ SCHEDULER STATUS │             GRAPH NAME              │   STOPWATCH    │
+   * │ width 14 (fixed) │        fill remaining space         │ min. width 11  │
+   * └──────────────────┴─────────────────────────────────────┴────────────────┘
+   * </pre>
+   */
   private void drawStatusBar() {
+    // Scheduler status
     sb.append(new AnsiSgrSequenceBuilder().bold()
         .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][5][5]));
 
     switch (schedulerStatus) {
       case IDLE -> {
         sb.append(new AnsiSgrSequenceBuilder()
-                .background(AnsiColor.COLOR_CUBE_8_BIT[5][2][0])) // Orange
+                .background(AnsiColor.COLOR_CUBE_8_BIT[5][2][0])) // 208 orange
             .append(' ')
             .append(spinner.nextFrame());
       }
       case SCHEDULING -> {
         sb.append(new AnsiSgrSequenceBuilder()
-                .background(AnsiColor.COLOR_CUBE_8_BIT[5][1][2])) // Magenta
+                .background(AnsiColor.COLOR_CUBE_8_BIT[5][1][2])) // 204 magenta
             .append(' ')
             .append(spinner.nextFrame());
       }
       case SCHEDULED -> {
         sb.append(new AnsiSgrSequenceBuilder()
-                .background(AnsiColor.COLOR_CUBE_8_BIT[0][3][0])) // Green
+                .background(AnsiColor.COLOR_CUBE_8_BIT[0][3][0])) // 34 green
             .append(' ')
             .append(spinner.doneFrame());
       }
     }
 
-    sb.append(String.format(" %-10.10s ", schedulerStatus))
-        .append(new AnsiSgrSequenceBuilder().normalIntensity()
+    sb.append(String.format(" %-10.10s ", schedulerStatus));
+
+    // Prepare stopwatch label (so length is determined)
+    long elapsedSeconds = SECONDS.between(startTime, LocalDateTime.now());
+    String stopwatchLabel = elapsedSeconds < 60
+        ? String.format(" %7.7ss ", elapsedSeconds)
+        : String.format(" %2dm %2.2ss ", elapsedSeconds / 60, elapsedSeconds % 60);
+    int stopwatchLength = stopwatchLabel.length();
+
+    // Graph name
+    sb.append(new AnsiSgrSequenceBuilder().normalIntensity()
             .foreground(52, 52, 52)
             .background(190, 190, 190))
-        .append(String.format(" %-" + (terminalWidth - 23) + "." + (terminalWidth - 23) + "s ",
+        .append(String.format(" %-"
+                + (terminalWidth - 16 - stopwatchLength)
+                + "."
+                + (terminalWidth - 16 - stopwatchLength)
+                + "s ",
             taskGraph.getName()));
 
-    long elapsedTime = SECONDS.between(startTime, LocalDateTime.now());
-    sb.append(String.format(" %4.4s s", elapsedTime))
-        .append(AnsiSgrSequenceBuilder.RESET)
+    // Elapsed time (stopwatch)
+    sb.append(new AnsiSgrSequenceBuilder()
+            .background(AnsiColor.COLOR_CUBE_8_BIT[1][1][5]) // 63 lavender-ish
+            .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][5][5])) // 231 white
+        .append(stopwatchLabel);
+
+    sb.append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
   }
 
