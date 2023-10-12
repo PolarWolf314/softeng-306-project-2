@@ -1,7 +1,6 @@
 package nz.ac.auckland.se306.group12.models;
 
 import java.util.Arrays;
-import java.util.Queue;
 import java.util.Set;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -218,32 +217,6 @@ public class Schedule implements Comparable<Schedule> {
   private int estimateBottomLevelMakespan(ScheduledTask scheduledTask, Task task) {
     return scheduledTask.getEndTime() + task.getBottomLevel();
   }
-
-  /**
-   * This method adds all children of the current schedule to the stack
-   *
-   * @param queue Queue to add children to
-   */
-  public void extendSchedule(Queue<Schedule> queue, Set<String> closed) {
-    // Check to find if any tasks can be scheduled and schedule them
-    for (Task task : this.getReadyTasks()) {
-      int[] latestStartTimes = this.getLatestStartTimesOf(task);
-      for (int i = 0; i < latestStartTimes.length; i++) {
-        // Ensure that it either schedules by latest time or after the last task on the processor
-        int startTime = Math.max(latestStartTimes[i], this.getProcessorEndTimes()[i]);
-        int endTime = startTime + task.getWeight();
-        ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, i);
-        Schedule newSchedule = this.extendWithTask(newScheduledTask, task);
-        String stringHash = newSchedule.generateStringHash();
-
-        if (!closed.contains(stringHash)) {
-          queue.add(newSchedule);
-          closed.add(stringHash);
-        }
-      }
-    }
-  }
-
 
   /**
    * Compares this schedule with another schedule based on the estimated makespan of the schedule.
