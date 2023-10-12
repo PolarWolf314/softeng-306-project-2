@@ -200,7 +200,7 @@ public class TerminalVisualizer implements Visualizer {
       for (int activeTaskIndex : timeSlice) {
         if (activeTaskIndex == PROCESSOR_IDLE) {
           // Processor idling
-          sb.append(new AnsiSgrSequenceBuilder().background(7))
+          sb.append(new AnsiSgrSequenceBuilder().background(251)) // #c6c6c6 grey
               .append(columnSlice);
         } else {
           sb.append(new AnsiSgrSequenceBuilder().bold()
