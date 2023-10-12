@@ -6,7 +6,6 @@ public class BrailleSpinner implements AsciiSpinner {
   private static final String DONE = "✔";
   private int frameIndex = -1;
 
-
   @Override
   public String nextFrame() {
     frameIndex = (frameIndex + 1) % FRAMES.length;
