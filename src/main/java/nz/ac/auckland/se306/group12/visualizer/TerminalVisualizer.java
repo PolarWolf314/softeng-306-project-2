@@ -254,25 +254,17 @@ public class TerminalVisualizer implements Visualizer {
    * </pre>
    */
   private void drawLoadingGraphic() {
-    String format = "%" + (44 + (terminalWidth - 44) / 2) + "s";
+    String format = "%" + (44 + (terminalWidth - 44) / 2) + "s%n";
     //                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Centre alignment
-    //                     44 is the length of the `Loading...` word art defined below
+    //                     44 is the length of the `Loading...` word art
     sb.append(new AnsiSgrSequenceBuilder().faint())
-        .append(NEW_LINE)
         .append(String.format(format, " _                    _ _                   "))
-        .append(NEW_LINE)
         .append(String.format(format, "| |    ___   __ _  __| (_)_ __   __ _       "))
-        .append(NEW_LINE)
         .append(String.format(format, "| |   / _ \\ / _` |/ _` | | '_ \\ / _` |      "))
-        .append(NEW_LINE)
         .append(String.format(format, "| |__| (_) | (_| | (_| | | | | | (_| |_ _ _ "))
-        .append(NEW_LINE)
         .append(String.format(format, "|_____\\___/ \\__,_|\\__,_|_|_| |_|\\__, (_|_|_)"))
-        .append(NEW_LINE)
         .append(String.format(format, "                                |___/       "))
-        .append(NEW_LINE)
-        .append(AnsiSgrSequenceBuilder.RESET)
-        .append(NEW_LINE);
+        .append(AnsiSgrSequenceBuilder.RESET);
   }
 
   /**
