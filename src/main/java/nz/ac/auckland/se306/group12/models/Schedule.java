@@ -43,6 +43,15 @@ public class Schedule implements Comparable<Schedule> {
     this.estimatedMakespan = this.estimateIdleTimeMakespan(this.totalIdleTime);
   }
 
+  /**
+   * Generates a unique string that can be used to identify this schedule. This is used for the
+   * closed set to prune schedules that have already been visited without having to keep a reference
+   * to this instance (Allowing it to be garbage collected).
+   * <p>
+   * Note: This doesn't have to be cached as a field because it is only called once per schedule.
+   *
+   * @return The unique string representation of this schedule
+   */
   public String generateStringHash() {
     StringBuilder sb = new StringBuilder();
     for (ScheduledTask task : this.scheduledTasks) {
@@ -53,7 +62,14 @@ public class Schedule implements Comparable<Schedule> {
     return sb.toString();
   }
 
-  public int getLoopCount() {
+  /**
+   * Returns the number of processors that support having a task scheduled on it. If this returns n,
+   * then that means processors 0 to n-1 are available for scheduling. This enables processor
+   * normalization, which prevents permutations of the same schedule from being generated.
+   *
+   * @return The number of processors that support having a task scheduled on it
+   */
+  public int getAllocatableProcessors() {
     return this.getProcessorCount();
   }
 

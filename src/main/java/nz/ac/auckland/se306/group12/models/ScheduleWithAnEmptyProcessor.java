@@ -28,11 +28,20 @@ public class ScheduleWithAnEmptyProcessor extends Schedule {
     this.nonEmptyProcessorCount = nonEmptyProcessorCount;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
-  public int getLoopCount() {
+  public int getAllocatableProcessors() {
     return this.nonEmptyProcessorCount + 1;
   }
 
+  /**
+   * When all the processors have at least one task on it, it will return an {@link Schedule},
+   * otherwise it will continue to return a {@link ScheduleWithAnEmptyProcessor}.
+   *
+   * @inheritDoc
+   */
   @Override
   public Schedule extendWithTask(ScheduledTask scheduledTask, Task task) {
     int newNonEmptyProcessorCount = this.nonEmptyProcessorCount;
@@ -42,13 +51,14 @@ public class ScheduleWithAnEmptyProcessor extends Schedule {
       newNonEmptyProcessorCount++;
     }
 
-    // All the processors have a task on it. We no longer need to return a schedule with an empty processor
+    // All the processors have a task on it. We can now return a normal schedule
     if (newNonEmptyProcessorCount == this.getProcessorCount()) {
       return super.extendWithTask(scheduledTask, task);
     }
 
-    // Yes this is duplicate code, but idk how to get rid of it without create a new instance
-    // which defeats the point of creating this whole class (To save memory)
+    // Yes this is duplicate code, but IDK how to get rid of it without creating a new instance of
+    // schedule in the super class and then extracting the information from it to create a new
+    // instance of this class, which defeats the point of having this class (To save memory)
     ScheduledTask[] newScheduledTasks = Arrays.copyOf(this.scheduledTasks,
         this.scheduledTasks.length);
     int[] newProcessorEndTimes = Arrays.copyOf(this.processorEndTimes,
