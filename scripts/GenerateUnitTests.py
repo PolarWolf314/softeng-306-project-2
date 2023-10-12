@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 from GxlToDot import Graph, Node
 import sys
 import os
@@ -14,23 +14,39 @@ def get_test_filename(node_count: int) -> str:
     return f'OptimalSchedulerNodes{node_count}Test.java'
 
 
-def get_test_file_paths(graphs: List[Graph], output_path: str) -> List[str]:
+def get_test_file_paths_and_count(graphs: List[Graph], output_path: str) -> Dict[str, int]:
     """
-    Returns a list of all the file paths that will be used to write the Java unit tests to.
+    Returns a list of all the file paths that will be used to write the Java unit tests to and the number of 
+    tests in that file.
     """
-    unique_node_counts = set([len(graph.nodes) for graph in graphs])
-    return [os.path.join(output_path, get_test_filename(node_count)) for node_count in unique_node_counts]
+
+    file_paths_and_count = {}
+
+    for graph in graphs:
+        # Doing this for every graph is not efficient, but it's fine as we don't run this often
+        filename = get_test_filename(len(graph.nodes))
+        file_path = os.path.join(output_path, filename)
+
+        if (file_path not in file_paths_and_count):
+            file_paths_and_count[file_path] = 0
+        file_paths_and_count[file_path] += 1
+
+    return file_paths_and_count
 
 
-def create_test_file_headers(graphs: List[Graph], output_path: str) -> None:
+def create_test_file_headers(file_paths_and_count: Dict[str, int]) -> None:
     """
     Writes the boilerplate header for each of the Java unit test files. There will be one file for each unique
     number of nodes in the given graphs.
     """
-    for file_path in get_test_file_paths(graphs, output_path):
+
+    for file_path in file_paths_and_count:
+        test_count = file_paths_and_count[file_path]
         class_name = os.path.basename(file_path).split('.')[0]
         test_file_header = f"""package nz.ac.auckland.se306.group12.optimal;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import nz.ac.auckland.se306.group12.ScheduleValidator;
 import nz.ac.auckland.se306.group12.TestUtil;
@@ -38,6 +54,8 @@ import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.Timeout.ThreadMode;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -53,6 +71,29 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 @Timeout(value = 2, unit = TimeUnit.MINUTES, threadMode = ThreadMode.SEPARATE_THREAD)
 public class {class_name} {{
+
+    public static final int TOTAL_TESTS = {test_count};
+
+    // Change this to adjust how many tests are run
+    public static final int TEST_RUN_COUNT = 50;
+
+    private static Set<Number> tests_to_run;
+
+    /**
+   * Randomly select {{@link #TEST_RUN_COUNT}} tests to run.
+   */
+    @BeforeAll
+    public static void beforeAll() {{
+        int num_to_run = Math.min(TEST_RUN_COUNT, TOTAL_TESTS);
+        tests_to_run = new HashSet<>();
+        while (tests_to_run.size() < num_to_run) {{
+            tests_to_run.add((int) (Math.random() * TOTAL_TESTS));
+        }}
+    }}
+
+    public boolean isTestActive(int testIndex) {{
+        return tests_to_run.contains(testIndex);
+    }}
 """
         # Open file in write mode to overwrite any existing content
         with open(file_path, 'w') as f:
@@ -66,19 +107,27 @@ def create_unit_test_files(graphs: List[Graph], output_path: str) -> None:
     each unique number of nodes in the given graphs.
     """
 
-    create_test_file_headers(graphs, output_path)
+    file_paths_and_count = get_test_file_paths_and_count(graphs, output_path)
+    create_test_file_headers(file_paths_and_count)
+
+    test_indices = {}
 
     for graph in graphs:
         filename = os.path.join(output_path, get_test_filename(len(graph.nodes)))
+        if filename not in test_indices:
+            test_indices[filename] = 0
+        else: 
+            test_indices[filename] += 1
+        
         with open (filename, 'a') as f:
-            f.write(create_unit_test(graph))
+            f.write(create_unit_test(graph, test_indices[filename]))
 
-    for file_path in get_test_file_paths(graphs, output_path):
+    for file_path in file_paths_and_count:
         with open(file_path, 'a') as f:
             f.write('\n}\n')
 
 
-def create_unit_test(graph: Graph) -> str:
+def create_unit_test(graph: Graph, test_index: int) -> str:
     """
     Creates a string representing a single Java unit test for the given graph.
     """
@@ -88,6 +137,8 @@ def create_unit_test(graph: Graph) -> str:
     @ParameterizedTest
     @MethodSource("nz.ac.auckland.se306.group12.TestUtil#getOptimalSchedulers")
     void {method_name}(Scheduler scheduler) {{
+        Assumptions.assumeTrue(this.isTestActive({test_index}));
+
         Graph graph = TestUtil.loadGraph("./graphs/optimal/{len(graph.nodes)}-nodes/{graph.get_filename()}");
         int processorCount = {graph.processor_count};
         int expectedScheduleEndTime = {graph.optimal_schedule_end_time};
