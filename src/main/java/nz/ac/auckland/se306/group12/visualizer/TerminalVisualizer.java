@@ -201,7 +201,7 @@ public class TerminalVisualizer implements Visualizer {
     int[][] verticalGantt = scheduleToGantt(this.schedule);
 
     boolean[] taskRenderStarted = new boolean[this.schedule.getScheduledTaskCount()];
-    for (int time = 0; time < verticalGantt.length; time++) {
+    for (int time = 0, makespan = verticalGantt.length; time < makespan; time++) {
 
       // Slight abuse of term, this "time slice" always has duration 1
       int[] timeSlice = verticalGantt[time];
@@ -404,7 +404,7 @@ public class TerminalVisualizer implements Visualizer {
     ScheduledTask[] tasks = schedule.getScheduledTasks();
     for (int i = 0, taskCount = schedule.getScheduledTaskCount(); i < taskCount; i++) {
       ScheduledTask task = tasks[i];
-      for (int time = task.getStartTime(); time < task.getEndTime(); time++) {
+      for (int time = task.getStartTime(), end = task.getEndTime(); time < end; time++) {
         scheduleMatrix[time][task.getProcessorIndex()] = i;
       }
     }
