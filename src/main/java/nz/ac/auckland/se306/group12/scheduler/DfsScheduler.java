@@ -64,11 +64,21 @@ public class DfsScheduler implements Scheduler {
           int endTime = startTime + task.getWeight();
           ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, i);
           Schedule newSchedule = currentSchedule.extendWithTask(newScheduledTask, task);
+
+          // No need to add the schedule to the closed set at this point as if we find this schedule
+          // again it'll get pruned at this point again anyway, which saves memory.
+          if (newSchedule.getEstimatedMakespan() >= this.currentMinMakespan) {
+            this.prunedCount++;
+            continue;
+          }
+
           String stringHash = newSchedule.generateStringHash();
 
           if (!closed.contains(stringHash)) {
             queue.add(newSchedule);
             closed.add(stringHash);
+          } else {
+            this.prunedCount++;
           }
         }
       }

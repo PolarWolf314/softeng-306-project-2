@@ -60,6 +60,8 @@ public class AStarScheduler implements Scheduler {
           if (!closed.contains(stringHash)) {
             this.priorityQueue.add(newSchedule);
             closed.add(stringHash);
+          } else {
+            this.prunedCount++;
           }
         }
       }
