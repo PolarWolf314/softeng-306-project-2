@@ -61,19 +61,9 @@ public class TerminalVisualizer implements Visualizer {
    * The {@link Scheduler} whose progress to visualise.
    */
   private final Scheduler scheduler;
-  /**
-   * If the visualiser could run instantaneously, then this field would be redundant. However, if
-   * individual methods in this class each call {@link Scheduler#getStatus()} separately, then we
-   * may run into the scenario where the scheduler is {@link SchedulerStatus#SCHEDULING} at the
-   * start of a visualisation cycle, but has {@link SchedulerStatus#SCHEDULED} midway through the
-   * cycle. This results in a single visualisation "snapshot" apparently showing conflicting
-   * information, where part of the output says that the scheduler is running and another says that
-   * it has finished.
-   */
-  private SchedulerStatus schedulerStatus;
 
   /**
-   * Responsible for re-rendering the visualisation * on a regular basis, based on the
+   * Responsible for re-rendering the visualisation on a regular basis, based on the
    * {@link #scheduler}'s best-so-far schedule.
    */
   private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
@@ -86,6 +76,19 @@ public class TerminalVisualizer implements Visualizer {
    */
   private final StringBuilder sb = new StringBuilder(1000);
   private final AsciiSpinner spinner = new BrailleSpinner();
+
+  /**
+   * If the visualiser could run instantaneously, then this field would be redundant. However, if
+   * methods in this class independently access {@link #scheduler}, then they may receive different
+   * data. This results in a single visualisation "snapshot" showing internally inconsistnet
+   * information.
+   */
+  private SchedulerStatus schedulerStatus;
+  /**
+   * The schedule to be rendered graphically (or... terminally?). Kept as a field and updated with
+   * each visualisation cycle for the same reason as {@link #schedulerStatus}.
+   */
+  private Schedule currentSchedule;
 
   /**
    * Instantiates and <strong>immediately begins running</strong> a visualiser.
@@ -115,21 +118,26 @@ public class TerminalVisualizer implements Visualizer {
    * wrapping done by the terminal will break comprehensibility of the Gantt chart.
    */
   private void visualize() {
-    this.schedulerStatus = scheduler.getStatus();
-    updateTerminalDimensions();
-
     this.addDivider(); // Top border
     sb.append(NEW_LINE);
 
+    // Get latest data
+    this.schedulerStatus = scheduler.getStatus();
+    this.currentSchedule = scheduler.getBestSchedule();
+    this.updateTerminalDimensions();
+
     this.drawStatusBar();
     sb.append(NEW_LINE);
-
     this.drawStatistics();
     sb.append(NEW_LINE);
 
-    this.drawGanttChart(scheduler.getBestSchedule());
-    sb.append(NEW_LINE);
+    if (currentSchedule == null) {
+      this.drawLoadingGraphic();
+    } else {
+      this.drawGanttChart();
+    }
 
+    sb.append(NEW_LINE);
     this.addDivider(); // Bottom border
 
     eraseDisplay();
@@ -170,19 +178,20 @@ public class TerminalVisualizer implements Visualizer {
    * some in-band formatting using ANSI control sequences). The plaintext chart is then appended to
    * this visualiser's string builder to be drawing (printing) in
    * {@link TerminalVisualizer#visualize()}.
-   *
-   * @param schedule The schedule to be rendered graphically (or... terminally?).
    */
-  private void drawGanttChart(Schedule schedule) {
+  private void drawGanttChart() {
     // Clamp the width of each column to between 2ch and 15ch (excl. 1ch gap between columns)
     // +1 in the denominator to accommodate labels along the time axis
-    int columnWidth = Math.max(2, Math.min(terminalWidth / (schedule.getProcessorCount() + 1), 15));
+    int columnWidth = Math.max(2,
+        Math.min(terminalWidth / (this.currentSchedule.getProcessorCount() + 1), 15));
     String columnSlice = " ".repeat(columnWidth);
 
     int timeLabelWidth = Math.min(6, columnWidth);
 
     // Horizontal axis labels: processors
-    for (int processorIndex = 1; processorIndex <= schedule.getProcessorCount(); processorIndex++) {
+    for (int processorIndex = 1;
+        processorIndex <= this.currentSchedule.getProcessorCount();
+        processorIndex++) {
       sb.append(String.format("P%-" + columnWidth + "d", processorIndex));
     }
 
@@ -190,9 +199,9 @@ public class TerminalVisualizer implements Visualizer {
     sb.append(String.format("%" + (timeLabelWidth - 1) + "s", "time")).append(NEW_LINE);
 
     // Chart body
-    int[][] verticalGantt = this.scheduleToGantt(schedule);
+    int[][] verticalGantt = scheduleToGantt(this.currentSchedule);
 
-    boolean[] taskRenderStarted = new boolean[schedule.getScheduledTaskCount()];
+    boolean[] taskRenderStarted = new boolean[this.currentSchedule.getScheduledTaskCount()];
     for (int time = 0; time < verticalGantt.length; time++) {
 
       // Slight abuse of term, this "time slice" always has duration 1
@@ -231,6 +240,38 @@ public class TerminalVisualizer implements Visualizer {
 
       sb.append(NEW_LINE);
     }
+  }
+
+  /**
+   * <pre>
+   *  _                    _ _
+   * | |    ___   __ _  __| (_)_ __   __ _
+   * | |   / _ \ / _` |/ _` | | '_ \ / _` |
+   * | |__| (_) | (_| | (_| | | | | | (_| |_ _ _
+   * |_____\___/ \__,_|\__,_|_|_| |_|\__, (_|_|_)
+   *                                 |___/
+   * </pre>
+   */
+  private void drawLoadingGraphic() {
+    String format = "%" + (44 + (terminalWidth - 44) / 2) + "s";
+    //                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Centre alignment
+    //                     44 is the length of the `Loading...` word art defined below
+    sb.append(new AnsiSgrSequenceBuilder().faint())
+        .append(NEW_LINE)
+        .append(String.format(format, " _                    _ _                   "))
+        .append(NEW_LINE)
+        .append(String.format(format, "| |    ___   __ _  __| (_)_ __   __ _       "))
+        .append(NEW_LINE)
+        .append(String.format(format, "| |   / _ \\ / _` |/ _` | | '_ \\ / _` |      "))
+        .append(NEW_LINE)
+        .append(String.format(format, "| |__| (_) | (_| | (_| | | | | | (_| |_ _ _ "))
+        .append(NEW_LINE)
+        .append(String.format(format, "|_____\\___/ \\__,_|\\__,_|_|_| |_|\\__, (_|_|_)"))
+        .append(NEW_LINE)
+        .append(String.format(format, "                                |___/       "))
+        .append(NEW_LINE)
+        .append(AnsiSgrSequenceBuilder.RESET)
+        .append(NEW_LINE);
   }
 
   /**
@@ -337,8 +378,8 @@ public class TerminalVisualizer implements Visualizer {
    * <strong>vertical</strong> Gantt chart. Each column represents a processor, and each row
    * represents one unit time in the schedule. (Time advances <em>down</em> the columns.)
    * <p>
-   * The element in position (t, P) of the matrix is the index of the task that is active on
-   * processor P at time t.
+   * The element in position (<var>t</var>, <var>P</var>) of the matrix is the index of the task
+   * that is active on processor <var>P</var> at time <var>t</var>.
    * <p>
    * A negative value (such as {@code PROCESSOR_IDLE}) indicates that processor is idle at that
    * moment in the schedule. The behaviour when an element has a value greater than the index of any
@@ -349,7 +390,11 @@ public class TerminalVisualizer implements Visualizer {
    * @see Schedule
    * @see ScheduledTask
    */
-  private int[][] scheduleToGantt(Schedule schedule) {
+  private static int[][] scheduleToGantt(Schedule schedule) {
+    if (schedule == null) {
+      return new int[][]{};
+    }
+
     // Initialise Gantt matrix where all cores idle for the entire makespan
     int[][] scheduleMatrix = new int[schedule.getLatestEndTime()][schedule.getProcessorCount()];
     for (int[] row : scheduleMatrix) {
