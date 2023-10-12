@@ -3,10 +3,9 @@ package nz.ac.auckland.se306.group12;
 import nz.ac.auckland.se306.group12.io.DotGraphIO;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
-import nz.ac.auckland.se306.group12.scheduler.DfsScheduler;
+import nz.ac.auckland.se306.group12.scheduler.AStarScheduler;
 import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -24,7 +23,7 @@ class OptimalScheduleTest {
    * @return schedule output by the scheduler
    */
   private Schedule getOutputSchedule(Graph graph, int processorCount) {
-    Scheduler scheduler = new DfsScheduler();
+    Scheduler scheduler = new AStarScheduler();
     return scheduler.schedule(graph, processorCount);
   }
 
@@ -110,7 +109,6 @@ class OptimalScheduleTest {
   }
 
   @Test
-  @Disabled
   void Test4ProcNodes_11_OutTree() {
     Graph graph = TestUtil.loadGraph("./graphs/Nodes_11_OutTree.dot");
     Schedule schedule = this.getOutputSchedule(graph, 4);

@@ -1,7 +1,9 @@
 package nz.ac.auckland.se306.group12.scheduler;
 
+import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Set;
 import lombok.Getter;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
@@ -24,6 +26,7 @@ public class AStarScheduler implements Scheduler {
 
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
+    Set<String> closed = new HashSet<>();
     this.priorityQueue.clear();
     this.status = SchedulerStatus.SCHEDULING;
 
@@ -51,7 +54,13 @@ public class AStarScheduler implements Scheduler {
           int startTime = Math.max(latestStartTimes[i], currentSchedule.getProcessorEndTimes()[i]);
           int endTime = startTime + task.getWeight();
           ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, i);
-          this.priorityQueue.add(currentSchedule.extendWithTask(newScheduledTask, task));
+          Schedule newSchedule = currentSchedule.extendWithTask(newScheduledTask, task);
+          String stringHash = newSchedule.generateStringHash();
+
+          if (!closed.contains(stringHash)) {
+            this.priorityQueue.add(newSchedule);
+            closed.add(stringHash);
+          }
         }
       }
     }

@@ -2,8 +2,9 @@ package nz.ac.auckland.se306.group12.scheduler;
 
 import java.util.ArrayDeque;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Queue;
-
+import java.util.Set;
 import lombok.Getter;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
@@ -28,6 +29,7 @@ public class DfsScheduler implements Scheduler {
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
     this.status = SchedulerStatus.SCHEDULING;
+    Set<String> closed = new HashSet<>();
     Queue<Schedule> queue = Collections.asLifoQueue(new ArrayDeque<>());
 
     queue.add(new Schedule(taskGraph, processorCount));
@@ -51,7 +53,7 @@ public class DfsScheduler implements Scheduler {
         continue;
       }
 
-      currentSchedule.extendSchedule(queue);
+      currentSchedule.extendSchedule(queue, closed);
     }
 
     this.status = SchedulerStatus.SCHEDULED;

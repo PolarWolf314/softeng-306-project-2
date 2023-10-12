@@ -44,6 +44,16 @@ public class Schedule implements Comparable<Schedule> {
     this.estimatedMakespan = this.estimateIdleTimeMakespan(this.totalIdleTime);
   }
 
+  public String generateStringHash() {
+    StringBuilder sb = new StringBuilder();
+    for (ScheduledTask task : this.scheduledTasks) {
+      if (task != null) {
+        sb.append(task);
+      }
+    }
+    return sb.toString();
+  }
+
   /**
    * Returns a new schedule with the given task added to the end of the schedule
    *
@@ -214,7 +224,7 @@ public class Schedule implements Comparable<Schedule> {
    *
    * @param queue Queue to add children to
    */
-  public void extendSchedule(Queue<Schedule> queue) {
+  public void extendSchedule(Queue<Schedule> queue, Set<String> closed) {
     // Check to find if any tasks can be scheduled and schedule them
     for (Task task : this.getReadyTasks()) {
       int[] latestStartTimes = this.getLatestStartTimesOf(task);
@@ -223,7 +233,13 @@ public class Schedule implements Comparable<Schedule> {
         int startTime = Math.max(latestStartTimes[i], this.getProcessorEndTimes()[i]);
         int endTime = startTime + task.getWeight();
         ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, i);
-        queue.add(this.extendWithTask(newScheduledTask, task));
+        Schedule newSchedule = this.extendWithTask(newScheduledTask, task);
+        String stringHash = newSchedule.generateStringHash();
+
+        if (!closed.contains(stringHash)) {
+          queue.add(newSchedule);
+          closed.add(stringHash);
+        }
       }
     }
   }
@@ -266,4 +282,5 @@ public class Schedule implements Comparable<Schedule> {
   public int hashCode() {
     return Arrays.hashCode(this.scheduledTasks);
   }
+
 }
