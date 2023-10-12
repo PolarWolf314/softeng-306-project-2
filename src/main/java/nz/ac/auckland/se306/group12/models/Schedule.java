@@ -15,16 +15,17 @@ import nz.ac.auckland.se306.group12.models.datastructures.BitSet;
 @ToString
 public class Schedule implements Comparable<Schedule> {
 
-  private final ScheduledTask[] scheduledTasks;
-  private final int[] processorEndTimes;
-  private final int latestEndTime;
-  private final int scheduledTaskCount;
-  private final Set<Task> readyTasks;
+  protected final ScheduledTask[] scheduledTasks;
+  protected final int[] processorEndTimes;
+  protected final int latestEndTime;
+  protected final int scheduledTaskCount;
+  protected final Set<Task> readyTasks;
+  protected final int loopCount;
 
   // Estimation variables
-  private final int totalTaskWeights;
-  private final int estimatedMakespan;
-  private final int totalIdleTime;
+  protected final int totalTaskWeights;
+  protected final int estimatedMakespan;
+  protected final int totalIdleTime;
 
   /**
    * A constructor for creating a new schedule
@@ -38,6 +39,7 @@ public class Schedule implements Comparable<Schedule> {
     this.scheduledTaskCount = 0;
     this.latestEndTime = 0;
     this.readyTasks = taskGraph.getSourceTasks();
+    this.loopCount = 1;
     this.totalTaskWeights = taskGraph.getTotalTaskWeights();
     this.totalIdleTime = 0;
     this.estimatedMakespan = this.estimateIdleTimeMakespan(this.totalIdleTime);
@@ -52,6 +54,17 @@ public class Schedule implements Comparable<Schedule> {
     }
     return sb.toString();
   }
+
+//  public int getNonEmptyProcessorCount() {
+//    int nonEmptyProcessorCount = 0;
+//    for (int processorEndTime : this.processorEndTimes) {
+//      if (processorEndTime != 0) {
+//        nonEmptyProcessorCount++;
+//      }
+//    }
+//
+//    return nonEmptyProcessorCount;
+//  }
 
   /**
    * Returns a new schedule with the given task added to the end of the schedule
@@ -71,6 +84,13 @@ public class Schedule implements Comparable<Schedule> {
     int taskIdleTime = scheduledTask.getStartTime() - newProcessorEndTimes[processorIndex];
     newProcessorEndTimes[processorIndex] = scheduledTask.getEndTime();
 
+    int newLoopCount = this.loopCount;
+
+    // If the task is scheduled on an empty processor, increase the loop count
+    if (this.processorEndTimes[processorIndex] == 0) {
+      newLoopCount = Math.min(this.loopCount + 1, this.getProcessorCount());
+    }
+
     int newTotalIdleTime = this.totalIdleTime + taskIdleTime;
     int newLatestEndTime = Math.max(this.latestEndTime, scheduledTask.getEndTime());
     int newEstimatedMakespan = this.estimateNewMakespan(scheduledTask, task, newTotalIdleTime);
@@ -81,6 +101,7 @@ public class Schedule implements Comparable<Schedule> {
         newLatestEndTime,
         this.scheduledTaskCount + 1,
         this.getNewReadyTasks(task, newScheduledTasks),
+        newLoopCount,
         this.totalTaskWeights,
         newEstimatedMakespan,
         newTotalIdleTime
@@ -95,7 +116,7 @@ public class Schedule implements Comparable<Schedule> {
    * @param newScheduledTasks List of scheduled tasks representing the schedule at the next state
    * @return A {@link Set} containing the tasks that are ready to be scheduled
    */
-  private Set<Task> getNewReadyTasks(Task task, ScheduledTask[] newScheduledTasks) {
+  protected Set<Task> getNewReadyTasks(Task task, ScheduledTask[] newScheduledTasks) {
     Set<Task> newReadyTasks = new BitSet<>(this.readyTasks);
     newReadyTasks.remove(task);
     for (Edge outEdge : task.getOutgoingEdges()) {
@@ -180,7 +201,7 @@ public class Schedule implements Comparable<Schedule> {
    * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Sinnen,
    * Kozlov & Shahul: Optimal Scheduling of Task Graphs on Parallel Systems</a>, Section 3.1
    */
-  private int estimateNewMakespan(ScheduledTask scheduledTask, Task task, int newTotalIdleTime) {
+  protected int estimateNewMakespan(ScheduledTask scheduledTask, Task task, int newTotalIdleTime) {
     return Math.max(
         Math.max(this.estimatedMakespan, this.estimateIdleTimeMakespan(newTotalIdleTime)),
         this.estimateBottomLevelMakespan(scheduledTask, task));
