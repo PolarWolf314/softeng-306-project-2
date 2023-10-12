@@ -88,7 +88,7 @@ public class TerminalVisualizer implements Visualizer {
    * The schedule to be rendered graphically (or... terminally?). Kept as a field and updated with
    * each visualisation cycle for the same reason as {@link #schedulerStatus}.
    */
-  private Schedule currentSchedule;
+  private Schedule schedule;
 
   /**
    * Instantiates and <strong>immediately begins running</strong> a visualiser.
@@ -123,7 +123,7 @@ public class TerminalVisualizer implements Visualizer {
 
     // Get latest data
     this.schedulerStatus = scheduler.getStatus();
-    this.currentSchedule = scheduler.getBestSchedule();
+    this.schedule = scheduler.getBestSchedule();
     this.updateTerminalDimensions();
 
     this.drawStatusBar();
@@ -131,7 +131,7 @@ public class TerminalVisualizer implements Visualizer {
     this.drawStatistics();
     sb.append(NEW_LINE);
 
-    if (currentSchedule == null) {
+    if (schedule == null) {
       this.drawLoadingGraphic();
     } else {
       this.drawGanttChart();
@@ -183,13 +183,13 @@ public class TerminalVisualizer implements Visualizer {
     // Clamp the width of each column to between 2ch and 15ch (excl. 1ch gap between columns)
     // +1 in the denominator to accommodate labels along the time axis
     int columnWidth = Math.max(2,
-        Math.min(terminalWidth / (this.currentSchedule.getProcessorCount() + 1), 15));
+        Math.min(terminalWidth / (this.schedule.getProcessorCount() + 1), 15));
     String columnSlice = " ".repeat(columnWidth);
 
     int timeLabelWidth = Math.min(6, columnWidth);
 
     // Horizontal axis labels: processors
-    int processorCount = this.currentSchedule.getProcessorCount();
+    int processorCount = this.schedule.getProcessorCount();
     for (int processorIndex = 1; processorIndex <= processorCount; processorIndex++) {
       sb.append(String.format("P%-" + columnWidth + "d", processorIndex));
     }
@@ -198,9 +198,9 @@ public class TerminalVisualizer implements Visualizer {
     sb.append(String.format("%" + (timeLabelWidth - 1) + "s", "time")).append(NEW_LINE);
 
     // Chart body
-    int[][] verticalGantt = scheduleToGantt(this.currentSchedule);
+    int[][] verticalGantt = scheduleToGantt(this.schedule);
 
-    boolean[] taskRenderStarted = new boolean[this.currentSchedule.getScheduledTaskCount()];
+    boolean[] taskRenderStarted = new boolean[this.schedule.getScheduledTaskCount()];
     for (int time = 0; time < verticalGantt.length; time++) {
 
       // Slight abuse of term, this "time slice" always has duration 1
