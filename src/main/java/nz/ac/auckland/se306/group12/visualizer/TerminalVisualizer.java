@@ -235,10 +235,10 @@ public class TerminalVisualizer implements Visualizer {
 
   /**
    * <pre>
-   * ┌──────────────────┬─────────────────────────────────────┬────────────────┐
-   * │ SCHEDULER STATUS │             GRAPH NAME              │   STOPWATCH    │
-   * │ width 14 (fixed) │        fill remaining space         │ min. width 11  │
-   * └──────────────────┴─────────────────────────────────────┴────────────────┘
+   * ┌──────────────────┬──────────────────────────────────────┬───────────────┐
+   * │ SCHEDULER STATUS │              GRAPH NAME              │   STOPWATCH   │
+   * │ width 14 (fixed) │         fill remaining space         │ min. width 11 │
+   * └──────────────────┴──────────────────────────────────────┴───────────────┘
    * </pre>
    */
   private void drawStatusBar() {
@@ -376,6 +376,27 @@ public class TerminalVisualizer implements Visualizer {
    */
   private void eraseDisplay() {
     System.out.print("\033[H\033[2J");
+  }
+
+  /**
+   * Move cursor to upper left of the terminal window.
+   */
+  private void cursorToStart() {
+    System.out.print("\033[H");
+  }
+
+  /**
+   * Clears the terminal from the cursor position to the end of the window.
+   */
+  private void eraseToEnd() {
+    System.out.print("\033[J");
+  }
+
+  /**
+   * Clears the current line. Cursor position does not change.
+   */
+  private void eraseLine() {
+    System.out.print("\033[2K"); // Cursor to start
   }
 
 }
