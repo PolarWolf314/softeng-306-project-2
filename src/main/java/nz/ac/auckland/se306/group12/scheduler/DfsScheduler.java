@@ -73,7 +73,7 @@ public class DfsScheduler implements Scheduler {
             continue;
           }
 
-          String stringHash = newSchedule.generateStringHash();
+          String stringHash = newSchedule.generateUniqueString();
 
           if (closed.contains(stringHash)) {
             this.prunedCount++;

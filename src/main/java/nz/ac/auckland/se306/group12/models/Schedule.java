@@ -46,17 +46,23 @@ public class Schedule implements Comparable<Schedule> {
   /**
    * Generates a unique string that can be used to identify this schedule. This is used for the
    * closed set to prune schedules that have already been visited without having to keep a reference
-   * to this instance (Allowing it to be garbage collected).
+   * to this instance (Allowing it to be garbage collected). A scheduled task is uniquely identified
+   * by its taskIndex, startTime and processorIndex, hence all 3 need to be included in the string.
    * <p>
    * Note: This doesn't have to be cached as a field because it is only called once per schedule.
    *
    * @return The unique string representation of this schedule
    */
-  public String generateStringHash() {
+  public String generateUniqueString() {
     StringBuilder sb = new StringBuilder();
-    for (ScheduledTask task : this.scheduledTasks) {
-      if (task != null) {
-        sb.append(task);
+    for (int taskIndex = 0; taskIndex < this.scheduledTasks.length; taskIndex++) {
+      ScheduledTask scheduledTask = this.scheduledTasks[taskIndex];
+      if (scheduledTask != null) {
+        // Separate numbers with commas so that we don't accidentally create new numbers that
+        // collide with other schedules
+        sb.append(taskIndex).append(',')
+            .append(scheduledTask.getStartTime()).append(',')
+            .append(scheduledTask.getProcessorIndex()).append(';');
       }
     }
     return sb.toString();

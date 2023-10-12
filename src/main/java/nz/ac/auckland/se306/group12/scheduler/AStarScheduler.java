@@ -56,7 +56,7 @@ public class AStarScheduler implements Scheduler {
           int endTime = startTime + task.getWeight();
           ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, i);
           Schedule newSchedule = currentSchedule.extendWithTask(newScheduledTask, task);
-          String stringHash = newSchedule.generateStringHash();
+          String stringHash = newSchedule.generateUniqueString();
 
           if (closed.contains(stringHash)) {
             this.prunedCount++;
