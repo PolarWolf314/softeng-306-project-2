@@ -74,8 +74,6 @@ public class ScheduleWithAnEmptyProcessor extends Schedule {
         newEstimatedMakespan,
         newTotalIdleTime
     );
-
-
   }
 
 }
