@@ -8,6 +8,7 @@ import java.util.Set;
 import lombok.Getter;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
+import nz.ac.auckland.se306.group12.models.ScheduleWithAnEmptyProcessor;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
 import nz.ac.auckland.se306.group12.models.SchedulerStatus;
 import nz.ac.auckland.se306.group12.models.Task;
@@ -34,7 +35,7 @@ public class DfsScheduler implements Scheduler {
     Set<String> closed = new HashSet<>();
     Queue<Schedule> queue = Collections.asLifoQueue(new ArrayDeque<>());
 
-    queue.add(new Schedule(taskGraph, processorCount));
+    queue.add(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
 
     // DFS iteration (no optimisations)
     while (!queue.isEmpty()) {

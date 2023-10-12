@@ -20,7 +20,6 @@ public class Schedule implements Comparable<Schedule> {
   protected final int latestEndTime;
   protected final int scheduledTaskCount;
   protected final Set<Task> readyTasks;
-  protected final int loopCount;
 
   // Estimation variables
   protected final int totalTaskWeights;
@@ -39,7 +38,6 @@ public class Schedule implements Comparable<Schedule> {
     this.scheduledTaskCount = 0;
     this.latestEndTime = 0;
     this.readyTasks = taskGraph.getSourceTasks();
-    this.loopCount = 1;
     this.totalTaskWeights = taskGraph.getTotalTaskWeights();
     this.totalIdleTime = 0;
     this.estimatedMakespan = this.estimateIdleTimeMakespan(this.totalIdleTime);
@@ -55,16 +53,9 @@ public class Schedule implements Comparable<Schedule> {
     return sb.toString();
   }
 
-//  public int getNonEmptyProcessorCount() {
-//    int nonEmptyProcessorCount = 0;
-//    for (int processorEndTime : this.processorEndTimes) {
-//      if (processorEndTime != 0) {
-//        nonEmptyProcessorCount++;
-//      }
-//    }
-//
-//    return nonEmptyProcessorCount;
-//  }
+  public int getLoopCount() {
+    return this.getProcessorCount();
+  }
 
   /**
    * Returns a new schedule with the given task added to the end of the schedule
@@ -84,13 +75,6 @@ public class Schedule implements Comparable<Schedule> {
     int taskIdleTime = scheduledTask.getStartTime() - newProcessorEndTimes[processorIndex];
     newProcessorEndTimes[processorIndex] = scheduledTask.getEndTime();
 
-    int newLoopCount = this.loopCount;
-
-    // If the task is scheduled on an empty processor, increase the loop count
-    if (this.processorEndTimes[processorIndex] == 0) {
-      newLoopCount = Math.min(this.loopCount + 1, this.getProcessorCount());
-    }
-
     int newTotalIdleTime = this.totalIdleTime + taskIdleTime;
     int newLatestEndTime = Math.max(this.latestEndTime, scheduledTask.getEndTime());
     int newEstimatedMakespan = this.estimateNewMakespan(scheduledTask, task, newTotalIdleTime);
@@ -101,7 +85,6 @@ public class Schedule implements Comparable<Schedule> {
         newLatestEndTime,
         this.scheduledTaskCount + 1,
         this.getNewReadyTasks(task, newScheduledTasks),
-        newLoopCount,
         this.totalTaskWeights,
         newEstimatedMakespan,
         newTotalIdleTime
