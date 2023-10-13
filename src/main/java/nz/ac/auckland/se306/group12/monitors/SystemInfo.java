@@ -12,7 +12,7 @@ public class SystemInfo {
    *
    * @return CPU load as a double between 0 and 1
    */
-  public static double getCPULoad() {
+  public static double getCpuLoad() {
     return osBean.getCpuLoad();
   }
 
@@ -22,6 +22,26 @@ public class SystemInfo {
    * @return memory usage in KB
    */
   public static double getMemoryUsage() {
-    return (double) (Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory()) / 1024;
+    return getMaxMemory() - getFreeMemory();
   }
+
+  /**
+   * Get maximum memory available
+   *
+   * @return memory usage in KB
+   */
+  public static double getMaxMemory() {
+    return (double) Runtime.getRuntime().maxMemory() / 1024;
+  }
+
+  /**
+   * Get current available memory
+   *
+   * @return memory usage in KB
+   */
+  public static double getFreeMemory() {
+    return (double) Runtime.getRuntime().freeMemory() / 1024;
+  }
+
 }
+
