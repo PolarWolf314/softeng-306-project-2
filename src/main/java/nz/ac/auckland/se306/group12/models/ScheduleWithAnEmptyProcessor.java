@@ -1,6 +1,5 @@
 package nz.ac.auckland.se306.group12.models;
 
-import java.util.Arrays;
 import java.util.Set;
 
 public class ScheduleWithAnEmptyProcessor extends Schedule {
@@ -23,8 +22,8 @@ public class ScheduleWithAnEmptyProcessor extends Schedule {
       int estimatedMakespan,
       int totalIdleTime
   ) {
-    super(scheduledTasks, processorEndTimes, latestEndTime, scheduledTaskCount, readyTasks,
-        totalTaskWeights, estimatedMakespan, totalIdleTime);
+    super(scheduledTasks, processorEndTimes, latestEndTime, scheduledTaskCount,
+        readyTasks, totalTaskWeights, estimatedMakespan, totalIdleTime);
     this.nonEmptyProcessorCount = nonEmptyProcessorCount;
   }
 
@@ -43,47 +42,35 @@ public class ScheduleWithAnEmptyProcessor extends Schedule {
    * @inheritDoc
    */
   @Override
-  public Schedule extendWithTask(ScheduledTask scheduledTask, Task task) {
+  protected Schedule createInstance(
+      ScheduledTask[] newScheduledTasks, int[] newProcessorEndTimes, int newLatestEndTime,
+      Set<Task> newReadyTasks, int newEstimatedMakespan, int newTotalIdleTime
+  ) {
     int newNonEmptyProcessorCount = this.nonEmptyProcessorCount;
 
-    // If the task is scheduled on a new processor, increment the non-empty processor count
-    if (this.nonEmptyProcessorCount == scheduledTask.getProcessorIndex()) {
+    // If the task is scheduled on the empty processor, increment the non-empty processor count
+    if (newProcessorEndTimes[this.nonEmptyProcessorCount] != 0) {
       newNonEmptyProcessorCount++;
     }
 
     // All the processors have a task on it. We can now return a normal schedule
     if (newNonEmptyProcessorCount == this.getProcessorCount()) {
-      return super.extendWithTask(scheduledTask, task);
+      return super.createInstance(
+          newScheduledTasks, newProcessorEndTimes, newLatestEndTime,
+          newReadyTasks, newEstimatedMakespan, newTotalIdleTime
+      );
     }
-
-    // Yes this is duplicate code, but IDK how to get rid of it without creating a new instance of
-    // schedule in the super class and then extracting the information from it to create a new
-    // instance of this class, which defeats the point of having this class (To save memory)
-    ScheduledTask[] newScheduledTasks = Arrays.copyOf(this.scheduledTasks,
-        this.scheduledTasks.length);
-    int[] newProcessorEndTimes = Arrays.copyOf(this.processorEndTimes,
-        this.processorEndTimes.length);
-
-    newScheduledTasks[task.getIndex()] = scheduledTask;
-    int processorIndex = scheduledTask.getProcessorIndex();
-    int taskIdleTime = scheduledTask.getStartTime() - newProcessorEndTimes[processorIndex];
-    newProcessorEndTimes[processorIndex] = scheduledTask.getEndTime();
-
-    int newTotalIdleTime = this.totalIdleTime + taskIdleTime;
-    int newLatestEndTime = Math.max(this.latestEndTime, scheduledTask.getEndTime());
-    int newEstimatedMakespan = this.estimateNewMakespan(scheduledTask, task, newTotalIdleTime);
 
     return new ScheduleWithAnEmptyProcessor(
         newScheduledTasks,
         newProcessorEndTimes,
         newLatestEndTime,
         this.scheduledTaskCount + 1,
-        this.getNewReadyTasks(task, newScheduledTasks),
+        newReadyTasks,
         newNonEmptyProcessorCount,
         this.totalTaskWeights,
         newEstimatedMakespan,
         newTotalIdleTime
     );
   }
-
 }

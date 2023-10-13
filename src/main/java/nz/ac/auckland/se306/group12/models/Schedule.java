@@ -101,15 +101,23 @@ public class Schedule implements Comparable<Schedule> {
     int newLatestEndTime = Math.max(this.latestEndTime, scheduledTask.getEndTime());
     int newEstimatedMakespan = this.estimateNewMakespan(scheduledTask, task, newTotalIdleTime);
 
-    return new Schedule(
+    return this.createInstance(
         newScheduledTasks,
         newProcessorEndTimes,
         newLatestEndTime,
-        this.scheduledTaskCount + 1,
         this.getNewReadyTasks(task, newScheduledTasks),
-        this.totalTaskWeights,
         newEstimatedMakespan,
         newTotalIdleTime
+    );
+  }
+
+  protected Schedule createInstance(
+      ScheduledTask[] newScheduledTasks, int[] newProcessorEndTimes, int newLatestEndTime,
+      Set<Task> newReadyTasks, int newEstimatedMakespan, int newTotalIdleTime
+  ) {
+    return new Schedule(
+        newScheduledTasks, newProcessorEndTimes, newLatestEndTime, this.scheduledTaskCount + 1,
+        newReadyTasks, this.totalTaskWeights, newEstimatedMakespan, newTotalIdleTime
     );
   }
 
