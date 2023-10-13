@@ -42,5 +42,6 @@ public class SystemInfo {
   public static double getFreeMemory() {
     return (double) Runtime.getRuntime().freeMemory() / 1024;
   }
+
 }
 
