@@ -17,8 +17,6 @@ public class SchedulerFactory {
 
     switch (algorithm) {
       case "astar" -> {
-        System.out.println("A* Scheduler not implemented");
-        System.exit(1);
         return new AStarScheduler();
       }
       case "dfs" -> {
@@ -28,4 +26,5 @@ public class SchedulerFactory {
           "Invalid algorithm. " + algorithm + " is not a valid algorithm.");
     }
   }
+
 }
