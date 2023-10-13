@@ -1,6 +1,8 @@
 package nz.ac.auckland.se306.group12.models;
 
+import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.Queue;
 import java.util.Set;
 
@@ -75,7 +77,10 @@ public class AOSchedule {
       int startTime = Math.max(latestStartTime, getProcessorEndTimes()[this.localIndex]);
       int endTime = startTime + task.getWeight();
       ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, this.localIndex);
-      queue.add(extendWithTask(newScheduledTask, task));
+      AOSchedule newSchedule = extendWithTask(newScheduledTask, task);
+      if (newSchedule != null) {
+        queue.add(newSchedule);
+      }
     }
   }
 
@@ -105,7 +110,10 @@ public class AOSchedule {
       newNextTasks[this.previousTaskIndex] = task.getIndex();
     }
     int newPreviousTaskIndex = task.getIndex();
-    this.propagate(newScheduledTasks, scheduledTask, task, newProcessorEndTimes);
+    if (this.propagate(newScheduledTasks, scheduledTask, task, newProcessorEndTimes) == false) {
+      return null;
+    }
+
     int newLatestEndTime = Math.max(this.latestEndTime, Arrays.stream(newProcessorEndTimes).max()
         .getAsInt());
 
@@ -145,45 +153,62 @@ public class AOSchedule {
    * @param task
    * @param newProcessorEndTimes
    */
-  private void propagate(ScheduledTask[] newScheduledTasks, ScheduledTask scheduledTask,
+  private boolean propagate(ScheduledTask[] newScheduledTasks, ScheduledTask scheduledTask,
       Task task, int[] newProcessorEndTimes) {
-    for (Edge outEdge : task.getOutgoingEdges()) {
-      if (scheduledTask.getEndTime() > taskGraph.getTotalTaskWeights()) {
-        // could be replaced with an early return out of recursion somehow instead of this
-        return;
+    Deque<Task> stack = new ArrayDeque<>();
+    stack.push(task);
+    while (!stack.isEmpty()) {
+      Task parentTask = stack.pop();
+      ScheduledTask parentScheduledTask = newScheduledTasks[parentTask.getIndex()];
+      for (Edge outEdge : parentTask.getOutgoingEdges()) {
+        // don't continue if there is a invalid loop in the schedule
+        if (parentScheduledTask.getEndTime() > taskGraph.getTotalTaskWeights()) {
+          return false;
+        }
+        Task childTask = outEdge.getDestination();
+        ScheduledTask childScheduledTask = newScheduledTasks[childTask.getIndex()];
+        // don't propagate if the child schedule is not scheduled yet
+        if (childScheduledTask == null) {
+          continue;
+        }
+        // all child tasks that need to be propagated will be scheduled on a different processor
+        int newChildEstStartTime = parentScheduledTask.getEndTime() + outEdge.getWeight();
+
+        if (childScheduledTask.getStartTime() < newChildEstStartTime) {
+          childScheduledTask.setStartTime(newChildEstStartTime);
+          childScheduledTask.setEndTime(newChildEstStartTime + parentTask.getWeight());
+
+          // if the child task needs updating then update
+          if (childScheduledTask.getEndTime() > newProcessorEndTimes[childScheduledTask
+              .getProcessorIndex()]) {
+            newProcessorEndTimes[childScheduledTask.getProcessorIndex()] = childScheduledTask
+                .getEndTime();
+            // add the child task to the propagate stack
+            stack.add(childTask);
+          }
+        }
       }
-      Task child = outEdge.getDestination();
-      ScheduledTask childScheduledTask = newScheduledTasks[child.getIndex()];
-      if (childScheduledTask == null) {
-        continue;
-      }
-      // all child tasks that need to be propagated will be scheduled on a different processor
-      int newChildEstStartTime = scheduledTask.getEndTime() + outEdge.getWeight();
-      if (childScheduledTask.getStartTime() < newChildEstStartTime) {
-        childScheduledTask.setStartTime(newChildEstStartTime);
-        childScheduledTask.setEndTime(newChildEstStartTime + task.getWeight());
-        if (childScheduledTask.getEndTime() > newProcessorEndTimes[childScheduledTask
+      // propagate the decendant (this will be on the same processor)
+      int decendantIndex = nextTasks[parentTask.getIndex()];
+      // don't run this if the parent task does not have a decendant
+      if (decendantIndex != -1) {
+        Task decendantTask = taskGraph.getTask(decendantIndex);
+        ScheduledTask decendantScheduledTask = newScheduledTasks[decendantIndex];
+        // TODO: Diagnose null pointer error that occurs here
+        // This is due to the decendantScheduledTask not existing as a scheduled task which means that the nextTasks
+        // array is not performing as expected.
+        decendantScheduledTask.setStartTime(parentScheduledTask.getEndTime());
+        decendantScheduledTask.setEndTime(parentScheduledTask.getEndTime() + parentTask
+            .getWeight());
+        if (decendantScheduledTask.getEndTime() > newProcessorEndTimes[decendantScheduledTask
             .getProcessorIndex()]) {
-          newProcessorEndTimes[childScheduledTask.getProcessorIndex()] = childScheduledTask
+          newProcessorEndTimes[decendantScheduledTask.getProcessorIndex()] = decendantScheduledTask
               .getEndTime();
-          propagate(newScheduledTasks, childScheduledTask, child, newProcessorEndTimes);
+          stack.push(decendantTask);
         }
       }
     }
-    // propagate the decendant (this will be on the same processor)
-    int decendantIndex = nextTasks[task.getIndex()];
-    if (decendantIndex != -1) {
-      Task decendant = taskGraph.getTask(decendantIndex);
-      ScheduledTask decendantScheduledTask = newScheduledTasks[decendantIndex];
-      decendantScheduledTask.setStartTime(scheduledTask.getEndTime());
-      decendantScheduledTask.setEndTime(scheduledTask.getEndTime() + task.getWeight());
-      if (decendantScheduledTask.getEndTime() > newProcessorEndTimes[decendantScheduledTask
-          .getProcessorIndex()]) {
-        newProcessorEndTimes[decendantScheduledTask.getProcessorIndex()] = decendantScheduledTask
-            .getEndTime();
-        propagate(newScheduledTasks, decendantScheduledTask, decendant, newProcessorEndTimes);
-      }
-    }
+    return true;
   }
 
   /**
