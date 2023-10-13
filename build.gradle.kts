@@ -24,6 +24,8 @@ repositories {
 dependencies {
     implementation("net.sourceforge.argparse4j:argparse4j:0.9.0")
     implementation("com.paypal.digraph:digraph-parser:1.0")
+    implementation("io.micrometer:micrometer-core:1.11.5")
+    implementation("io.micrometer:micrometer-registry-prometheus:1.11.5")
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
