@@ -55,7 +55,8 @@ public class Schedule implements Comparable<Schedule> {
    */
   public String generateUniqueString() {
     StringBuilder sb = new StringBuilder();
-    for (int taskIndex = 0; taskIndex < this.scheduledTasks.length; taskIndex++) {
+    int taskCount = this.scheduledTasks.length;
+    for (int taskIndex = 0; taskIndex < taskCount; taskIndex++) {
       ScheduledTask scheduledTask = this.scheduledTasks[taskIndex];
       if (scheduledTask != null) {
         // Separate numbers with commas so that we don't accidentally create new numbers that
