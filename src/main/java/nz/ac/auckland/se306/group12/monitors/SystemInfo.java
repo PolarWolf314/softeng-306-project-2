@@ -24,4 +24,22 @@ public class SystemInfo {
   public static double getMemoryUsage() {
     return (double) (Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory()) / 1024;
   }
+
+  /**
+   * Get maximum memory available
+   *
+   * @return memory usage in KB
+   */
+  public static double getMaxMemory() {
+    return (double) Runtime.getRuntime().maxMemory() / 1024;
+  }
+
+  /**
+   * Get current available memory
+   *
+   * @return memory usage in KB
+   */
+  public static double getFreeMemory() {
+    return (double) Runtime.getRuntime().freeMemory() / 1024;
+  }
 }
