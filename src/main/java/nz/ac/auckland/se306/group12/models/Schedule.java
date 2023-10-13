@@ -16,16 +16,16 @@ import nz.ac.auckland.se306.group12.models.datastructures.BitSet;
 @ToString
 public class Schedule {
 
-  protected final ScheduledTask[] scheduledTasks;
-  protected final int[] processorEndTimes;
-  protected final int latestEndTime;
-  protected final int scheduledTaskCount;
-  protected final Set<Task> readyTasks;
+  private final ScheduledTask[] scheduledTasks;
+  private final int[] processorEndTimes;
+  private final int latestEndTime;
+  private final int scheduledTaskCount;
+  private final Set<Task> readyTasks;
 
   // Estimation variables
-  protected final int totalTaskWeights;
-  protected final int estimatedMakespan;
-  protected final int totalIdleTime;
+  private final int totalTaskWeights;
+  private final int estimatedMakespan;
+  private final int totalIdleTime;
 
   /**
    * A constructor for creating a new schedule
@@ -171,7 +171,7 @@ public class Schedule {
    * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Sinnen,
    *      Kozlov & Shahul: Optimal Scheduling of Task Graphs on Parallel Systems</a>, Section 3.1
    */
-  protected int estimateNewMakespan(ScheduledTask scheduledTask, Task task, int newTotalIdleTime) {
+  private int estimateNewMakespan(ScheduledTask scheduledTask, Task task, int newTotalIdleTime) {
     return Math.max(
         Math.max(this.estimatedMakespan, this.estimateIdleTimeMakespan(newTotalIdleTime)),
         this.estimateBottomLevelMakespan(scheduledTask, task));
@@ -190,7 +190,7 @@ public class Schedule {
    * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Sinnen,
    *      Kozlov & Shahul: Optimal Scheduling of Task Graphs on Parallel Systems</a>, Section 3.1
    */
-  protected int estimateIdleTimeMakespan(int newTotalIdleTime) {
+  private int estimateIdleTimeMakespan(int newTotalIdleTime) {
     return (newTotalIdleTime + this.totalTaskWeights) / this.getProcessorCount();
   }
 
@@ -205,7 +205,7 @@ public class Schedule {
    * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Sinnen,
    *      Kozlov & Shahul: Optimal Scheduling of Task Graphs on Parallel Systems</a>, Section 3.1
    */
-  protected int estimateBottomLevelMakespan(ScheduledTask scheduledTask, Task task) {
+  private int estimateBottomLevelMakespan(ScheduledTask scheduledTask, Task task) {
     return scheduledTask.getEndTime() + task.getBottomLevel();
   }
 
