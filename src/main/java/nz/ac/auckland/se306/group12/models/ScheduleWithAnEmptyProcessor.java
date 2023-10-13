@@ -6,11 +6,29 @@ public class ScheduleWithAnEmptyProcessor extends Schedule {
 
   private final int nonEmptyProcessorCount;
 
+  /**
+   * Creates a new {@link ScheduleWithAnEmptyProcessor} instance from the given task graph and
+   * processor count. The resulting schedule will be completely empty.
+   */
   public ScheduleWithAnEmptyProcessor(Graph graph, int processorCount) {
     super(graph, processorCount);
     this.nonEmptyProcessorCount = 0;
   }
 
+  /**
+   * Creates a new {@link ScheduleWithAnEmptyProcessor} instance with all the required instance
+   * fields.
+   *
+   * @param scheduledTasks         The tasks that have been scheduled so far
+   * @param processorEndTimes      The end times of each processor
+   * @param latestEndTime          The latest end time of any task in the schedule
+   * @param scheduledTaskCount     The number of tasks that have been scheduled so far
+   * @param readyTasks             The tasks that are ready to be scheduled
+   * @param nonEmptyProcessorCount The number of processors that have at least one task on it
+   * @param totalTaskWeights       The total weight of all the tasks in the task graph
+   * @param estimatedMakespan      The estimated makespan of the schedule
+   * @param totalIdleTime          The total idle time of the schedule
+   */
   public ScheduleWithAnEmptyProcessor(
       ScheduledTask[] scheduledTasks,
       int[] processorEndTimes,
@@ -28,6 +46,10 @@ public class ScheduleWithAnEmptyProcessor extends Schedule {
   }
 
   /**
+   * We always want to allow tasks to be allocated to all the processors that have at least one task
+   * on it, plus one of the empty processors. This ensures that we don't create schedules which are
+   * permutations of each other.
+   *
    * @inheritDoc
    */
   @Override
@@ -36,8 +58,8 @@ public class ScheduleWithAnEmptyProcessor extends Schedule {
   }
 
   /**
-   * When all the processors have at least one task on it, it will return an {@link Schedule},
-   * otherwise it will continue to return a {@link ScheduleWithAnEmptyProcessor}.
+   * When all the processors have at least one task on it, it will return a new {@link Schedule},
+   * otherwise it will return a new {@link ScheduleWithAnEmptyProcessor}.
    *
    * @inheritDoc
    */
@@ -73,4 +95,5 @@ public class ScheduleWithAnEmptyProcessor extends Schedule {
         newTotalIdleTime
     );
   }
+
 }

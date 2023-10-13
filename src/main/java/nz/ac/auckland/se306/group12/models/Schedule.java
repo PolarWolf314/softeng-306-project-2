@@ -111,6 +111,18 @@ public class Schedule implements Comparable<Schedule> {
     );
   }
 
+  /**
+   * A method for creating a new schedule instance. This has been separated out into a method
+   * despite only calling the constructor so that it can be overridden in subclasses.
+   *
+   * @param newScheduledTasks    The new scheduled tasks
+   * @param newProcessorEndTimes The new ends times for each processor
+   * @param newLatestEndTime     Thew new latest end time for the schedule
+   * @param newReadyTasks        The new tasks that are ready
+   * @param newEstimatedMakespan The new estimated makespan for the schedule
+   * @param newTotalIdleTime     The new total idle time of the schedule
+   * @return The created {@link Schedule} instance
+   */
   protected Schedule createInstance(
       ScheduledTask[] newScheduledTasks, int[] newProcessorEndTimes, int newLatestEndTime,
       Set<Task> newReadyTasks, int newEstimatedMakespan, int newTotalIdleTime
@@ -262,8 +274,6 @@ public class Schedule implements Comparable<Schedule> {
    */
   @Override
   public int compareTo(Schedule otherSchedule) {
-    // Take the negative of the comparison so that the schedule with the lowest estimated makespan
-    // has a higher priority
     return Integer.compare(this.estimatedMakespan, otherSchedule.estimatedMakespan);
   }
 

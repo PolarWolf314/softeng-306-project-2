@@ -20,11 +20,20 @@ public class AStarScheduler implements Scheduler {
   private SchedulerStatus status = SchedulerStatus.IDLE;
   private Queue<Schedule> priorityQueue = new PriorityQueue<>();
 
+  /**
+   * The current best schedule is the first schedule in the priority queue as it is ordered by
+   * lowest estimated makespan.
+   *
+   * @inheritDoc
+   */
   @Override
   public Schedule getBestSchedule() {
     return this.priorityQueue.peek();
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
     Set<String> closed = new HashSet<>();
@@ -33,7 +42,6 @@ public class AStarScheduler implements Scheduler {
 
     this.priorityQueue.add(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
 
-    // DFS iteration (no optimisations)
     while (!this.priorityQueue.isEmpty()) {
       Schedule currentSchedule = this.priorityQueue.peek();
       this.searchedCount++;
