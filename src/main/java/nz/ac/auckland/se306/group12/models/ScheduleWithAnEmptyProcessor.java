@@ -47,13 +47,13 @@ public class ScheduleWithAnEmptyProcessor extends Schedule {
 
   /**
    * We always want to allow tasks to be allocated to all the processors that have at least one task
-   * on it, plus one of the empty processors. This ensures that we don't create schedules which are
-   * permutations of each other.
+   * on it, plus one of the empty processors. This prevents creation of schedules which are simply
+   * processor permutations.
    *
    * @inheritDoc
    */
   @Override
-  public int getAllocatableProcessors() {
+  public int getAllocableProcessors() {
     return this.nonEmptyProcessorCount + 1;
   }
 
@@ -65,8 +65,12 @@ public class ScheduleWithAnEmptyProcessor extends Schedule {
    */
   @Override
   protected Schedule createInstance(
-      ScheduledTask[] newScheduledTasks, int[] newProcessorEndTimes, int newLatestEndTime,
-      Set<Task> newReadyTasks, int newEstimatedMakespan, int newTotalIdleTime
+      ScheduledTask[] newScheduledTasks,
+      int[] newProcessorEndTimes,
+      int newLatestEndTime,
+      Set<Task> newReadyTasks,
+      int newEstimatedMakespan,
+      int newTotalIdleTime
   ) {
     int newNonEmptyProcessorCount = this.nonEmptyProcessorCount;
 

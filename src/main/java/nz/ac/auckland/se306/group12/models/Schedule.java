@@ -46,7 +46,7 @@ public class Schedule implements Comparable<Schedule> {
   /**
    * Generates a unique string that can be used to identify this schedule. This is used for the
    * closed set to prune schedules that have already been visited without having to keep a reference
-   * to this instance (Allowing it to be garbage collected). A scheduled task is uniquely identified
+   * to this instance (allowing it to be garbage collected). A scheduled task is uniquely identified
    * by its taskIndex, startTime and processorIndex, hence all 3 need to be included in the string.
    * <p>
    * Note: This doesn't have to be cached as a field because it is only called once per schedule.
@@ -75,7 +75,7 @@ public class Schedule implements Comparable<Schedule> {
    *
    * @return The number of processors that support having a task scheduled on it
    */
-  public int getAllocatableProcessors() {
+  public int getAllocableProcessors() {
     return this.getProcessorCount();
   }
 
@@ -124,8 +124,12 @@ public class Schedule implements Comparable<Schedule> {
    * @return The created {@link Schedule} instance
    */
   protected Schedule createInstance(
-      ScheduledTask[] newScheduledTasks, int[] newProcessorEndTimes, int newLatestEndTime,
-      Set<Task> newReadyTasks, int newEstimatedMakespan, int newTotalIdleTime
+      ScheduledTask[] newScheduledTasks,
+      int[] newProcessorEndTimes,
+      int newLatestEndTime,
+      Set<Task> newReadyTasks,
+      int newEstimatedMakespan,
+      int newTotalIdleTime
   ) {
     return new Schedule(
         newScheduledTasks, newProcessorEndTimes, newLatestEndTime, this.scheduledTaskCount + 1,
