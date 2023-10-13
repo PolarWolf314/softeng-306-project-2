@@ -1,10 +1,23 @@
 package nz.ac.auckland.se306.group12.visualizer;
 
+import static java.time.temporal.ChronoUnit.SECONDS;
+
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import net.sourceforge.argparse4j.internal.TerminalWidth;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
+import nz.ac.auckland.se306.group12.models.SchedulerStatus;
+import nz.ac.auckland.se306.group12.scheduler.Scheduler;
+import nz.ac.auckland.se306.group12.visualizer.util.AnsiColor;
+import nz.ac.auckland.se306.group12.visualizer.util.AnsiSgrSequenceBuilder;
+import nz.ac.auckland.se306.group12.visualizer.util.AsciiSpinner;
+import nz.ac.auckland.se306.group12.visualizer.util.BrailleSpinner;
+import nz.ac.auckland.se306.group12.visualizer.util.TerminalHeight;
 
 /**
  * A class for visualising parallel schedules on systems with multiple homogenous processors in a
@@ -13,7 +26,6 @@ import nz.ac.auckland.se306.group12.models.ScheduledTask;
 public class TerminalVisualizer implements Visualizer {
 
   private static final String NEW_LINE = System.getProperty("line.separator");
-
   /**
    * Used to indicate processor idle time in the 2D matrix representing the Gantt chart of a
    * {@link Schedule}.
@@ -24,31 +36,78 @@ public class TerminalVisualizer implements Visualizer {
 
   /**
    * Used to detect the width (in characters) of the visualiser's output terminal window.
-   *
-   * @see #terminalWidth
    */
   private final TerminalWidth terminalWidthManager = new TerminalWidth();
-
+  /**
+   * Used to detect the height (in lines) of the visualiser's output terminal window.
+   */
+  private final TerminalHeight terminalHeightManager = new TerminalHeight();
   /**
    * Used to adapt the visualiser output to the terminal window width. If
    * {@link #terminalWidthManager} cannot detect the window width, the fallback value 80 is used.
    */
   private int terminalWidth = 80;
+  /**
+   * Used to adapt the visualiser output to the terminal window height. If
+   * {@link #terminalHeightManager} cannot detect the window height, the fallback value 24 is used.
+   */
+  private int terminalHeight = 24;
 
   /**
    * The task graph whose schedules (partial or complete) are to be visualised.
    */
   private final Graph taskGraph;
+  /**
+   * The {@link Scheduler} whose progress to visualise.
+   */
+  private final Scheduler scheduler;
+
+  /**
+   * Responsible for re-rendering the visualisation on a regular basis, based on the
+   * {@link #scheduler}'s best-so-far schedule.
+   */
+  private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+  private final LocalDateTime startTime;
 
   /**
    * This visualiser’s output is just a massive string. This is where the heavy lifting gets done.
-   * Initial capacity of 2000 is actually conservative, but already miles more appropriate than the
+   * Initial capacity of 1000 is actually conservative, but already miles more appropriate than the
    * default 16.
    */
-  private final StringBuilder sb = new StringBuilder(2000);
+  private final StringBuilder sb = new StringBuilder(1000);
+  private final AsciiSpinner spinner = new BrailleSpinner();
 
-  public TerminalVisualizer(Graph taskGraph) {
+  /**
+   * If the visualiser could run instantaneously, then this field would be redundant. However, if
+   * methods in this class independently access {@link #scheduler}, then they may receive different
+   * data. This results in a single visualisation "snapshot" showing internally inconsistnet
+   * information.
+   */
+  private SchedulerStatus schedulerStatus;
+  /**
+   * The schedule to be rendered graphically (or... terminally?). Kept as a field and updated with
+   * each visualisation cycle for the same reason as {@link #schedulerStatus}.
+   */
+  private Schedule schedule;
+
+  /**
+   * Instantiates and <strong>immediately begins running</strong> a visualiser.
+   *
+   * @param taskGraph The task graph whose schedules (partial and/or complete) are to be
+   *                  visualised.
+   * @param scheduler The {@link Scheduler} whose progress to visualise.
+   */
+  public TerminalVisualizer(Graph taskGraph, Scheduler scheduler) {
     this.taskGraph = taskGraph;
+    this.scheduler = scheduler;
+    this.startTime = LocalDateTime.now();
+
+    // No need to keep the returned ScheduledFuture; the ScheduledExecutorService shutdown takes
+    // care of cancelling this future
+    this.executor.scheduleAtFixedRate(this::visualize,
+        0,
+        250,
+        TimeUnit.MILLISECONDS);
   }
 
   /**
@@ -58,23 +117,42 @@ public class TerminalVisualizer implements Visualizer {
    * be detected). Nevertheless, at narrow widths (about 3 times the number of processors), any soft
    * wrapping done by the terminal will break comprehensibility of the Gantt chart.
    */
-  @Override
-  public void visualize(Schedule schedule) {
-    eraseDisplay();
-    updateTerminalWidth();
+  private void visualize() {
+    sb.append("\033[H\033[2J"); // Erase display
 
     this.addDivider(); // Top border
     sb.append(NEW_LINE);
 
-    this.populateStatusBar();
+    // Get latest data
+    this.schedulerStatus = scheduler.getStatus();
+    this.schedule = scheduler.getBestSchedule();
+    this.updateTerminalDimensions();
+
+    this.drawStatusBar();
+    sb.append(NEW_LINE);
+    this.drawStatistics();
     sb.append(NEW_LINE);
 
-    this.drawGanttChart(schedule);
-    sb.append(NEW_LINE);
+    if (schedule == null) {
+      this.drawLoadingGraphic();
+    } else {
+      this.drawGanttChart();
+    }
 
+    sb.append(NEW_LINE);
     this.addDivider(); // Bottom border
+    sb.deleteCharAt(sb.length() - 1); // Trim trailing newline
 
     System.out.println(sb);
+
+    if (schedulerStatus == SchedulerStatus.SCHEDULED) {
+      this.executor.shutdown();
+    }
+
+    // Clear the string builder
+    int len = sb.length();
+    sb.setLength(0);
+    sb.setLength(len);
   }
 
   /**
@@ -85,10 +163,15 @@ public class TerminalVisualizer implements Visualizer {
    * hit-or-miss. If the terminal width cannot be determined, the fallback (initial) value will be
    * used.
    */
-  private void updateTerminalWidth() {
+  private void updateTerminalDimensions() {
     int width = terminalWidthManager.getTerminalWidth();
     if (width > 0) {
-      terminalWidth = width - 2; // -2 for wiggle room
+      terminalWidth = width - 1; // -1 for wiggle room
+    }
+
+    int height = terminalHeightManager.getTerminalHeight();
+    if (height > 0) {
+      terminalHeight = height;
     }
   }
 
@@ -96,20 +179,20 @@ public class TerminalVisualizer implements Visualizer {
    * Takes a {@link Schedule}, and creates a Gantt Chart representation of it in plaintext (with
    * some in-band formatting using ANSI control sequences). The plaintext chart is then appended to
    * this visualiser's string builder to be drawing (printing) in
-   * {@link TerminalVisualizer#visualize(Schedule)}.
-   *
-   * @param schedule The schedule to be rendered graphically (or... terminally?).
+   * {@link TerminalVisualizer#visualize()}.
    */
-  private void drawGanttChart(Schedule schedule) {
+  private void drawGanttChart() {
     // Clamp the width of each column to between 2ch and 15ch (excl. 1ch gap between columns)
     // +1 in the denominator to accommodate labels along the time axis
-    int columnWidth = Math.max(2, Math.min(terminalWidth / (schedule.getProcessorCount() + 1), 15));
+    int columnWidth = Math.max(2,
+        Math.min(terminalWidth / (this.schedule.getProcessorCount() + 1), 15));
     String columnSlice = " ".repeat(columnWidth);
 
     int timeLabelWidth = Math.min(6, columnWidth);
 
     // Horizontal axis labels: processors
-    for (int processorIndex = 1; processorIndex <= schedule.getProcessorCount(); processorIndex++) {
+    int processorCount = this.schedule.getProcessorCount();
+    for (int processorIndex = 1; processorIndex <= processorCount; processorIndex++) {
       sb.append(String.format("P%-" + columnWidth + "d", processorIndex));
     }
 
@@ -117,21 +200,21 @@ public class TerminalVisualizer implements Visualizer {
     sb.append(String.format("%" + (timeLabelWidth - 1) + "s", "time")).append(NEW_LINE);
 
     // Chart body
-    int[][] verticalGantt = this.scheduleToGantt(schedule);
+    int[][] verticalGantt = scheduleToGantt(this.schedule);
 
-    boolean[] taskRenderStarted = new boolean[schedule.getScheduledTaskCount()];
-    for (int time = 0; time < verticalGantt.length; time++) {
+    boolean[] taskRenderStarted = new boolean[this.schedule.getScheduledTaskCount()];
+    for (int time = 0, makespan = verticalGantt.length; time < makespan; time++) {
 
       // Slight abuse of term, this "time slice" always has duration 1
       int[] timeSlice = verticalGantt[time];
       for (int activeTaskIndex : timeSlice) {
         if (activeTaskIndex == PROCESSOR_IDLE) {
           // Processor idling
-          sb.append(new AnsiSgrSequenceBuilder().background(7))
+          sb.append(new AnsiSgrSequenceBuilder().background(251)) // #c6c6c6 grey
               .append(columnSlice);
         } else {
           sb.append(new AnsiSgrSequenceBuilder().bold()
-                  .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][5][5])
+                  .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][5][5]) // White
                   .background(AnsiColor.COLOR_CUBE_8_BIT[activeTaskIndex % 6][0][4]))
               .append(taskRenderStarted[activeTaskIndex]
                   ? columnSlice
@@ -141,7 +224,7 @@ public class TerminalVisualizer implements Visualizer {
           taskRenderStarted[activeTaskIndex] = true;
         }
 
-        sb.append(new AnsiSgrSequenceBuilder().reset()).append(" "); // Padding between columns
+        sb.append(AnsiSgrSequenceBuilder.RESET).append(" "); // Padding between columns
       }
 
       sb.deleteCharAt(sb.length() - 1); // Trim trailing padding
@@ -153,25 +236,122 @@ public class TerminalVisualizer implements Visualizer {
           ? String.format("%s%" + timeLabelWidth + "d%s",
           new AnsiSgrSequenceBuilder().faint().underline(),
           time + 1,
-          new AnsiSgrSequenceBuilder().reset())
+          AnsiSgrSequenceBuilder.RESET)
           : columnSlice);
 
       sb.append(NEW_LINE);
     }
   }
 
-  private void populateStatusBar() {
+  /**
+   * <pre>
+   *  _                    _ _
+   * | |    ___   __ _  __| (_)_ __   __ _
+   * | |   / _ \ / _` |/ _` | | '_ \ / _` |
+   * | |__| (_) | (_| | (_| | | | | | (_| |_ _ _
+   * |_____\___/ \__,_|\__,_|_|_| |_|\__, (_|_|_)
+   *                                 |___/
+   * </pre>
+   */
+  private void drawLoadingGraphic() {
+    String format = "%" + (44 + (terminalWidth - 44) / 2) + "s%n";
+    //                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Centre alignment
+    //                     44 is the length of the `Loading...` word art
+    sb.append(new AnsiSgrSequenceBuilder().faint())
+        .append(String.format(format, " _                    _ _                   "))
+        .append(String.format(format, "| |    ___   __ _  __| (_)_ __   __ _       "))
+        .append(String.format(format, "| |   / _ \\ / _` |/ _` | | '_ \\ / _` |      "))
+        .append(String.format(format, "| |__| (_) | (_| | (_| | | | | | (_| |_ _ _ "))
+        .append(String.format(format, "|_____\\___/ \\__,_|\\__,_|_|_| |_|\\__, (_|_|_)"))
+        .append(String.format(format, "                                |___/       "))
+        .append(AnsiSgrSequenceBuilder.RESET);
+  }
+
+  /**
+   * <pre>
+   * +------------------+--------------------------------------+---------------+
+   * | SCHEDULER STATUS |              GRAPH NAME              |   STOPWATCH   |
+   * | width 14 (fixed) |         fill remaining space         | min. width 11 |
+   * +------------------+--------------------------------------+---------------+
+   * </pre>
+   * (Hideous ASCII characters because Windows can't handle box-drawing characters smh.)
+   */
+  private void drawStatusBar() {
+    // Scheduler status
     sb.append(new AnsiSgrSequenceBuilder().bold()
-            .foreground(255, 255, 255)
-            .background(255, 95, 135))
-        .append(
-            String.format("%-14.14s", " SCHEDULED ")) // TODO: Re-architect to support live-updating
-        .append(new AnsiSgrSequenceBuilder().normalIntensity()
-            .foreground(52, 52, 52)
-            .background(190, 190, 190))
-        .append(String.format(" %-" + (terminalWidth - 16) + "." + (terminalWidth - 16) + "s ",
-            taskGraph.getName()))
-        .append(new AnsiSgrSequenceBuilder().reset())
+        .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][5][5]));
+
+    switch (schedulerStatus) {
+      case IDLE -> {
+        sb.append(new AnsiSgrSequenceBuilder()
+                .background(AnsiColor.COLOR_CUBE_8_BIT[5][2][0])) // 208 orange
+            .append(' ')
+            .append(spinner.nextFrame());
+      }
+      case SCHEDULING -> {
+        sb.append(new AnsiSgrSequenceBuilder()
+                .background(AnsiColor.COLOR_CUBE_8_BIT[5][1][2])) // 204 magenta
+            .append(' ')
+            .append(spinner.nextFrame());
+      }
+      case SCHEDULED -> {
+        sb.append(new AnsiSgrSequenceBuilder()
+                .background(AnsiColor.COLOR_CUBE_8_BIT[0][3][0])) // 34 green
+            .append(' ')
+            .append(spinner.doneFrame());
+      }
+    }
+
+    sb.append(String.format(" %-10.10s ", schedulerStatus));
+
+    // Prepare stopwatch label (so length is determined)
+    long elapsedSeconds = SECONDS.between(startTime, LocalDateTime.now());
+    String stopwatchLabel = elapsedSeconds < 60
+        ? String.format(" %7.7ss ", elapsedSeconds)
+        : String.format(" %2dm %2.2ss ", elapsedSeconds / 60, elapsedSeconds % 60);
+    int stopwatchLength = stopwatchLabel.length();
+
+    // Graph name
+    sb.append(new AnsiSgrSequenceBuilder().normalIntensity()
+            .background(AnsiColor.COLOR_CUBE_8_BIT[4][4][5]) // 189 lilac-ish
+            .foreground(AnsiColor.COLOR_CUBE_8_BIT[0][0][1])) // 18 blue-black
+        .append(String.format(" %-"
+                + (terminalWidth - 16 - stopwatchLength)
+                + "."
+                + (terminalWidth - 16 - stopwatchLength)
+                + "s ",
+            taskGraph.getName()));
+
+    // Elapsed time (stopwatch)
+    sb.append(new AnsiSgrSequenceBuilder()
+            .background(AnsiColor.COLOR_CUBE_8_BIT[1][1][5]) // 63 lavender-ish
+            .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][5][5])) // 231 white
+        .append(stopwatchLabel);
+
+    sb.append(AnsiSgrSequenceBuilder.RESET)
+        .append(NEW_LINE);
+  }
+
+  private void drawStatistics() {
+    // Heading
+    sb.append("Possible schedules: ");
+
+    // Search count token
+    sb.append(new AnsiSgrSequenceBuilder()
+            .background(AnsiColor.COLOR_CUBE_8_BIT[3][4][5]) // 153 light blue
+            .foreground(AnsiColor.COLOR_CUBE_8_BIT[0][1][2])) // 23 dark blue
+        .append(String.format("  %,d searched  ", scheduler.getPrunedCount()))
+        .append(AnsiSgrSequenceBuilder.RESET);
+
+    // Padding
+    sb.append(' ');
+
+    // Prune count token
+    sb.append(new AnsiSgrSequenceBuilder()
+            .background(AnsiColor.COLOR_CUBE_8_BIT[5][4][1]) // 221 pale gold
+            .foreground(AnsiColor.COLOR_CUBE_8_BIT[2][1][0])) // 94 dark orange
+        .append(String.format("  %,d pruned  ", scheduler.getPrunedCount()))
+        .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
   }
 
@@ -179,10 +359,10 @@ public class TerminalVisualizer implements Visualizer {
    * Adds a solid horizontal line to the output.
    */
   private void addDivider() {
-    // Note: 8-bit fallback colour is `AnsiColor.EIGHT_BIT_COLOR_CUBE[2][0][5]`
-    sb.append(new AnsiSgrSequenceBuilder().foreground(125, 86, 243))
+    sb.append(new AnsiSgrSequenceBuilder()
+            .foreground(AnsiColor.COLOR_CUBE_8_BIT[1][1][5])) // 63 lavender-ish
         .append("─".repeat(terminalWidth))
-        .append(new AnsiSgrSequenceBuilder().reset())
+        .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
   }
 
@@ -191,8 +371,8 @@ public class TerminalVisualizer implements Visualizer {
    * <strong>vertical</strong> Gantt chart. Each column represents a processor, and each row
    * represents one unit time in the schedule. (Time advances <em>down</em> the columns.)
    * <p>
-   * The element in position (t, P) of the matrix is the index of the task that is active on
-   * processor P at time t.
+   * The element in position (<var>t</var>, <var>P</var>) of the matrix is the index of the task
+   * that is active on processor <var>P</var> at time <var>t</var>.
    * <p>
    * A negative value (such as {@code PROCESSOR_IDLE}) indicates that processor is idle at that
    * moment in the schedule. The behaviour when an element has a value greater than the index of any
@@ -203,7 +383,11 @@ public class TerminalVisualizer implements Visualizer {
    * @see Schedule
    * @see ScheduledTask
    */
-  private int[][] scheduleToGantt(Schedule schedule) {
+  private static int[][] scheduleToGantt(Schedule schedule) {
+    if (schedule == null) {
+      return new int[][]{};
+    }
+
     // Initialise Gantt matrix where all cores idle for the entire makespan
     int[][] scheduleMatrix = new int[schedule.getLatestEndTime()][schedule.getProcessorCount()];
     for (int[] row : scheduleMatrix) {
@@ -214,7 +398,7 @@ public class TerminalVisualizer implements Visualizer {
     ScheduledTask[] tasks = schedule.getScheduledTasks();
     for (int i = 0, taskCount = schedule.getScheduledTaskCount(); i < taskCount; i++) {
       ScheduledTask task = tasks[i];
-      for (int time = task.getStartTime(); time < task.getEndTime(); time++) {
+      for (int time = task.getStartTime(), end = task.getEndTime(); time < end; time++) {
         scheduleMatrix[time][task.getProcessorIndex()] = i;
       }
     }
@@ -223,10 +407,35 @@ public class TerminalVisualizer implements Visualizer {
   }
 
   /**
-   * Moves the cursor to upper left and clears the entire screen.
+   * Clears the entire terminal window. Equivalent to:
+   * <pre> {@code
+   *   cursorToStart();
+   *   eraseToEnd();
+   * }</pre>
    */
   private void eraseDisplay() {
     System.out.print("\033[H\033[2J");
+  }
+
+  /**
+   * Move cursor to upper left of the terminal window.
+   */
+  private void cursorToStart() {
+    System.out.print("\033[H");
+  }
+
+  /**
+   * Clears the terminal from the cursor position to the end of the window.
+   */
+  private void eraseToEnd() {
+    System.out.print("\033[J");
+  }
+
+  /**
+   * Clears the current line. Cursor position does not change.
+   */
+  private void eraseLine() {
+    System.out.print("\033[2K"); // Cursor to start
   }
 
 }

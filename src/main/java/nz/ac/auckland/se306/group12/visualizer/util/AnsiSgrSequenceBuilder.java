@@ -1,4 +1,4 @@
-package nz.ac.auckland.se306.group12.visualizer;
+package nz.ac.auckland.se306.group12.visualizer.util;
 
 import nz.ac.auckland.se306.group12.exceptions.InvalidColorException;
 
@@ -13,6 +13,8 @@ import nz.ac.auckland.se306.group12.exceptions.InvalidColorException;
  * object on which it was called (i.e. {@code this}), so calls may be chained.
  */
 public class AnsiSgrSequenceBuilder {
+
+  public static final String RESET = new AnsiSgrSequenceBuilder().toString();
 
   private static final String CONTROL_SEQUENCE_INTRODUCER = "\033[";
   private static final String CONTROL_SEQUENCE_DELIMITER = "m";

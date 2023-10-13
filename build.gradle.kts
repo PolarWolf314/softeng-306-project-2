@@ -50,6 +50,8 @@ tasks.test {
         exclude("**/optimal/**")
     }
 
+    jvmArgs = listOf("-Xmx4G")
+
     // Shows the tests results in the console
     testLogging {
         events("passed", "skipped", "failed")
