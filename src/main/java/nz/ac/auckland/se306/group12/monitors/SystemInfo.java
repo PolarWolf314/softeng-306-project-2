@@ -12,7 +12,7 @@ public class SystemInfo {
    *
    * @return CPU load as a double between 0 and 1
    */
-  public static double getCPULoad() {
+  public static double getCpuLoad() {
     return osBean.getCpuLoad();
   }
 
