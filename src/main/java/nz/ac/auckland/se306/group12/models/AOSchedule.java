@@ -199,10 +199,12 @@ public class AOSchedule {
       if (decendantIndex != -1) {
         Task decendantTask = taskGraph.getTask(decendantIndex);
         ScheduledTask decendantScheduledTask = newScheduledTasks[decendantIndex];
-        decendantScheduledTask.setStartTime(parentScheduledTask.getEndTime());
-        decendantScheduledTask.setEndTime(parentScheduledTask.getEndTime() + decendantTask
-            .getWeight());
-        stack.push(decendantTask);
+        if (decendantScheduledTask.getStartTime() < parentScheduledTask.getEndTime()) {
+          decendantScheduledTask.setStartTime(parentScheduledTask.getEndTime());
+          decendantScheduledTask.setEndTime(parentScheduledTask.getEndTime() + decendantTask
+              .getWeight());
+          stack.push(decendantTask);
+        }
       }
     }
     return true;
