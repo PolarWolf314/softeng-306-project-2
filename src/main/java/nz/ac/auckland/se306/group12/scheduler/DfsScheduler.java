@@ -1,15 +1,16 @@
 package nz.ac.auckland.se306.group12.scheduler;
 
-import java.util.ArrayDeque;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Queue;
+import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import lombok.Getter;
+import nz.ac.auckland.se306.group12.models.DfsWorker;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduleWithAnEmptyProcessor;
@@ -26,9 +27,10 @@ public class DfsScheduler implements Scheduler {
   @Getter
   private SchedulerStatus status = SchedulerStatus.IDLE;
   private Set<Thread> threads = ConcurrentHashMap.newKeySet();
-  private AtomicInteger threadCount = new AtomicInteger(1);
+  private AtomicInteger idleWorkers = new AtomicInteger(0);
+  private List<DfsWorker> workers = new ArrayList<>();
   private int syncThreshold = 4;
-  private int threadNum = 1;
+  private int workerNum = 1;
 
   @Override
   public long getSearchedCount() {
@@ -52,13 +54,27 @@ public class DfsScheduler implements Scheduler {
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
     this.status = SchedulerStatus.SCHEDULING;
-    this.threadNum = 1;
+    this.workerNum = 1;
 
     Set<String> closed = new HashSet<>();
-    Queue<Schedule> queue = Collections.asLifoQueue(new ArrayDeque<>());
-    queue.add(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
 
-    branchAndBound(taskGraph, queue, closed);
+    DfsWorker worker = new DfsWorker();
+    worker.give(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
+    workers.add(worker);
+
+    for (int i = 1; i < this.workerNum; i++) {
+      DfsWorker newWorker = new DfsWorker();
+      workers.add(newWorker);
+    }
+
+    for (int i = 0; i < this.workerNum; i++) {
+      DfsWorker currentWorker = workers.get(i);
+      Thread thread = new Thread(() -> {
+        branchAndBound(taskGraph, currentWorker, closed);
+      });
+      threads.add(thread);
+      thread.start();
+    }
 
     for (Thread thread : this.threads) {
       try {
@@ -77,56 +93,70 @@ public class DfsScheduler implements Scheduler {
    *
    * @param taskGraph graph to perform branch and bound on
    * @param queue     current queue of the branch and bound instance
+   * @return
    */
-  private void branchAndBound(Graph taskGraph, Queue<Schedule> queue,
+  private Schedule branchAndBound(Graph taskGraph, DfsWorker worker,
       Set<String> closed) {
     // DFS iteration (no optimisations)
     int syncCounter = 0;
     int localMinMakespan = this.currentMinMakespan.get();
+    while (this.idleWorkers.get() < this.workers.size()) {
+      while (!worker.getQueue().isEmpty()) {
+        Schedule currentSchedule = worker.steal();
+        syncCounter++;
 
-    while (!queue.isEmpty()) {
-      Schedule currentSchedule = queue.remove();
-      syncCounter++;
-
-      if (syncCounter == this.syncThreshold) {
-        localMinMakespan = this.currentMinMakespan.get();
-        syncCounter = 0;
-      }
-
-      // Prune if current schedule is worse than current best
-      if (currentSchedule.getEstimatedMakespan() >= localMinMakespan) {
-        this.prunedCount.incrementAndGet();
-        continue;
-      }
-
-      this.searchedCount.incrementAndGet();
-
-      // Check if current schedule is complete
-      if (currentSchedule.getScheduledTaskCount() == taskGraph.taskCount()) {
-        localMinMakespan = currentSchedule.getLatestEndTime();
-        if (localMinMakespan < this.currentMinMakespan.get()) {
-          this.currentMinMakespan = new AtomicInteger(localMinMakespan);
+        if (syncCounter == this.syncThreshold) {
+          localMinMakespan = this.currentMinMakespan.get();
+          syncCounter = 0;
         }
-        this.bestSchedule.set(currentSchedule);
-        continue;
-      }
 
-      // Check to find if any tasks can be scheduled and schedule them
-      for (Task task : currentSchedule.getReadyTasks()) {
-        int[] latestStartTimes = currentSchedule.getLatestStartTimesOf(task);
-        for (int i = 0; i < currentSchedule.getAllocableProcessors(); i++) {
-          Schedule newSchedule = scheduleNextTask(task, latestStartTimes[i],
-              currentSchedule.getProcessorEndTimes()[i], i, currentSchedule);
+        // Prune if current schedule is worse than current best
+        if (currentSchedule.getEstimatedMakespan() >= localMinMakespan) {
+          this.prunedCount.incrementAndGet();
+          continue;
+        }
 
-          if (scheduleIsPruned(newSchedule, localMinMakespan, closed)) {
-            continue;
+        this.searchedCount.incrementAndGet();
+
+        // Check if current schedule is complete
+        if (currentSchedule.getScheduledTaskCount() == taskGraph.taskCount()) {
+          localMinMakespan = currentSchedule.getLatestEndTime();
+          if (localMinMakespan < this.currentMinMakespan.get()) {
+            this.currentMinMakespan = new AtomicInteger(localMinMakespan);
           }
+          this.bestSchedule.set(currentSchedule);
+          continue;
+        }
 
-          queue.add(newSchedule);
+        // Check to find if any tasks can be scheduled and schedule them
+        for (Task task : currentSchedule.getReadyTasks()) {
+          int[] latestStartTimes = currentSchedule.getLatestStartTimesOf(task);
+          for (int i = 0; i < currentSchedule.getAllocableProcessors(); i++) {
+            Schedule newSchedule = scheduleNextTask(task, latestStartTimes[i],
+                currentSchedule.getProcessorEndTimes()[i], i, currentSchedule);
+
+            if (scheduleIsPruned(newSchedule, localMinMakespan, closed)) {
+              continue;
+            }
+
+            worker.give(newSchedule);
+          }
+        }
+
+        this.idleWorkers.incrementAndGet();
+
+        Random rand = new Random();
+        int randomInt = rand.nextInt(this.workerNum);
+
+        if (workers.get(randomInt).isHasWork()) {
+          worker.give(workers.get(randomInt).steal());
+          this.idleWorkers.decrementAndGet();
         }
       }
-    }
 
+
+    }
+    return this.bestSchedule.get();
   }
 
   private Schedule scheduleNextTask(Task task, int latestStartTime, int latestProcessorEndTime,
