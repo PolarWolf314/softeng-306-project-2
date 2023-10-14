@@ -24,7 +24,7 @@ public class ResourceMonitor {
    *
    * @return CPU load as a double between 0 and 1
    */
-  public static double getCpuLoad() {
+  public static double getSystemCpuLoad() {
     return osBean.getCpuLoad();
   }
 
