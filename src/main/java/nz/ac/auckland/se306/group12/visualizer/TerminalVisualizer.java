@@ -118,9 +118,8 @@ public class TerminalVisualizer implements Visualizer {
    * wrapping done by the terminal will break comprehensibility of the Gantt chart.
    */
   private void visualize() {
-    eraseDisplay();
-
-    this.addDivider(); // Top border
+    this.eraseDisplay();
+    this.drawHorizontalRule();
     sb.append(NEW_LINE);
 
     // Get latest data
@@ -140,7 +139,7 @@ public class TerminalVisualizer implements Visualizer {
     }
 
     sb.append(NEW_LINE);
-    this.addDivider(); // Bottom border
+    this.drawHorizontalRule();
     sb.deleteCharAt(sb.length() - 1); // Trim trailing newline
 
     System.out.println(sb);
@@ -381,7 +380,7 @@ public class TerminalVisualizer implements Visualizer {
   /**
    * Adds a solid horizontal line to the output.
    */
-  private void addDivider() {
+  private void drawHorizontalRule() {
     sb.append(new AnsiSgrSequenceBuilder()
             .foreground(AnsiColor.COLOR_CUBE_8_BIT[1][1][5])) // 63 lavender-ish
         .append("─".repeat(terminalWidth))
