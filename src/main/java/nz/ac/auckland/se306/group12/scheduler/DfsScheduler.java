@@ -148,9 +148,10 @@ public class DfsScheduler implements Scheduler {
       }
 
       for (DfsWorker dfsWorker : workers) {
-        if (dfsWorker.isHasWork()) {
+        if (dfsWorker.isHasWork() && dfsWorker != worker) {
           worker.give(dfsWorker.steal());
           this.idleWorkers.decrementAndGet();
+          break;
         }
       }
 
