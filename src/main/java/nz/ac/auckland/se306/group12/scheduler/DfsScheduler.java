@@ -2,7 +2,6 @@ package nz.ac.auckland.se306.group12.scheduler;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -148,12 +147,11 @@ public class DfsScheduler implements Scheduler {
         }
       }
 
-      Random rand = new Random();
-      int randomInt = rand.nextInt(this.workerNum);
-
-      if (workers.get(randomInt).isHasWork()) {
-        worker.give(workers.get(randomInt).steal());
-        this.idleWorkers.decrementAndGet();
+      for (DfsWorker dfsWorker : workers) {
+        if (dfsWorker.isHasWork()) {
+          worker.give(dfsWorker.steal());
+          this.idleWorkers.decrementAndGet();
+        }
       }
 
     }
