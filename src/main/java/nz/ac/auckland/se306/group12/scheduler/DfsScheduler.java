@@ -1,7 +1,6 @@
 package nz.ac.auckland.se306.group12.scheduler;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -28,6 +27,7 @@ public class DfsScheduler implements Scheduler {
   private SchedulerStatus status = SchedulerStatus.IDLE;
   private Set<Thread> threads = ConcurrentHashMap.newKeySet();
   private AtomicInteger idleWorkers = new AtomicInteger(0);
+  private Set<String> closed = ConcurrentHashMap.newKeySet();
   private List<DfsWorker> workers = new ArrayList<>();
   private int syncThreshold = 4;
   private int workerNum = 1;
@@ -54,9 +54,7 @@ public class DfsScheduler implements Scheduler {
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
     this.status = SchedulerStatus.SCHEDULING;
-    this.workerNum = 1;
-
-    Set<String> closed = new HashSet<>();
+    this.workerNum = 16;
 
     DfsWorker worker = new DfsWorker();
     worker.give(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
@@ -67,10 +65,12 @@ public class DfsScheduler implements Scheduler {
       workers.add(newWorker);
     }
 
-    for (int i = 0; i < this.workerNum; i++) {
+    Schedule schedule = branchAndBound(taskGraph, worker);
+
+    for (int i = 1; i < this.workerNum; i++) {
       DfsWorker currentWorker = workers.get(i);
       Thread thread = new Thread(() -> {
-        branchAndBound(taskGraph, currentWorker, closed);
+        branchAndBound(taskGraph, currentWorker);
       });
       threads.add(thread);
       thread.start();
@@ -85,7 +85,7 @@ public class DfsScheduler implements Scheduler {
     }
 
     this.status = SchedulerStatus.SCHEDULED;
-    return this.bestSchedule.get();
+    return schedule;
   }
 
   /**
@@ -95,13 +95,16 @@ public class DfsScheduler implements Scheduler {
    * @param queue     current queue of the branch and bound instance
    * @return
    */
-  private Schedule branchAndBound(Graph taskGraph, DfsWorker worker,
-      Set<String> closed) {
+  private Schedule branchAndBound(Graph taskGraph, DfsWorker worker) {
     // DFS iteration (no optimisations)
     int syncCounter = 0;
     int localMinMakespan = this.currentMinMakespan.get();
     while (this.idleWorkers.get() < this.workers.size()) {
-      while (!worker.getQueue().isEmpty()) {
+      while (true) {
+        if (worker.getQueue().isEmpty()) {
+          this.idleWorkers.incrementAndGet();
+          break;
+        }
         Schedule currentSchedule = worker.steal();
         syncCounter++;
 
@@ -135,25 +138,22 @@ public class DfsScheduler implements Scheduler {
             Schedule newSchedule = scheduleNextTask(task, latestStartTimes[i],
                 currentSchedule.getProcessorEndTimes()[i], i, currentSchedule);
 
-            if (scheduleIsPruned(newSchedule, localMinMakespan, closed)) {
+            if (scheduleIsPruned(newSchedule, localMinMakespan)) {
               continue;
             }
 
             worker.give(newSchedule);
           }
         }
-
-        this.idleWorkers.incrementAndGet();
-
-        Random rand = new Random();
-        int randomInt = rand.nextInt(this.workerNum);
-
-        if (workers.get(randomInt).isHasWork()) {
-          worker.give(workers.get(randomInt).steal());
-          this.idleWorkers.decrementAndGet();
-        }
       }
 
+      Random rand = new Random();
+      int randomInt = rand.nextInt(this.workerNum);
+
+      if (workers.get(randomInt).isHasWork()) {
+        worker.give(workers.get(randomInt).steal());
+        this.idleWorkers.decrementAndGet();
+      }
 
     }
     return this.bestSchedule.get();
@@ -168,7 +168,7 @@ public class DfsScheduler implements Scheduler {
     return currentSchedule.extendWithTask(newScheduledTask, task);
   }
 
-  private Boolean scheduleIsPruned(Schedule schedule, int localMinMakespan, Set<String> closed) {
+  private Boolean scheduleIsPruned(Schedule schedule, int localMinMakespan) {
     if (schedule.getEstimatedMakespan() >= localMinMakespan) {
       this.prunedCount.incrementAndGet();
       return true;
@@ -178,12 +178,12 @@ public class DfsScheduler implements Scheduler {
 
     // No need to add the schedule to the closed set at this point as if we find this schedule
     // again it'll get pruned at this point again anyway, which saves memory.
-    if (closed.contains(stringHash)) {
+    if (this.closed.contains(stringHash)) {
       this.prunedCount.incrementAndGet();
       return true;
     }
 
-    closed.add(stringHash);
+    this.closed.add(stringHash);
     return false;
   }
 
