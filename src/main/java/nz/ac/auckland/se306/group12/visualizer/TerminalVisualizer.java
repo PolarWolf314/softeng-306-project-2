@@ -118,7 +118,7 @@ public class TerminalVisualizer implements Visualizer {
    * wrapping done by the terminal will break comprehensibility of the Gantt chart.
    */
   private void visualize() {
-    sb.append("\033[H\033[2J"); // Erase display
+    eraseDisplay();
 
     this.addDivider(); // Top border
     sb.append(NEW_LINE);
@@ -175,73 +175,6 @@ public class TerminalVisualizer implements Visualizer {
     }
   }
 
-  /**
-   * Takes a {@link Schedule}, and creates a Gantt Chart representation of it in plaintext (with
-   * some in-band formatting using ANSI control sequences). The plaintext chart is then appended to
-   * this visualiser's string builder to be drawing (printing) in
-   * {@link TerminalVisualizer#visualize()}.
-   */
-  private void drawGanttChart() {
-    // Clamp the width of each column to between 2ch and 15ch (excl. 1ch gap between columns)
-    // +1 in the denominator to accommodate labels along the time axis
-    int columnWidth = Math.max(2,
-        Math.min(terminalWidth / (this.schedule.getProcessorCount() + 1), 15));
-    String columnSlice = " ".repeat(columnWidth);
-
-    int timeLabelWidth = Math.min(6, columnWidth);
-
-    // Horizontal axis labels: processors
-    int processorCount = this.schedule.getProcessorCount();
-    for (int processorIndex = 1; processorIndex <= processorCount; processorIndex++) {
-      sb.append(String.format("P%-" + columnWidth + "d", processorIndex));
-    }
-
-    // Horizontal axis label: time
-    sb.append(String.format("%" + (timeLabelWidth - 1) + "s", "time")).append(NEW_LINE);
-
-    // Chart body
-    int[][] verticalGantt = scheduleToGantt(this.schedule);
-
-    boolean[] taskRenderStarted = new boolean[this.schedule.getScheduledTaskCount()];
-    for (int time = 0, makespan = verticalGantt.length; time < makespan; time++) {
-
-      // Slight abuse of term, this "time slice" always has duration 1
-      int[] timeSlice = verticalGantt[time];
-      for (int activeTaskIndex : timeSlice) {
-        if (activeTaskIndex == PROCESSOR_IDLE) {
-          // Processor idling
-          sb.append(new AnsiSgrSequenceBuilder().background(251)) // #c6c6c6 grey
-              .append(columnSlice);
-        } else {
-          sb.append(new AnsiSgrSequenceBuilder().bold()
-                  .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][5][5]) // White
-                  .background(AnsiColor.COLOR_CUBE_8_BIT[activeTaskIndex % 6][0][4]))
-              .append(taskRenderStarted[activeTaskIndex]
-                  ? columnSlice
-                  : String.format(" %-" + (columnWidth - 2) + "." + (columnWidth - 2) + "s ",
-                      taskGraph.getTask(activeTaskIndex).getLabel()));
-
-          taskRenderStarted[activeTaskIndex] = true;
-        }
-
-        sb.append(AnsiSgrSequenceBuilder.RESET).append(" "); // Padding between columns
-      }
-
-      sb.deleteCharAt(sb.length() - 1); // Trim trailing padding
-
-      // Vertical axis label: time
-      // Not enforcing maximum length in case of long makespans (this may cause text wrap issues in
-      // narrow terminals)
-      sb.append(time % 5 == 4
-          ? String.format("%s%" + timeLabelWidth + "d%s",
-          new AnsiSgrSequenceBuilder().faint().underline(),
-          time + 1,
-          AnsiSgrSequenceBuilder.RESET)
-          : columnSlice);
-
-      sb.append(NEW_LINE);
-    }
-  }
 
   /**
    * <pre>
@@ -332,6 +265,74 @@ public class TerminalVisualizer implements Visualizer {
         .append(NEW_LINE);
   }
 
+  /**
+   * Takes a {@link Schedule}, and creates a Gantt Chart representation of it in plaintext (with
+   * some in-band formatting using ANSI control sequences). The plaintext chart is then appended to
+   * this visualiser's string builder to be drawing (printing) in
+   * {@link TerminalVisualizer#visualize()}.
+   */
+  private void drawGanttChart() {
+    // Clamp the width of each column to between 2ch and 15ch (excl. 1ch gap between columns)
+    // +1 in the denominator to accommodate labels along the time axis
+    int columnWidth = Math.max(2,
+        Math.min(terminalWidth / (this.schedule.getProcessorCount() + 1), 15));
+    String columnSlice = " ".repeat(columnWidth);
+
+    int timeLabelWidth = Math.min(6, columnWidth);
+
+    // Horizontal axis labels: processors
+    int processorCount = this.schedule.getProcessorCount();
+    for (int processorIndex = 1; processorIndex <= processorCount; processorIndex++) {
+      sb.append(String.format("P%-" + columnWidth + "d", processorIndex));
+    }
+
+    // Horizontal axis label: time
+    sb.append(String.format("%" + (timeLabelWidth - 1) + "s", "time")).append(NEW_LINE);
+
+    // Chart body
+    int[][] verticalGantt = scheduleToGantt(this.schedule);
+
+    boolean[] taskRenderStarted = new boolean[this.schedule.getScheduledTaskCount()];
+    for (int time = 0, makespan = verticalGantt.length; time < makespan; time++) {
+
+      // Slight abuse of term, this "time slice" always has duration 1
+      int[] timeSlice = verticalGantt[time];
+      for (int activeTaskIndex : timeSlice) {
+        if (activeTaskIndex == PROCESSOR_IDLE) {
+          // Processor idling
+          sb.append(new AnsiSgrSequenceBuilder().background(251)) // #c6c6c6 grey
+              .append(columnSlice);
+        } else {
+          sb.append(new AnsiSgrSequenceBuilder().bold()
+                  .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][5][5]) // White
+                  .background(AnsiColor.COLOR_CUBE_8_BIT[activeTaskIndex % 6][0][4]))
+              .append(taskRenderStarted[activeTaskIndex]
+                  ? columnSlice
+                  : String.format(" %-" + (columnWidth - 2) + "." + (columnWidth - 2) + "s ",
+                      taskGraph.getTask(activeTaskIndex).getLabel()));
+
+          taskRenderStarted[activeTaskIndex] = true;
+        }
+
+        sb.append(AnsiSgrSequenceBuilder.RESET).append(" "); // Padding between columns
+      }
+
+      sb.deleteCharAt(sb.length() - 1); // Trim trailing padding
+
+      // Vertical axis label: time
+      // Not enforcing maximum length in case of long makespans (this may cause text wrap issues in
+      // narrow terminals)
+      sb.append(time % 5 == 4
+          ? String.format("%s%" + timeLabelWidth + "d%s",
+          new AnsiSgrSequenceBuilder().faint().underline(),
+          time + 1,
+          AnsiSgrSequenceBuilder.RESET)
+          : columnSlice);
+
+      sb.append(NEW_LINE);
+    }
+  }
+
   private void drawStatistics() {
     // Determine lengths (widths) of each chip
     final String searchCountChip = String.format("  %,d searched  ", scheduler.getSearchedCount());
@@ -389,6 +390,14 @@ public class TerminalVisualizer implements Visualizer {
   }
 
   /**
+   * Appends in-band instruction (ANSI CSI sequence) to erase the display. Moves the cursor to the
+   * upper left of the terminal and erases the entire window.
+   */
+  private void eraseDisplay() {
+    sb.append("\033[H\033[2J");
+  }
+
+  /**
    * "Flattens" a {@link Schedule} into a 2D matrix which may be interpreted as a
    * <strong>vertical</strong> Gantt chart. Each column represents a processor, and each row
    * represents one unit time in the schedule. (Time advances <em>down</em> the columns.)
@@ -426,38 +435,6 @@ public class TerminalVisualizer implements Visualizer {
     }
 
     return scheduleMatrix;
-  }
-
-  /**
-   * Clears the entire terminal window. Equivalent to:
-   * <pre> {@code
-   *   cursorToStart();
-   *   eraseToEnd();
-   * }</pre>
-   */
-  private void eraseDisplay() {
-    System.out.print("\033[H\033[2J");
-  }
-
-  /**
-   * Move cursor to upper left of the terminal window.
-   */
-  private void cursorToStart() {
-    System.out.print("\033[H");
-  }
-
-  /**
-   * Clears the terminal from the cursor position to the end of the window.
-   */
-  private void eraseToEnd() {
-    System.out.print("\033[J");
-  }
-
-  /**
-   * Clears the current line. Cursor position does not change.
-   */
-  private void eraseLine() {
-    System.out.print("\033[2K"); // Cursor to start
   }
 
 }
