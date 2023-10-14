@@ -106,7 +106,7 @@ public class TerminalVisualizer implements Visualizer {
     // care of cancelling this future
     this.executor.scheduleAtFixedRate(this::visualize,
         0,
-        250,
+        200,
         TimeUnit.MILLISECONDS);
   }
 
