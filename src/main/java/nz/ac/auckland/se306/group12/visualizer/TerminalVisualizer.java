@@ -61,6 +61,11 @@ public class TerminalVisualizer implements Visualizer {
    * The {@link Scheduler} whose progress to visualise.
    */
   private final Scheduler scheduler;
+  /**
+   * The number of threads the {@link #scheduler} is using to run its algorithm. (<strong>Distinct
+   * from</strong> the number of processors for which it is scheduling tasks.)
+   */
+  private final int executionProcessorCount;
 
   /**
    * Responsible for re-rendering the visualisation on a regular basis, based on the
