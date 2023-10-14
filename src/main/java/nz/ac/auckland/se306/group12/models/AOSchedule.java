@@ -214,7 +214,7 @@ public class AOSchedule {
         // This is due to the decendantScheduledTask not existing as a scheduled task which means that the nextTasks
         // array is not performing as expected.
         decendantScheduledTask.setStartTime(parentScheduledTask.getEndTime());
-        decendantScheduledTask.setEndTime(parentScheduledTask.getEndTime() + parentTask
+        decendantScheduledTask.setEndTime(parentScheduledTask.getEndTime() + decendantTask
             .getWeight());
         stack.push(decendantTask);
         if (decendantScheduledTask.getEndTime() > newProcessorEndTimes[decendantScheduledTask
