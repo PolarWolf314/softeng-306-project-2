@@ -20,7 +20,7 @@ public class ResourceMonitor {
   }
 
   /**
-   * Get current CPU load
+   * Gets the current CPU load of the entire system
    *
    * @return CPU load as a double between 0 and 1
    */
