@@ -184,7 +184,7 @@ public class TerminalVisualizer implements Visualizer {
    * </pre>
    */
   private void drawLoadingGraphic() {
-    String format = "%" + (44 + (terminalWidth - 44) / 2) + "s%n";
+    final String format = "%" + (44 + (terminalWidth - 44) / 2) + "s%n";
     //                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Centre alignment
     //                     44 is the length of the `Loading...` word art
     sb.append(new AnsiSgrSequenceBuilder().faint())
