@@ -110,7 +110,7 @@ public class AOSchedule {
       newNextTasks[this.previousTaskIndex] = task.getIndex();
     }
     int newPreviousTaskIndex = task.getIndex();
-    if (this.propagate(newScheduledTasks, scheduledTask, task, newProcessorEndTimes) == false) {
+    if (this.propagate(newScheduledTasks, task, newProcessorEndTimes) == false) {
       return null;
     }
 
@@ -159,12 +159,11 @@ public class AOSchedule {
    * decendants (processor-wise)
    *
    * @param newScheduledTasks
-   * @param scheduledTask
    * @param task
    * @param newProcessorEndTimes
    */
-  private boolean propagate(ScheduledTask[] newScheduledTasks, ScheduledTask scheduledTask,
-      Task task, int[] newProcessorEndTimes) {
+  private boolean propagate(ScheduledTask[] newScheduledTasks, Task task,
+      int[] newProcessorEndTimes) {
     Deque<Task> stack = new ArrayDeque<>();
     stack.push(task);
     while (!stack.isEmpty()) {
