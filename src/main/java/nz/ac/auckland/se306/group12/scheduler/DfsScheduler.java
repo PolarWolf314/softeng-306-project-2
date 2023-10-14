@@ -28,7 +28,7 @@ public class DfsScheduler implements Scheduler {
   private AtomicInteger idleWorkers = new AtomicInteger(0);
   private Set<String> closed = ConcurrentHashMap.newKeySet();
   private List<DfsWorker> workers = new ArrayList<>();
-  private int syncThreshold = 64;
+  private int syncThreshold = 1024;
   private int workerNum = 1;
 
   @Override
@@ -53,7 +53,7 @@ public class DfsScheduler implements Scheduler {
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
     this.status = SchedulerStatus.SCHEDULING;
-    this.workerNum = 16;
+    this.workerNum = 8;
 
     DfsWorker worker = new DfsWorker();
     worker.give(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
@@ -134,7 +134,9 @@ public class DfsScheduler implements Scheduler {
         // Check to find if any tasks can be scheduled and schedule them
         for (Task task : currentSchedule.getReadyTasks()) {
           int[] latestStartTimes = currentSchedule.getLatestStartTimesOf(task);
-          for (int i = 0; i < currentSchedule.getAllocableProcessorCount(); i++) {
+          int allocableCount = currentSchedule.getAllocableProcessorCount();
+
+          for (int i = 0; i < allocableCount; i++) {
             Schedule newSchedule = scheduleNextTask(task, latestStartTimes[i],
                 currentSchedule.getProcessorEndTimes()[i], i, currentSchedule);
 
@@ -163,7 +165,8 @@ public class DfsScheduler implements Scheduler {
    * Schedules the next task on a processor, taking into account its dependencies and constraints.
    *
    * @param task                   The task to be scheduled.
-   * @param latestStartTime        The latest allowable start time for the task.
+   * @param latestStartTime        The latest allowable start time for the task to be allocated on
+   *                               the processor.
    * @param latestProcessorEndTime The latest end time of the last task on the processor.
    * @param processorIndex         The index of the processor where the task is scheduled.
    * @param currentSchedule        The current schedule to be extended with the new task.
@@ -185,7 +188,7 @@ public class DfsScheduler implements Scheduler {
    *
    * @param schedule         The schedule to be checked for pruning.
    * @param localMinMakespan The local minimum makespan, used as a pruning threshold.
-   * @return true if the schedule should be pruned, false otherwise.
+   * @return true if the schedule should was pruned, false otherwise.
    */
   private boolean scheduleIsPruned(Schedule schedule, int localMinMakespan) {
     if (schedule.getEstimatedMakespan() >= localMinMakespan) {
