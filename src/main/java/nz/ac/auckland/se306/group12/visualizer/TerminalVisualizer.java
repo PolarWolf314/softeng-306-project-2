@@ -130,13 +130,13 @@ public class TerminalVisualizer implements Visualizer {
 
     this.drawStatusBar();
     sb.append(NEW_LINE);
-    this.drawStatistics();
-    sb.append(NEW_LINE);
 
     if (schedule == null) {
       this.drawLoadingGraphic();
     } else {
       this.drawGanttChart();
+      sb.append(NEW_LINE);
+      this.drawStatistics();
     }
 
     sb.append(NEW_LINE);
@@ -333,26 +333,48 @@ public class TerminalVisualizer implements Visualizer {
   }
 
   private void drawStatistics() {
-    // Heading
-    sb.append("Possible schedules: ");
+    // Determine lengths (widths) of each chip
+    final String searchCountChip = String.format("  %,d searched  ", scheduler.getSearchedCount());
+    final String pruneCountChip = String.format("  %,d pruned  ", scheduler.getPrunedCount());
+    final String makespanChip = String.format("  %,d  ", schedule.getLatestEndTime());
 
-    // Search count token
+    sb.append("Schedules "); // Length 10
+
+    // Search count chip
     sb.append(new AnsiSgrSequenceBuilder()
             .background(AnsiColor.COLOR_CUBE_8_BIT[3][4][5]) // 153 light blue
             .foreground(AnsiColor.COLOR_CUBE_8_BIT[0][1][2])) // 23 dark blue
-        .append(String.format("  %,d searched  ", scheduler.getPrunedCount()))
+        .append(searchCountChip)
         .append(AnsiSgrSequenceBuilder.RESET);
 
     // Padding
-    sb.append(' ');
+    sb.append(' '); // Length 1
 
-    // Prune count token
+    // Prune count chip
     sb.append(new AnsiSgrSequenceBuilder()
             .background(AnsiColor.COLOR_CUBE_8_BIT[5][4][1]) // 221 pale gold
             .foreground(AnsiColor.COLOR_CUBE_8_BIT[2][1][0])) // 94 dark orange
-        .append(String.format("  %,d pruned  ", scheduler.getPrunedCount()))
-        .append(AnsiSgrSequenceBuilder.RESET)
-        .append(NEW_LINE);
+        .append(pruneCountChip)
+        .append(AnsiSgrSequenceBuilder.RESET);
+
+    // Padding - fill space between schedule chips and makespan chip
+    // Note: Not using String.format() here for right-alignment because formatting control sequences
+    //       make string lengths unpredictable
+    sb.append(" ".repeat(terminalWidth - 20
+        - searchCountChip.length()
+        - pruneCountChip.length()
+        - makespanChip.length()));
+
+    // Makespan chip
+    sb.append(new AnsiSgrSequenceBuilder().bold())
+        .append("Makespan ") // Length 9
+        .append(new AnsiSgrSequenceBuilder()
+            .background(238) // #444 grey
+            .foreground(255)) // #eee grey
+        .append(makespanChip)
+        .append(AnsiSgrSequenceBuilder.RESET);
+
+    sb.append(NEW_LINE);
   }
 
   /**
