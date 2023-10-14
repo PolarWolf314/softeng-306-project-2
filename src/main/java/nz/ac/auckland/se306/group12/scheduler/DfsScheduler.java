@@ -29,7 +29,7 @@ public class DfsScheduler implements Scheduler {
   private AtomicInteger idleWorkers = new AtomicInteger(0);
   private Set<String> closed = ConcurrentHashMap.newKeySet();
   private List<DfsWorker> workers = new ArrayList<>();
-  private int syncThreshold = 4;
+  private int syncThreshold = 64;
   private int workerNum = 1;
 
   @Override
@@ -126,8 +126,8 @@ public class DfsScheduler implements Scheduler {
           localMinMakespan = currentSchedule.getLatestEndTime();
           if (localMinMakespan < this.currentMinMakespan.get()) {
             this.currentMinMakespan = new AtomicInteger(localMinMakespan);
+            this.bestSchedule.set(currentSchedule);
           }
-          this.bestSchedule.set(currentSchedule);
           continue;
         }
 
