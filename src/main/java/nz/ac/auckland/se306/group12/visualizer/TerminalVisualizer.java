@@ -271,16 +271,16 @@ public class TerminalVisualizer implements Visualizer {
   private void drawGanttChart() {
     // Clamp the width of each column to between 2ch and 15ch (excl. 1ch gap between columns)
     // +1 in the denominator to accommodate labels along the time axis
-    int columnWidth = Math.max(2,
-        Math.min(terminalWidth / (this.schedule.getProcessorCount() + 1), 15));
+    int columnWidth = Math.max(3,
+        Math.min(terminalWidth / (this.schedule.getProcessorCount() + 1), 16)) - 1;
     String columnSlice = " ".repeat(columnWidth);
 
-    int timeLabelWidth = Math.min(6, columnWidth);
+    int timeLabelWidth = Math.min(7, columnWidth);
 
     // Horizontal axis labels: processors
     int processorCount = this.schedule.getProcessorCount();
     for (int processorIndex = 1; processorIndex <= processorCount; processorIndex++) {
-      sb.append(String.format("P%-" + columnWidth + "d", processorIndex));
+      sb.append(String.format("P%-" + (columnWidth) + "d", processorIndex));
     }
 
     // Horizontal axis label: time
