@@ -160,12 +160,14 @@ public class DfsScheduler implements Scheduler {
   }
 
   /**
-   * @param task
-   * @param latestStartTime
-   * @param latestProcessorEndTime
-   * @param processorIndex
-   * @param currentSchedule
-   * @return
+   * Schedules the next task on a processor, taking into account its dependencies and constraints.
+   *
+   * @param task                   The task to be scheduled.
+   * @param latestStartTime        The latest allowable start time for the task.
+   * @param latestProcessorEndTime The latest end time of the last task on the processor.
+   * @param processorIndex         The index of the processor where the task is scheduled.
+   * @param currentSchedule        The current schedule to be extended with the new task.
+   * @return A new schedule that includes the scheduled task, respecting timing constraints.
    */
   private Schedule scheduleNextTask(Task task, int latestStartTime, int latestProcessorEndTime,
       int processorIndex, Schedule currentSchedule) {
@@ -176,6 +178,15 @@ public class DfsScheduler implements Scheduler {
     return currentSchedule.extendWithTask(newScheduledTask, task);
   }
 
+
+  /**
+   * Checks if a schedule should be pruned based on its estimated makespan and whether it exists in
+   * the closed set to avoid duplicate evaluations.
+   *
+   * @param schedule         The schedule to be checked for pruning.
+   * @param localMinMakespan The local minimum makespan, used as a pruning threshold.
+   * @return true if the schedule should be pruned, false otherwise.
+   */
   private boolean scheduleIsPruned(Schedule schedule, int localMinMakespan) {
     if (schedule.getEstimatedMakespan() >= localMinMakespan) {
       this.prunedCount.incrementAndGet();
