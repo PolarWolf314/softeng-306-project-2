@@ -180,10 +180,10 @@ public class AOSchedule {
         if (childScheduledTask == null) {
           continue;
         }
-        int newChildEstStartTime = parentScheduledTask.getEndTime();
-        if (parentScheduledTask.getProcessorIndex() != childScheduledTask.getProcessorIndex()) {
-          newChildEstStartTime += outEdge.getWeight();
-        }
+        int newChildEstStartTime = parentScheduledTask.getProcessorIndex() == childScheduledTask
+            .getProcessorIndex()
+                ? parentScheduledTask.getEndTime()
+                : parentScheduledTask.getEndTime() + outEdge.getWeight();
 
         // if the child task needs updating then update
         if (childScheduledTask.getStartTime() < newChildEstStartTime) {
