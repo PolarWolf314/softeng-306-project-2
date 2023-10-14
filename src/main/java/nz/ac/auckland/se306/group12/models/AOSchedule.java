@@ -314,7 +314,8 @@ public class AOSchedule {
    */
   public Schedule asSchedule() {
     return new Schedule(deepCopyScheduledTasks(),
-        this.processorEndTimes, getLatestEndTime(),
+        this.processorEndTimes,
+        getLatestEndTime(),
         this.scheduledTaskCount,
         this.readyTasks,
         taskGraph.getTotalTaskWeights(),
