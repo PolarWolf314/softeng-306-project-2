@@ -15,8 +15,14 @@ import lombok.ToString;
 @ToString
 public class ScheduledTask {
 
-  private int startTime;
-  private int endTime;
-  private final int processorIndex;
+  protected int startTime;
+  protected int endTime;
+  protected final int processorIndex;
+
+  public ScheduledTask(ScheduledTask scheduledTask) {
+    this.startTime = scheduledTask.getStartTime();
+    this.endTime = scheduledTask.getEndTime();
+    this.processorIndex = scheduledTask.getProcessorIndex();
+  }
 
 }

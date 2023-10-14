@@ -1,5 +1,6 @@
 package nz.ac.auckland.se306.group12.models;
 
+import java.beans.MethodDescriptor;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
@@ -18,6 +19,7 @@ import nz.ac.auckland.se306.group12.models.datastructures.BitSet;
 public class AOSchedule {
 
   private final ScheduledTask[] scheduledTasks;
+  // TODO: abstract this into array of last tasks on a processor
   private final int[] processorEndTimes;
   private final int latestEndTime;
   private final int scheduledTaskCount;
@@ -105,7 +107,7 @@ public class AOSchedule {
     int newLocalIndex = this.localIndex;
 
     // set the next task on the processor of a task to be the extending task
-    int[] newNextTasks = this.nextTasks;
+    int[] newNextTasks = Arrays.copyOf(this.nextTasks, this.nextTasks.length);
     if (previousTaskIndex != -1) {
       newNextTasks[this.previousTaskIndex] = task.getIndex();
     }
@@ -172,19 +174,25 @@ public class AOSchedule {
           continue;
         }
         // all child tasks that need to be propagated will be scheduled on a different processor
-        int newChildEstStartTime = parentScheduledTask.getEndTime() + outEdge.getWeight();
+        // FIXME: Incorrect
+        // also change to new min
+        int newChildEstStartTime = parentScheduledTask.getEndTime();
+        if (parentScheduledTask.getProcessorIndex() != childScheduledTask.getProcessorIndex()) {
+          newChildEstStartTime += outEdge.getWeight();
+        }
 
         if (childScheduledTask.getStartTime() < newChildEstStartTime) {
-          childScheduledTask.setStartTime(newChildEstStartTime);
-          childScheduledTask.setEndTime(newChildEstStartTime + parentTask.getWeight());
 
           // if the child task needs updating then update
+          childScheduledTask.setStartTime(newChildEstStartTime);
+          childScheduledTask.setEndTime(newChildEstStartTime + parentTask.getWeight());
+          // add the child task to the propagate stack
+          stack.add(childTask);
+
           if (childScheduledTask.getEndTime() > newProcessorEndTimes[childScheduledTask
               .getProcessorIndex()]) {
             newProcessorEndTimes[childScheduledTask.getProcessorIndex()] = childScheduledTask
                 .getEndTime();
-            // add the child task to the propagate stack
-            stack.add(childTask);
           }
         }
       }
@@ -297,9 +305,19 @@ public class AOSchedule {
    * @return Schedule representation of the AOSchedule
    */
   public Schedule asSchedule() {
-    return new Schedule(this.scheduledTasks, this.processorEndTimes, this.scheduledTaskCount,
-        Arrays.stream(this.processorEndTimes).max().getAsInt(), this.readyTasks, taskGraph
+    return new Schedule(this.scheduledTasks, this.processorEndTimes, getLatestEndTime(),
+        this.scheduledTaskCount, this.readyTasks, taskGraph
             .getTotalTaskWeights(), 0, 0);
+  }
+
+  public int getLatestEndTime() {
+    return Arrays.stream(scheduledTasks).mapToInt(scheduledTask -> {
+      if (scheduledTask == null) {
+        return 0;
+      }
+      return scheduledTask.getEndTime();
+    }).max().orElse(0);
+
   }
 
 }
