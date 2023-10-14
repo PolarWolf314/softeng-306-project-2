@@ -1,9 +1,8 @@
 package nz.ac.auckland.se306.group12.scheduler;
 
 import java.util.ArrayDeque;
-import java.util.Collections;
+import java.util.Deque;
 import java.util.Map;
-import java.util.Queue;
 import lombok.Getter;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
@@ -33,13 +32,13 @@ public class DfsScheduler implements Scheduler {
   public Schedule schedule(Graph taskGraph, int processorCount) {
     this.status = SchedulerStatus.SCHEDULING;
     Map<String, Boolean> closed = new MaxSizeHashMap<>(200_000, 10_000);
-    Queue<Schedule> queue = Collections.asLifoQueue(new ArrayDeque<>());
+    Deque<Schedule> stack = new ArrayDeque<>();
 
-    queue.add(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
+    stack.add(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
 
     // DFS iteration (no optimisations)
-    while (!queue.isEmpty()) {
-      Schedule currentSchedule = queue.remove();
+    while (!stack.isEmpty()) {
+      Schedule currentSchedule = stack.pop();
 
       // Prune if current schedule is worse than current best
       if (currentSchedule.getEstimatedMakespan() >= this.currentMinMakespan) {
@@ -78,7 +77,7 @@ public class DfsScheduler implements Scheduler {
           if (closed.containsKey(stringHash)) {
             this.prunedCount++;
           } else {
-            queue.add(newSchedule);
+            stack.push(newSchedule);
             closed.put(stringHash, Boolean.TRUE);
           }
         }
