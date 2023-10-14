@@ -2,9 +2,8 @@ package nz.ac.auckland.se306.group12.scheduler;
 
 import java.util.ArrayDeque;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
 import lombok.Getter;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
@@ -12,6 +11,7 @@ import nz.ac.auckland.se306.group12.models.ScheduleWithAnEmptyProcessor;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
 import nz.ac.auckland.se306.group12.models.SchedulerStatus;
 import nz.ac.auckland.se306.group12.models.Task;
+import nz.ac.auckland.se306.group12.models.datastructures.MaxSizeHashMap;
 
 public class DfsScheduler implements Scheduler {
 
@@ -32,7 +32,7 @@ public class DfsScheduler implements Scheduler {
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
     this.status = SchedulerStatus.SCHEDULING;
-    Set<String> closed = new HashSet<>();
+    Map<String, Boolean> closed = new MaxSizeHashMap<>(200_000, 10_000);
     Queue<Schedule> queue = Collections.asLifoQueue(new ArrayDeque<>());
 
     queue.add(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
@@ -75,11 +75,11 @@ public class DfsScheduler implements Scheduler {
 
           String stringHash = newSchedule.generateUniqueString();
 
-          if (closed.contains(stringHash)) {
+          if (closed.containsKey(stringHash)) {
             this.prunedCount++;
           } else {
             queue.add(newSchedule);
-            closed.add(stringHash);
+            closed.put(stringHash, Boolean.TRUE);
           }
         }
       }

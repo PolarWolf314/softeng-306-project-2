@@ -1,9 +1,8 @@
 package nz.ac.auckland.se306.group12.scheduler;
 
-import java.util.HashSet;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Set;
 import lombok.Getter;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
@@ -11,6 +10,7 @@ import nz.ac.auckland.se306.group12.models.ScheduleWithAnEmptyProcessor;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
 import nz.ac.auckland.se306.group12.models.SchedulerStatus;
 import nz.ac.auckland.se306.group12.models.Task;
+import nz.ac.auckland.se306.group12.models.datastructures.MaxSizeHashMap;
 
 @Getter
 public class AStarScheduler implements Scheduler {
@@ -36,7 +36,7 @@ public class AStarScheduler implements Scheduler {
    */
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
-    Set<String> closed = new HashSet<>();
+    Map<String, Boolean> closed = new MaxSizeHashMap<>(200_000, 10_000);
     this.priorityQueue.clear();
     this.status = SchedulerStatus.SCHEDULING;
 
@@ -66,11 +66,11 @@ public class AStarScheduler implements Scheduler {
           Schedule newSchedule = currentSchedule.extendWithTask(newScheduledTask, task);
           String stringHash = newSchedule.generateUniqueString();
 
-          if (closed.contains(stringHash)) {
+          if (closed.containsKey(stringHash)) {
             this.prunedCount++;
           } else {
             this.priorityQueue.add(newSchedule);
-            closed.add(stringHash);
+            closed.put(stringHash, Boolean.TRUE);
           }
         }
       }
