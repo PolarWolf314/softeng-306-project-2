@@ -83,7 +83,7 @@ public class DfsScheduler implements Scheduler {
     // DFS iteration (no optimisations)
     int syncCounter = 0;
     int localMinMakespan = this.currentMinMakespan.get();
-    ;
+
     while (!queue.isEmpty()) {
       Schedule currentSchedule = queue.remove();
       syncCounter++;
@@ -118,36 +118,11 @@ public class DfsScheduler implements Scheduler {
           Schedule newSchedule = scheduleNextTask(task, latestStartTimes[i],
               currentSchedule.getProcessorEndTimes()[i], i, currentSchedule);
 
-          // No need to add the schedule to the closed set at this point as if we find this schedule
-          // again it'll get pruned at this point again anyway, which saves memory.
-          if (newSchedule.getEstimatedMakespan() >= localMinMakespan) {
-            this.prunedCount.incrementAndGet();
+          if (scheduleIsPruned(newSchedule, localMinMakespan, closed)) {
             continue;
           }
 
-          String stringHash = newSchedule.generateUniqueString();
-
-          if (closed.contains(stringHash)) {
-            this.prunedCount.incrementAndGet();
-            continue;
-          }
-
-          int currentThread = this.threadCount.getAndIncrement();
-          if (currentThread < this.threadNum) {
-            Thread thread = new Thread(() -> {
-              Queue<Schedule> currentQueue = Collections.asLifoQueue(new ArrayDeque<>());
-              currentQueue.add(newSchedule);
-              closed.add(stringHash);
-              branchAndBound(taskGraph, currentQueue, closed);
-            });
-            this.threads.add(thread);
-            thread.start();
-          } else {
-            this.threadCount.decrementAndGet();
-            queue.add(newSchedule);
-            closed.add(stringHash);
-          }
-
+          queue.add(newSchedule);
         }
       }
     }
@@ -161,6 +136,25 @@ public class DfsScheduler implements Scheduler {
     int endTime = startTime + task.getWeight();
     ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, processorIndex);
     return currentSchedule.extendWithTask(newScheduledTask, task);
+  }
+
+  private Boolean scheduleIsPruned(Schedule schedule, int localMinMakespan, Set<String> closed) {
+    if (schedule.getEstimatedMakespan() >= localMinMakespan) {
+      this.prunedCount.incrementAndGet();
+      return true;
+    }
+
+    String stringHash = schedule.generateUniqueString();
+
+    // No need to add the schedule to the closed set at this point as if we find this schedule
+    // again it'll get pruned at this point again anyway, which saves memory.
+    if (closed.contains(stringHash)) {
+      this.prunedCount.incrementAndGet();
+      return true;
+    }
+
+    closed.add(stringHash);
+    return false;
   }
 
 }
