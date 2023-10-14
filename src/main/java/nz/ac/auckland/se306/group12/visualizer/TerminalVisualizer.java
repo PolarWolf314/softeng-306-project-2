@@ -80,7 +80,7 @@ public class TerminalVisualizer implements Visualizer {
   /**
    * If the visualiser could run instantaneously, then this field would be redundant. However, if
    * methods in this class independently access {@link #scheduler}, then they may receive different
-   * data. This results in a single visualisation "snapshot" showing internally inconsistnet
+   * data. This results in a single visualisation "snapshot" showing internally inconsistent
    * information.
    */
   private SchedulerStatus schedulerStatus;
