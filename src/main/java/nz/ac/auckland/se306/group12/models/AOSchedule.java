@@ -75,7 +75,7 @@ public class AOSchedule {
     for (Task task : getReadyTasks()) {
       int latestStartTime = getLatestStartTimeOf(task);
       // Ensure that it either schedules by latest time or after the last task on the processor
-      int startTime = Math.max(latestStartTime, getProcessorEndTimes()[this.localIndex]);
+      int startTime = Math.max(latestStartTime, getLatestEndTimeOf(this.localIndex));
       int endTime = startTime + task.getWeight();
       ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, this.localIndex);
       AOSchedule newSchedule = extendWithTask(newScheduledTask, task);
@@ -170,38 +170,28 @@ public class AOSchedule {
     while (!stack.isEmpty()) {
       Task parentTask = stack.pop();
       ScheduledTask parentScheduledTask = newScheduledTasks[parentTask.getIndex()];
+      if (parentScheduledTask.getEndTime() > taskGraph.getTotalTaskWeights()) {
+        return false;
+      }
       for (Edge outEdge : parentTask.getOutgoingEdges()) {
         // don't continue if there is a invalid loop in the schedule
-        if (parentScheduledTask.getEndTime() > taskGraph.getTotalTaskWeights()) {
-          return false;
-        }
         Task childTask = outEdge.getDestination();
         ScheduledTask childScheduledTask = newScheduledTasks[childTask.getIndex()];
         // don't propagate if the child schedule is not scheduled yet
         if (childScheduledTask == null) {
           continue;
         }
-        // all child tasks that need to be propagated will be scheduled on a different processor
-        // FIXME: Incorrect
-        // also change to new min
         int newChildEstStartTime = parentScheduledTask.getEndTime();
         if (parentScheduledTask.getProcessorIndex() != childScheduledTask.getProcessorIndex()) {
           newChildEstStartTime += outEdge.getWeight();
         }
 
+        // if the child task needs updating then update
         if (childScheduledTask.getStartTime() < newChildEstStartTime) {
-
-          // if the child task needs updating then update
           childScheduledTask.setStartTime(newChildEstStartTime);
           childScheduledTask.setEndTime(newChildEstStartTime + childTask.getWeight());
           // add the child task to the propagate stack
           stack.push(childTask);
-
-          if (childScheduledTask.getEndTime() > newProcessorEndTimes[childScheduledTask
-              .getProcessorIndex()]) {
-            newProcessorEndTimes[childScheduledTask.getProcessorIndex()] = childScheduledTask
-                .getEndTime();
-          }
         }
       }
       // propagate the decendant (this will be on the same processor)
@@ -210,18 +200,10 @@ public class AOSchedule {
       if (decendantIndex != -1) {
         Task decendantTask = taskGraph.getTask(decendantIndex);
         ScheduledTask decendantScheduledTask = newScheduledTasks[decendantIndex];
-        // TODO: Diagnose null pointer error that occurs here
-        // This is due to the decendantScheduledTask not existing as a scheduled task which means that the nextTasks
-        // array is not performing as expected.
         decendantScheduledTask.setStartTime(parentScheduledTask.getEndTime());
         decendantScheduledTask.setEndTime(parentScheduledTask.getEndTime() + decendantTask
             .getWeight());
         stack.push(decendantTask);
-        if (decendantScheduledTask.getEndTime() > newProcessorEndTimes[decendantScheduledTask
-            .getProcessorIndex()]) {
-          newProcessorEndTimes[decendantScheduledTask.getProcessorIndex()] = decendantScheduledTask
-              .getEndTime();
-        }
       }
     }
     return true;
@@ -261,18 +243,24 @@ public class AOSchedule {
    * @return Array of latest start times for the task on each processor
    */
   private int getLatestStartTimeOf(Task task) {
-    int taskProcessor = this.getAllocatedProcessorOf(task);
-    int latestStartTime = getLatestEndTimeOf(taskProcessor);
+    int taskProcessorIndex = getAllocatedProcessorOf(task);
+    int latestStartTime = getLatestEndTimeOf(taskProcessorIndex);
     // Loop through all parent tasks
     for (Edge incomingEdge : task.getIncomingEdges()) {
       Task parentTask = incomingEdge.getSource();
-      ScheduledTask parentScheduledTask = this.getScheduledTasks()[parentTask.getIndex()];
+      ScheduledTask parentScheduledTask = getScheduledTask(parentTask);
+
+      // Skip if parent task is not scheduled
       if (parentScheduledTask == null) {
         continue;
       }
-      int newLatestStartTime = taskProcessor == parentScheduledTask.getProcessorIndex()
-          ? parentScheduledTask.getEndTime()
-          : parentScheduledTask.getEndTime() + incomingEdge.getWeight();
+
+      // Skip if parent task is scheduled on the same processor as processor end time is always later
+      if (parentScheduledTask.getProcessorIndex() == taskProcessorIndex) {
+        continue;
+      }
+
+      int newLatestStartTime = parentScheduledTask.getEndTime() + incomingEdge.getWeight();
 
       // Update latest start time if new latest start time is greater
       if (newLatestStartTime > latestStartTime) {
@@ -340,6 +328,10 @@ public class AOSchedule {
       return scheduledTask.getEndTime();
     }).max().orElse(0);
 
+  }
+
+  private ScheduledTask getScheduledTask(Task task) {
+    return this.scheduledTasks[task.getIndex()];
   }
 
 }
