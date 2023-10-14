@@ -56,7 +56,7 @@ public class AOSchedule {
     Set<Task> newReadyTasks = new BitSet<Task>(this.taskGraph);
     for (Task task : taskGraph.getTasks()) {
       // check if the task being checked is the current local processor
-      if (getTaskProcessor(task) == processorIndex) {
+      if (getAllocatedProcessorOf(task) == processorIndex) {
         if (isTaskReady(this.scheduledTasks, task)) {
           newReadyTasks.add(task);
         }
@@ -235,21 +235,21 @@ public class AOSchedule {
    * @return True if the task is ready to be scheduled, false otherwise
    */
   private boolean isTaskReady(ScheduledTask[] newScheduledTasks, Task child) {
-    int processorNumber = getTaskProcessor(child);
+    int processorNumber = getAllocatedProcessorOf(child);
     for (Edge incomingEdge : child.getIncomingEdges()) {
       Task parentTask = incomingEdge.getSource();
       int parentIndex = parentTask.getIndex();
       ScheduledTask parent = newScheduledTasks[parentIndex];
 
       // return not ready if the parent isn't scheduled and is allocated on the same processor
-      if (parent == null && getTaskProcessor(parentTask) == processorNumber) {
+      if (parent == null && getAllocatedProcessorOf(parentTask) == processorNumber) {
         return false;
       }
     }
     return true;
   }
 
-  private int getTaskProcessor(Task child) {
+  private int getAllocatedProcessorOf(Task child) {
     return this.allocation.getTasksProcessor()[child.getIndex()];
   }
 
@@ -261,7 +261,7 @@ public class AOSchedule {
    * @return Array of latest start times for the task on each processor
    */
   private int getLatestStartTimeOf(Task task) {
-    int taskProcessor = this.getTaskProcessor(task);
+    int taskProcessor = this.getAllocatedProcessorOf(task);
     int latestStartTime = getLatestEndTimeOf(taskProcessor);
     // Loop through all parent tasks
     for (Edge incomingEdge : task.getIncomingEdges()) {
@@ -296,7 +296,7 @@ public class AOSchedule {
     newReadyTasks.remove(task);
     for (Edge outEdge : task.getOutgoingEdges()) {
       Task child = outEdge.getDestination();
-      if (getTaskProcessor(child) == getTaskProcessor(task)) {
+      if (getAllocatedProcessorOf(child) == getAllocatedProcessorOf(task)) {
         if (this.isTaskReady(newScheduledTasks, child)) {
           newReadyTasks.add(child);
         }
