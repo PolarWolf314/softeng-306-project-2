@@ -2,10 +2,22 @@ package nz.ac.auckland.se306.group12.monitors;
 
 import com.sun.management.OperatingSystemMXBean;
 import java.lang.management.ManagementFactory;
+import oshi.SystemInfo;
 
-public class SystemInfo {
+public class ResourceMonitor {
 
   private static final OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+
+  /**
+   * Gets the CPU load per processor core as an array of doubles
+   *
+   * @return An array of CPU loads as a double between 0 and 1
+   */
+  public static double[] getProcessorCpuLoad() {
+    SystemInfo systemInfo = new SystemInfo();
+    // the delay is in milliseconds
+    return systemInfo.getHardware().getProcessor().getProcessorCpuLoad(250);
+  }
 
   /**
    * Get current CPU load
