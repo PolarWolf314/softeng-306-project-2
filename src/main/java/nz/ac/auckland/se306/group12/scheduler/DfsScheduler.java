@@ -115,11 +115,8 @@ public class DfsScheduler implements Scheduler {
       for (Task task : currentSchedule.getReadyTasks()) {
         int[] latestStartTimes = currentSchedule.getLatestStartTimesOf(task);
         for (int i = 0; i < currentSchedule.getAllocableProcessors(); i++) {
-          // Ensure that it either schedules by latest time or after the last task on the processor
-          int startTime = Math.max(latestStartTimes[i], currentSchedule.getProcessorEndTimes()[i]);
-          int endTime = startTime + task.getWeight();
-          ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, i);
-          Schedule newSchedule = currentSchedule.extendWithTask(newScheduledTask, task);
+          Schedule newSchedule = scheduleNextTask(task, latestStartTimes[i],
+              currentSchedule.getProcessorEndTimes()[i], i, currentSchedule);
 
           // No need to add the schedule to the closed set at this point as if we find this schedule
           // again it'll get pruned at this point again anyway, which saves memory.
@@ -157,5 +154,13 @@ public class DfsScheduler implements Scheduler {
 
   }
 
+  private Schedule scheduleNextTask(Task task, int latestStartTime, int latestProcessorEndTime,
+      int processorIndex, Schedule currentSchedule) {
+    // Ensure that it either schedules by latest time or after the last task on the processor
+    int startTime = Math.max(latestStartTime, latestProcessorEndTime);
+    int endTime = startTime + task.getWeight();
+    ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, processorIndex);
+    return currentSchedule.extendWithTask(newScheduledTask, task);
+  }
 
 }
