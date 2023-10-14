@@ -33,7 +33,7 @@ public class MaxSizeHashMap<K, V> extends LinkedHashMap<K, V> {
    * evict the eldest entries when the max size is exceeded.
    *
    * @param eldest The least recently inserted entry in the map, or if this is an access-ordered
-   *               map, the least recently accessed entry. This is the entry that will be removed it
+   *               map, the least recently accessed entry. This is the entry that will be removed if
    *               this method returns {@code true}. If the map was empty prior to the {@code put}
    *               or {@code putAll} invocation resulting in this invocation, this will be the entry
    *               that was just inserted; in other words, if the map contains a single entry, the
