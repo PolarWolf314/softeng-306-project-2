@@ -3,7 +3,6 @@ package nz.ac.auckland.se306.group12.scheduler;
 import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,8 +25,9 @@ public class DfsScheduler implements Scheduler {
   private AtomicInteger currentMinMakespan = new AtomicInteger(Integer.MAX_VALUE);
   @Getter
   private SchedulerStatus status = SchedulerStatus.IDLE;
-  private Map<Thread, Integer> threads = new ConcurrentHashMap<>();
+  private Set<Thread> threads = ConcurrentHashMap.newKeySet();
   private AtomicInteger threadCount = new AtomicInteger(1);
+  private int syncThreshold = 4;
   private int threadNum = 1;
 
   @Override
@@ -58,9 +58,9 @@ public class DfsScheduler implements Scheduler {
     Queue<Schedule> queue = Collections.asLifoQueue(new ArrayDeque<>());
     queue.add(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
 
-    branchAndBound(taskGraph, queue, 0, closed);
+    branchAndBound(taskGraph, queue, closed);
 
-    for (Thread thread : this.threads.keySet()) {
+    for (Thread thread : this.threads) {
       try {
         thread.join();
       } catch (InterruptedException e) {
@@ -78,14 +78,23 @@ public class DfsScheduler implements Scheduler {
    * @param taskGraph graph to perform branch and bound on
    * @param queue     current queue of the branch and bound instance
    */
-  private void branchAndBound(Graph taskGraph, Queue<Schedule> queue, int threadIndex,
+  private void branchAndBound(Graph taskGraph, Queue<Schedule> queue,
       Set<String> closed) {
     // DFS iteration (no optimisations)
+    int syncCounter = 0;
+    int localMinMakespan = this.currentMinMakespan.get();
+    ;
     while (!queue.isEmpty()) {
       Schedule currentSchedule = queue.remove();
+      syncCounter++;
+
+      if (syncCounter == this.syncThreshold) {
+        localMinMakespan = this.currentMinMakespan.get();
+        syncCounter = 0;
+      }
 
       // Prune if current schedule is worse than current best
-      if (currentSchedule.getEstimatedMakespan() >= this.currentMinMakespan.get()) {
+      if (currentSchedule.getEstimatedMakespan() >= localMinMakespan) {
         this.prunedCount.incrementAndGet();
         continue;
       }
@@ -94,7 +103,10 @@ public class DfsScheduler implements Scheduler {
 
       // Check if current schedule is complete
       if (currentSchedule.getScheduledTaskCount() == taskGraph.taskCount()) {
-        this.currentMinMakespan = new AtomicInteger(currentSchedule.getLatestEndTime());
+        localMinMakespan = currentSchedule.getLatestEndTime();
+        if (localMinMakespan < this.currentMinMakespan.get()) {
+          this.currentMinMakespan = new AtomicInteger(localMinMakespan);
+        }
         this.bestSchedule.set(currentSchedule);
         continue;
       }
@@ -111,7 +123,7 @@ public class DfsScheduler implements Scheduler {
 
           // No need to add the schedule to the closed set at this point as if we find this schedule
           // again it'll get pruned at this point again anyway, which saves memory.
-          if (newSchedule.getEstimatedMakespan() >= this.currentMinMakespan.get()) {
+          if (newSchedule.getEstimatedMakespan() >= localMinMakespan) {
             this.prunedCount.incrementAndGet();
             continue;
           }
@@ -129,9 +141,9 @@ public class DfsScheduler implements Scheduler {
               Queue<Schedule> currentQueue = Collections.asLifoQueue(new ArrayDeque<>());
               currentQueue.add(newSchedule);
               closed.add(stringHash);
-              branchAndBound(taskGraph, currentQueue, currentThread, closed);
+              branchAndBound(taskGraph, currentQueue, closed);
             });
-            this.threads.put(thread, currentThread);
+            this.threads.add(thread);
             thread.start();
           } else {
             this.threadCount.decrementAndGet();
