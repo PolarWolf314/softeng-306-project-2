@@ -127,6 +127,7 @@ public class TerminalVisualizer implements Visualizer {
     this.schedule = scheduler.getBestSchedule();
     this.updateTerminalDimensions();
 
+    // Prepare frame
     this.drawStatusBar();
     sb.append(NEW_LINE);
 
@@ -142,16 +143,14 @@ public class TerminalVisualizer implements Visualizer {
     this.drawHorizontalRule();
     sb.deleteCharAt(sb.length() - 1); // Trim trailing newline
 
+    // Render frame
     System.out.println(sb);
 
     if (schedulerStatus == SchedulerStatus.SCHEDULED) {
       this.executor.shutdown();
     }
 
-    // Clear the string builder
-    int len = sb.length();
-    sb.setLength(0);
-    sb.setLength(len);
+    clearStringBuilder();
   }
 
   /**
@@ -394,6 +393,16 @@ public class TerminalVisualizer implements Visualizer {
    */
   private void eraseDisplay() {
     sb.append("\033[H\033[2J");
+  }
+
+  /**
+   * Clears the workhorse string builder, {@link #sb},  preserving its capacity. (The next "frame"
+   * is likely to be rendered with a similar string length.)
+   */
+  private void clearStringBuilder() {
+    int len = sb.length();
+    sb.setLength(0);
+    sb.setLength(len);
   }
 
   /**
