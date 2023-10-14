@@ -173,7 +173,6 @@ public class TerminalVisualizer implements Visualizer {
     }
   }
 
-
   /**
    * <pre>
    *  _                    _ _
