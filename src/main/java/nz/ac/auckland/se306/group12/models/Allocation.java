@@ -17,6 +17,7 @@ public class Allocation {
 
   private final Set<Task>[] processors;
   private final int[] processorWeights;
+  // this stores the processor that each task is assigned to
   private final int[] tasksProcessor;
   private final int allocationCount;
   private final int maxWeight;
