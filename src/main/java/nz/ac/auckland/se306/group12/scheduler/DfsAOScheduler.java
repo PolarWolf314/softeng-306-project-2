@@ -3,7 +3,6 @@ package nz.ac.auckland.se306.group12.scheduler;
 import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Queue;
-import java.util.Set;
 
 import lombok.Getter;
 import nz.ac.auckland.se306.group12.models.AOSchedule;
@@ -11,7 +10,6 @@ import nz.ac.auckland.se306.group12.models.Allocation;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.SchedulerStatus;
-import nz.ac.auckland.se306.group12.models.Task;
 
 public class DfsAOScheduler implements Scheduler {
 
