@@ -61,12 +61,13 @@ public class DfsScheduler implements Scheduler {
     workers.add(worker);
 
     for (int i = 1; i < this.workerNum; i++) {
-      DfsWorker newWorker = new DfsWorker();
-      workers.add(newWorker);
+      workers.add(new DfsWorker());
     }
 
+    // Grab the schedule result from first worker
     Schedule schedule = branchAndBound(taskGraph, worker);
 
+    // Instantiate other workers to steal from worker
     for (int i = 1; i < this.workerNum; i++) {
       DfsWorker currentWorker = workers.get(i);
       Thread thread = new Thread(() -> {
@@ -92,7 +93,7 @@ public class DfsScheduler implements Scheduler {
    * Performs branch and bound algorithm on a given graph.
    *
    * @param taskGraph graph to perform branch and bound on
-   * @param queue     current queue of the branch and bound instance
+   * @param worker    Worker who contains to a thread that processes the branch and bound.
    * @return
    */
   private Schedule branchAndBound(Graph taskGraph, DfsWorker worker) {
@@ -134,7 +135,7 @@ public class DfsScheduler implements Scheduler {
         // Check to find if any tasks can be scheduled and schedule them
         for (Task task : currentSchedule.getReadyTasks()) {
           int[] latestStartTimes = currentSchedule.getLatestStartTimesOf(task);
-          for (int i = 0; i < currentSchedule.getAllocableProcessors(); i++) {
+          for (int i = 0; i < currentSchedule.getAllocableProcessorCount(); i++) {
             Schedule newSchedule = scheduleNextTask(task, latestStartTimes[i],
                 currentSchedule.getProcessorEndTimes()[i], i, currentSchedule);
 
@@ -159,6 +160,14 @@ public class DfsScheduler implements Scheduler {
     return this.bestSchedule.get();
   }
 
+  /**
+   * @param task
+   * @param latestStartTime
+   * @param latestProcessorEndTime
+   * @param processorIndex
+   * @param currentSchedule
+   * @return
+   */
   private Schedule scheduleNextTask(Task task, int latestStartTime, int latestProcessorEndTime,
       int processorIndex, Schedule currentSchedule) {
     // Ensure that it either schedules by latest time or after the last task on the processor
@@ -168,7 +177,7 @@ public class DfsScheduler implements Scheduler {
     return currentSchedule.extendWithTask(newScheduledTask, task);
   }
 
-  private Boolean scheduleIsPruned(Schedule schedule, int localMinMakespan) {
+  private boolean scheduleIsPruned(Schedule schedule, int localMinMakespan) {
     if (schedule.getEstimatedMakespan() >= localMinMakespan) {
       this.prunedCount.incrementAndGet();
       return true;

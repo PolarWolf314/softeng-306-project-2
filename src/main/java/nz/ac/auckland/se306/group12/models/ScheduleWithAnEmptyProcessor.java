@@ -53,7 +53,7 @@ public class ScheduleWithAnEmptyProcessor extends Schedule {
    * @inheritDoc
    */
   @Override
-  public int getAllocableProcessors() {
+  public int getAllocableProcessorCount() {
     return this.nonEmptyProcessorCount + 1;
   }
 

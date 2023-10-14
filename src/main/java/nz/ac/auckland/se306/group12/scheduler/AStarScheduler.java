@@ -58,7 +58,7 @@ public class AStarScheduler implements Scheduler {
       // Check to find if any tasks can be scheduled and schedule them
       for (Task task : currentSchedule.getReadyTasks()) {
         int[] latestStartTimes = currentSchedule.getLatestStartTimesOf(task);
-        for (int i = 0; i < currentSchedule.getAllocableProcessors(); i++) {
+        for (int i = 0; i < currentSchedule.getAllocableProcessorCount(); i++) {
           // Ensure that it either schedules by latest time or after the last task on the processor
           int startTime = Math.max(latestStartTimes[i], currentSchedule.getProcessorEndTimes()[i]);
           int endTime = startTime + task.getWeight();
