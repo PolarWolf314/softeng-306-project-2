@@ -15,8 +15,8 @@ public class ResourceMonitor {
    */
   public static double[] getProcessorCpuLoad() {
     SystemInfo systemInfo = new SystemInfo();
-    // the delay is in milliseconds
-    return systemInfo.getHardware().getProcessor().getProcessorCpuLoad(250);
+    // the delay is in milliseconds. This method doesn't work properly when the delay is less than 1000 :/
+    return systemInfo.getHardware().getProcessor().getProcessorCpuLoad(1000);
   }
 
   /**
