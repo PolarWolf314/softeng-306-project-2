@@ -11,6 +11,9 @@ public interface Scheduler {
    * it to be quite large so that we don't have to resize it too often. {@link java.util.HashMap}
    * requires this to be a power of two (Although it's not clear if this requirement also applied to
    * {@link java.util.LinkedHashMap}).
+   * <p>
+   * While the choice of number is slightly arbitrary, it is immensely more appropriate than the
+   * default initial capacity of 16.
    */
   int INITIAL_CLOSED_SET_CAPACITY = 1 << 13; // 8192
 

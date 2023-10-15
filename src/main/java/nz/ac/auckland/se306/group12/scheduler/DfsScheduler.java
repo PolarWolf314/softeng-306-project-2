@@ -16,7 +16,8 @@ public class DfsScheduler implements Scheduler {
 
   /**
    * After a little bit of trial and error, this seems to be a decent balance between being able to
-   * store a lot of schedules in the closed set without running out of memory.
+   * store a lot of schedules in the closed set and not running out of memory. This is subject to
+   * change as we do more testing.
    */
   private static final int MAX_CLOSED_SET_SIZE = 1 << 18; // 262144
 
