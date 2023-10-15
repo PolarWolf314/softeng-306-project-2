@@ -1,10 +1,8 @@
 package nz.ac.auckland.se306.group12.scheduler;
 
 import java.util.ArrayDeque;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Queue;
-import java.util.Set;
+import java.util.Deque;
+import java.util.Map;
 import lombok.Getter;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
@@ -12,11 +10,18 @@ import nz.ac.auckland.se306.group12.models.ScheduleWithAnEmptyProcessor;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
 import nz.ac.auckland.se306.group12.models.SchedulerStatus;
 import nz.ac.auckland.se306.group12.models.Task;
+import nz.ac.auckland.se306.group12.models.datastructures.MaxSizeHashMap;
 
 public class DfsScheduler implements Scheduler {
 
-  private int currentMinMakespan = Integer.MAX_VALUE;
+  /**
+   * After a little bit of trial and error, this seems to be a decent balance between being able to
+   * store a lot of schedules in the closed set and not running out of memory. This is subject to
+   * change as we do more testing.
+   */
+  private static final int MAX_CLOSED_SET_SIZE = 1 << 18; // 262144
 
+  private int currentMinMakespan = Integer.MAX_VALUE;
   @Getter
   private long searchedCount = 0;
   @Getter
@@ -31,15 +36,16 @@ public class DfsScheduler implements Scheduler {
    */
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
+    this.resetScheduler();
     this.status = SchedulerStatus.SCHEDULING;
-    Set<String> closed = new HashSet<>();
-    Queue<Schedule> queue = Collections.asLifoQueue(new ArrayDeque<>());
+    Deque<Schedule> stack = new ArrayDeque<>();
+    Map<String, Boolean> closed = new MaxSizeHashMap<>(
+        MAX_CLOSED_SET_SIZE, Scheduler.INITIAL_CLOSED_SET_CAPACITY);
 
-    queue.add(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
+    stack.add(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
 
-    // DFS iteration (no optimisations)
-    while (!queue.isEmpty()) {
-      Schedule currentSchedule = queue.remove();
+    while (!stack.isEmpty()) {
+      Schedule currentSchedule = stack.pop();
 
       // Prune if current schedule is worse than current best
       if (currentSchedule.getEstimatedMakespan() >= this.currentMinMakespan) {
@@ -75,18 +81,29 @@ public class DfsScheduler implements Scheduler {
 
           String stringHash = newSchedule.generateUniqueString();
 
-          if (closed.contains(stringHash)) {
+          if (closed.containsKey(stringHash)) {
             this.prunedCount++;
-          } else {
-            queue.add(newSchedule);
-            closed.add(stringHash);
+            continue;
           }
+
+          stack.push(newSchedule);
+          closed.put(stringHash, Boolean.TRUE);
         }
       }
     }
 
     this.status = SchedulerStatus.SCHEDULED;
     return this.bestSchedule;
+  }
+
+  /**
+   * Resets the scheduler to its initial state so that it can be used to schedule a new graph.
+   */
+  private void resetScheduler() {
+    this.searchedCount = 0;
+    this.prunedCount = 0;
+    this.bestSchedule = null;
+    this.currentMinMakespan = Integer.MAX_VALUE;
   }
 
 }

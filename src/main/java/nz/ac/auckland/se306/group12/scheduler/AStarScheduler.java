@@ -1,9 +1,8 @@
 package nz.ac.auckland.se306.group12.scheduler;
 
-import java.util.HashSet;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Set;
 import lombok.Getter;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
@@ -11,9 +10,16 @@ import nz.ac.auckland.se306.group12.models.ScheduleWithAnEmptyProcessor;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
 import nz.ac.auckland.se306.group12.models.SchedulerStatus;
 import nz.ac.auckland.se306.group12.models.Task;
+import nz.ac.auckland.se306.group12.models.datastructures.MaxSizeHashMap;
 
 @Getter
 public class AStarScheduler implements Scheduler {
+
+  /**
+   * This closed set size is slightly smaller than the one in {@link DfsScheduler} as we tend to
+   * have a lot more scheduled stored in priority queue, and so we don't want to run out of memory.
+   */
+  private static final int MAX_CLOSED_SET_SIZE = 1 << 17; // 131072
 
   private long searchedCount;
   private long prunedCount;
@@ -36,9 +42,11 @@ public class AStarScheduler implements Scheduler {
    */
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
-    Set<String> closed = new HashSet<>();
-    this.priorityQueue.clear();
+    this.resetScheduler();
     this.status = SchedulerStatus.SCHEDULING;
+
+    Map<String, Boolean> closed = new MaxSizeHashMap<>(
+        MAX_CLOSED_SET_SIZE, Scheduler.INITIAL_CLOSED_SET_CAPACITY);
 
     this.priorityQueue.add(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
 
@@ -66,18 +74,28 @@ public class AStarScheduler implements Scheduler {
           Schedule newSchedule = currentSchedule.extendWithTask(newScheduledTask, task);
           String stringHash = newSchedule.generateUniqueString();
 
-          if (closed.contains(stringHash)) {
+          if (closed.containsKey(stringHash)) {
             this.prunedCount++;
-          } else {
-            this.priorityQueue.add(newSchedule);
-            closed.add(stringHash);
+            continue;
           }
+
+          this.priorityQueue.add(newSchedule);
+          closed.put(stringHash, Boolean.TRUE);
         }
       }
     }
 
     this.status = SchedulerStatus.SCHEDULED;
     throw new IllegalStateException("No optimal schedule found");
+  }
+
+  /**
+   * Resets the scheduler to its initial state so that it can be used to schedule a new graph.
+   */
+  private void resetScheduler() {
+    this.searchedCount = 0;
+    this.prunedCount = 0;
+    this.priorityQueue.clear();
   }
 
 }
