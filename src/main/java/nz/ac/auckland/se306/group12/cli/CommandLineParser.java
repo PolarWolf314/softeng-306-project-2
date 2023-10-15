@@ -37,8 +37,8 @@ public class CommandLineParser {
             + System.getProperty("line.separator").repeat(2)
             + "The visualiser renders in the terminal from which you initiate this program, and "
             + "will expand to fill the space it is given.  Using a relatively large window size is "
-            + "recommended (at least 100 x 40), though you should probably just maximise the "
-            + "window.  (No, reeally, you should.)"
+            + "recommended (at least 100x40), though you should probably just maximise the window. "
+            + " (No, really, you should.)"
         );
     this.parser.addArgument(Keys.INPUT_DOT_GRAPH)
         .metavar("INPUT.dot")
@@ -55,8 +55,8 @@ public class CommandLineParser {
         .dest(Keys.ALGORITHM)
         .setDefault("ao")
         .help("the algorithm with which to find the optimal schedule (default is dfs); options are "
-            + "astar (A* with ELS space), dfs (DFS branch-and bound with ELS state space) and ao "
-            + "(DFS with allocation-ordering state space)");
+            + "astar (A* with ELS state space), dfs (DFS branch-and-bound with ELS state space) and "
+            + "ao (DFS with allocation-ordering state space)");
     this.parser.addArgument("-p", "--parallel")
         .metavar("N")
         .type(Integer.class)
