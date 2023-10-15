@@ -53,7 +53,7 @@ public class CommandLineParser {
         .metavar("ALGORITHM")
         .choices("astar", "dfs", "ao")
         .dest(Keys.ALGORITHM)
-        .setDefault("dfs")
+        .setDefault("ao")
         .help("the algorithm with which to find the optimal schedule (default is dfs); options are "
             + "astar (A* with ELS state space), dfs (DFS branch-and-bound with ELS state space) and "
             + "ao (DFS with allocation-ordering state space)");
@@ -90,7 +90,7 @@ public class CommandLineParser {
     try {
       final Namespace namespace = this.parser.parseArgs(args);
 
-      final String inputDotGraph = FileIO.withDotExtension(
+      String inputDotGraph = FileIO.withDotExtension(
           namespace.getString(Keys.INPUT_DOT_GRAPH));
       String outputDotGraph = FileIO.withDotExtension(
           namespace.getString(Keys.OUTPUT_DOT_GRAPH));
@@ -100,6 +100,11 @@ public class CommandLineParser {
       final String algorithm = namespace.getString(Keys.ALGORITHM);
       final boolean visualiseSearch = namespace.getBoolean(Keys.VISUALISE_SEARCH);
       final boolean writeToStdOut = namespace.getBoolean(Keys.WRITE_TO_STD_OUT);
+
+      // strip the leading and trailing quotes from the inputDotGraph file name
+      if (inputDotGraph.startsWith("\"") && inputDotGraph.endsWith("\"")) {
+        inputDotGraph = inputDotGraph.substring(1, inputDotGraph.length() - 1);
+      }
 
       if (outputDotGraph == null) {
         outputDotGraph = FileIO.withoutDotExtension(inputDotGraph) + "-output.dot";

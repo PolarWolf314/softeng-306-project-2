@@ -36,7 +36,7 @@ public class TestUtil {
    * @return The schedulers to test
    */
   public static List<Scheduler> getOptimalSchedulers() {
-    return List.of(new DfsScheduler());
+    return List.of(new DfsScheduler(4));
   }
 
   /**
