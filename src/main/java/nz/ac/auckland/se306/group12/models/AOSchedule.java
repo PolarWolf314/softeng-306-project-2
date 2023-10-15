@@ -104,18 +104,11 @@ public class AOSchedule {
       newNextTasks[this.previousTaskIndex] = task.getIndex();
     }
     int newPreviousTaskIndex = task.getIndex();
-    if (!this.propagate(newScheduledTasks, task)) {
+    if (!this.propagate(newScheduledTasks, task, newNextTasks)) {
       return null;
     }
 
-    int processorIndex = scheduledTask.getProcessorIndex();
-    // After propagation, the end time of the processor may have changed, i.e. This task was added
-    // before another task on this processor
-    int newProcessorEndTime = this.getLatestEndTimeOf(
-        processorIndex, newProcessorLastTaskIndices, newScheduledTasks);
-    if (newProcessorEndTime < scheduledTask.getEndTime()) {
-      newProcessorLastTaskIndices[processorIndex] = task.getIndex();
-    }
+    newProcessorLastTaskIndices[scheduledTask.getProcessorIndex()] = task.getIndex();
 
     Set<Task> newReadyTasks;
     // if all tasks on current processor have been allocated move to next processor
@@ -155,7 +148,7 @@ public class AOSchedule {
    * @param task              Task to start propagation from
    * @return {@code true} If the propagation completed successfully, {@code false} otherwise
    */
-  private boolean propagate(ScheduledTask[] newScheduledTasks, Task task) {
+  private boolean propagate(ScheduledTask[] newScheduledTasks, Task task, int[] newNextTasks) {
     Deque<Task> stack = new ArrayDeque<>();
     stack.push(task);
     while (!stack.isEmpty()) {
@@ -185,7 +178,7 @@ public class AOSchedule {
         }
       }
       // propagate the descendant (this will be on the same processor)
-      int descendantIndex = this.nextTasks[parentTask.getIndex()];
+      int descendantIndex = newNextTasks[parentTask.getIndex()];
       // don't run this if the parent task does not have a descendant
       if (descendantIndex != -1) {
         Task descendantTask = this.taskGraph.getTask(descendantIndex);
