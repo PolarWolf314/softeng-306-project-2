@@ -45,11 +45,11 @@ public class CommandLineParser {
         .help("the number of processors on which to schedule the INPUT graph");
     this.parser.addArgument("-a", "--algorithm")
         .metavar("ALGORITHM")
-        .choices("astar", "dfs")
+        .choices("astar", "dfs", "ao")
         .dest(Keys.ALGORITHM)
         .setDefault("dfs")
         .help("the algorithm with which to find the optimal schedule (default is dfs);"
-            + " options are astar (A*) and dfs (depth-first search branch and bound)");
+            + " options are astar (A*), dfs (depth-first search branch and bound) and ao (allocation ordering dfs)");
     this.parser.addArgument("-p", "--parallel")
         .metavar("N")
         .type(Integer.class)

@@ -25,7 +25,7 @@ public class SchedulerFactory {
       case "dfs" -> {
         return new DfsScheduler();
       }
-      case "dfsao" -> {
+      case "ao" -> {
         return new DfsAOScheduler();
       }
       default -> throw new IllegalArgumentException(
