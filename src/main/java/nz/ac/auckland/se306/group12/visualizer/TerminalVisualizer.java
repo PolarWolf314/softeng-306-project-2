@@ -211,8 +211,16 @@ public class TerminalVisualizer implements Visualizer {
     this.ganttChartMaxBodyHeight = getGanttChartMaxBodyHeight();
   }
 
+  /**
+   * Determines the number of lines in the terminal which may be used by the {@link #schedule}'s
+   * Gantt chart, after accounting for space reserved for other components such as UI chrome, the
+   * system resource usage chart, and statistics chips. Axis labels are <strong>not</strong>
+   * considered part of the Gantt chart's body.
+   *
+   * @return The maximum number of lines the Gantt chart body may occupy.
+   */
   private int getGanttChartMaxBodyHeight() {
-    return this.terminalHeight - this.systemProcessorCount - 15;
+    return this.terminalHeight - this.resourceChartBodyHeight - 16;
   }
 
   /**
@@ -330,7 +338,7 @@ public class TerminalVisualizer implements Visualizer {
 
     // CPU usage chart
     sb.append(new AnsiSgrSequenceBuilder().bold())
-        .append("CPU ")
+        .append("vCPUs ")
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(cpuLoadPercentage)
         .append("% ")
