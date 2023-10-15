@@ -34,7 +34,6 @@ public class AOSchedule {
   private final int previousTaskIndex;
 
   public AOSchedule(Graph taskGraph, int processorCount, Allocation allocation) {
-    // readyTasks defined in super constructor will get overwritten
     this.scheduledTasks = new ScheduledTask[taskGraph.taskCount()];
     this.processorEndTimes = new int[processorCount];
     this.scheduledTaskCount = 0;
