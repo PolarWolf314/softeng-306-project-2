@@ -17,8 +17,6 @@ import nz.ac.auckland.se306.group12.models.datastructures.BitSet;
 public class AOSchedule {
 
   private final ScheduledTask[] scheduledTasks;
-  // TODO: abstract this into array of last tasks on a processor
-  private final int[] processorEndTimes;
   private final int[] processorLastTasks;
   private final int scheduledTaskCount;
 
@@ -34,7 +32,6 @@ public class AOSchedule {
 
   public AOSchedule(Graph taskGraph, int processorCount, Allocation allocation) {
     this.scheduledTasks = new ScheduledTask[taskGraph.taskCount()];
-    this.processorEndTimes = new int[processorCount];
     this.processorLastTasks = new int[processorCount];
     Arrays.fill(this.processorLastTasks, -1);
     this.scheduledTaskCount = 0;
@@ -93,15 +90,11 @@ public class AOSchedule {
   public AOSchedule extendWithTask(ScheduledTask scheduledTask, Task task) {
     ScheduledTask[] newScheduledTasks = Arrays.copyOf(this.scheduledTasks,
         this.scheduledTasks.length);
-    int[] newProcessorEndTimes = Arrays.copyOf(this.processorEndTimes,
-        this.processorEndTimes.length);
     int[] newProcessorLastTasks = Arrays.copyOf(this.processorLastTasks,
         this.processorLastTasks.length);
     newProcessorLastTasks[scheduledTask.getProcessorIndex()] = task.getIndex();
 
     newScheduledTasks[task.getIndex()] = scheduledTask;
-    int processorIndex = scheduledTask.getProcessorIndex();
-    newProcessorEndTimes[processorIndex] = scheduledTask.getEndTime();
     int newLocalOrderedCount = this.localOrderedCount + 1;
     int newLocalOrderedWeight = this.localOrderedWeight + task.getWeight();
     int newLocalIndex = this.localIndex;
@@ -112,7 +105,7 @@ public class AOSchedule {
       newNextTasks[this.previousTaskIndex] = task.getIndex();
     }
     int newPreviousTaskIndex = task.getIndex();
-    if (this.propagate(newScheduledTasks, task, newProcessorEndTimes) == false) {
+    if (this.propagate(newScheduledTasks, task) == false) {
       return null;
     }
 
@@ -130,7 +123,6 @@ public class AOSchedule {
 
     return new AOSchedule(
         newScheduledTasks,
-        newProcessorEndTimes,
         newProcessorLastTasks,
         scheduledTaskCount + 1,
         allocation,
@@ -148,12 +140,10 @@ public class AOSchedule {
    * Iteratively propagates the new scheduled task's end time to all
    * children nodes (graph-wise) and descendants (processor-wise)
    *
-   * @param newScheduledTasks    List of scheduled tasks representing the schedule at the next state
-   * @param task                 Task to start propagation from
-   * @param newProcessorEndTimes List of processor end times representing the schedule at the next
+   * @param newScheduledTasks List of scheduled tasks representing the schedule at the next state
+   * @param task              Task to start propagation from
    */
-  private boolean propagate(ScheduledTask[] newScheduledTasks, Task task,
-      int[] newProcessorEndTimes) {
+  private boolean propagate(ScheduledTask[] newScheduledTasks, Task task) {
     Deque<Task> stack = new ArrayDeque<>();
     stack.push(task);
     while (!stack.isEmpty()) {
@@ -316,7 +306,7 @@ public class AOSchedule {
    */
   public Schedule asSchedule() {
     return new Schedule(this.scheduledTasks,
-        this.processorEndTimes,
+        new int[processorLastTasks.length],
         getLatestEndTime(),
         this.scheduledTaskCount,
         this.readyTasks,
