@@ -136,7 +136,7 @@ Error response from daemon: conflict: unable to remove repository reference "se3
 
 then run these commands:
 
-```
+```sh
 docker stop 1198400b4fcb  # Replace with appropriate image ID
 docker rm 1198400b4fcb
 ```
