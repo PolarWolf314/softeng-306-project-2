@@ -367,7 +367,7 @@ public class TerminalVisualizer implements Visualizer {
     int[][] verticalGantt = scheduleToGantt(this.schedule);
     int makespan = verticalGantt.length;
 
-    int maxChartHeight = this.terminalHeight - this.systemProcessorCount - 15;// This "max" is slightly conservative
+    int maxChartHeight = this.terminalHeight - this.systemProcessorCount - 15; // This "max" is slightly conservative
     int scale = Math.max(1, makespan / maxChartHeight);
 
     boolean[] taskRenderStarted = new boolean[this.schedule.getScheduledTaskCount()];
