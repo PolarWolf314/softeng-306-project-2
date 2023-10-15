@@ -1,11 +1,11 @@
 package nz.ac.auckland.se306.group12.scheduler;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Random;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -20,16 +20,17 @@ import nz.ac.auckland.se306.group12.models.ScheduleWithAnEmptyProcessor;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
 import nz.ac.auckland.se306.group12.models.SchedulerStatus;
 import nz.ac.auckland.se306.group12.models.Task;
+import nz.ac.auckland.se306.group12.models.datastructures.MaxSizeHashMap;
 
 public class DfsScheduler implements Scheduler {
 
+  private static final int MAX_CLOSED_SET_SIZE = 1 << 18;
   private final AtomicReference<Schedule> bestSchedule = new AtomicReference<>();
   private final AtomicInteger currentMinMakespan = new AtomicInteger(Integer.MAX_VALUE);
   private final int workerCount;
   private AtomicLong searchedCount = new AtomicLong(0);
   private AtomicLong prunedCount = new AtomicLong(0);
   private AtomicInteger idleWorkers = new AtomicInteger(0);
-  private Set<String> closed = ConcurrentHashMap.newKeySet();
   private List<DfsWorker> workers = new ArrayList<>();
   private Random random = new Random();
   private int syncThreshold = 1024;
@@ -68,14 +69,17 @@ public class DfsScheduler implements Scheduler {
   public Schedule schedule(Graph taskGraph, int processorCount) {
     this.status = SchedulerStatus.SCHEDULING;
 
-    DfsWorker worker = new DfsWorker();
-    worker.give(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
-    workers.add(worker);
+    Queue<Schedule> initialStates = aStarInitialStates(taskGraph, processorCount);
 
     ExecutorService executor = Executors.newFixedThreadPool(workerCount);
 
-    for (int i = 1; i < this.workerCount; i++) {
-      workers.add(new DfsWorker());
+    for (int i = 0; i < this.workerCount; i++) {
+      DfsWorker worker = new DfsWorker();
+      Schedule work = initialStates.poll();
+      if (work != null) {
+        worker.give(work);
+      }
+      workers.add(worker);
     }
 
     for (DfsWorker dfsWorker : workers) {
@@ -106,7 +110,9 @@ public class DfsScheduler implements Scheduler {
     int localMinMakespan = this.currentMinMakespan.get();
     long localSearchCount = 0;
     long localPruneCount = 0;
-    Set<String> closed = new HashSet<>();
+    Map<String, Boolean> closed = new MaxSizeHashMap<>(
+        MAX_CLOSED_SET_SIZE / this.workerCount,
+        Scheduler.INITIAL_CLOSED_SET_CAPACITY / this.workerCount);
 
     boolean hasWork = true;
 
@@ -166,6 +172,45 @@ public class DfsScheduler implements Scheduler {
       hasWork = this.takeWorkFromRandomWorker(worker);
     }
 
+  }
+
+  /**
+   * Does a rudimentary run of A* to get initial states for the workers to have.
+   *
+   * @param taskGraph      graph to be scheduled with
+   * @param processorCount amount of processors to schedule to
+   * @return list of initial states in a queue
+   */
+  public Queue<Schedule> aStarInitialStates(Graph taskGraph, int processorCount) {
+    Queue<Schedule> priorityQueue = new PriorityQueue<>();
+    this.status = SchedulerStatus.SCHEDULING;
+
+    priorityQueue.add(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
+
+    while (!priorityQueue.isEmpty()) {
+      Schedule currentSchedule = priorityQueue.peek();
+
+      // Only remove it now so that if we found the best schedule we can still access it through peeking
+      priorityQueue.poll();
+
+      // Check to find if any tasks can be scheduled and schedule them
+      for (Task task : currentSchedule.getReadyTasks()) {
+        int[] latestStartTimes = currentSchedule.getLatestStartTimesOf(task);
+        for (int i = 0; i < currentSchedule.getAllocableProcessorCount(); i++) {
+          // Ensure that it either schedules by latest time or after the last task on the processor
+          int startTime = Math.max(latestStartTimes[i], currentSchedule.getProcessorEndTimes()[i]);
+          int endTime = startTime + task.getWeight();
+          ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, i);
+          Schedule newSchedule = currentSchedule.extendWithTask(newScheduledTask, task);
+
+          priorityQueue.add(newSchedule);
+        }
+      }
+      if (priorityQueue.size() >= this.workerCount) {
+        break;
+      }
+    }
+    return priorityQueue;
   }
 
   /**
@@ -243,7 +288,8 @@ public class DfsScheduler implements Scheduler {
    * @param localMinMakespan The local minimum makespan, used as a pruning threshold.
    * @return true if the schedule should was pruned, false otherwise.
    */
-  private boolean scheduleIsPruned(Schedule schedule, int localMinMakespan, Set<String> closed) {
+  private boolean scheduleIsPruned(Schedule schedule, int localMinMakespan,
+      Map<String, Boolean> closed) {
     if (schedule.getEstimatedMakespan() >= localMinMakespan) {
       return true;
     }
@@ -252,11 +298,11 @@ public class DfsScheduler implements Scheduler {
 
     // No need to add the schedule to the closed set at this point as if we find this schedule
     // again it'll get pruned at this point again anyway, which saves memory.
-    if (closed.contains(stringHash)) {
+    if (closed.containsKey(stringHash)) {
       return true;
     }
 
-    closed.add(stringHash);
+    closed.put(stringHash, Boolean.TRUE);
     return false;
   }
 

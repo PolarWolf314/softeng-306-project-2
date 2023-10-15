@@ -6,6 +6,8 @@ import nz.ac.auckland.se306.group12.models.SchedulerStatus;
 
 public interface Scheduler {
 
+  int INITIAL_CLOSED_SET_CAPACITY = 1 << 13; // 8192
+
   /**
    * Returns the number of partial schedules that have been searched so far by the scheduler. A
    * partial schedule is considered searched if it is not pruned and is therefore a potential
