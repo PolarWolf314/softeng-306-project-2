@@ -14,6 +14,7 @@ import nz.ac.auckland.se306.group12.models.Task;
 
 public class DfsAOScheduler implements Scheduler {
 
+  private static final String HUMAN_READABLE_NAME = "DFS branch-and-bound (AO state space)";
   private int currentMinMakespan = Integer.MAX_VALUE;
 
   @Getter
@@ -96,6 +97,11 @@ public class DfsAOScheduler implements Scheduler {
       }
     }
 
+  }
+
+  @Override
+  public String getHumanReadableName() {
+    return HUMAN_READABLE_NAME;
   }
 
 }

@@ -64,4 +64,9 @@ public interface Scheduler {
    */
   Schedule schedule(Graph taskGraph, int processorCount);
 
+  /**
+   * @return The full, human-readable name of this scheduler, in sentence case.
+   */
+  String getHumanReadableName();
+
 }

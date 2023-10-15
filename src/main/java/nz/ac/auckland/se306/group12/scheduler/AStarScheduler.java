@@ -15,6 +15,7 @@ import nz.ac.auckland.se306.group12.models.datastructures.MaxSizeHashMap;
 @Getter
 public class AStarScheduler implements Scheduler {
 
+  private static final String HUMAN_READABLE_NAME = "A* (ELS state space)";
   /**
    * This closed set size is slightly smaller than the one in {@link DfsScheduler} as we tend to
    * have a lot more scheduled stored in priority queue, and so we don't want to run out of memory.
@@ -96,6 +97,11 @@ public class AStarScheduler implements Scheduler {
     this.searchedCount = 0;
     this.prunedCount = 0;
     this.priorityQueue.clear();
+  }
+
+  @Override
+  public String getHumanReadableName() {
+    return HUMAN_READABLE_NAME;
   }
 
 }
