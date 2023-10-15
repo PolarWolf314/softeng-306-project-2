@@ -1,17 +1,15 @@
 package nz.ac.auckland.se306.group12.models;
 
-import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.concurrent.LinkedBlockingDeque;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
 @Getter
 @RequiredArgsConstructor
-@ToString
 public class DfsWorker {
 
-  private final Deque<Schedule> stack = new ArrayDeque<>();
+  private final Deque<Schedule> stack = new LinkedBlockingDeque<>();
 
   public boolean hasWork() {
     return !stack.isEmpty();

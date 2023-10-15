@@ -31,7 +31,7 @@ public class DfsScheduler implements Scheduler {
   private List<DfsWorker> workers = new ArrayList<>();
   private Random rand = new Random();
   private boolean hasStarted = false;
-  private int syncThreshold = 64;
+  private int syncThreshold = 1024;
   private int workerNum = 1;
 
   @Override
@@ -56,7 +56,7 @@ public class DfsScheduler implements Scheduler {
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
     this.status = SchedulerStatus.SCHEDULING;
-    this.workerNum = 4;
+    this.workerNum = 1;
 
     DfsWorker worker = new DfsWorker();
     worker.give(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
@@ -107,6 +107,8 @@ public class DfsScheduler implements Scheduler {
     // DFS iteration (no optimisations)
     int syncCounter = 0;
     int localMinMakespan = this.currentMinMakespan.get();
+    long localSearchCount = 0;
+    long localPruneCount = 0;
 
     boolean hasWork = true;
 
@@ -122,21 +124,26 @@ public class DfsScheduler implements Scheduler {
 
         if (syncCounter == this.syncThreshold) {
           localMinMakespan = this.currentMinMakespan.get();
+          this.prunedCount.getAndAdd(localPruneCount);
+          this.searchedCount.getAndAdd(localSearchCount);
+          localSearchCount = 0;
+          localPruneCount = 0;
           syncCounter = 0;
         }
 
         // Prune if current schedule is worse than current best
         if (currentSchedule.getEstimatedMakespan() >= localMinMakespan) {
-          this.prunedCount.incrementAndGet();
+          localPruneCount++;
           continue;
         }
 
-        this.searchedCount.incrementAndGet();
+        localSearchCount++;
 
         // Check if current schedule is complete
         if (currentSchedule.getScheduledTaskCount() == taskGraph.taskCount()) {
           localMinMakespan = currentSchedule.getLatestEndTime();
           updateGlobalMinMakespanAndSchedule(currentSchedule);
+          System.out.println(worker + " " + localMinMakespan);
           continue;
         }
 
@@ -150,6 +157,7 @@ public class DfsScheduler implements Scheduler {
                 currentSchedule.getProcessorEndTimes()[i], i, currentSchedule);
 
             if (scheduleIsPruned(newSchedule, localMinMakespan)) {
+              localPruneCount++;
               continue;
             }
 
@@ -225,7 +233,6 @@ public class DfsScheduler implements Scheduler {
    */
   private boolean scheduleIsPruned(Schedule schedule, int localMinMakespan) {
     if (schedule.getEstimatedMakespan() >= localMinMakespan) {
-      this.prunedCount.incrementAndGet();
       return true;
     }
 
@@ -234,7 +241,6 @@ public class DfsScheduler implements Scheduler {
     // No need to add the schedule to the closed set at this point as if we find this schedule
     // again it'll get pruned at this point again anyway, which saves memory.
     if (this.closed.contains(stringHash)) {
-      this.prunedCount.incrementAndGet();
       return true;
     }
 
