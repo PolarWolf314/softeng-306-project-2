@@ -28,7 +28,6 @@ public class DfsScheduler implements Scheduler {
   private AtomicLong searchedCount = new AtomicLong(0);
   private AtomicLong prunedCount = new AtomicLong(0);
   private AtomicInteger idleWorkers = new AtomicInteger(0);
-  private AtomicInteger finishedThreads = new AtomicInteger(0);
   private List<DfsWorker> workers = new ArrayList<>();
   private List<Thread> threads = new ArrayList<>();
   private Random random = new Random();
@@ -38,12 +37,17 @@ public class DfsScheduler implements Scheduler {
   private SchedulerStatus status = SchedulerStatus.IDLE;
 
   /**
-   * Creates a new single thread {@link DfsScheduler}.
+   * Creates a new single-threaded {@link DfsScheduler}.
    */
   public DfsScheduler() {
     this.workerCount = 1;
   }
 
+  /**
+   * Creates a new {@link DfsScheduler} with the specified number of threads (Or workers).
+   *
+   * @param workerCount The number of threads to run the scheduler with
+   */
   public DfsScheduler(int workerCount) {
     this.workerCount = workerCount;
   }
@@ -104,9 +108,8 @@ public class DfsScheduler implements Scheduler {
     return this.bestSchedule.get();
   }
 
-
   /**
-   * Performs branch and bound algorithm on a given graph.
+   * Performs the branch and bound algorithm on a given graph.
    *
    * @param taskGraph graph to perform branch and bound on
    * @param worker    Worker who contains to a thread that processes the branch and bound.
@@ -123,7 +126,8 @@ public class DfsScheduler implements Scheduler {
 
     boolean hasWork = true;
 
-    while (hasRunningWorker() && this.finishedThreads.get() != this.workerCount) {
+    while (hasRunningWorker()) {
+
       while (hasWork) {
         Schedule currentSchedule = worker.steal();
         if (currentSchedule == null) {
@@ -134,7 +138,6 @@ public class DfsScheduler implements Scheduler {
         syncCounter++;
 
         if (syncCounter == this.syncThreshold) {
-          System.out.println(this.idleWorkers.get());
           localMinMakespan = this.currentMinMakespan.get();
           this.prunedCount.getAndAdd(localPruneCount);
           this.searchedCount.getAndAdd(localSearchCount);
@@ -179,8 +182,6 @@ public class DfsScheduler implements Scheduler {
 
       hasWork = this.takeWorkFromRandomWorker(worker);
     }
-    this.finishedThreads.incrementAndGet();
-    System.out.println("Finished");
   }
 
   /**
@@ -226,10 +227,12 @@ public class DfsScheduler implements Scheduler {
   }
 
   /**
-   * Steals work from a random worker if current worker is idle.
+   * Steals work from a random worker if the current worker is idle. This will be attempted 3 times
+   * and only return {@code false} if it failed on all 3 attempts. It can fail to steal if the
+   * randomly selected worker is itself or if that worker doesn't have any work available.
    *
    * @param worker that is idle, trying to steal work from another
-   * @return if the steal was successful
+   * @return {@true} if the steal was successful, {@code false} otherwise
    */
   private boolean takeWorkFromRandomWorker(DfsWorker worker) {
     // Randomly choose a worker to steal from. This attempts to evenly distribute the workers being stolen from
