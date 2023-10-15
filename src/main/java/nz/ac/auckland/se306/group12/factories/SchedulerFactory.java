@@ -1,5 +1,6 @@
 package nz.ac.auckland.se306.group12.factories;
 
+import nz.ac.auckland.se306.group12.models.CommandLineArguments;
 import nz.ac.auckland.se306.group12.scheduler.AStarScheduler;
 import nz.ac.auckland.se306.group12.scheduler.DfsAOScheduler;
 import nz.ac.auckland.se306.group12.scheduler.DfsScheduler;
@@ -31,4 +32,18 @@ public class SchedulerFactory {
     }
   }
 
+  /**
+   * Returns a scheduler depending on if the user wants to visualise the search or not since we do
+   * not properly support visualising A* or AO
+   *
+   * @param arguments The parsed commandline arguments
+   * @return A scheduler depending on if the user wants to visualise the search or not
+   */
+  public Scheduler getScheduler(CommandLineArguments arguments) {
+    if (arguments.visualiseSearch()) {
+      return new DfsScheduler();
+    } else {
+      return this.getScheduler(arguments.algorithm());
+    }
+  }
 }
