@@ -54,10 +54,6 @@ public class TerminalVisualizer implements Visualizer {
    * Used to detect the height (in lines) of the visualiser's output terminal window.
    */
   private final TerminalHeight terminalHeightManager = new TerminalHeight();
-  /**
-   * Used to adapt the visualiser output to the terminal window width. If
-   * {@link #terminalWidthManager} cannot detect the window width, the fallback value 80 is used.
-   */
 
   /**
    * The task graph whose schedules (partial or complete) are to be visualised.
@@ -71,15 +67,18 @@ public class TerminalVisualizer implements Visualizer {
    * Whether {@link #scheduler} is using parallel execution.
    */
   private final int executionProcessorCount;
-
   private final LocalDateTime startTime;
 
+  /**
+   * Used to adapt the visualiser output to the terminal window width. If
+   * {@link #terminalWidthManager} cannot detect the window width, the fallback value is used.
+   */
   private int terminalWidth = 80;
   /**
    * Used to adapt the visualiser output to the terminal window height. If
-   * {@link #terminalHeightManager} cannot detect the window height, the fallback value 24 is used.
+   * {@link #terminalHeightManager} cannot detect the window height, the fallback value is used.
    */
-  private int terminalHeight = 38;
+  private int terminalHeight = 32;
   private final int cpuChartBodyHeight;
   private final int resourceChartBodyHeight;
   /**
@@ -112,7 +111,6 @@ public class TerminalVisualizer implements Visualizer {
    * each visualisation cycle for the same reason as {@link #schedulerStatus}.
    */
   private Schedule schedule;
-
 
   /**
    * Instantiates and <strong>immediately begins running</strong> a visualiser.
@@ -177,9 +175,9 @@ public class TerminalVisualizer implements Visualizer {
 
     if (this.terminalWidth < 44) {
       this.drawWindowSizeNotice();
-    } else if (schedule == null) {
+    } else if (this.schedule == null) {
       this.drawLoadingGraphic();
-    } else if (this.ganttChartMaxBodyHeight < 6 || terminalWidth < 72) {
+    } else if (this.ganttChartMaxBodyHeight < 6 || this.terminalWidth < 72) {
       this.drawWindowSizeNotice();
       sb.append(NEW_LINE);
       this.drawStatistics();
@@ -254,7 +252,7 @@ public class TerminalVisualizer implements Visualizer {
   private void drawLoadingGraphic() {
     // Centre-align the graphic
     // 44 is the length of the `Loading...` word art
-    final int length = (44 + (terminalWidth - 44) / 2);
+    final int length = Math.max(1, Math.min(44 + (terminalWidth - 44) / 2, terminalWidth));
 
     final String format = "%" + length + "." + length + "s%n";
     sb.append(AnsiSgrSequenceBuilder.SET_FAINT)
@@ -312,7 +310,7 @@ public class TerminalVisualizer implements Visualizer {
     int stopwatchLength = stopwatchLabel.length();
 
     // Graph name
-    int graphNameLength = Math.max(0, terminalWidth - 16 - stopwatchLength);
+    int graphNameLength = Math.max(1, terminalWidth - 16 - stopwatchLength);
     sb.append(new AnsiSgrSequenceBuilder().normalIntensity()
             .background(AnsiColor.COLOR_CUBE_8_BIT[4][4][5]) // 189 lilac-ish
             .foreground(AnsiColor.COLOR_CUBE_8_BIT[0][0][1])) // 18 blue-black
@@ -566,7 +564,7 @@ public class TerminalVisualizer implements Visualizer {
     // Horizontal axis labels: processors
     int processorCount = this.schedule.getProcessorCount();
     for (int processorIndex = 1; processorIndex <= processorCount; processorIndex++) {
-      sb.append(String.format("P%-" + (columnWidth) + "d", processorIndex));
+      sb.append(String.format("P%-" + columnWidth + "d", processorIndex));
     }
 
     // Horizontal axis label: time
