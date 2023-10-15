@@ -82,6 +82,16 @@ public class Allocation {
   }
 
   /**
+   * Returns whether this is a complete allocation, i.e. All tasks have been allocated to a
+   * processor.
+   *
+   * @return Whether this is a complete allocation
+   */
+  public boolean isComplete() {
+    return this.allocationCount == this.taskGraph.taskCount();
+  }
+
+  /**
    * Returns a deep copy of the processors belonging to this allocation.
    *
    * @return The created processor deep copy

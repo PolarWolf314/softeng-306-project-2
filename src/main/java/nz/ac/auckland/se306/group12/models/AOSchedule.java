@@ -30,20 +30,20 @@ public class AOSchedule {
   private final int[] nextTasks;
   private final int previousTaskIndex;
 
-  public AOSchedule(Graph taskGraph, int processorCount, Allocation allocation) {
-    this.scheduledTasks = new ScheduledTask[taskGraph.taskCount()];
-    this.processorLastTaskIndices = new int[processorCount];
+  public AOSchedule(Allocation allocation) {
+    this.scheduledTasks = new ScheduledTask[allocation.getTaskGraph().taskCount()];
+    this.processorLastTaskIndices = new int[allocation.getProcessors().length];
     Arrays.fill(this.processorLastTaskIndices, -1);
     this.scheduledTaskCount = 0;
     this.latestEndTime = 0;
 
     this.allocation = allocation;
     this.localIndex = 0;
-    this.taskGraph = taskGraph;
+    this.taskGraph = allocation.getTaskGraph();
     this.readyTasks = this.getProcessorReadyTasks(0);
     this.localOrderedCount = 0;
     this.localOrderedWeight = 0;
-    this.nextTasks = new int[taskGraph.taskCount()];
+    this.nextTasks = new int[this.taskGraph.taskCount()];
     Arrays.fill(this.nextTasks, -1);
     this.previousTaskIndex = -1;
 

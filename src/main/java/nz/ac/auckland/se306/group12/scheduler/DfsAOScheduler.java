@@ -3,7 +3,6 @@ package nz.ac.auckland.se306.group12.scheduler;
 import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Queue;
-
 import lombok.Getter;
 import nz.ac.auckland.se306.group12.models.AOSchedule;
 import nz.ac.auckland.se306.group12.models.Allocation;
@@ -27,7 +26,7 @@ public class DfsAOScheduler implements Scheduler {
   private Schedule bestSchedule = null;
   private AOSchedule bestAOSchedule = null;
 
-  /*
+  /**
    * @inheritDoc
    */
   @Override
@@ -36,21 +35,19 @@ public class DfsAOScheduler implements Scheduler {
     Queue<Allocation> stack = Collections.asLifoQueue(new ArrayDeque<>());
     stack.add(new Allocation(taskGraph, processorCount));
 
-    // DFS iteration (no optimisations)
     while (!stack.isEmpty()) {
       Allocation currentAllocation = stack.remove();
 
       // Prune if current allocation is worse than current best schedule
       // Later change this to the allocation heuristic check
-      if (currentAllocation.getMaxWeight() >= currentMinMakespan) {
+      if (currentAllocation.getMaxWeight() >= this.currentMinMakespan) {
         // pruned count here is pruning allocations which is technically different from pruning branches
         continue;
       }
       // Same for searching here
 
-      // Check if current allocation is complete
-      if (currentAllocation.getAllocationCount() == taskGraph.taskCount()) {
-        order(currentAllocation, taskGraph);
+      if (currentAllocation.isComplete()) {
+        this.order(currentAllocation);
         continue;
       }
       currentAllocation.extendAllocation(stack);
@@ -60,10 +57,16 @@ public class DfsAOScheduler implements Scheduler {
     return this.bestAOSchedule.asSchedule();
   }
 
-  private void order(Allocation allocation, Graph taskGraph) {
+  /**
+   * Perfects the ordering of the tasks in an allocation. This will find all valid possible
+   * schedules based on their processor allocations and dependences.
+   *
+   * @param allocation The allocation to order
+   */
+  private void order(Allocation allocation) {
     Queue<AOSchedule> queue = Collections.asLifoQueue(new ArrayDeque<>());
-    queue.add(new AOSchedule(allocation.getTaskGraph(), allocation.getProcessors().length,
-        allocation));
+
+    queue.add(new AOSchedule(allocation));
 
     while (!queue.isEmpty()) {
       AOSchedule currentSchedule = queue.remove();
@@ -77,7 +80,7 @@ public class DfsAOScheduler implements Scheduler {
       this.searchedCount++;
 
       // Check if current schedule is complete
-      if (currentSchedule.getScheduledTaskCount() == taskGraph.taskCount()) {
+      if (currentSchedule.getScheduledTaskCount() == allocation.getTaskGraph().taskCount()) {
         this.currentMinMakespan = currentSchedule.getLatestEndTime();
         this.bestAOSchedule = currentSchedule;
         continue;
