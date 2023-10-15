@@ -3,7 +3,6 @@ package nz.ac.auckland.se306.group12.models;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
-import java.util.Queue;
 import java.util.Set;
 
 import lombok.Getter;
@@ -20,7 +19,6 @@ public class AOSchedule {
   private final ScheduledTask[] scheduledTasks;
   // TODO: abstract this into array of last tasks on a processor
   private final int[] processorEndTimes;
-  private final int latestEndTime;
   private final int scheduledTaskCount;
 
   private final Allocation allocation;
@@ -37,7 +35,6 @@ public class AOSchedule {
     this.scheduledTasks = new ScheduledTask[taskGraph.taskCount()];
     this.processorEndTimes = new int[processorCount];
     this.scheduledTaskCount = 0;
-    this.latestEndTime = 0;
 
     this.allocation = allocation;
     this.localIndex = 0;
@@ -113,10 +110,6 @@ public class AOSchedule {
       return null;
     }
 
-    // TODO: remove this
-    int newLatestEndTime = Math.max(this.latestEndTime, Arrays.stream(newProcessorEndTimes).max()
-        .getAsInt());
-
     Set<Task> newReadyTasks;
     // if all tasks on current processor have been allocated move to next processor
     if (newLocalOrderedCount == this.allocation.getProcessors()[this.localIndex].size()) {
@@ -131,7 +124,6 @@ public class AOSchedule {
 
     return new AOSchedule(newScheduledTasks,
         newProcessorEndTimes,
-        newLatestEndTime,
         scheduledTaskCount + 1,
         allocation,
         newLocalIndex,
