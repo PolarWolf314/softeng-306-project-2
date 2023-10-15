@@ -14,11 +14,15 @@ import nz.ac.auckland.se306.group12.exceptions.InvalidColorException;
  */
 public class AnsiSgrSequenceBuilder {
 
-  public static final String RESET = new AnsiSgrSequenceBuilder().toString();
-
   private static final String CONTROL_SEQUENCE_INTRODUCER = "\033[";
   private static final String CONTROL_SEQUENCE_DELIMITER = "m";
   private static final String SEPARATOR = ";";
+
+  public static final String RESET = new AnsiSgrSequenceBuilder().toString();
+  public static final String SET_BOLD = new AnsiSgrSequenceBuilder().bold().toString();
+  public static final String SET_FAINT = new AnsiSgrSequenceBuilder().faint().toString();
+  public static final String SET_NORMAL_INTENSITY = new AnsiSgrSequenceBuilder().normalIntensity()
+      .toString();
 
   private final StringBuilder stringBuilder = new StringBuilder();
 

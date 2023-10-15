@@ -21,6 +21,7 @@ import nz.ac.auckland.se306.group12.models.datastructures.MaxSizeHashMap;
 
 public class DfsScheduler implements Scheduler {
 
+  private static final String HUMAN_READABLE_NAME = "DFS branch-and-bound (ELS state space)";
   /**
    * After a little bit of trial and error, this seems to be a decent balance between being able to
    * store a lot of schedules in the closed set and not running out of memory. This is subject to
@@ -336,6 +337,11 @@ public class DfsScheduler implements Scheduler {
     this.prunedCount.set(0);
     this.bestSchedule.set(null);
     this.currentMinMakespan.set(Integer.MAX_VALUE);
+  }
+
+  @Override
+  public String getHumanReadableName() {
+    return HUMAN_READABLE_NAME;
   }
 
 }

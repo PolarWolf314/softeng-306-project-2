@@ -31,9 +31,15 @@ public class CommandLineParser {
             |____/ \\___/ |_|   |____/ \\___|_| |_|\\___|\\__,_|\\__,_|_|\\___|_|
                         
             """
-            + "A program for finding the optimal solution to the parallel scheduling problem. "
+            + "A program for finding the optimal solution to the parallel scheduling problem.  "
             + "Given a (small) set of tasks and their dependence relations, this program finds the "
-            + "optimal schedule with which to run them on a homogenous system.");
+            + "optimal schedule with which to run them on a homogenous system."
+            + System.getProperty("line.separator").repeat(2)
+            + "The visualiser renders in the terminal from which you initiate this program, and "
+            + "will expand to fill the space it is given.  Using a relatively large window size is "
+            + "recommended (at least 100 x 40), though you should probably just maximise the "
+            + "window.  (No, reeally, you should.)"
+        );
     this.parser.addArgument(Keys.INPUT_DOT_GRAPH)
         .metavar("INPUT.dot")
         .required(true)
@@ -45,11 +51,12 @@ public class CommandLineParser {
         .help("the number of processors on which to schedule the INPUT graph");
     this.parser.addArgument("-a", "--algorithm")
         .metavar("ALGORITHM")
-        .choices("astar", "dfs")
+        .choices("astar", "dfs", "ao")
         .dest(Keys.ALGORITHM)
         .setDefault("dfs")
-        .help("the algorithm with which to find the optimal schedule (default is dfs);"
-            + " options are astar (A*) and dfs (depth-first search branch and bound)");
+        .help("the algorithm with which to find the optimal schedule (default is dfs); options are "
+            + "astar (A* with ELS space), dfs (DFS branch-and bound with ELS state space) and ao "
+            + "(DFS with allocation-ordering state space)");
     this.parser.addArgument("-p", "--parallel")
         .metavar("N")
         .type(Integer.class)

@@ -3,10 +3,37 @@ package nz.ac.auckland.se306.group12.monitors;
 import com.sun.management.OperatingSystemMXBean;
 import java.lang.management.ManagementFactory;
 import oshi.SystemInfo;
+import oshi.hardware.CentralProcessor;
 
 public class ResourceMonitor {
 
   private static final OperatingSystemMXBean OS_BEAN = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+  private static final CentralProcessor PROCESSOR = new SystemInfo().getHardware().getProcessor();
+  private static final Runtime RUNTIME = Runtime.getRuntime();
+
+  /**
+   * Get the number of logical CPUs available for processing. This value may be higher than physical
+   * CPUs if hyperthreading is enabled.
+   * <p>
+   * On some operating systems with variable numbers of logical processors, may return a max value.
+   *
+   * @return The number of logical CPUs available.
+   */
+  public static int getLogicalProcessorCount() {
+    return PROCESSOR.getLogicalProcessorCount();
+  }
+
+  /**
+   * Get the number of physical CPUs/cores available for processing.
+   * <p>
+   * On some operating systems with variable numbers of physical processors available to the OS, may
+   * return a max value.
+   *
+   * @return The number of physical CPUs available.
+   */
+  public static int getPhysicalProcessorCount() {
+    return PROCESSOR.getPhysicalProcessorCount();
+  }
 
   /**
    * Gets the CPU load per processor core as an array of doubles.
@@ -20,7 +47,7 @@ public class ResourceMonitor {
    */
   public static double[] getProcessorCpuLoad() {
     // Delay is in milliseconds
-    return new SystemInfo().getHardware().getProcessor().getProcessorCpuLoad(310);
+    return PROCESSOR.getProcessorCpuLoad(310);
   }
 
   /**
@@ -36,15 +63,14 @@ public class ResourceMonitor {
    * @return The current memory usage in MiB.
    */
   public static long getMemoryUsageMiB() {
-    final Runtime runtime = Runtime.getRuntime();
-    return (runtime.maxMemory() - runtime.freeMemory()) >> 20; // 2^20 B in a MiB
+    return (RUNTIME.maxMemory() - RUNTIME.freeMemory()) >> 20; // 2^20 B in a MiB
   }
 
   /**
    * @return The maximum available memory in MiB.
    */
   public static long getMaxMemoryMiB() {
-    return Runtime.getRuntime().maxMemory() >> 20; // 2^20 B in a MiB
+    return RUNTIME.maxMemory() >> 20; // 2^20 B in a MiB
   }
 
 }
