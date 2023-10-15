@@ -177,6 +177,8 @@ public class TerminalVisualizer implements Visualizer {
     if (schedule == null) {
       this.drawLoadingGraphic();
     } else {
+      this.drawExecutionSummary();
+      sb.append(NEW_LINE);
       this.drawSystemResourceUsage();
       sb.append(NEW_LINE);
       this.drawGanttChart();
@@ -228,7 +230,7 @@ public class TerminalVisualizer implements Visualizer {
   private int getGanttChartMaxBodyHeight() {
     // To be quite honest, this 15 was merely *informed* by the rest of the code in this class, but
     // its precise value was determined empirically
-    return this.terminalHeight - this.resourceChartBodyHeight - 15;
+    return this.terminalHeight - this.resourceChartBodyHeight - 16;
   }
 
   /**
@@ -245,7 +247,7 @@ public class TerminalVisualizer implements Visualizer {
     final String format = "%" + (44 + (terminalWidth - 44) / 2) + "s%n";
     //                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Centre alignment
     //                     44 is the length of the `Loading...` word art
-    sb.append(new AnsiSgrSequenceBuilder().faint())
+    sb.append(AnsiSgrSequenceBuilder.SET_FAINT)
         .append(String.format(format, " _                    _ _                   "))
         .append(String.format(format, "| |    ___   __ _  __| (_)_ __   __ _       "))
         .append(String.format(format, "| |   / _ \\ / _` |/ _` | | '_ \\ / _` |      "))
@@ -320,6 +322,20 @@ public class TerminalVisualizer implements Visualizer {
         .append(NEW_LINE);
   }
 
+  private void drawExecutionSummary() {
+    sb.append(this.schedulerStatus == SchedulerStatus.SCHEDULING ? "Running " : "Ran ")
+        .append(AnsiSgrSequenceBuilder.SET_BOLD)
+        .append(scheduler.getHumanReadableName())
+        .append(AnsiSgrSequenceBuilder.SET_NORMAL_INTENSITY)
+        .append(" on ")
+        .append(AnsiSgrSequenceBuilder.SET_BOLD)
+        .append(this.executionProcessorCount)
+        .append(AnsiSgrSequenceBuilder.SET_NORMAL_INTENSITY)
+        .append(" threads")
+        .append(AnsiSgrSequenceBuilder.RESET)
+        .append(NEW_LINE);
+  }
+
   /**
    * Draws one of two variants of the system resource usage charts.  If the {@link #scheduler} is
    * using sequential execution, then the "brief" version of the charts is drawn.  If using parallel
@@ -376,20 +392,20 @@ public class TerminalVisualizer implements Visualizer {
     final String cpuHeading = "CPU "
         + AnsiSgrSequenceBuilder.RESET // Length 3
         + cpuLoadPercentage + '%'
-        + new AnsiSgrSequenceBuilder().faint() // Length 4
+        + AnsiSgrSequenceBuilder.SET_FAINT // Length 4
         + " (peak " + this.peakCpuUsagePercentage + "%)";
     final String memoryHeading = "Memory "
         + AnsiSgrSequenceBuilder.RESET // Length 3
         + memoryUsageMiB + '/' + maxMemoryMiB
-        + new AnsiSgrSequenceBuilder().faint() // Length 4
+        + AnsiSgrSequenceBuilder.SET_FAINT // Length 4
         + " (peak " + this.peakMemoryUsageMiB + " MiB)";
     final int sequenceLength = columnWidth + 7;
 
-    sb.append(new AnsiSgrSequenceBuilder().bold())
+    sb.append(AnsiSgrSequenceBuilder.SET_BOLD)
         .append(String.format("%-" + sequenceLength + "." + sequenceLength + "s", cpuHeading))
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(interColumnPadding)
-        .append(new AnsiSgrSequenceBuilder().bold())
+        .append(AnsiSgrSequenceBuilder.SET_BOLD)
         .append(String.format("%-" + sequenceLength + "." + sequenceLength + "s", memoryHeading))
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
@@ -454,12 +470,12 @@ public class TerminalVisualizer implements Visualizer {
     }
 
     // CPU usage chart
-    sb.append(new AnsiSgrSequenceBuilder().bold())
+    sb.append(AnsiSgrSequenceBuilder.SET_BOLD)
         .append("CPU ")
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(cpuLoadPercentage)
         .append("% ")
-        .append(new AnsiSgrSequenceBuilder().faint())
+        .append(AnsiSgrSequenceBuilder.SET_FAINT)
         .append("(peak ")
         .append(this.peakCpuUsagePercentage)
         .append("%)")
@@ -500,14 +516,14 @@ public class TerminalVisualizer implements Visualizer {
     sb.append(NEW_LINE);
 
     // Memory usage chart
-    sb.append(new AnsiSgrSequenceBuilder().bold())
+    sb.append(AnsiSgrSequenceBuilder.SET_BOLD)
         .append("Memory ")
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(memoryUsageMiB)
         .append('/')
         .append(maxMemoryMiB)
         .append(" MiB ")
-        .append(new AnsiSgrSequenceBuilder().faint())
+        .append(AnsiSgrSequenceBuilder.SET_FAINT)
         .append("(peak ")
         .append(this.peakMemoryUsageMiB)
         .append(" MiB)")
@@ -630,7 +646,7 @@ public class TerminalVisualizer implements Visualizer {
         - makespanChip.length()));
 
     // Makespan chip
-    sb.append(new AnsiSgrSequenceBuilder().bold())
+    sb.append(AnsiSgrSequenceBuilder.SET_BOLD)
         .append("Makespan ") // Length 9
         .append(new AnsiSgrSequenceBuilder()
             .background(238) // #444 grey
