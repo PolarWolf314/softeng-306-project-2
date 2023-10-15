@@ -2,6 +2,7 @@ package nz.ac.auckland.se306.group12.scheduler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -19,17 +20,18 @@ import nz.ac.auckland.se306.group12.models.Task;
 public class DfsScheduler implements Scheduler {
 
   private final AtomicReference<Schedule> bestSchedule = new AtomicReference<>();
+  private final AtomicInteger currentMinMakespan = new AtomicInteger(Integer.MAX_VALUE);
   private AtomicLong searchedCount = new AtomicLong(0);
   private AtomicLong prunedCount = new AtomicLong(0);
-  private AtomicInteger currentMinMakespan = new AtomicInteger(Integer.MAX_VALUE);
   @Getter
   private SchedulerStatus status = SchedulerStatus.IDLE;
   private Set<Thread> threads = ConcurrentHashMap.newKeySet();
   private AtomicInteger idleWorkers = new AtomicInteger(0);
   private Set<String> closed = ConcurrentHashMap.newKeySet();
   private List<DfsWorker> workers = new ArrayList<>();
+  private Random rand = new Random();
   private boolean hasStarted = false;
-  private int syncThreshold = 1;
+  private int syncThreshold = 64;
   private int workerNum = 1;
 
   @Override
@@ -54,7 +56,7 @@ public class DfsScheduler implements Scheduler {
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
     this.status = SchedulerStatus.SCHEDULING;
-    this.workerNum = 8;
+    this.workerNum = 4;
 
     DfsWorker worker = new DfsWorker();
     worker.give(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
@@ -64,6 +66,7 @@ public class DfsScheduler implements Scheduler {
       workers.add(new DfsWorker());
     }
 
+    System.out.println(taskGraph.getName());
     Thread mainThread = new Thread(() -> {
       branchAndBound(taskGraph, worker);
     });
@@ -99,22 +102,22 @@ public class DfsScheduler implements Scheduler {
    *
    * @param taskGraph graph to perform branch and bound on
    * @param worker    Worker who contains to a thread that processes the branch and bound.
-   * @return
    */
-  private Schedule branchAndBound(Graph taskGraph, DfsWorker worker) {
+  private void branchAndBound(Graph taskGraph, DfsWorker worker) {
     // DFS iteration (no optimisations)
     int syncCounter = 0;
     int localMinMakespan = this.currentMinMakespan.get();
+
     boolean hasWork = true;
 
-    while (this.idleWorkers.get() < this.workers.size()) {
+    while (hasRunningWorker()) {
       while (hasWork) {
-        if (worker.getQueue().isEmpty()) {
-          this.idleWorkers.incrementAndGet();
+        Schedule currentSchedule = worker.steal();
+        if (currentSchedule == null) {
           hasWork = false;
+          idleWorkers.incrementAndGet();
           break;
         }
-        Schedule currentSchedule = worker.steal();
         syncCounter++;
 
         if (syncCounter == this.syncThreshold) {
@@ -133,10 +136,7 @@ public class DfsScheduler implements Scheduler {
         // Check if current schedule is complete
         if (currentSchedule.getScheduledTaskCount() == taskGraph.taskCount()) {
           localMinMakespan = currentSchedule.getLatestEndTime();
-          if (localMinMakespan < this.currentMinMakespan.get()) {
-            this.currentMinMakespan = new AtomicInteger(localMinMakespan);
-            this.bestSchedule.set(currentSchedule);
-          }
+          updateGlobalMinMakespanAndSchedule(currentSchedule);
           continue;
         }
 
@@ -158,17 +158,40 @@ public class DfsScheduler implements Scheduler {
         }
       }
 
-      for (DfsWorker dfsWorker : workers) {
-        if (dfsWorker.getQueue().size() > 1 && dfsWorker != worker) {
-          worker.give(dfsWorker.steal());
-          hasWork = true;
-          this.idleWorkers.decrementAndGet();
-          break;
-        }
-      }
-
+      hasWork = this.takeWorkFromRandomWorker(worker);
     }
-    return this.bestSchedule.get();
+
+    System.out.println(localMinMakespan);
+  }
+
+  private boolean takeWorkFromRandomWorker(DfsWorker worker) {
+    // Randomly choose a worker to steal from. This attempts to evenly distribute the workers being stolen from
+    int index = this.rand.nextInt(this.workerNum);
+    DfsWorker dfsWorker = this.workers.get(index);
+    if (dfsWorker == worker) {
+      return false;
+    }
+
+    Schedule work = dfsWorker.steal();
+    if (work != null) {
+      worker.give(work);
+      this.idleWorkers.decrementAndGet();
+      return true;
+    }
+
+    return false;
+  }
+
+  private boolean hasRunningWorker() {
+    return this.idleWorkers.get() < this.workerNum;
+  }
+
+  private synchronized void updateGlobalMinMakespanAndSchedule(Schedule currentSchedule) {
+    int localMinMakespan = currentSchedule.getLatestEndTime();
+    if (localMinMakespan < this.currentMinMakespan.get()) {
+      this.currentMinMakespan.set(localMinMakespan);
+      this.bestSchedule.set(currentSchedule);
+    }
   }
 
   /**

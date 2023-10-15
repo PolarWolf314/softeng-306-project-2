@@ -1,8 +1,7 @@
 package nz.ac.auckland.se306.group12.models;
 
 import java.util.ArrayDeque;
-import java.util.Collections;
-import java.util.Queue;
+import java.util.Deque;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -12,24 +11,18 @@ import lombok.ToString;
 @ToString
 public class DfsWorker {
 
-  private final Queue<Schedule> queue = Collections.asLifoQueue(new ArrayDeque<>());
-  private boolean hasWork = false;
+  private final Deque<Schedule> stack = new ArrayDeque<>();
 
   public boolean hasWork() {
-    return hasWork;
+    return !stack.isEmpty();
   }
 
   public void give(Schedule schedule) {
-    this.queue.add(schedule);
-    this.hasWork = true;
+    this.stack.push(schedule);
   }
 
   public Schedule steal() {
-    Schedule work = this.queue.poll();
-    if (this.queue.isEmpty()) {
-      hasWork = false;
-    }
-    return work;
+    return this.stack.pollFirst();
   }
 
 }
