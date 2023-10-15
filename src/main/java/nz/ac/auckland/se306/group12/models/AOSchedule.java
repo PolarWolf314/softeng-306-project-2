@@ -73,16 +73,25 @@ public class AOSchedule {
   public void extendSchedule(Queue<AOSchedule> queue) {
     // Check to find if any tasks can be scheduled and schedule them
     for (Task task : getReadyTasks()) {
-      int latestStartTime = getLatestStartTimeOf(task);
-      // Ensure that it either schedules by latest time or after the last task on the processor
-      int startTime = Math.max(latestStartTime, getLatestEndTimeOf(this.localIndex));
-      int endTime = startTime + task.getWeight();
-      ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, this.localIndex);
+      ScheduledTask newScheduledTask = extendWithTask(task);
       AOSchedule newSchedule = extendWithTask(newScheduledTask, task);
       if (newSchedule != null) {
         queue.add(newSchedule);
       }
     }
+  }
+
+  /**
+   * This method gets the next schedule based on the task being scheduled
+   *
+   * @param task Task to be scheduled
+   * @return AOSchedule with the task scheduled representing the next iteration
+   */
+  private ScheduledTask extendWithTask(Task task) {
+    int startTime = getLatestStartTimeOf(task);
+    int endTime = startTime + task.getWeight();
+    ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, this.localIndex);
+    return newScheduledTask;
   }
 
   /**
