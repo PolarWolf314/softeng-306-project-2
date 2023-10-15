@@ -368,6 +368,7 @@ public class TerminalVisualizer implements Visualizer {
         .append(String.format("%-" + sequenceLength + "." + sequenceLength + "s", cpuHeading))
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(interColumnPadding)
+        .append(new AnsiSgrSequenceBuilder().bold())
         .append(String.format("%-" + sequenceLength + "." + sequenceLength + "s", memoryHeading))
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
