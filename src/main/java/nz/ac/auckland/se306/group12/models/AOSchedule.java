@@ -18,6 +18,7 @@ public class AOSchedule {
   private final ScheduledTask[] scheduledTasks;
   private final int[] processorLastTasks;
   private final int scheduledTaskCount;
+  private final int latestEndTime;
 
   private final Allocation allocation;
   private final int localIndex;
@@ -34,6 +35,7 @@ public class AOSchedule {
     this.processorLastTasks = new int[processorCount];
     Arrays.fill(this.processorLastTasks, -1);
     this.scheduledTaskCount = 0;
+    this.latestEndTime = 0;
 
     this.allocation = allocation;
     this.localIndex = 0;
@@ -54,7 +56,7 @@ public class AOSchedule {
    * @return Set of ready tasks
    */
   private Set<Task> getProcessorReadyTasks(int processorIndex) {
-    Set<Task> newReadyTasks = new BitSet<Task>(this.taskGraph);
+    Set<Task> newReadyTasks = new BitSet<>(this.taskGraph);
     for (Task task : this.taskGraph.getTasks()) {
       // check if the task being checked is the current local processor
       if (this.getAllocatedProcessorOf(task) == processorIndex) {
@@ -132,6 +134,7 @@ public class AOSchedule {
         newScheduledTasks,
         newProcessorLastTasks,
         this.scheduledTaskCount + 1,
+        this.getNewLatestEndTime(newProcessorLastTasks, newScheduledTasks),
         this.allocation,
         newLocalIndex,
         newLocalOrderedCount,
@@ -251,6 +254,28 @@ public class AOSchedule {
   }
 
   /**
+   * Determines the new latest end time of the schedule based on the new scheduled tasks and the
+   * last tasks on each processor. We have to check every processor as propagation may cause any
+   * number of the end times to change, and so we cannot just check the processor of the new task.
+   *
+   * @param newProcessorLastTasks The index on the last task on each processor
+   * @param newScheduledTasks     The scheduled tasks
+   * @return The new latest end time of the schedule
+   */
+  private int getNewLatestEndTime(int[] newProcessorLastTasks, ScheduledTask[] newScheduledTasks) {
+    int newLatestEndTime = 0;
+    for (int processorIndex = 0; processorIndex < newProcessorLastTasks.length; processorIndex++) {
+      int processorEndTime = this.getLatestEndTimeOf(processorIndex, newProcessorLastTasks,
+          newScheduledTasks);
+      if (processorEndTime > newLatestEndTime) {
+        newLatestEndTime = processorEndTime;
+      }
+    }
+
+    return newLatestEndTime;
+  }
+
+  /**
    * This method finds the latest start time for a task on its allocated processor
    *
    * @param task Task to find the latest start time for
@@ -322,20 +347,6 @@ public class AOSchedule {
         this.readyTasks,
         this.taskGraph.getTotalTaskWeights(),
         0, 0);
-  }
-
-  /**
-   * Gets the latest end time of the schedule
-   *
-   * @return Latest end time of the schedule
-   */
-  public int getLatestEndTime() {
-    return Arrays.stream(this.scheduledTasks).mapToInt(scheduledTask -> {
-      if (scheduledTask == null) {
-        return 0;
-      }
-      return scheduledTask.getEndTime();
-    }).max().orElse(0);
   }
 
   /**
