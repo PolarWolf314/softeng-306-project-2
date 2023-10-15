@@ -36,6 +36,12 @@ public class TerminalVisualizer implements Visualizer {
   private static final int PROCESSOR_IDLE = -1;
 
   /**
+   * The number of logical processors available for execution. The {@link #scheduler} may or may not
+   * use all of them.
+   */
+  private final int systemProcessorCount = ResourceMonitor.getLogicalProcessorCount();
+
+  /**
    * Used to detect the width (in characters) of the visualiser's output terminal window.
    */
   private final TerminalWidth terminalWidthManager = new TerminalWidth();
@@ -95,6 +101,7 @@ public class TerminalVisualizer implements Visualizer {
    */
   private Schedule schedule;
 
+
   /**
    * Instantiates and <strong>immediately begins running</strong> a visualiser.
    * <p>
@@ -137,8 +144,6 @@ public class TerminalVisualizer implements Visualizer {
    */
   private void visualize() {
     this.eraseDisplay();
-    this.drawHorizontalRule();
-    sb.append(NEW_LINE);
 
     // Get latest data
     this.schedulerStatus = scheduler.getStatus();
@@ -146,15 +151,17 @@ public class TerminalVisualizer implements Visualizer {
     this.updateTerminalDimensions();
 
     // Prepare frame
+    this.drawHorizontalRule();
+    sb.append(NEW_LINE);
     this.drawStatusBar();
     sb.append(NEW_LINE);
     if (schedule == null) {
       this.drawLoadingGraphic();
     } else {
-      if (schedulerStatus != SchedulerStatus.SCHEDULED) {
-        this.drawSystemResourceUsage();
-        sb.append(NEW_LINE);
-      }
+//      if (schedulerStatus != SchedulerStatus.SCHEDULED) {
+      this.drawSystemResourceUsage();
+      sb.append(NEW_LINE);
+//      }
       this.drawGanttChart();
       sb.append(NEW_LINE);
       this.drawStatistics();
@@ -285,7 +292,6 @@ public class TerminalVisualizer implements Visualizer {
     final int cpuChartWidth = memoryChartWidth - 3; // -1 for padding, -3 for CPU label
 
     final double[] coreLoads = ResourceMonitor.getProcessorCpuLoad();
-    final int coreCount = coreLoads.length; // Determines chart height
 
     final int cpuLoadPercentage = (int) Math.round(ResourceMonitor.getSystemCpuLoad() * 100);
 
@@ -315,7 +321,7 @@ public class TerminalVisualizer implements Visualizer {
         + AnsiSgrSequenceBuilder.RESET;
 
     // Chart body
-    for (int i = 0; i < coreCount; i++) {
+    for (int i = 0; i < this.systemProcessorCount; i++) {
       // Row in CPU chart
       final String cpuLabel = String.format("%2d ", i + 1);
       final int coreUsageQuantized = (int) Math.round(cpuChartWidth * coreLoads[i]);
@@ -359,10 +365,14 @@ public class TerminalVisualizer implements Visualizer {
 
     // Chart body
     int[][] verticalGantt = scheduleToGantt(this.schedule);
+    int makespan = verticalGantt.length;
+
+    int maxChartHeight = this.terminalHeight - this.systemProcessorCount - 15;// This "max" is slightly conservative
+    int scale = Math.max(1, makespan / maxChartHeight);
 
     boolean[] taskRenderStarted = new boolean[this.schedule.getScheduledTaskCount()];
-    for (int time = 0, makespan = verticalGantt.length; time < makespan; time++) {
-
+    int rowNumber = 0;
+    for (int time = 0; time < makespan; time += scale) {
       // Slight abuse of term, this "time slice" always has duration 1
       int[] timeSlice = verticalGantt[time];
       for (int activeTaskIndex : timeSlice) {
@@ -390,10 +400,10 @@ public class TerminalVisualizer implements Visualizer {
       // Vertical axis label: time
       // Not enforcing maximum length in case of long makespans (this may cause text wrap issues in
       // narrow terminals)
-      sb.append(time % 5 == 4
+      sb.append(++rowNumber % 3 == 0
           ? String.format("%s%" + timeLabelWidth + "d%s",
           new AnsiSgrSequenceBuilder().faint().underline(),
-          time + 1,
+          time,
           AnsiSgrSequenceBuilder.RESET)
           : columnSlice);
 
