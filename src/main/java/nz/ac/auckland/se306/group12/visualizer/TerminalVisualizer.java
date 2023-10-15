@@ -70,7 +70,7 @@ public class TerminalVisualizer implements Visualizer {
   /**
    * Whether {@link #scheduler} is using parallel execution.
    */
-  private final boolean executionIsParallel;
+  private final int executionProcessorCount;
 
   private final LocalDateTime startTime;
 
@@ -132,7 +132,7 @@ public class TerminalVisualizer implements Visualizer {
   public TerminalVisualizer(Graph taskGraph, Scheduler scheduler, int executionProcessorCount) {
     this.taskGraph = taskGraph;
     this.scheduler = scheduler;
-    this.executionIsParallel = executionProcessorCount > 1;
+    this.executionProcessorCount = executionProcessorCount;
     this.startTime = LocalDateTime.now();
 
     // No need to keep the returned ScheduledFuture; the ScheduledExecutorService shutdown takes
