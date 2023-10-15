@@ -9,7 +9,7 @@ A program for finding the optimal solution to the parallel scheduling problem. G
 
 ## 💡 For best visualisation, maximise terminal window
 
-The visualiser renders in the terminal from which you initiate this program, and will expand to fill the space it is given. Using a relatively large window size is recommended (at least 100 x 40), though you should probably just maximise the window. (No, really, you should.)
+The visualiser renders in the terminal from which you initiate this program, and will expand to fill the space it is given. Using a relatively large window size is recommended (at least 100&nbsp;×&nbsp;40), though you should probably just maximise the window. (No, really, you should.)
 
 ## ⌨️ Command line interface
 
