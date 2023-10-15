@@ -30,10 +30,11 @@ named arguments:
                          the algorithm with which to find the optimal schedule
                          (default is dfs); options are astar (A* with ELS state
                          space), dfs (DFS branch-and-bound with ELS state space)
-                         and ao (DFS with allocation–ordering state space)
+                         and ao (DFS B&B with allocation–ordering state space)
   -p N, --parallel N     use N cores for execution in parallel (default is 1,
                          sequential execution)
-  -v, --visualise        visualise the search
+  -v, --visualise        visualise the search; nullifies the effect of -a,
+                         forcing use of DFS B&B with ELS state space.
   -o OUTPUT, --output OUTPUT
                          write the resultant DOT file to path OUTPUT (default is
                          INPUT-output.dot); has no effect if -s is also set
