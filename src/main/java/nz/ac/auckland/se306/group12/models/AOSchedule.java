@@ -92,7 +92,8 @@ public class AOSchedule {
    * @return A new schedule with the given task added to the end of the schedule
    */
   public AOSchedule extendWithTask(ScheduledTask scheduledTask, Task task) {
-    ScheduledTask[] newScheduledTasks = deepCopyScheduledTasks();
+    ScheduledTask[] newScheduledTasks = Arrays.copyOf(this.scheduledTasks,
+        this.scheduledTasks.length);
     int[] newProcessorEndTimes = Arrays.copyOf(this.processorEndTimes,
         this.processorEndTimes.length);
 
@@ -145,23 +146,6 @@ public class AOSchedule {
   }
 
   /**
-   * Creates a deep copy of the list of ScheduleTtasks
-   * <p>
-   * TODO: refactor code so deepcopy is not needed
-   * 
-   * @return A deep copy of the list of ScheduleTasks
-   */
-  private ScheduledTask[] deepCopyScheduledTasks() {
-    ScheduledTask[] newScheduledTasks = new ScheduledTask[this.scheduledTasks.length];
-    for (int i = 0; i < this.scheduledTasks.length; i++) {
-      if (this.scheduledTasks[i] != null) {
-        newScheduledTasks[i] = new ScheduledTask(this.scheduledTasks[i]);
-      }
-    }
-    return newScheduledTasks;
-  }
-
-  /**
    * Iteratively propagates the new scheduled task's end time to all
    * children nodes (graph-wise) and descendants (processor-wise)
    *
@@ -192,7 +176,10 @@ public class AOSchedule {
             .getProcessorIndex()
                 ? parentEndTime
                 : parentEndTime + outEdge.getWeight();
-        if (updateScheduledTask(childTask, childScheduledTask, childStartTime)) {
+        ScheduledTask newScheduledTask = getUpdatedScheduledTask(childTask,
+            childScheduledTask, childStartTime);
+        if (newScheduledTask != null) {
+          newScheduledTasks[childTask.getIndex()] = newScheduledTask;
           stack.push(childTask);
         }
       }
@@ -202,7 +189,10 @@ public class AOSchedule {
       if (descendantIndex != -1) {
         Task descendantTask = taskGraph.getTask(descendantIndex);
         ScheduledTask descendantScheduledTask = newScheduledTasks[descendantIndex];
-        if (updateScheduledTask(descendantTask, descendantScheduledTask, parentEndTime)) {
+        ScheduledTask newScheduledTask = getUpdatedScheduledTask(descendantTask,
+            descendantScheduledTask, parentEndTime);
+        if (newScheduledTask != null) {
+          newScheduledTasks[descendantIndex] = newScheduledTask;
           stack.push(descendantTask);
         }
       }
@@ -213,20 +203,19 @@ public class AOSchedule {
   /**
    * Updates the scheduled task if the new start time is greater than the current start time
    *
-   * @param childTask          Task to be updated
-   * @param childScheduledTask Scheduled task representation of the task to be updated
-   * @param childStartTime     New start time of the task
+   * @param task          Task to be updated
+   * @param scheduledTask Scheduled task representation of the task to be updated
+   * @param startTime     New start time of the task
    * @return True if the task was updated, false otherwise
    */
-  private boolean updateScheduledTask(Task childTask, ScheduledTask childScheduledTask,
-      int childStartTime) {
+  private ScheduledTask getUpdatedScheduledTask(Task task, ScheduledTask scheduledTask,
+      int startTime) {
     // if the child task needs updating then update
-    if (childScheduledTask.getStartTime() < childStartTime) {
-      childScheduledTask.setStartTime(childStartTime);
-      childScheduledTask.setEndTime(childStartTime + childTask.getWeight());
-      return true;
+    if (scheduledTask.getStartTime() < startTime) {
+      return new ScheduledTask(startTime, startTime + task.getWeight(),
+          scheduledTask.getProcessorIndex());
     }
-    return false;
+    return null;
   }
 
   /**
@@ -327,7 +316,7 @@ public class AOSchedule {
    * @return Schedule representation of the AOSchedule
    */
   public Schedule asSchedule() {
-    return new Schedule(deepCopyScheduledTasks(),
+    return new Schedule(this.scheduledTasks,
         this.processorEndTimes,
         getLatestEndTime(),
         this.scheduledTaskCount,
