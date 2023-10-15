@@ -19,6 +19,7 @@ public class AOSchedule {
   private final ScheduledTask[] scheduledTasks;
   // TODO: abstract this into array of last tasks on a processor
   private final int[] processorEndTimes;
+  private final int[] processorLastTasks;
   private final int scheduledTaskCount;
 
   private final Allocation allocation;
@@ -34,6 +35,8 @@ public class AOSchedule {
   public AOSchedule(Graph taskGraph, int processorCount, Allocation allocation) {
     this.scheduledTasks = new ScheduledTask[taskGraph.taskCount()];
     this.processorEndTimes = new int[processorCount];
+    this.processorLastTasks = new int[processorCount];
+    Arrays.fill(this.processorLastTasks, -1);
     this.scheduledTaskCount = 0;
 
     this.allocation = allocation;
@@ -92,6 +95,9 @@ public class AOSchedule {
         this.scheduledTasks.length);
     int[] newProcessorEndTimes = Arrays.copyOf(this.processorEndTimes,
         this.processorEndTimes.length);
+    int[] newProcessorLastTasks = Arrays.copyOf(this.processorLastTasks,
+        this.processorLastTasks.length);
+    newProcessorLastTasks[scheduledTask.getProcessorIndex()] = task.getIndex();
 
     newScheduledTasks[task.getIndex()] = scheduledTask;
     int processorIndex = scheduledTask.getProcessorIndex();
@@ -122,8 +128,10 @@ public class AOSchedule {
       newReadyTasks = this.getNewReadyTasks(task, newScheduledTasks);
     }
 
-    return new AOSchedule(newScheduledTasks,
+    return new AOSchedule(
+        newScheduledTasks,
         newProcessorEndTimes,
+        newProcessorLastTasks,
         scheduledTaskCount + 1,
         allocation,
         newLocalIndex,
@@ -338,12 +346,18 @@ public class AOSchedule {
    * @return Latest end time of the processor
    */
   public int getLatestEndTimeOf(int processor) {
-    return Arrays.stream(scheduledTasks).mapToInt(scheduledTask -> {
-      if (scheduledTask == null || scheduledTask.getProcessorIndex() != processor) {
-        return 0;
-      }
-      return scheduledTask.getEndTime();
-    }).max().orElse(0);
+    int lastTaskIndex = this.processorLastTasks[processor];
+    if (lastTaskIndex == -1) {
+      return 0;
+    }
+    return this.scheduledTasks[lastTaskIndex].getEndTime();
+
+    // return Arrays.stream(scheduledTasks).mapToInt(scheduledTask -> {
+    //   if (scheduledTask == null || scheduledTask.getProcessorIndex() != processor) {
+    //     return 0;
+    //   }
+    //   return scheduledTask.getEndTime();
+    // }).max().orElse(0);
 
   }
 
