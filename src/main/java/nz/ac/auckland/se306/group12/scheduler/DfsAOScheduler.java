@@ -40,7 +40,7 @@ public class DfsAOScheduler implements Scheduler {
 
       // Prune if current allocation is worse than current best schedule
       // Later change this to the allocation heuristic check
-      if (currentAllocation.getMaxWeight() >= this.currentMinMakespan) {
+      if (currentAllocation.getAllocationHeuristic() >= this.currentMinMakespan) {
         // pruned count here is pruning allocations which is technically different from pruning branches
         continue;
       }
