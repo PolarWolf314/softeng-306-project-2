@@ -176,6 +176,10 @@ public class TerminalVisualizer implements Visualizer {
     sb.append(NEW_LINE);
     if (schedule == null) {
       this.drawLoadingGraphic();
+    } else if (this.ganttChartMaxBodyHeight < 6 || terminalWidth < 71) {
+      this.drawWindowSizeNotice();
+      sb.append(NEW_LINE);
+      this.drawStatistics();
     } else {
       this.drawExecutionSummary();
       sb.append(NEW_LINE);
@@ -244,9 +248,11 @@ public class TerminalVisualizer implements Visualizer {
    * </pre>
    */
   private void drawLoadingGraphic() {
-    final String format = "%" + (44 + (terminalWidth - 44) / 2) + "s%n";
-    //                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Centre alignment
-    //                     44 is the length of the `Loading...` word art
+    // Centre-align the graphic
+    // 44 is the length of the `Loading...` word art
+    final int length = (44 + (terminalWidth - 44) / 2);
+
+    final String format = "%" + length + "." + length + "s%n";
     sb.append(AnsiSgrSequenceBuilder.SET_FAINT)
         .append(String.format(format, " _                    _ _                   "))
         .append(String.format(format, "| |    ___   __ _  __| (_)_ __   __ _       "))
@@ -664,6 +670,22 @@ public class TerminalVisualizer implements Visualizer {
     sb.append(new AnsiSgrSequenceBuilder()
             .foreground(AnsiColor.COLOR_CUBE_8_BIT[1][1][5])) // 63 lavender-ish
         .append("─".repeat(terminalWidth))
+        .append(AnsiSgrSequenceBuilder.RESET)
+        .append(NEW_LINE);
+  }
+
+  private void drawWindowSizeNotice() {
+    final String line1 = "Increase window size to visualise the search";
+    final String line2 = "At least 100x40 recommended";
+    sb.append(" ".repeat(Math.max(0, this.terminalWidth - line1.length()) / 2))
+        .append(new AnsiSgrSequenceBuilder()
+            .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][2][0])
+            .bold())
+        .append(line1)
+        .append(AnsiSgrSequenceBuilder.SET_NORMAL_INTENSITY)
+        .append(NEW_LINE)
+        .append(" ".repeat(Math.max(0, this.terminalWidth - line2.length()) / 2))
+        .append(line2)
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
   }
