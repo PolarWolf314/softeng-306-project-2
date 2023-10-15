@@ -89,6 +89,9 @@ public class AStarScheduler implements Scheduler {
     throw new IllegalStateException("No optimal schedule found");
   }
 
+  /**
+   * Resets the scheduler to its initial state so that it can be used to schedule a new graph.
+   */
   private void resetScheduler() {
     this.searchedCount = 0;
     this.prunedCount = 0;

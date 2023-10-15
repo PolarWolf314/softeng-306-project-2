@@ -95,6 +95,9 @@ public class DfsScheduler implements Scheduler {
     return this.bestSchedule;
   }
 
+  /**
+   * Resets the scheduler to its initial state so that it can be used to schedule a new graph.
+   */
   private void resetScheduler() {
     this.searchedCount = 0;
     this.prunedCount = 0;
