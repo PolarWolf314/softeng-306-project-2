@@ -55,8 +55,8 @@ public class CommandLineParser {
         .dest(Keys.ALGORITHM)
         .setDefault("dfs")
         .help("the algorithm with which to find the optimal schedule (default is dfs); options are "
-            + "astar (A* with ELS space), dfs (DFS branch-and bound with ELS state space) and ao "
-            + "(DFS with allocation-ordering state space)");
+            + "astar (A* with ELS state space), dfs (DFS branch-and bound with ELS state space) and "
+            + "ao (DFS with allocation-ordering state space)");
     this.parser.addArgument("-p", "--parallel")
         .metavar("N")
         .type(Integer.class)
