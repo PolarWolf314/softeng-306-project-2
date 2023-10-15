@@ -28,14 +28,7 @@ public class DotGraphIO {
    */
   public Graph readDotGraph(File inputDotGraph) throws IOException {
     GraphParser parser = new GraphParser(new FileInputStream(inputDotGraph));
-
-    // removing leading and trailing quotes from the graph name
-    String graphName = parser.getGraphId();
-    if (graphName.startsWith("\"") && graphName.endsWith("\"")) {
-      graphName = graphName.substring(1, graphName.length() - 1);
-    }
-
-    Graph graph = new Graph(graphName);
+    Graph graph = new Graph(parser.getGraphId());
 
     for (GraphNode graphNode : parser.getNodes().values()) {
       int weight = Integer.parseInt(graphNode.getAttributes().get("Weight").toString());
