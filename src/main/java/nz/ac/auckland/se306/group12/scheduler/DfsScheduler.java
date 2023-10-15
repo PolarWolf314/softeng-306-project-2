@@ -21,10 +21,16 @@ import nz.ac.auckland.se306.group12.models.datastructures.MaxSizeHashMap;
 
 public class DfsScheduler implements Scheduler {
 
-  private static final int MAX_CLOSED_SET_SIZE = 1 << 18;
-  private final AtomicReference<Schedule> bestSchedule = new AtomicReference<>();
-  private final AtomicInteger currentMinMakespan = new AtomicInteger(Integer.MAX_VALUE);
+
+  /**
+   * After a little bit of trial and error, this seems to be a decent balance between being able to
+   * store a lot of schedules in the closed set and not running out of memory. This is subject to
+   * change as we do more testing.
+   */
+  private static final int MAX_CLOSED_SET_SIZE = 1 << 18; // 262144
   private final int workerCount;
+  private AtomicReference<Schedule> bestSchedule = new AtomicReference<>();
+  private AtomicInteger currentMinMakespan = new AtomicInteger(Integer.MAX_VALUE);
   private AtomicLong searchedCount = new AtomicLong(0);
   private AtomicLong prunedCount = new AtomicLong(0);
   private AtomicInteger idleWorkers = new AtomicInteger(0);
@@ -32,7 +38,6 @@ public class DfsScheduler implements Scheduler {
   private List<Thread> threads = new ArrayList<>();
   private Random random = new Random();
   private int syncThreshold = 1024;
-
   @Getter
   private SchedulerStatus status = SchedulerStatus.IDLE;
 
@@ -73,6 +78,7 @@ public class DfsScheduler implements Scheduler {
    */
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
+    this.resetScheduler();
     this.status = SchedulerStatus.SCHEDULING;
 
     DfsWorker initWorker = new DfsWorker();
@@ -322,6 +328,16 @@ public class DfsScheduler implements Scheduler {
 
     closed.put(stringHash, Boolean.TRUE);
     return false;
+  }
+
+  /**
+   * Resets the scheduler to its initial state so that it can be used to schedule a new graph.
+   */
+  private void resetScheduler() {
+    this.searchedCount.set(0);
+    this.prunedCount.set(0);
+    this.bestSchedule.set(null);
+    this.currentMinMakespan.set(Integer.MAX_VALUE);
   }
 
 }

@@ -12,6 +12,7 @@ import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
 import nz.ac.auckland.se306.group12.models.SchedulerStatus;
+import nz.ac.auckland.se306.group12.monitors.ResourceMonitor;
 import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 import nz.ac.auckland.se306.group12.visualizer.util.AnsiColor;
 import nz.ac.auckland.se306.group12.visualizer.util.AnsiSgrSequenceBuilder;
@@ -61,6 +62,10 @@ public class TerminalVisualizer implements Visualizer {
    * The {@link Scheduler} whose progress to visualise.
    */
   private final Scheduler scheduler;
+  /**
+   * Whether {@link #scheduler} is using parallel execution.
+   */
+  private final boolean executionIsParallel;
 
   /**
    * Responsible for re-rendering the visualisation on a regular basis, based on the
@@ -71,16 +76,16 @@ public class TerminalVisualizer implements Visualizer {
 
   /**
    * This visualiser’s output is just a massive string. This is where the heavy lifting gets done.
-   * Initial capacity of 1000 is actually conservative, but already miles more appropriate than the
+   * This initial capacity is actually conservative, but already miles more appropriate than the
    * default 16.
    */
-  private final StringBuilder sb = new StringBuilder(1000);
+  private final StringBuilder sb = new StringBuilder(1200);
   private final AsciiSpinner spinner = new BrailleSpinner();
 
   /**
    * If the visualiser could run instantaneously, then this field would be redundant. However, if
    * methods in this class independently access {@link #scheduler}, then they may receive different
-   * data. This results in a single visualisation "snapshot" showing internally inconsistnet
+   * data. This results in a single visualisation "snapshot" showing internally inconsistent
    * information.
    */
   private SchedulerStatus schedulerStatus;
@@ -92,21 +97,34 @@ public class TerminalVisualizer implements Visualizer {
 
   /**
    * Instantiates and <strong>immediately begins running</strong> a visualiser.
+   * <p>
+   * The rate at which {@link #visualize()} may be run is inextricably coupled to the delay used by
+   * {@link ResourceMonitor#getProcessorCpuLoad()}, because it will take at least that long to
+   * return its value.  If the period is too short, the executor will have a backlog, which renders
+   * the visualiser ineffective.  Ignoring that annoying method, {@link #visualize()} should
+   * comfortably take somewhere in the order of 100 ms to run.
    *
-   * @param taskGraph The task graph whose schedules (partial and/or complete) are to be
-   *                  visualised.
-   * @param scheduler The {@link Scheduler} whose progress to visualise.
+   * @param taskGraph               The task graph whose schedules (partial and/or complete) are to
+   *                                be visualised.
+   * @param scheduler               The {@link Scheduler} whose progress to visualise.
+   * @param executionProcessorCount The number of threads the {@link Scheduler} is using to execute
+   *                                (not the number of processors for which it is scheduling
+   *                                tasks).
    */
-  public TerminalVisualizer(Graph taskGraph, Scheduler scheduler) {
+  public TerminalVisualizer(Graph taskGraph, Scheduler scheduler, int executionProcessorCount) {
     this.taskGraph = taskGraph;
     this.scheduler = scheduler;
+    this.executionIsParallel = executionProcessorCount > 1;
     this.startTime = LocalDateTime.now();
 
     // No need to keep the returned ScheduledFuture; the ScheduledExecutorService shutdown takes
     // care of cancelling this future
+    //
+    // Period must be greater than delay in call to `getProcessorCpuLoad()` for some asinine reason.
+    // See Javadoc immediately above.
     this.executor.scheduleAtFixedRate(this::visualize,
         0,
-        250,
+        500,
         TimeUnit.MILLISECONDS);
   }
 
@@ -118,9 +136,8 @@ public class TerminalVisualizer implements Visualizer {
    * wrapping done by the terminal will break comprehensibility of the Gantt chart.
    */
   private void visualize() {
-    sb.append("\033[H\033[2J"); // Erase display
-
-    this.addDivider(); // Top border
+    this.eraseDisplay();
+    this.drawHorizontalRule();
     sb.append(NEW_LINE);
 
     // Get latest data
@@ -128,31 +145,30 @@ public class TerminalVisualizer implements Visualizer {
     this.schedule = scheduler.getBestSchedule();
     this.updateTerminalDimensions();
 
+    // Prepare frame
     this.drawStatusBar();
     sb.append(NEW_LINE);
-    this.drawStatistics();
-    sb.append(NEW_LINE);
-
     if (schedule == null) {
       this.drawLoadingGraphic();
     } else {
+      if (schedulerStatus != SchedulerStatus.SCHEDULED) {
+        this.drawSystemResourceUsage();
+        sb.append(NEW_LINE);
+      }
       this.drawGanttChart();
+      sb.append(NEW_LINE);
+      this.drawStatistics();
     }
-
     sb.append(NEW_LINE);
-    this.addDivider(); // Bottom border
+    this.drawHorizontalRule();
     sb.deleteCharAt(sb.length() - 1); // Trim trailing newline
 
-    System.out.println(sb);
+    System.out.println(sb); // Render frame
 
     if (schedulerStatus == SchedulerStatus.SCHEDULED) {
       this.executor.shutdown();
     }
-
-    // Clear the string builder
-    int len = sb.length();
-    sb.setLength(0);
-    sb.setLength(len);
+    this.clearStringBuilder();
   }
 
   /**
@@ -176,74 +192,6 @@ public class TerminalVisualizer implements Visualizer {
   }
 
   /**
-   * Takes a {@link Schedule}, and creates a Gantt Chart representation of it in plaintext (with
-   * some in-band formatting using ANSI control sequences). The plaintext chart is then appended to
-   * this visualiser's string builder to be drawing (printing) in
-   * {@link TerminalVisualizer#visualize()}.
-   */
-  private void drawGanttChart() {
-    // Clamp the width of each column to between 2ch and 15ch (excl. 1ch gap between columns)
-    // +1 in the denominator to accommodate labels along the time axis
-    int columnWidth = Math.max(2,
-        Math.min(terminalWidth / (this.schedule.getProcessorCount() + 1), 15));
-    String columnSlice = " ".repeat(columnWidth);
-
-    int timeLabelWidth = Math.min(6, columnWidth);
-
-    // Horizontal axis labels: processors
-    int processorCount = this.schedule.getProcessorCount();
-    for (int processorIndex = 1; processorIndex <= processorCount; processorIndex++) {
-      sb.append(String.format("P%-" + columnWidth + "d", processorIndex));
-    }
-
-    // Horizontal axis label: time
-    sb.append(String.format("%" + (timeLabelWidth - 1) + "s", "time")).append(NEW_LINE);
-
-    // Chart body
-    int[][] verticalGantt = scheduleToGantt(this.schedule);
-
-    boolean[] taskRenderStarted = new boolean[this.schedule.getScheduledTaskCount()];
-    for (int time = 0, makespan = verticalGantt.length; time < makespan; time++) {
-
-      // Slight abuse of term, this "time slice" always has duration 1
-      int[] timeSlice = verticalGantt[time];
-      for (int activeTaskIndex : timeSlice) {
-        if (activeTaskIndex == PROCESSOR_IDLE) {
-          // Processor idling
-          sb.append(new AnsiSgrSequenceBuilder().background(251)) // #c6c6c6 grey
-              .append(columnSlice);
-        } else {
-          sb.append(new AnsiSgrSequenceBuilder().bold()
-                  .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][5][5]) // White
-                  .background(AnsiColor.COLOR_CUBE_8_BIT[activeTaskIndex % 6][0][4]))
-              .append(taskRenderStarted[activeTaskIndex]
-                  ? columnSlice
-                  : String.format(" %-" + (columnWidth - 2) + "." + (columnWidth - 2) + "s ",
-                      taskGraph.getTask(activeTaskIndex).getLabel()));
-
-          taskRenderStarted[activeTaskIndex] = true;
-        }
-
-        sb.append(AnsiSgrSequenceBuilder.RESET).append(" "); // Padding between columns
-      }
-
-      sb.deleteCharAt(sb.length() - 1); // Trim trailing padding
-
-      // Vertical axis label: time
-      // Not enforcing maximum length in case of long makespans (this may cause text wrap issues in
-      // narrow terminals)
-      sb.append(time % 5 == 4
-          ? String.format("%s%" + timeLabelWidth + "d%s",
-          new AnsiSgrSequenceBuilder().faint().underline(),
-          time + 1,
-          AnsiSgrSequenceBuilder.RESET)
-          : columnSlice);
-
-      sb.append(NEW_LINE);
-    }
-  }
-
-  /**
    * <pre>
    *  _                    _ _
    * | |    ___   __ _  __| (_)_ __   __ _
@@ -254,7 +202,7 @@ public class TerminalVisualizer implements Visualizer {
    * </pre>
    */
   private void drawLoadingGraphic() {
-    String format = "%" + (44 + (terminalWidth - 44) / 2) + "s%n";
+    final String format = "%" + (44 + (terminalWidth - 44) / 2) + "s%n";
     //                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Centre alignment
     //                     44 is the length of the `Loading...` word art
     sb.append(new AnsiSgrSequenceBuilder().faint())
@@ -332,38 +280,199 @@ public class TerminalVisualizer implements Visualizer {
         .append(NEW_LINE);
   }
 
-  private void drawStatistics() {
-    // Heading
-    sb.append("Possible schedules: ");
+  private void drawSystemResourceUsage() {
+    final int memoryChartWidth = (this.terminalWidth - 1) / 2; // -1 for padding
+    final int cpuChartWidth = memoryChartWidth - 3; // -1 for padding, -3 for CPU label
 
-    // Search count token
+    final double[] coreLoads = ResourceMonitor.getProcessorCpuLoad();
+    final int coreCount = coreLoads.length; // Determines chart height
+
+    final int cpuLoadPercentage = (int) Math.round(ResourceMonitor.getSystemCpuLoad() * 100);
+
+    final long memoryUsageMiB = ResourceMonitor.getMemoryUsageMiB();
+    final long maxMemoryMiB = ResourceMonitor.getMaxMemoryMiB();
+    final double memoryUsageRatio = (double) memoryUsageMiB / maxMemoryMiB;
+
+    // Chart header
+    sb.append(String.format("%-" + (cpuChartWidth + 3) + "s",
+            "   CPU " + cpuLoadPercentage + "%"))
+        .append(" ") // Padding
+        .append("Memory ")
+        .append(memoryUsageMiB)
+        .append('/')
+        .append(maxMemoryMiB)
+        .append(" MiB (")
+        .append(Math.round(memoryUsageRatio * 100))
+        .append("%)")
+        .append(NEW_LINE);
+
+    // Memory bar chart entry
+    final int memoryUsageQuantized = (int) Math.round(memoryChartWidth * memoryUsageRatio);
+    final String memoryBar = new AnsiSgrSequenceBuilder().background(45)
+        + " ".repeat(memoryUsageQuantized)
+        + new AnsiSgrSequenceBuilder().background(252)
+        + " ".repeat(memoryChartWidth - memoryUsageQuantized)
+        + AnsiSgrSequenceBuilder.RESET;
+
+    // Chart body
+    for (int i = 0; i < coreCount; i++) {
+      // Row in CPU chart
+      final String cpuLabel = String.format("%2d ", i + 1);
+      final int coreUsageQuantized = (int) Math.round(cpuChartWidth * coreLoads[i]);
+      sb.append(cpuLabel)
+          .append(new AnsiSgrSequenceBuilder().background(45))
+          .append(" ".repeat(coreUsageQuantized))
+          .append(new AnsiSgrSequenceBuilder().background(252))
+          .append(" ".repeat(cpuChartWidth - coreUsageQuantized))
+          .append(AnsiSgrSequenceBuilder.RESET);
+
+      // Row in memory chart
+      sb.append(' ') // Padding
+          .append(memoryBar)
+          .append(NEW_LINE);
+    }
+  }
+
+  /**
+   * Takes a {@link Schedule}, and creates a Gantt Chart representation of it in plaintext (with
+   * some in-band formatting using ANSI control sequences). The plaintext chart is then appended to
+   * this visualiser's string builder to be drawing (printing) in
+   * {@link TerminalVisualizer#visualize()}.
+   */
+  private void drawGanttChart() {
+    // Clamp the width of each column to between 2ch and 15ch (excl. 1ch gap between columns)
+    // +1 in the denominator to accommodate labels along the time axis
+    int columnWidth = Math.max(3,
+        Math.min(terminalWidth / (this.schedule.getProcessorCount() + 1), 16)) - 1;
+    String columnSlice = " ".repeat(columnWidth);
+
+    int timeLabelWidth = Math.min(7, columnWidth);
+
+    // Horizontal axis labels: processors
+    int processorCount = this.schedule.getProcessorCount();
+    for (int processorIndex = 1; processorIndex <= processorCount; processorIndex++) {
+      sb.append(String.format("P%-" + (columnWidth) + "d", processorIndex));
+    }
+
+    // Horizontal axis label: time
+    sb.append(String.format("%" + (timeLabelWidth - 1) + "s", "time")).append(NEW_LINE);
+
+    // Chart body
+    int[][] verticalGantt = scheduleToGantt(this.schedule);
+
+    boolean[] taskRenderStarted = new boolean[this.schedule.getScheduledTaskCount()];
+    for (int time = 0, makespan = verticalGantt.length; time < makespan; time++) {
+
+      // Slight abuse of term, this "time slice" always has duration 1
+      int[] timeSlice = verticalGantt[time];
+      for (int activeTaskIndex : timeSlice) {
+        if (activeTaskIndex == PROCESSOR_IDLE) {
+          // Processor idling
+          sb.append(new AnsiSgrSequenceBuilder().background(252)) // #c6c6c6 grey
+              .append(columnSlice);
+        } else {
+          sb.append(new AnsiSgrSequenceBuilder().bold()
+                  .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][5][5]) // White
+                  .background(AnsiColor.COLOR_CUBE_8_BIT[activeTaskIndex % 6][0][4]))
+              .append(taskRenderStarted[activeTaskIndex]
+                  ? columnSlice
+                  : String.format(" %-" + (columnWidth - 2) + "." + (columnWidth - 2) + "s ",
+                      taskGraph.getTask(activeTaskIndex).getLabel()));
+
+          taskRenderStarted[activeTaskIndex] = true;
+        }
+
+        sb.append(AnsiSgrSequenceBuilder.RESET).append(" "); // Padding between columns
+      }
+
+      sb.deleteCharAt(sb.length() - 1); // Trim trailing padding
+
+      // Vertical axis label: time
+      // Not enforcing maximum length in case of long makespans (this may cause text wrap issues in
+      // narrow terminals)
+      sb.append(time % 5 == 4
+          ? String.format("%s%" + timeLabelWidth + "d%s",
+          new AnsiSgrSequenceBuilder().faint().underline(),
+          time + 1,
+          AnsiSgrSequenceBuilder.RESET)
+          : columnSlice);
+
+      sb.append(NEW_LINE);
+    }
+  }
+
+  private void drawStatistics() {
+    // Determine lengths (widths) of each chip
+    final String searchCountChip = String.format("  %,d searched  ", scheduler.getSearchedCount());
+    final String pruneCountChip = String.format("  %,d pruned  ", scheduler.getPrunedCount());
+    final String makespanChip = String.format("  %,d  ", schedule.getLatestEndTime());
+
+    sb.append("Schedules "); // Length 10
+
+    // Search count chip
     sb.append(new AnsiSgrSequenceBuilder()
             .background(AnsiColor.COLOR_CUBE_8_BIT[3][4][5]) // 153 light blue
             .foreground(AnsiColor.COLOR_CUBE_8_BIT[0][1][2])) // 23 dark blue
-        .append(String.format("  %,d searched  ", scheduler.getPrunedCount()))
+        .append(searchCountChip)
         .append(AnsiSgrSequenceBuilder.RESET);
 
     // Padding
-    sb.append(' ');
+    sb.append(' '); // Length 1
 
-    // Prune count token
+    // Prune count chip
     sb.append(new AnsiSgrSequenceBuilder()
             .background(AnsiColor.COLOR_CUBE_8_BIT[5][4][1]) // 221 pale gold
             .foreground(AnsiColor.COLOR_CUBE_8_BIT[2][1][0])) // 94 dark orange
-        .append(String.format("  %,d pruned  ", scheduler.getPrunedCount()))
-        .append(AnsiSgrSequenceBuilder.RESET)
-        .append(NEW_LINE);
+        .append(pruneCountChip)
+        .append(AnsiSgrSequenceBuilder.RESET);
+
+    // Padding - fill space between schedule chips and makespan chip
+    // Note: Not using String.format() here for right-alignment because formatting control sequences
+    //       make string lengths unpredictable
+    sb.append(" ".repeat(terminalWidth - 20
+        - searchCountChip.length()
+        - pruneCountChip.length()
+        - makespanChip.length()));
+
+    // Makespan chip
+    sb.append(new AnsiSgrSequenceBuilder().bold())
+        .append("Makespan ") // Length 9
+        .append(new AnsiSgrSequenceBuilder()
+            .background(238) // #444 grey
+            .foreground(255)) // #eee grey
+        .append(makespanChip)
+        .append(AnsiSgrSequenceBuilder.RESET);
+
+    sb.append(NEW_LINE);
   }
 
   /**
    * Adds a solid horizontal line to the output.
    */
-  private void addDivider() {
+  private void drawHorizontalRule() {
     sb.append(new AnsiSgrSequenceBuilder()
             .foreground(AnsiColor.COLOR_CUBE_8_BIT[1][1][5])) // 63 lavender-ish
         .append("─".repeat(terminalWidth))
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
+  }
+
+  /**
+   * Appends in-band instruction (ANSI CSI sequence) to erase the display. Moves the cursor to the
+   * upper left of the terminal and erases the entire window.
+   */
+  private void eraseDisplay() {
+    sb.append("\033[H\033[2J");
+  }
+
+  /**
+   * Clears the workhorse string builder, {@link #sb},  preserving its capacity. (The next "frame"
+   * is likely to be rendered with a similar string length.)
+   */
+  private void clearStringBuilder() {
+    int len = sb.length();
+    sb.setLength(0);
+    sb.setLength(len);
   }
 
   /**
@@ -404,38 +513,6 @@ public class TerminalVisualizer implements Visualizer {
     }
 
     return scheduleMatrix;
-  }
-
-  /**
-   * Clears the entire terminal window. Equivalent to:
-   * <pre> {@code
-   *   cursorToStart();
-   *   eraseToEnd();
-   * }</pre>
-   */
-  private void eraseDisplay() {
-    System.out.print("\033[H\033[2J");
-  }
-
-  /**
-   * Move cursor to upper left of the terminal window.
-   */
-  private void cursorToStart() {
-    System.out.print("\033[H");
-  }
-
-  /**
-   * Clears the terminal from the cursor position to the end of the window.
-   */
-  private void eraseToEnd() {
-    System.out.print("\033[J");
-  }
-
-  /**
-   * Clears the current line. Cursor position does not change.
-   */
-  private void eraseLine() {
-    System.out.print("\033[2K"); // Cursor to start
   }
 
 }
