@@ -6,7 +6,7 @@ import oshi.SystemInfo;
 
 public class ResourceMonitor {
 
-  private static final OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+  private static final OperatingSystemMXBean OS_BEAN = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
   /**
    * Gets the CPU load per processor core as an array of doubles.
@@ -24,48 +24,27 @@ public class ResourceMonitor {
   }
 
   /**
-   * Gets the current CPU load of the entire system
+   * Gets the "recent" CPU usage of the environment (across all threads/cores).
    *
-   * @return CPU load as a double between 0 and 1
+   * @return CPU load as a double between 0.0 and 1.0 (inclusive).
    */
   public static double getSystemCpuLoad() {
-    return osBean.getCpuLoad();
+    return OS_BEAN.getCpuLoad();
   }
 
   /**
-   * Get current memory usage
-   *
-   * @return memory usage in KB
+   * @return The current memory usage in MiB.
    */
-  public static double getMemoryUsage() {
-    return getMaxMemory() - getFreeMemory();
-  }
-
   public static long getMemoryUsageMiB() {
     final Runtime runtime = Runtime.getRuntime();
     return (runtime.maxMemory() - runtime.freeMemory()) >> 20; // 2^20 B in a MiB
   }
 
   /**
-   * Get maximum memory available
-   *
-   * @return memory usage in KB
+   * @return The maximum available memory in MiB.
    */
-  public static double getMaxMemory() {
-    return (double) Runtime.getRuntime().maxMemory() / 1024;
-  }
-
   public static long getMaxMemoryMiB() {
     return Runtime.getRuntime().maxMemory() >> 20; // 2^20 B in a MiB
-  }
-
-  /**
-   * Get current available memory
-   *
-   * @return memory usage in KB
-   */
-  public static double getFreeMemory() {
-    return (double) Runtime.getRuntime().freeMemory() / 1024;
   }
 
 }
