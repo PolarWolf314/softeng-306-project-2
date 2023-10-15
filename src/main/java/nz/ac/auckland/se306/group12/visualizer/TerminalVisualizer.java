@@ -228,9 +228,9 @@ public class TerminalVisualizer implements Visualizer {
    * @return The maximum number of lines the Gantt chart body may occupy.
    */
   private int getGanttChartMaxBodyHeight() {
-    // To be quite honest, this 15 was merely *informed* by the rest of the code in this class, but
+    // To be quite honest, this 16 was merely *informed* by the rest of the code in this class, but
     // its precise value was determined empirically
-    return this.terminalHeight - this.resourceChartBodyHeight - 16;
+    return Math.max(this.terminalHeight - this.resourceChartBodyHeight - 16, 1);
   }
 
   /**
