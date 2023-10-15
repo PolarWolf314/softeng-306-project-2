@@ -19,7 +19,7 @@ public class Main {
     CommandLineArguments arguments = parser.parse(args);
     try {
       Graph graph = dotGraphIO.readDotGraph(arguments.inputDotGraph());
-      Scheduler scheduler = new SchedulerFactory().getScheduler(arguments.algorithm());
+      Scheduler scheduler = new SchedulerFactory().getScheduler(arguments);
 
       if (arguments.visualiseSearch()) {
         new TerminalVisualizer(graph, scheduler);

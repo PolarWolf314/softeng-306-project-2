@@ -23,7 +23,7 @@ class OptimalScheduleTest {
    * @return schedule output by the scheduler
    */
   private Schedule getOutputSchedule(Graph graph, int processorCount) {
-    Scheduler scheduler = new DfsScheduler();
+    Scheduler scheduler = new DfsScheduler(1);
     return scheduler.schedule(graph, processorCount);
   }
 
