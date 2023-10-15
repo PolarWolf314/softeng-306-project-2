@@ -22,7 +22,7 @@ public class Main {
       Scheduler scheduler = new SchedulerFactory().getScheduler(arguments.algorithm());
 
       if (arguments.visualiseSearch()) {
-        new TerminalVisualizer(graph, scheduler);
+        new TerminalVisualizer(graph, scheduler, arguments.parallelisationProcessorCount());
       }
 
       Schedule schedule = scheduler.schedule(graph, arguments.processorCount());
