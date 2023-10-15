@@ -80,7 +80,8 @@ public class TerminalVisualizer implements Visualizer {
    * {@link #terminalHeightManager} cannot detect the window height, the fallback value 24 is used.
    */
   private int terminalHeight = 24;
-  private final int resourceChartBodyHeight = (this.systemProcessorCount + 1) / 2;
+  private final int cpuChartBodyHeight;
+  private final int resourceChartBodyHeight;
   /**
    * The available space for the schedule's Gantt chart to fill, after accounting for UI chrome and
    * other content, such as the system resource usage graph and statistic chips. This "maximum" is
@@ -133,6 +134,13 @@ public class TerminalVisualizer implements Visualizer {
     this.taskGraph = taskGraph;
     this.scheduler = scheduler;
     this.executionProcessorCount = executionProcessorCount;
+
+    boolean executionIsParallel = this.executionProcessorCount == 1;
+    this.cpuChartBodyHeight = executionIsParallel ? 1 : (this.systemProcessorCount + 1) / 2;
+    // Memory chart is always 2 lines tall, plus 1 line for padding
+    this.resourceChartBodyHeight =
+        executionIsParallel ? this.cpuChartBodyHeight : this.cpuChartBodyHeight + 3;
+
     this.startTime = LocalDateTime.now();
 
     // No need to keep the returned ScheduledFuture; the ScheduledExecutorService shutdown takes
@@ -169,10 +177,8 @@ public class TerminalVisualizer implements Visualizer {
     if (schedule == null) {
       this.drawLoadingGraphic();
     } else {
-//      if (schedulerStatus != SchedulerStatus.SCHEDULED) {
       this.drawSystemResourceUsage();
       sb.append(NEW_LINE);
-//      }
       this.drawGanttChart();
       sb.append(NEW_LINE);
       this.drawStatistics();
@@ -220,7 +226,7 @@ public class TerminalVisualizer implements Visualizer {
    * @return The maximum number of lines the Gantt chart body may occupy.
    */
   private int getGanttChartMaxBodyHeight() {
-    return this.terminalHeight - this.resourceChartBodyHeight - 16;
+    return this.terminalHeight - this.resourceChartBodyHeight - 15;
   }
 
   /**
@@ -313,6 +319,79 @@ public class TerminalVisualizer implements Visualizer {
   }
 
   private void drawSystemResourceUsage() {
+    if (this.executionProcessorCount == 1) {
+      drawSystemResourceUsageBrief();
+    } else {
+      drawSystemResourceUsageDetailed();
+    }
+  }
+
+  private void drawSystemResourceUsageBrief() {
+    final String backgroundSgrSequence = new AnsiSgrSequenceBuilder()
+        .background(252).toString();
+    final String foregroundSgrSequence = new AnsiSgrSequenceBuilder()
+        .background(AnsiColor.COLOR_CUBE_8_BIT[1][1][5]).toString();
+    final String interColumnPadding = terminalWidth % 2 == 0 ? "  " : " ";
+
+    final int columnWidth = (this.terminalWidth - 1) / 2; // -1 for padding between columns
+
+    // Get CPU usage
+    final double cpuLoad = ResourceMonitor.getSystemCpuLoad();
+    final int cpuLoadPercentage = (int) Math.round(cpuLoad * 100);
+
+    // Get memory usage
+    final long memoryUsageMiB = ResourceMonitor.getMemoryUsageMiB();
+    final long maxMemoryMiB = ResourceMonitor.getMaxMemoryMiB();
+
+    // Update peak usage stats
+    if (cpuLoadPercentage > this.peakCpuUsagePercentage) {
+      this.peakCpuUsagePercentage = cpuLoadPercentage;
+    }
+    if (memoryUsageMiB > this.peakMemoryUsageMiB) {
+      this.peakMemoryUsageMiB = memoryUsageMiB;
+    }
+
+    // Chart header
+    final String cpuHeading = "CPU "
+        + AnsiSgrSequenceBuilder.RESET // Length 3
+        + cpuLoadPercentage + '%'
+        + new AnsiSgrSequenceBuilder().faint() // Length 4
+        + " (peak " + this.peakCpuUsagePercentage + "%)";
+    final String memoryHeading = "Memory "
+        + AnsiSgrSequenceBuilder.RESET // Length 3
+        + memoryUsageMiB + '/' + maxMemoryMiB
+        + new AnsiSgrSequenceBuilder().faint() // Length 4
+        + " (peak " + this.peakMemoryUsageMiB + " MiB)";
+    final int sequenceLength = columnWidth + 7;
+
+    sb.append(new AnsiSgrSequenceBuilder().bold())
+        .append(String.format("%-" + sequenceLength + "." + sequenceLength + "s", cpuHeading))
+        .append(AnsiSgrSequenceBuilder.RESET)
+        .append(interColumnPadding)
+        .append(String.format("%-" + sequenceLength + "." + sequenceLength + "s", memoryHeading))
+        .append(AnsiSgrSequenceBuilder.RESET)
+        .append(NEW_LINE);
+
+    int coreUsageQuantized = (int) Math.round(columnWidth * cpuLoad);
+    sb.append(foregroundSgrSequence)
+        .append(" ".repeat(coreUsageQuantized))
+        .append(backgroundSgrSequence)
+        .append(" ".repeat(columnWidth - coreUsageQuantized))
+        .append(AnsiSgrSequenceBuilder.RESET);
+
+    sb.append(interColumnPadding);
+
+    final int memoryUsageQuantized = Math.round(
+        (float) (columnWidth * memoryUsageMiB) / maxMemoryMiB);
+    sb.append(foregroundSgrSequence)
+        .append(" ".repeat(memoryUsageQuantized))
+        .append(backgroundSgrSequence)
+        .append(" ".repeat(columnWidth - memoryUsageQuantized))
+        .append(AnsiSgrSequenceBuilder.RESET)
+        .append(NEW_LINE);
+  }
+
+  private void drawSystemResourceUsageDetailed() {
     final String backgroundSgrSequence = new AnsiSgrSequenceBuilder()
         .background(252).toString();
     final String foregroundSgrSequence = new AnsiSgrSequenceBuilder()
@@ -348,7 +427,7 @@ public class TerminalVisualizer implements Visualizer {
         .append("%)")
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
-    for (int i = 0; i < this.resourceChartBodyHeight; i++) {
+    for (int i = 0; i < this.cpuChartBodyHeight; i++) {
       // Left column
       int cpuNumber = i + 1;
       String cpuLabel = String.format("%2d ", cpuNumber);
@@ -363,7 +442,7 @@ public class TerminalVisualizer implements Visualizer {
       sb.append(terminalWidth % 2 == 0 ? "  " : " "); // Padding between columns
 
       // Right column
-      cpuNumber = i + this.resourceChartBodyHeight + 1;
+      cpuNumber = i + this.cpuChartBodyHeight + 1;
       if (cpuNumber > this.systemProcessorCount) {
         break; // Odd number of CPUs
       }
