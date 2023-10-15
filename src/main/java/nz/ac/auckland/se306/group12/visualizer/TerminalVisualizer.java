@@ -308,14 +308,11 @@ public class TerminalVisualizer implements Visualizer {
     int stopwatchLength = stopwatchLabel.length();
 
     // Graph name
+    int graphNameLength = Math.max(0, terminalWidth - 16 - stopwatchLength);
     sb.append(new AnsiSgrSequenceBuilder().normalIntensity()
             .background(AnsiColor.COLOR_CUBE_8_BIT[4][4][5]) // 189 lilac-ish
             .foreground(AnsiColor.COLOR_CUBE_8_BIT[0][0][1])) // 18 blue-black
-        .append(String.format(" %-"
-                + (terminalWidth - 16 - stopwatchLength)
-                + "."
-                + (terminalWidth - 16 - stopwatchLength)
-                + "s ",
+        .append(String.format(" %-" + graphNameLength + "." + graphNameLength + "s ",
             taskGraph.getName()));
 
     // Elapsed time (stopwatch)
