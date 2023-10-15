@@ -84,9 +84,9 @@ public class DfsScheduler implements Scheduler {
     DfsWorker initWorker = new DfsWorker();
     Schedule initWork = new ScheduleWithAnEmptyProcessor(taskGraph, processorCount);
     initWorker.give(initWork);
-    workers.add(initWorker);
+    this.workers.add(initWorker);
 
-    Queue<Schedule> initialStates = aStarInitialStates(taskGraph, processorCount);
+    Queue<Schedule> initialStates = this.aStarInitialStates(taskGraph, processorCount);
 
     for (int i = 1; i < this.workerCount; i++) {
       DfsWorker worker = new DfsWorker();
@@ -94,17 +94,17 @@ public class DfsScheduler implements Scheduler {
       if (work != null) {
         worker.give(work);
       }
-      workers.add(worker);
+      this.workers.add(worker);
     }
 
-    for (DfsWorker dfsWorker : workers) {
-      Thread thread = new Thread(() -> branchAndBound(taskGraph, dfsWorker));
-      threads.add(thread);
+    for (DfsWorker dfsWorker : this.workers) {
+      Thread thread = new Thread(() -> this.branchAndBound(taskGraph, dfsWorker));
+      this.threads.add(thread);
       thread.start();
     }
 
     try {
-      for (Thread thread : threads) {
+      for (Thread thread : this.threads) {
         thread.join();
       }
     } catch (InterruptedException e) {
@@ -131,12 +131,12 @@ public class DfsScheduler implements Scheduler {
 
     boolean hasWork = true;
 
-    while (hasRunningWorker()) {
+    while (this.hasRunningWorker()) {
 
       while (hasWork) {
         Schedule currentSchedule = worker.steal();
         if (currentSchedule == null) {
-          idleWorkers.incrementAndGet();
+          this.idleWorkers.incrementAndGet();
           hasWork = false;
           break;
         }
@@ -162,7 +162,7 @@ public class DfsScheduler implements Scheduler {
         // Check if current schedule is complete
         if (currentSchedule.getScheduledTaskCount() == taskGraph.taskCount()) {
           localMinMakespan = currentSchedule.getLatestEndTime();
-          updateGlobalMinMakespanAndSchedule(currentSchedule);
+          this.updateGlobalMinMakespanAndSchedule(currentSchedule);
           continue;
         }
 
@@ -172,10 +172,10 @@ public class DfsScheduler implements Scheduler {
           int allocableCount = currentSchedule.getAllocableProcessorCount();
 
           for (int i = 0; i < allocableCount; i++) {
-            Schedule newSchedule = scheduleNextTask(task, latestStartTimes[i],
+            Schedule newSchedule = this.scheduleNextTask(task, latestStartTimes[i],
                 currentSchedule.getProcessorEndTimes()[i], i, currentSchedule);
 
-            if (scheduleIsPruned(newSchedule, localMinMakespan, closed)) {
+            if (this.scheduleIsPruned(newSchedule, localMinMakespan, closed)) {
               localPruneCount++;
               continue;
             }
@@ -198,10 +198,13 @@ public class DfsScheduler implements Scheduler {
    */
   public Queue<Schedule> aStarInitialStates(Graph taskGraph, int processorCount) {
     Queue<Schedule> priorityQueue = new PriorityQueue<>();
+    long localSearchedCount = 0;
 
     priorityQueue.add(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
 
     while (!priorityQueue.isEmpty()) {
+      localSearchedCount++;
+
       Schedule currentSchedule = priorityQueue.poll();
       if (currentSchedule.getScheduledTaskCount() == taskGraph.taskCount()) {
         // It's possible for A* to solve the graph before we get enough tasks in the queue to stop
@@ -222,12 +225,14 @@ public class DfsScheduler implements Scheduler {
 
           priorityQueue.add(newSchedule);
           if (priorityQueue.size() >= this.workerCount - 1) {
+            this.searchedCount.set(localSearchedCount);
             return priorityQueue;
           }
         }
       }
-
     }
+
+    this.searchedCount.set(localSearchedCount);
     return priorityQueue;
   }
 
