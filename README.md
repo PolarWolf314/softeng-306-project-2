@@ -1,11 +1,14 @@
 # Optimal Parallel Scheduler
 
-A program for finding the optimal solution to the parallel scheduling problem. Given a (small) set
-of tasks and their dependence relations, this program finds the optimal schedule with which to run
-them on a homogenous system.
+A program for finding the optimal solution to the parallel scheduling problem. Given a (small) set of tasks and their dependence relations, this program finds the optimal schedule with which to run them on a homogenous system.
+
 
 > **Note**
 > Only JDK 17 is officially supported.
+
+## 💡 For best visualisation, maximise terminal window
+
+The visualiser renders in the terminal from which you initiate this program, and will expand to fill the space it is given. Using a relatively large window size is recommended (at least 100 x 40), though you should probably just maximise the window. (No, really, you should.)
 
 ## ⌨️ Command line interface
 
@@ -24,8 +27,9 @@ named arguments:
   -h, --help             show this help message and exit
   -a ALGORITHM, --algorithm ALGORITHM
                          the algorithm with which to find the optimal schedule
-                         (default is dfs); options are astar (A*) and dfs
-                         (depth-first search branch and bound)
+                         (default is dfs); options are astar (A* with ELS state
+                         space), dfs (DFS branch-and-bound with ELS state space)
+                         and ao (DFS with allocation–ordering state space)
   -p N, --parallel N     use N cores for execution in parallel (default is 1,
                          sequential execution)
   -v, --visualise        visualise the search
@@ -41,6 +45,9 @@ By default, the output DOT file is saved to the same folder as the input DOT fil
 ## ☕ Building and running
 
 By default, the executable JAR file will be located at `/build/libs/scheduler.jar`.
+
+> **Note**
+> We’re using the Gradle [Shadow](https://imperceptiblethoughts.com/shadow) plugin in order to bundle all our dependencies into a single executable JAR file (known as a *fat-JAR*).
 
 ### Unix-like OSs
 
@@ -78,88 +85,60 @@ java -jar .\build\libs\scheduler.jar --help
 .\gradlew run --args="--help"
 ```
 
-# Notes
+## 🐳 Testing with Docker
 
-- We’re using the Gradle [Shadow](https://imperceptiblethoughts.com/shadow) plugin in order to
-  bundle all our dependencies into a single executable JAR file (known as a *fat-JAR*).
+We use [Docker](https://www.docker.com) to manage the resource usage from our testing suite, and to deploy testing of the application on remote machines.
 
-# Testing using Docker
+To take advantage of this, ensure you have Docker installed and running, and then run these commands:
 
-We have decided to use docker to help us limit the resource use from our testing suite, and to be
-able to deploy the testing of the application on a remote machine in an easy way.
+### Building and running
 
-In order to take advantage of docker, ensure that docker is installed and running, and then run the
-following commands:
-
-### Building the docker image
-
-```
-docker build -t {name-of-docker-image} .
+```sh
+# Build Docker image
+docker build -t <name of docker image> .
 ```
 
-An example would look like:
+For example: `docker build -t se306 .`.
 
-```
-docker build -t se306 .
-```
-
-This will build a docker image.
-
-### Running the docker image
-
-Use the following. This runs the docker file with a specified number of cores, and then copies the
-test results to the local machine.
-
-```
-docker run --cpus {number-of-cores} -v $(pwd)/build/test-results:/app/build/test-results {name-of-docker-image}
+```sh
+# Run Docker image
+docker run --cpus <number of cores> -v $(pwd)/build/test-results:/app/build/test-results <name of Docker image>
 ```
 
-An example is:
+For example: `docker run --cpus 6 -v $(pwd)/build/test-results:/app/build/test-results se306`. This runs the Docker file with a specified number of cores, then copies the test results to the local machine.
+
+### Stopping and removing
+
+If the docker image is currently running, open a new terminal and run
 
 ```
-docker run --cpus 6 -v $(pwd)/build/test-results:/app/build/test-results se306
-```
-
-### Terminating the docker image
-
-If the docker image is currently running, then you need to open a new instance of the terminal and
-run:
-
-```
+# Terminate Docker image
 docker kill $(docker ps -q)
 ```
 
 ### Deleting docker images
 
-List all the docker images currently created:
-
 ```
+# List all existing Docker images
 docker images -a
+
+# Remove the image
+docker rmi <your image ID>
 ```
 
-Then remove the image:
-
-```
-docker rmi {your-image-id}
-```
-
----
-
-Note: In the event you get an error message such as the following:
+If you get an error message like this:
 
 ```
 Error response from daemon: conflict: unable to remove repository reference "se306" (must force) - container 1198400b4fcb is using its referenced image 404fb12e3abc
 ```
 
-Then run the following commands:
+then run these commands:
 
 ```
-docker stop 1198400b4fcb //replace this with whatever the terminal says is the container ID
+docker stop 1198400b4fcb  # Replace with appropriate image ID
 docker rm 1198400b4fcb
 ```
 
-### Note
 
-There is a `dockerscript.sh` script provided that automates the cleaning and creating of the docker
-image. However, **please be careful running this on your local machine as it will delete every
-docker image and container you have on your system**.
+> **Important**
+> A [`dockerscript.sh`](/dockerscript.sh) shell script is provided that automates the cleaning and creation of a Docker image. However, **do not run this unless you have read and understand what the script does**. It will delete **every** Docker image and container on your system.
