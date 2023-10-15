@@ -97,7 +97,7 @@ To take advantage of this, ensure you have Docker installed and running, and the
 
 ```sh
 # Build Docker image
-docker build -t <name of docker image> .
+docker build -t <name of Docker image> .
 ```
 
 For example: `docker build -t se306 .`.
