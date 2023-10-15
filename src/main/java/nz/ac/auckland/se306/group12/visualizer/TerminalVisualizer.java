@@ -318,15 +318,34 @@ public class TerminalVisualizer implements Visualizer {
         .append(NEW_LINE);
   }
 
+  /**
+   * Draws one of two variants of the system resource usage charts.  If the {@link #scheduler} is
+   * using sequential execution, then the "brief" version of the charts is drawn.  If using parallel
+   * execution, the "detailed" version is drawn.
+   *
+   * @see #drawCompactSystemResourceUsageChart()
+   * @see #drawDetailedSystemResourceUsageChart()
+   */
   private void drawSystemResourceUsage() {
     if (this.executionProcessorCount == 1) {
-      drawSystemResourceUsageBrief();
+      this.drawCompactSystemResourceUsageChart();
     } else {
-      drawSystemResourceUsageDetailed();
+      this.drawDetailedSystemResourceUsageChart();
     }
   }
 
-  private void drawSystemResourceUsageBrief() {
+  /**
+   * Draws a CPU usage chart and a memory usage chart side-by-side. Only the
+   * <strong>overall</strong> CPU usage is shown; there is <strong>no</strong> breakdown of the
+   * loads on individual logical CPUs of the environment.
+   * <p>
+   * Looks something like this:
+   * <pre>{@code
+   * CPU 25% (peak 50%)                       Memory 3072/4096 (peak 3968 MiB)
+   * ▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  ▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+   * }</pre>
+   */
+  private void drawCompactSystemResourceUsageChart() {
     final String backgroundSgrSequence = new AnsiSgrSequenceBuilder()
         .background(252).toString();
     final String foregroundSgrSequence = new AnsiSgrSequenceBuilder()
@@ -392,7 +411,23 @@ public class TerminalVisualizer implements Visualizer {
         .append(NEW_LINE);
   }
 
-  private void drawSystemResourceUsageDetailed() {
+  /**
+   * Draws a CPU usage chart and a memory usage chart stacked one above the other. The CPU usage bar
+   * chart shows the per-logical-processor load, each one with its own bar in the chart. The memory
+   * usage bar chart appears below; it has exactly one bar.
+   * <p>
+   * Looks something like this:
+   * <pre>{@code
+   * CPU 35% (peak 41%)
+   *  1 ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░   4 ▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+   *  2 ▒▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   5 ▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░
+   *  3 ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░░   6 ▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+   *
+   * Memory 3473/4096 MiB (peak 3898 MiB)
+   * ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░
+   * }</pre>
+   */
+  private void drawDetailedSystemResourceUsageChart() {
     final String backgroundSgrSequence = new AnsiSgrSequenceBuilder()
         .background(252).toString();
     final String foregroundSgrSequence = new AnsiSgrSequenceBuilder()
