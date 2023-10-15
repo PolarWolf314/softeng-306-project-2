@@ -253,7 +253,7 @@ public class AOSchedule {
    * This method gets the processor that a task is allocated to
    *
    * @param task Task to get the allocated processor of
-   * @return
+   * @return Processor index that the task is allocated to
    */
   private int getAllocatedProcessorOf(Task task) {
     return this.allocation.getTasksProcessor()[task.getIndex()];
