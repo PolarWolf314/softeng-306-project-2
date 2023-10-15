@@ -3,8 +3,6 @@ package nz.ac.auckland.se306.group12.scheduler;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -74,15 +72,10 @@ public class DfsScheduler implements Scheduler {
     worker.give(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
     workers.add(worker);
 
-    Queue<Schedule> initial = getInitialStates(taskGraph, processorCount);
-
     ExecutorService executor = Executors.newFixedThreadPool(workerCount);
 
-    for (int i = 0; i < this.workerCount; i++) {
-      Schedule work = initial.poll();
-      DfsWorker currentWorker = new DfsWorker();
-      currentWorker.give(work);
-      workers.add(currentWorker);
+    for (int i = 1; i < this.workerCount; i++) {
+      workers.add(new DfsWorker());
     }
 
     for (DfsWorker dfsWorker : workers) {
@@ -98,37 +91,6 @@ public class DfsScheduler implements Scheduler {
     }
     this.status = SchedulerStatus.SCHEDULED;
     return this.bestSchedule.get();
-  }
-
-  public Queue<Schedule> getInitialStates(Graph taskGraph, int processorCount) {
-    Queue<Schedule> priorityQueue = new PriorityQueue<>();
-
-    priorityQueue.add(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
-
-    while (!priorityQueue.isEmpty()) {
-      Schedule currentSchedule = priorityQueue.peek();
-
-      priorityQueue.poll();
-
-      // Check to find if any tasks can be scheduled and schedule them
-      for (Task task : currentSchedule.getReadyTasks()) {
-        int[] latestStartTimes = currentSchedule.getLatestStartTimesOf(task);
-        for (int i = 0; i < currentSchedule.getAllocableProcessorCount(); i++) {
-          // Ensure that it either schedules by latest time or after the last task on the processor
-          int startTime = Math.max(latestStartTimes[i], currentSchedule.getProcessorEndTimes()[i]);
-          int endTime = startTime + task.getWeight();
-          ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, i);
-          Schedule newSchedule = currentSchedule.extendWithTask(newScheduledTask, task);
-
-          priorityQueue.add(newSchedule);
-        }
-      }
-
-      if (priorityQueue.size() >= this.workerCount) {
-        break;
-      }
-    }
-    return priorityQueue;
   }
 
 
@@ -206,6 +168,12 @@ public class DfsScheduler implements Scheduler {
 
   }
 
+  /**
+   * Steals work from a random worker if current worker is idle.
+   *
+   * @param worker that is idle, trying to steal work from another
+   * @return if the steal was successful
+   */
   private boolean takeWorkFromRandomWorker(DfsWorker worker) {
     // Randomly choose a worker to steal from. This attempts to evenly distribute the workers being stolen from
     int index = this.random.nextInt(this.workerCount);
@@ -224,10 +192,20 @@ public class DfsScheduler implements Scheduler {
     return false;
   }
 
+  /**
+   * Check if there are any workers running
+   *
+   * @return if there are any workers working
+   */
   private boolean hasRunningWorker() {
     return this.idleWorkers.get() < this.workerCount;
   }
 
+  /**
+   * Updates the local schedule with the global concurrent schedule, as well as the makespan.
+   *
+   * @param currentSchedule schedule on the local thread that will be compared.
+   */
   private synchronized void updateGlobalMinMakespanAndSchedule(Schedule currentSchedule) {
     int localMinMakespan = currentSchedule.getLatestEndTime();
     if (localMinMakespan < this.currentMinMakespan.get()) {
