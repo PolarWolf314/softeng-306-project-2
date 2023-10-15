@@ -72,7 +72,7 @@ public class DfsAOScheduler implements Scheduler {
       AOSchedule currentSchedule = queue.remove();
 
       // Prune if current schedule is worse than current best
-      if (currentSchedule.getLatestEndTime() >= this.currentMinMakespan) {
+      if (currentSchedule.getEstimatedMakespan() >= this.currentMinMakespan) {
         this.prunedCount++;
         continue;
       }

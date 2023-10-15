@@ -388,4 +388,39 @@ public class AOSchedule {
     return this.scheduledTasks[task.getIndex()];
   }
 
+  public int getEstimatedMakespan() {
+    return Math.max(Math.max(latestEndTime, getOrderedLoadEstimate()),
+        estimateBottomLevelMakespan());
+  }
+
+  private int getOrderedLoadEstimate() {
+    if (this.localIndex >= this.processorLastTaskIndices.length) {
+      return 0;
+    }
+    int localTotalWeight = this.allocation.getProcessorWeights()[this.localIndex];
+    int remainingWeight = localTotalWeight - localOrderedWeight;
+    return this.getLatestEndTimeOf(this.localIndex) + remainingWeight;
+  }
+
+  /**
+   * This method returns the bottom level estimate of the makespan of this scheduled task. This
+   * estimate is determined by the start time and the bottom level of the task. This will always be
+   * an underestimate because it doesn't factor in the transfer time between processors.
+   *
+   * @param scheduledTask The {@link ScheduledTask} to get the bottom level estimate for
+   * @param task          The corresponding {@link Task} for the scheduled task
+   * @return The bottom level estimate of this scheduled task
+   * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Sinnen,
+   *      Kozlov & Shahul: Optimal Scheduling of Task Graphs on Parallel Systems</a>, Section 3.1
+   */
+  private int estimateBottomLevelMakespan() {
+    return Arrays.stream(this.scheduledTasks).mapToInt((scheduledTask) -> {
+      if (scheduledTask == null) {
+        return 0;
+      }
+      Task task = this.taskGraph.getTask(scheduledTask.getProcessorIndex());
+      return scheduledTask.getEndTime() + task.getBottomLevel();
+    }).max().orElse(0);
+  }
+
 }
