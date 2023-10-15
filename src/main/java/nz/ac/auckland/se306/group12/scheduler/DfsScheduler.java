@@ -56,7 +56,7 @@ public class DfsScheduler implements Scheduler {
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
     this.status = SchedulerStatus.SCHEDULING;
-    this.workerNum = 1;
+    this.workerNum = 8;
 
     DfsWorker worker = new DfsWorker();
     worker.give(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
@@ -66,7 +66,6 @@ public class DfsScheduler implements Scheduler {
       workers.add(new DfsWorker());
     }
 
-    System.out.println(taskGraph.getName());
     Thread mainThread = new Thread(() -> {
       branchAndBound(taskGraph, worker);
     });
@@ -143,7 +142,6 @@ public class DfsScheduler implements Scheduler {
         if (currentSchedule.getScheduledTaskCount() == taskGraph.taskCount()) {
           localMinMakespan = currentSchedule.getLatestEndTime();
           updateGlobalMinMakespanAndSchedule(currentSchedule);
-          System.out.println(worker + " " + localMinMakespan);
           continue;
         }
 
@@ -169,7 +167,6 @@ public class DfsScheduler implements Scheduler {
       hasWork = this.takeWorkFromRandomWorker(worker);
     }
 
-    System.out.println(localMinMakespan);
   }
 
   private boolean takeWorkFromRandomWorker(DfsWorker worker) {
