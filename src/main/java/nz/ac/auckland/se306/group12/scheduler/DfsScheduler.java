@@ -3,6 +3,8 @@ package nz.ac.auckland.se306.group12.scheduler;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -72,10 +74,15 @@ public class DfsScheduler implements Scheduler {
     worker.give(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
     workers.add(worker);
 
+    Queue<Schedule> initial = getInitialStates(taskGraph, processorCount);
+
     ExecutorService executor = Executors.newFixedThreadPool(workerCount);
 
-    for (int i = 1; i < this.workerCount; i++) {
-      workers.add(new DfsWorker());
+    for (int i = 0; i < this.workerCount; i++) {
+      Schedule work = initial.poll();
+      DfsWorker currentWorker = new DfsWorker();
+      currentWorker.give(work);
+      workers.add(currentWorker);
     }
 
     for (DfsWorker dfsWorker : workers) {
@@ -92,6 +99,38 @@ public class DfsScheduler implements Scheduler {
     this.status = SchedulerStatus.SCHEDULED;
     return this.bestSchedule.get();
   }
+
+  public Queue<Schedule> getInitialStates(Graph taskGraph, int processorCount) {
+    Queue<Schedule> priorityQueue = new PriorityQueue<>();
+
+    priorityQueue.add(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
+
+    while (!priorityQueue.isEmpty()) {
+      Schedule currentSchedule = priorityQueue.peek();
+
+      priorityQueue.poll();
+
+      // Check to find if any tasks can be scheduled and schedule them
+      for (Task task : currentSchedule.getReadyTasks()) {
+        int[] latestStartTimes = currentSchedule.getLatestStartTimesOf(task);
+        for (int i = 0; i < currentSchedule.getAllocableProcessorCount(); i++) {
+          // Ensure that it either schedules by latest time or after the last task on the processor
+          int startTime = Math.max(latestStartTimes[i], currentSchedule.getProcessorEndTimes()[i]);
+          int endTime = startTime + task.getWeight();
+          ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, i);
+          Schedule newSchedule = currentSchedule.extendWithTask(newScheduledTask, task);
+
+          priorityQueue.add(newSchedule);
+        }
+      }
+
+      if (priorityQueue.size() >= this.workerCount) {
+        break;
+      }
+    }
+    return priorityQueue;
+  }
+
 
   /**
    * Performs branch and bound algorithm on a given graph.
