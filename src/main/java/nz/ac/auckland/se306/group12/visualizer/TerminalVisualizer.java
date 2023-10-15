@@ -171,8 +171,6 @@ public class TerminalVisualizer implements Visualizer {
     }
 
     this.clearStringBuilder();
-
-
   }
 
   /**
