@@ -338,7 +338,7 @@ public class TerminalVisualizer implements Visualizer {
 
     // CPU usage chart
     sb.append(new AnsiSgrSequenceBuilder().bold())
-        .append("vCPUs ")
+        .append("CPU ")
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(cpuLoadPercentage)
         .append("% ")
@@ -415,10 +415,10 @@ public class TerminalVisualizer implements Visualizer {
    * {@link TerminalVisualizer#visualize()}.
    */
   private void drawGanttChart() {
-    // Clamp the width of each column to between 2ch and 15ch (excl. 1ch gap between columns)
+    // Clamp the width of each column to between 3ch and 40ch (incl. 1ch gap between columns)
     // +1 in the denominator to accommodate labels along the time axis
     int columnWidth = Math.max(3,
-        Math.min(terminalWidth / (this.schedule.getProcessorCount() + 1), 16)) - 1;
+        Math.min(terminalWidth / (this.schedule.getProcessorCount() + 1), 40)) - 1;
     String columnSlice = " ".repeat(columnWidth);
 
     int timeLabelWidth = Math.min(7, columnWidth);
