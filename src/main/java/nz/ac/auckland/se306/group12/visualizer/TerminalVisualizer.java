@@ -329,11 +329,16 @@ public class TerminalVisualizer implements Visualizer {
     }
 
     // CPU usage chart
-    sb.append("CPU ")
+    sb.append(new AnsiSgrSequenceBuilder().bold())
+        .append("CPU ")
+        .append(AnsiSgrSequenceBuilder.RESET)
         .append(cpuLoadPercentage)
-        .append("% (peak ")
+        .append("% ")
+        .append(new AnsiSgrSequenceBuilder().faint())
+        .append("(peak ")
         .append(this.peakCpuUsagePercentage)
         .append("%)")
+        .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
     for (int i = 0; i < this.resourceChartBodyHeight; i++) {
       // Left column
@@ -370,13 +375,18 @@ public class TerminalVisualizer implements Visualizer {
     sb.append(NEW_LINE);
 
     // Memory usage chart
-    sb.append("Memory ")
+    sb.append(new AnsiSgrSequenceBuilder().bold())
+        .append("Memory ")
+        .append(AnsiSgrSequenceBuilder.RESET)
         .append(memoryUsageMiB)
         .append('/')
         .append(maxMemoryMiB)
-        .append(" MiB (peak ")
+        .append(" MiB ")
+        .append(new AnsiSgrSequenceBuilder().faint())
+        .append("(peak ")
         .append(this.peakMemoryUsageMiB)
         .append(" MiB)")
+        .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
 
     final float memoryUsageRatio = (float) memoryUsageMiB / maxMemoryMiB;
