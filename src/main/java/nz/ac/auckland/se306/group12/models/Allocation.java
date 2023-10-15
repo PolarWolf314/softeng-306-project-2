@@ -107,4 +107,82 @@ public class Allocation {
     return newProcessors;
   }
 
+  /**
+   * Returns the heuristic value of this allocation.
+   * 
+   * @return The heuristic value of this allocation
+   */
+  public int getAllocationHeuristic() {
+    int maxHeuristic = this.maxWeight;
+    for (int i = 0; i < this.processors.length; i++) {
+      if (this.processors[i] == null) {
+        break;
+      }
+      int loadHeuristic = getLoadHeuristic(i);
+      if (maxHeuristic < loadHeuristic) {
+        maxHeuristic = loadHeuristic;
+      }
+    }
+
+    return Math.max(maxHeuristic, criticalPathHeuristic());
+  }
+
+  /**
+   * Returns the load heuristic of a processor.
+   *
+   * @param processorIndex The index of the processor to calculate the load heuristic for
+   * @return The load heuristic of the processor
+   */
+  private int getLoadHeuristic(int processorIndex) {
+    return minTopLevels(processorIndex) + this.processorWeights[processorIndex]
+        + minBottomLevels(processorIndex);
+  }
+
+  /**
+   * Returns the minimum top level of a processor.
+   * 
+   * @param processorIndex The index of the processor to calculate the minimum top level for
+   * @return The minimum top level of the processor
+   */
+  private int minTopLevels(int processorIndex) {
+    Set<Task> processor = this.processors[processorIndex];
+    return processor.stream().mapToInt(task -> {
+      return task.getTopLevel();
+    }).min().orElse(0);
+  }
+
+  /**
+   * Returns the minimum bottom level of a processor.
+   *
+   * @param processorIndex The index of the processor to calculate the minimum bottom level for
+   * @return The minimum bottom level of the processor
+   */
+  private int minBottomLevels(int processorIndex) {
+    Set<Task> processor = this.processors[processorIndex];
+    return processor.stream().mapToInt(task -> {
+      return task.getBottomLevel() - task.getWeight();
+    }).min().orElse(0);
+  }
+
+  /**
+   * Returns the critical path heuristic of this allocation.
+   * 
+   * @return The critical path heuristic of this allocation
+   */
+  private int criticalPathHeuristic() {
+    int maxCriticalPath = 0;
+    for (Set<Task> tasks : processors) {
+      if (tasks == null) {
+        break;
+      }
+      for (Task task : tasks) {
+        int criticalPath = task.getBottomLevel() + task.getTopLevel();
+        if (criticalPath > maxCriticalPath) {
+          maxCriticalPath = criticalPath;
+        }
+      }
+    }
+    return maxCriticalPath;
+  }
+
 }
