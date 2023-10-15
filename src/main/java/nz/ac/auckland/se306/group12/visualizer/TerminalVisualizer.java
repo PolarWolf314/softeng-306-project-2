@@ -73,7 +73,7 @@ public class TerminalVisualizer implements Visualizer {
    * Used to adapt the visualiser output to the terminal window width. If
    * {@link #terminalWidthManager} cannot detect the window width, the fallback value is used.
    */
-  private int terminalWidth = 50;
+  private int terminalWidth = 80;
   /**
    * Used to adapt the visualiser output to the terminal window height. If
    * {@link #terminalHeightManager} cannot detect the window height, the fallback value is used.
