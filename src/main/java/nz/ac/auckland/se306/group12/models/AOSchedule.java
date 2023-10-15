@@ -52,6 +52,12 @@ public class AOSchedule {
 
   }
 
+  /**
+   * Gets the set of tasks that are ready to be locally scheduled on the processor
+   *
+   * @param processorIndex Index of the processor to get the ready tasks for
+   * @return Set of ready tasks
+   */
   private Set<Task> getProcessorReadyTasks(int processorIndex) {
     Set<Task> newReadyTasks = new BitSet<Task>(this.taskGraph);
     for (Task task : taskGraph.getTasks()) {
@@ -107,6 +113,7 @@ public class AOSchedule {
       return null;
     }
 
+    // TODO: remove this
     int newLatestEndTime = Math.max(this.latestEndTime, Arrays.stream(newProcessorEndTimes).max()
         .getAsInt());
 
@@ -137,6 +144,11 @@ public class AOSchedule {
     );
   }
 
+  /**
+   * Creates a deep copy of the list of ScheduleTtasks
+   * 
+   * @return A deep copy of the list of ScheduleTasks
+   */
   private ScheduledTask[] deepCopyScheduledTasks() {
     ScheduledTask[] newScheduledTasks = new ScheduledTask[this.scheduledTasks.length];
     for (int i = 0; i < this.scheduledTasks.length; i++) {
@@ -148,12 +160,12 @@ public class AOSchedule {
   }
 
   /**
-   * Recursively propagate the new scheduled task's end time to all children nodes (graph-wise) and
-   * decendants (processor-wise)
+   * Iteratively propagates the new scheduled task's end time to all
+   * children nodes (graph-wise) and decendants (processor-wise)
    *
-   * @param newScheduledTasks
-   * @param task
-   * @param newProcessorEndTimes
+   * @param newScheduledTasks    List of scheduled tasks representing the schedule at the next state
+   * @param task                 Task to start propagation from
+   * @param newProcessorEndTimes List of processor end times representing the schedule at the next
    */
   private boolean propagate(ScheduledTask[] newScheduledTasks, Task task,
       int[] newProcessorEndTimes) {
@@ -304,6 +316,11 @@ public class AOSchedule {
         0, 0);
   }
 
+  /**
+   * Gets the latest end time of the schedule
+   * 
+   * @return Latest end time of the schedule
+   */
   public int getLatestEndTime() {
     return Arrays.stream(scheduledTasks).mapToInt(scheduledTask -> {
       if (scheduledTask == null) {
@@ -314,6 +331,12 @@ public class AOSchedule {
 
   }
 
+  /**
+   * Gets the latest end time of a given processor
+   * 
+   * @param processor Processor index to get the latest end time of
+   * @return Latest end time of the processor
+   */
   public int getLatestEndTimeOf(int processor) {
     return Arrays.stream(scheduledTasks).mapToInt(scheduledTask -> {
       if (scheduledTask == null || scheduledTask.getProcessorIndex() != processor) {
@@ -324,6 +347,12 @@ public class AOSchedule {
 
   }
 
+  /**
+   * Gets the scheduled task representation of a task
+   * 
+   * @param task Task to get the scheduled task representation of
+   * @return Scheduled task representation of the task
+   */
   private ScheduledTask getScheduledTask(Task task) {
     return this.scheduledTasks[task.getIndex()];
   }
