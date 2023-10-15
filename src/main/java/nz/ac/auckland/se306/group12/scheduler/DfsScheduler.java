@@ -29,7 +29,7 @@ public class DfsScheduler implements Scheduler {
   private Set<String> closed = ConcurrentHashMap.newKeySet();
   private List<DfsWorker> workers = new ArrayList<>();
   private boolean hasStarted = false;
-  private int syncThreshold = 1024;
+  private int syncThreshold = 1;
   private int workerNum = 1;
 
   @Override
@@ -64,6 +64,11 @@ public class DfsScheduler implements Scheduler {
       workers.add(new DfsWorker());
     }
 
+    Thread mainThread = new Thread(() -> {
+      branchAndBound(taskGraph, worker);
+    });
+    threads.add(mainThread);
+
     // Instantiate other workers to steal from worker
     for (int i = 1; i < this.workerNum; i++) {
       DfsWorker currentWorker = workers.get(i);
@@ -73,8 +78,9 @@ public class DfsScheduler implements Scheduler {
       threads.add(thread);
     }
 
-    // Grab the schedule result from first worker
-    Schedule schedule = branchAndBound(taskGraph, worker);
+    for (Thread thread : this.threads) {
+      thread.start();
+    }
 
     for (Thread thread : this.threads) {
       try {
@@ -85,7 +91,7 @@ public class DfsScheduler implements Scheduler {
     }
 
     this.status = SchedulerStatus.SCHEDULED;
-    return schedule;
+    return this.bestSchedule.get();
   }
 
   /**
@@ -99,11 +105,13 @@ public class DfsScheduler implements Scheduler {
     // DFS iteration (no optimisations)
     int syncCounter = 0;
     int localMinMakespan = this.currentMinMakespan.get();
-    while (this.idleWorkers.get() < this.workers.size()) {
+    boolean hasWork = true;
 
-      while (true) {
+    while (this.idleWorkers.get() < this.workers.size()) {
+      while (hasWork) {
         if (worker.getQueue().isEmpty()) {
           this.idleWorkers.incrementAndGet();
+          hasWork = false;
           break;
         }
         Schedule currentSchedule = worker.steal();
@@ -150,18 +158,12 @@ public class DfsScheduler implements Scheduler {
         }
       }
 
-      if (!hasStarted) {
-        hasStarted = true;
-        for (Thread thread : this.threads) {
-          thread.start();
-        }
-      } else {
-        for (DfsWorker dfsWorker : workers) {
-          if (dfsWorker.hasWork() && dfsWorker != worker) {
-            worker.give(dfsWorker.steal());
-            this.idleWorkers.decrementAndGet();
-            break;
-          }
+      for (DfsWorker dfsWorker : workers) {
+        if (dfsWorker.getQueue().size() > 1 && dfsWorker != worker) {
+          worker.give(dfsWorker.steal());
+          hasWork = true;
+          this.idleWorkers.decrementAndGet();
+          break;
         }
       }
 

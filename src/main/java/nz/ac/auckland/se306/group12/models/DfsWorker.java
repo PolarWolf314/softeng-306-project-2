@@ -25,7 +25,7 @@ public class DfsWorker {
   }
 
   public Schedule steal() {
-    Schedule work = this.queue.remove();
+    Schedule work = this.queue.poll();
     if (this.queue.isEmpty()) {
       hasWork = false;
     }
