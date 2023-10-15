@@ -16,7 +16,7 @@ import nz.ac.auckland.se306.group12.models.datastructures.BitSet;
 public class AOSchedule {
 
   private final ScheduledTask[] scheduledTasks;
-  private final int[] processorLastTasks;
+  private final int[] processorLastTaskIndices;
   private final int scheduledTaskCount;
   private final int latestEndTime;
 
@@ -32,8 +32,8 @@ public class AOSchedule {
 
   public AOSchedule(Graph taskGraph, int processorCount, Allocation allocation) {
     this.scheduledTasks = new ScheduledTask[taskGraph.taskCount()];
-    this.processorLastTasks = new int[processorCount];
-    Arrays.fill(this.processorLastTasks, -1);
+    this.processorLastTaskIndices = new int[processorCount];
+    Arrays.fill(this.processorLastTaskIndices, -1);
     this.scheduledTaskCount = 0;
     this.latestEndTime = 0;
 
@@ -69,16 +69,15 @@ public class AOSchedule {
   }
 
   /**
-   * This method gets the next schedule based on the task being scheduled
+   * This method determines the {@link ScheduledTask} for a given task.
    *
    * @param task Task to be scheduled
-   * @return AOSchedule with the task scheduled representing the next iteration
+   * @return The created {@link ScheduledTask} representation of the task
    */
   public ScheduledTask extendWithTask(Task task) {
     int startTime = this.getLatestStartTimeOf(task);
     int endTime = startTime + task.getWeight();
-    ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, this.localIndex);
-    return newScheduledTask;
+    return new ScheduledTask(startTime, endTime, this.localIndex);
   }
 
   /**
@@ -91,8 +90,8 @@ public class AOSchedule {
   public AOSchedule extendWithTask(ScheduledTask scheduledTask, Task task) {
     ScheduledTask[] newScheduledTasks = Arrays.copyOf(this.scheduledTasks,
         this.scheduledTasks.length);
-    int[] newProcessorLastTasks = Arrays.copyOf(this.processorLastTasks,
-        this.processorLastTasks.length);
+    int[] newProcessorLastTaskIndices = Arrays.copyOf(this.processorLastTaskIndices,
+        this.processorLastTaskIndices.length);
 
     newScheduledTasks[task.getIndex()] = scheduledTask;
     int newLocalOrderedCount = this.localOrderedCount + 1;
@@ -113,9 +112,9 @@ public class AOSchedule {
     // After propagation, the end time of the processor may have changed, i.e. This task was added
     // before another task on this processor
     int newProcessorEndTime = this.getLatestEndTimeOf(
-        processorIndex, newProcessorLastTasks, newScheduledTasks);
+        processorIndex, newProcessorLastTaskIndices, newScheduledTasks);
     if (newProcessorEndTime < scheduledTask.getEndTime()) {
-      newProcessorLastTasks[processorIndex] = task.getIndex();
+      newProcessorLastTaskIndices[processorIndex] = task.getIndex();
     }
 
     Set<Task> newReadyTasks;
@@ -132,9 +131,9 @@ public class AOSchedule {
 
     return new AOSchedule(
         newScheduledTasks,
-        newProcessorLastTasks,
+        newProcessorLastTaskIndices,
         this.scheduledTaskCount + 1,
-        this.getNewLatestEndTime(newProcessorLastTasks, newScheduledTasks),
+        this.getNewLatestEndTime(newProcessorLastTaskIndices, newScheduledTasks),
         this.allocation,
         newLocalIndex,
         newLocalOrderedCount,
@@ -148,11 +147,13 @@ public class AOSchedule {
 
   /**
    * Iteratively propagates the new scheduled task's end time to all children nodes (graph-wise) and
-   * descendants (processor-wise)
+   * descendants (processor-wise). Propagation can fail if it gets stuck in an infinite propagation
+   * loop. This is detected by determining it a task has been propagated past the total weight of
+   * the task graph.
    *
    * @param newScheduledTasks List of scheduled tasks representing the schedule at the next state
    * @param task              Task to start propagation from
-   * @return TODO
+   * @return {@code true} If the propagation completed successfully, {@code false} otherwise
    */
   private boolean propagate(ScheduledTask[] newScheduledTasks, Task task) {
     Deque<Task> stack = new ArrayDeque<>();
@@ -206,7 +207,7 @@ public class AOSchedule {
    * @param task            Task to be updated
    * @param scheduledTask   Scheduled task representation of the task to be updated
    * @param newMinStartTime New start time of the task
-   * @return A new {@link ScheduledTask} if the task was updated, the same instance otherwise
+   * @return A new {@link ScheduledTask} if the task was updated, otherwise {@code null}
    */
   private ScheduledTask getUpdatedScheduledTask(
       Task task,
@@ -222,11 +223,13 @@ public class AOSchedule {
   }
 
   /**
-   * This method checks if a task is ready to be scheduled locally on the processor
+   * This method checks if a task is ready to be scheduled locally on the processor. This occurs
+   * when all the task's dependences that are allocated on the same processor have already been
+   * scheduled.
    *
    * @param newScheduledTasks List of scheduled tasks representing the schedule at the next state
    * @param child             Child task to be checked if ready
-   * @return True if the task is ready to be scheduled, false otherwise
+   * @return {@code true} if the task is ready to be scheduled, {@code false} otherwise
    */
   private boolean isTaskReady(ScheduledTask[] newScheduledTasks, Task child) {
     int processorNumber = this.getAllocatedProcessorOf(child);
@@ -250,7 +253,7 @@ public class AOSchedule {
    * @return Processor index that the task is allocated to
    */
   private int getAllocatedProcessorOf(Task task) {
-    return this.allocation.getTasksProcessor()[task.getIndex()];
+    return this.allocation.getTaskProcessorAllocation()[task.getIndex()];
   }
 
   /**
@@ -312,7 +315,8 @@ public class AOSchedule {
 
   /**
    * This method returns a set of locally ready tasks based on the processor of the current task
-   * being scheduled
+   * being scheduled. A locally ready task is one where all of its dependences that have been
+   * allocated to the same processor have already been scheduled.
    *
    * @param task              Current task being scheduled
    * @param newScheduledTasks List of scheduled tasks representing the schedule at the next state
@@ -341,7 +345,7 @@ public class AOSchedule {
    */
   public Schedule asSchedule() {
     return new Schedule(this.scheduledTasks,
-        new int[this.processorLastTasks.length],
+        new int[this.processorLastTaskIndices.length],
         this.getLatestEndTime(),
         this.scheduledTaskCount,
         this.readyTasks,
@@ -356,24 +360,25 @@ public class AOSchedule {
    * @return Latest end time of the processor
    */
   public int getLatestEndTimeOf(int processorIndex) {
-    return this.getLatestEndTimeOf(processorIndex, this.processorLastTasks, this.scheduledTasks);
+    return this.getLatestEndTimeOf(processorIndex, this.processorLastTaskIndices,
+        this.scheduledTasks);
   }
 
   /**
    * Gets the latest end time of a given processor from a given set of scheduled tasks and the last
    * task indices on each processor.
    *
-   * @param processorIndex     The index of the processor to get the latest end time of
-   * @param processorLastTasks The index on the last task on each processor
-   * @param scheduledTasks     The scheduled tasks
+   * @param processorIndex           The index of the processor to get the latest end time of
+   * @param processorLastTaskIndices The index on the last task on each processor
+   * @param scheduledTasks           The scheduled tasks
    * @return The latest end time of the processor
    */
   private int getLatestEndTimeOf(
       int processorIndex,
-      int[] processorLastTasks,
+      int[] processorLastTaskIndices,
       ScheduledTask[] scheduledTasks
   ) {
-    int lastTaskIndex = processorLastTasks[processorIndex];
+    int lastTaskIndex = processorLastTaskIndices[processorIndex];
     if (lastTaskIndex == -1) {
       return 0;
     }
