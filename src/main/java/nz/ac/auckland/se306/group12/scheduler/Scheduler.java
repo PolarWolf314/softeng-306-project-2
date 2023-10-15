@@ -7,6 +7,17 @@ import nz.ac.auckland.se306.group12.models.SchedulerStatus;
 public interface Scheduler {
 
   /**
+   * We are going to be storing a lot of schedules in our closed set, so we want to initially create
+   * it to be quite large so that we don't have to resize it too often. {@link java.util.HashMap}
+   * requires this to be a power of two (Although it's not clear if this requirement also applied to
+   * {@link java.util.LinkedHashMap}).
+   * <p>
+   * While the choice of number is slightly arbitrary, it is immensely more appropriate than the
+   * default initial capacity of 16.
+   */
+  int INITIAL_CLOSED_SET_CAPACITY = 1 << 13; // 8192
+
+  /**
    * Returns the number of partial schedules that have been searched so far by the scheduler. A
    * partial schedule is considered searched if it is not pruned and is therefore a potential
    * candidate for an optimal schedule.
