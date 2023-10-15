@@ -66,8 +66,8 @@ public class CommandLineParser {
     this.parser.addArgument("-v", "--visualise")
         .action(Arguments.storeTrue())
         .dest(Keys.VISUALISE_SEARCH)
-        .help(
-            "visualise the search; nullifies the effect of -a, forcing use of DFS branch-and-bound");
+        .help("visualise the search; nullifies the effect of -a, "
+            + "forcing use of DFS B&B with ELS state space");
     this.parser.addArgument("-o", "--output")
         .metavar("OUTPUT")
         .dest(Keys.OUTPUT_DOT_GRAPH)
