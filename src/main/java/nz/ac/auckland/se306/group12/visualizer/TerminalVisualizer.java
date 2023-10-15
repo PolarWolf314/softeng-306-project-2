@@ -73,7 +73,7 @@ public class TerminalVisualizer implements Visualizer {
    * Used to adapt the visualiser output to the terminal window width. If
    * {@link #terminalWidthManager} cannot detect the window width, the fallback value is used.
    */
-  private int terminalWidth = 80;
+  private int terminalWidth = 50;
   /**
    * Used to adapt the visualiser output to the terminal window height. If
    * {@link #terminalHeightManager} cannot detect the window height, the fallback value is used.
@@ -173,9 +173,10 @@ public class TerminalVisualizer implements Visualizer {
     this.drawStatusBar();
     sb.append(NEW_LINE);
 
-    if (this.terminalWidth < 44) {
+    /*if (this.terminalWidth < 44) {
       this.drawWindowSizeNotice();
-    } else if (this.schedule == null) {
+    } else */
+    if (this.schedule == null) {
       this.drawLoadingGraphic();
     } else if (this.ganttChartMaxBodyHeight < 6 || this.terminalWidth < 72) {
       this.drawWindowSizeNotice();
@@ -645,10 +646,11 @@ public class TerminalVisualizer implements Visualizer {
     // Padding - fill space between schedule chips and makespan chip
     // Note: Not using String.format() here for right-alignment because formatting control sequences
     //       make string lengths unpredictable
-    sb.append(" ".repeat(terminalWidth - 20
-        - searchCountChip.length()
-        - pruneCountChip.length()
-        - makespanChip.length()));
+    sb.append(" ".repeat(Math.max(1,
+        terminalWidth - 20
+            - searchCountChip.length()
+            - pruneCountChip.length()
+            - makespanChip.length())));
 
     // Makespan chip
     sb.append(AnsiSgrSequenceBuilder.SET_BOLD)
