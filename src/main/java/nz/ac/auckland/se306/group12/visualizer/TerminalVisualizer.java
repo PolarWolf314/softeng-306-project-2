@@ -36,6 +36,17 @@ public class TerminalVisualizer implements Visualizer {
   private static final int PROCESSOR_IDLE = -1;
 
   /**
+   * The number of logical processors available for execution. The {@link #scheduler} may or may not
+   * use all of them.
+   */
+  private final int systemProcessorCount = ResourceMonitor.getLogicalProcessorCount();
+
+  /**
+   * Responsible for re-rendering the visualisation on a regular basis, based on the
+   * {@link #scheduler}'s best-so-far schedule.
+   */
+  private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+  /**
    * Used to detect the width (in characters) of the visualiser's output terminal window.
    */
   private final TerminalWidth terminalWidthManager = new TerminalWidth();
@@ -47,12 +58,6 @@ public class TerminalVisualizer implements Visualizer {
    * Used to adapt the visualiser output to the terminal window width. If
    * {@link #terminalWidthManager} cannot detect the window width, the fallback value 80 is used.
    */
-  private int terminalWidth = 80;
-  /**
-   * Used to adapt the visualiser output to the terminal window height. If
-   * {@link #terminalHeightManager} cannot detect the window height, the fallback value 24 is used.
-   */
-  private int terminalHeight = 24;
 
   /**
    * The task graph whose schedules (partial or complete) are to be visualised.
@@ -65,14 +70,27 @@ public class TerminalVisualizer implements Visualizer {
   /**
    * Whether {@link #scheduler} is using parallel execution.
    */
-  private final boolean executionIsParallel;
+  private final int executionProcessorCount;
 
-  /**
-   * Responsible for re-rendering the visualisation on a regular basis, based on the
-   * {@link #scheduler}'s best-so-far schedule.
-   */
-  private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
   private final LocalDateTime startTime;
+
+  private int terminalWidth = 80;
+  /**
+   * Used to adapt the visualiser output to the terminal window height. If
+   * {@link #terminalHeightManager} cannot detect the window height, the fallback value 24 is used.
+   */
+  private int terminalHeight = 24;
+  private final int cpuChartBodyHeight;
+  private final int resourceChartBodyHeight;
+  /**
+   * The available space for the schedule's Gantt chart to fill, after accounting for UI chrome and
+   * other content, such as the system resource usage graph and statistic chips. This "maximum" is
+   * slightly conservative.
+   */
+  private int ganttChartMaxBodyHeight;
+  private int peakCpuUsagePercentage = 0;
+  private long peakMemoryUsageMiB = 0;
+
 
   /**
    * This visualiser’s output is just a massive string. This is where the heavy lifting gets done.
@@ -95,6 +113,7 @@ public class TerminalVisualizer implements Visualizer {
    */
   private Schedule schedule;
 
+
   /**
    * Instantiates and <strong>immediately begins running</strong> a visualiser.
    * <p>
@@ -114,7 +133,14 @@ public class TerminalVisualizer implements Visualizer {
   public TerminalVisualizer(Graph taskGraph, Scheduler scheduler, int executionProcessorCount) {
     this.taskGraph = taskGraph;
     this.scheduler = scheduler;
-    this.executionIsParallel = executionProcessorCount > 1;
+    this.executionProcessorCount = executionProcessorCount;
+
+    boolean executionIsParallel = this.executionProcessorCount == 1;
+    this.cpuChartBodyHeight = executionIsParallel ? 1 : (this.systemProcessorCount + 1) / 2;
+    // Memory chart is always 2 lines tall, plus 1 line for padding
+    this.resourceChartBodyHeight =
+        executionIsParallel ? this.cpuChartBodyHeight : this.cpuChartBodyHeight + 3;
+
     this.startTime = LocalDateTime.now();
 
     // No need to keep the returned ScheduledFuture; the ScheduledExecutorService shutdown takes
@@ -137,24 +163,22 @@ public class TerminalVisualizer implements Visualizer {
    */
   private void visualize() {
     this.eraseDisplay();
-    this.drawHorizontalRule();
-    sb.append(NEW_LINE);
 
     // Get latest data
     this.schedulerStatus = scheduler.getStatus();
     this.schedule = scheduler.getBestSchedule();
-    this.updateTerminalDimensions();
+    this.updateDimensions();
 
     // Prepare frame
+    this.drawHorizontalRule();
+    sb.append(NEW_LINE);
     this.drawStatusBar();
     sb.append(NEW_LINE);
     if (schedule == null) {
       this.drawLoadingGraphic();
     } else {
-      if (schedulerStatus != SchedulerStatus.SCHEDULED) {
-        this.drawSystemResourceUsage();
-        sb.append(NEW_LINE);
-      }
+      this.drawSystemResourceUsage();
+      sb.append(NEW_LINE);
       this.drawGanttChart();
       sb.append(NEW_LINE);
       this.drawStatistics();
@@ -179,7 +203,7 @@ public class TerminalVisualizer implements Visualizer {
    * hit-or-miss. If the terminal width cannot be determined, the fallback (initial) value will be
    * used.
    */
-  private void updateTerminalDimensions() {
+  private void updateDimensions() {
     int width = terminalWidthManager.getTerminalWidth();
     if (width > 0) {
       terminalWidth = width - 1; // -1 for wiggle room
@@ -189,6 +213,22 @@ public class TerminalVisualizer implements Visualizer {
     if (height > 0) {
       terminalHeight = height;
     }
+
+    this.ganttChartMaxBodyHeight = getGanttChartMaxBodyHeight();
+  }
+
+  /**
+   * Determines the number of lines in the terminal which may be used by the {@link #schedule}'s
+   * Gantt chart, after accounting for space reserved for other components such as UI chrome, the
+   * system resource usage chart, and statistics chips. Axis labels are <strong>not</strong>
+   * considered part of the Gantt chart's body.
+   *
+   * @return The maximum number of lines the Gantt chart body may occupy.
+   */
+  private int getGanttChartMaxBodyHeight() {
+    // To be quite honest, this 15 was merely *informed* by the rest of the code in this class, but
+    // its precise value was determined empirically
+    return this.terminalHeight - this.resourceChartBodyHeight - 15;
   }
 
   /**
@@ -280,57 +320,209 @@ public class TerminalVisualizer implements Visualizer {
         .append(NEW_LINE);
   }
 
+  /**
+   * Draws one of two variants of the system resource usage charts.  If the {@link #scheduler} is
+   * using sequential execution, then the "brief" version of the charts is drawn.  If using parallel
+   * execution, the "detailed" version is drawn.
+   *
+   * @see #drawCompactSystemResourceUsageChart()
+   * @see #drawDetailedSystemResourceUsageChart()
+   */
   private void drawSystemResourceUsage() {
-    final int memoryChartWidth = (this.terminalWidth - 1) / 2; // -1 for padding
-    final int cpuChartWidth = memoryChartWidth - 3; // -1 for padding, -3 for CPU label
+    if (this.executionProcessorCount == 1) {
+      this.drawCompactSystemResourceUsageChart();
+    } else {
+      this.drawDetailedSystemResourceUsageChart();
+    }
+  }
 
-    final double[] coreLoads = ResourceMonitor.getProcessorCpuLoad();
-    final int coreCount = coreLoads.length; // Determines chart height
+  /**
+   * Draws a CPU usage chart and a memory usage chart side-by-side. Only the
+   * <strong>overall</strong> CPU usage is shown; there is <strong>no</strong> breakdown of the
+   * loads on individual logical CPUs of the environment.
+   * <p>
+   * Looks something like this:
+   * <pre>{@code
+   * CPU 25% (peak 50%)                       Memory 3072/4096 (peak 3968 MiB)
+   * ▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  ▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+   * }</pre>
+   */
+  private void drawCompactSystemResourceUsageChart() {
+    final String backgroundSgrSequence = new AnsiSgrSequenceBuilder()
+        .background(252).toString();
+    final String foregroundSgrSequence = new AnsiSgrSequenceBuilder()
+        .background(AnsiColor.COLOR_CUBE_8_BIT[1][1][5]).toString();
+    final String interColumnPadding = terminalWidth % 2 == 0 ? "  " : " ";
 
-    final int cpuLoadPercentage = (int) Math.round(ResourceMonitor.getSystemCpuLoad() * 100);
+    final int columnWidth = (this.terminalWidth - 1) / 2; // -1 for padding between columns
 
+    // Get CPU usage
+    final double cpuLoad = ResourceMonitor.getSystemCpuLoad();
+    final int cpuLoadPercentage = (int) Math.round(cpuLoad * 100);
+
+    // Get memory usage
     final long memoryUsageMiB = ResourceMonitor.getMemoryUsageMiB();
     final long maxMemoryMiB = ResourceMonitor.getMaxMemoryMiB();
-    final double memoryUsageRatio = (double) memoryUsageMiB / maxMemoryMiB;
+
+    // Update peak usage stats
+    if (cpuLoadPercentage > this.peakCpuUsagePercentage) {
+      this.peakCpuUsagePercentage = cpuLoadPercentage;
+    }
+    if (memoryUsageMiB > this.peakMemoryUsageMiB) {
+      this.peakMemoryUsageMiB = memoryUsageMiB;
+    }
 
     // Chart header
-    sb.append(String.format("%-" + (cpuChartWidth + 3) + "s",
-            "   CPU " + cpuLoadPercentage + "%"))
-        .append(" ") // Padding
+    final String cpuHeading = "CPU "
+        + AnsiSgrSequenceBuilder.RESET // Length 3
+        + cpuLoadPercentage + '%'
+        + new AnsiSgrSequenceBuilder().faint() // Length 4
+        + " (peak " + this.peakCpuUsagePercentage + "%)";
+    final String memoryHeading = "Memory "
+        + AnsiSgrSequenceBuilder.RESET // Length 3
+        + memoryUsageMiB + '/' + maxMemoryMiB
+        + new AnsiSgrSequenceBuilder().faint() // Length 4
+        + " (peak " + this.peakMemoryUsageMiB + " MiB)";
+    final int sequenceLength = columnWidth + 7;
+
+    sb.append(new AnsiSgrSequenceBuilder().bold())
+        .append(String.format("%-" + sequenceLength + "." + sequenceLength + "s", cpuHeading))
+        .append(AnsiSgrSequenceBuilder.RESET)
+        .append(interColumnPadding)
+        .append(new AnsiSgrSequenceBuilder().bold())
+        .append(String.format("%-" + sequenceLength + "." + sequenceLength + "s", memoryHeading))
+        .append(AnsiSgrSequenceBuilder.RESET)
+        .append(NEW_LINE);
+
+    int coreUsageQuantized = (int) Math.round(columnWidth * cpuLoad);
+    sb.append(foregroundSgrSequence)
+        .append(" ".repeat(coreUsageQuantized))
+        .append(backgroundSgrSequence)
+        .append(" ".repeat(columnWidth - coreUsageQuantized))
+        .append(AnsiSgrSequenceBuilder.RESET);
+
+    sb.append(interColumnPadding);
+
+    final int memoryUsageQuantized = Math.round(
+        (float) (columnWidth * memoryUsageMiB) / maxMemoryMiB);
+    sb.append(foregroundSgrSequence)
+        .append(" ".repeat(memoryUsageQuantized))
+        .append(backgroundSgrSequence)
+        .append(" ".repeat(columnWidth - memoryUsageQuantized))
+        .append(AnsiSgrSequenceBuilder.RESET)
+        .append(NEW_LINE);
+  }
+
+  /**
+   * Draws a CPU usage chart and a memory usage chart stacked one above the other. The CPU usage bar
+   * chart shows the per-logical-processor load, each one with its own bar in the chart. The memory
+   * usage bar chart appears below; it has exactly one bar.
+   * <p>
+   * Looks something like this:
+   * <pre>{@code
+   * CPU 35% (peak 41%)
+   *  1 ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░   4 ▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+   *  2 ▒▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   5 ▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░
+   *  3 ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░░   6 ▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+   *
+   * Memory 3473/4096 MiB (peak 3898 MiB)
+   * ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░
+   * }</pre>
+   */
+  private void drawDetailedSystemResourceUsageChart() {
+    final String backgroundSgrSequence = new AnsiSgrSequenceBuilder()
+        .background(252).toString();
+    final String foregroundSgrSequence = new AnsiSgrSequenceBuilder()
+        .background(AnsiColor.COLOR_CUBE_8_BIT[1][1][5]).toString();
+
+    final int columnWidth = (this.terminalWidth - 1) / 2; // -1 for padding between columns
+
+    // Get CPU usage
+    final double[] coreLoads = ResourceMonitor.getProcessorCpuLoad();
+    final int cpuLoadPercentage = (int) Math.round(ResourceMonitor.getSystemCpuLoad() * 100);
+
+    // Get memory usage
+    final long memoryUsageMiB = ResourceMonitor.getMemoryUsageMiB();
+    final long maxMemoryMiB = ResourceMonitor.getMaxMemoryMiB();
+
+    // Update peak usage stats
+    if (cpuLoadPercentage > this.peakCpuUsagePercentage) {
+      this.peakCpuUsagePercentage = cpuLoadPercentage;
+    }
+    if (memoryUsageMiB > this.peakMemoryUsageMiB) {
+      this.peakMemoryUsageMiB = memoryUsageMiB;
+    }
+
+    // CPU usage chart
+    sb.append(new AnsiSgrSequenceBuilder().bold())
+        .append("CPU ")
+        .append(AnsiSgrSequenceBuilder.RESET)
+        .append(cpuLoadPercentage)
+        .append("% ")
+        .append(new AnsiSgrSequenceBuilder().faint())
+        .append("(peak ")
+        .append(this.peakCpuUsagePercentage)
+        .append("%)")
+        .append(AnsiSgrSequenceBuilder.RESET)
+        .append(NEW_LINE);
+    for (int i = 0; i < this.cpuChartBodyHeight; i++) {
+      // Left column
+      int cpuNumber = i + 1;
+      String cpuLabel = String.format("%2d ", cpuNumber);
+      int coreUsageQuantized = (int) Math.round((columnWidth - cpuLabel.length()) * coreLoads[i]);
+      sb.append(cpuLabel)
+          .append(foregroundSgrSequence)
+          .append(" ".repeat(coreUsageQuantized))
+          .append(backgroundSgrSequence)
+          .append(" ".repeat((columnWidth - 3) - coreUsageQuantized))
+          .append(AnsiSgrSequenceBuilder.RESET);
+
+      sb.append(terminalWidth % 2 == 0 ? "  " : " "); // Padding between columns
+
+      // Right column
+      cpuNumber = i + this.cpuChartBodyHeight + 1;
+      if (cpuNumber > this.systemProcessorCount) {
+        break; // Odd number of CPUs
+      }
+      cpuLabel = String.format("%2d ", cpuNumber);
+      coreUsageQuantized = (int) Math.round(
+          (columnWidth - cpuLabel.length()) * coreLoads[cpuNumber - 1]);
+      sb.append(cpuLabel)
+          .append(foregroundSgrSequence)
+          .append(" ".repeat(coreUsageQuantized))
+          .append(backgroundSgrSequence)
+          .append(" ".repeat((columnWidth - 3) - coreUsageQuantized))
+          .append(AnsiSgrSequenceBuilder.RESET);
+
+      sb.append(NEW_LINE);
+    }
+
+    sb.append(NEW_LINE);
+
+    // Memory usage chart
+    sb.append(new AnsiSgrSequenceBuilder().bold())
         .append("Memory ")
+        .append(AnsiSgrSequenceBuilder.RESET)
         .append(memoryUsageMiB)
         .append('/')
         .append(maxMemoryMiB)
-        .append(" MiB (")
-        .append(Math.round(memoryUsageRatio * 100))
-        .append("%)")
+        .append(" MiB ")
+        .append(new AnsiSgrSequenceBuilder().faint())
+        .append("(peak ")
+        .append(this.peakMemoryUsageMiB)
+        .append(" MiB)")
+        .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
 
-    // Memory bar chart entry
-    final int memoryUsageQuantized = (int) Math.round(memoryChartWidth * memoryUsageRatio);
-    final String memoryBar = new AnsiSgrSequenceBuilder().background(45)
-        + " ".repeat(memoryUsageQuantized)
-        + new AnsiSgrSequenceBuilder().background(252)
-        + " ".repeat(memoryChartWidth - memoryUsageQuantized)
-        + AnsiSgrSequenceBuilder.RESET;
+    final float memoryUsageRatio = (float) memoryUsageMiB / maxMemoryMiB;
+    final int memoryUsageQuantized = Math.round(this.terminalWidth * memoryUsageRatio);
 
-    // Chart body
-    for (int i = 0; i < coreCount; i++) {
-      // Row in CPU chart
-      final String cpuLabel = String.format("%2d ", i + 1);
-      final int coreUsageQuantized = (int) Math.round(cpuChartWidth * coreLoads[i]);
-      sb.append(cpuLabel)
-          .append(new AnsiSgrSequenceBuilder().background(45))
-          .append(" ".repeat(coreUsageQuantized))
-          .append(new AnsiSgrSequenceBuilder().background(252))
-          .append(" ".repeat(cpuChartWidth - coreUsageQuantized))
-          .append(AnsiSgrSequenceBuilder.RESET);
-
-      // Row in memory chart
-      sb.append(' ') // Padding
-          .append(memoryBar)
-          .append(NEW_LINE);
-    }
+    sb.append(foregroundSgrSequence)
+        .append(" ".repeat(memoryUsageQuantized))
+        .append(backgroundSgrSequence)
+        .append(" ".repeat(this.terminalWidth - memoryUsageQuantized))
+        .append(AnsiSgrSequenceBuilder.RESET)
+        .append(NEW_LINE);
   }
 
   /**
@@ -340,10 +532,10 @@ public class TerminalVisualizer implements Visualizer {
    * {@link TerminalVisualizer#visualize()}.
    */
   private void drawGanttChart() {
-    // Clamp the width of each column to between 2ch and 15ch (excl. 1ch gap between columns)
+    // Clamp the width of each column to between 3ch and 40ch (incl. 1ch gap between columns)
     // +1 in the denominator to accommodate labels along the time axis
     int columnWidth = Math.max(3,
-        Math.min(terminalWidth / (this.schedule.getProcessorCount() + 1), 16)) - 1;
+        Math.min(terminalWidth / (this.schedule.getProcessorCount() + 1), 40)) - 1;
     String columnSlice = " ".repeat(columnWidth);
 
     int timeLabelWidth = Math.min(7, columnWidth);
@@ -359,10 +551,13 @@ public class TerminalVisualizer implements Visualizer {
 
     // Chart body
     int[][] verticalGantt = scheduleToGantt(this.schedule);
+    int makespan = verticalGantt.length;
+
+    int scale = Math.max(1, makespan / this.ganttChartMaxBodyHeight);
 
     boolean[] taskRenderStarted = new boolean[this.schedule.getScheduledTaskCount()];
-    for (int time = 0, makespan = verticalGantt.length; time < makespan; time++) {
-
+    int rowNumber = 0;
+    for (int time = 0; time < makespan; time += scale) {
       // Slight abuse of term, this "time slice" always has duration 1
       int[] timeSlice = verticalGantt[time];
       for (int activeTaskIndex : timeSlice) {
@@ -390,10 +585,10 @@ public class TerminalVisualizer implements Visualizer {
       // Vertical axis label: time
       // Not enforcing maximum length in case of long makespans (this may cause text wrap issues in
       // narrow terminals)
-      sb.append(time % 5 == 4
+      sb.append(++rowNumber % 3 == 0
           ? String.format("%s%" + timeLabelWidth + "d%s",
           new AnsiSgrSequenceBuilder().faint().underline(),
-          time + 1,
+          time,
           AnsiSgrSequenceBuilder.RESET)
           : columnSlice);
 
