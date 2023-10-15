@@ -6,8 +6,6 @@ import nz.ac.auckland.se306.group12.models.SchedulerStatus;
 
 public interface Scheduler {
 
-  int INITIAL_CLOSED_SET_CAPACITY = 1 << 13; // 8192
-
   /**
    * We are going to be storing a lot of schedules in our closed set, so we want to initially create
    * it to be quite large so that we don't have to resize it too often. {@link java.util.HashMap}

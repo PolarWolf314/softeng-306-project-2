@@ -21,7 +21,6 @@ import nz.ac.auckland.se306.group12.models.datastructures.MaxSizeHashMap;
 
 public class DfsScheduler implements Scheduler {
 
-
   /**
    * After a little bit of trial and error, this seems to be a decent balance between being able to
    * store a lot of schedules in the closed set and not running out of memory. This is subject to
@@ -38,6 +37,7 @@ public class DfsScheduler implements Scheduler {
   private List<Thread> threads = new ArrayList<>();
   private Random random = new Random();
   private int syncThreshold = 1024;
+
   @Getter
   private SchedulerStatus status = SchedulerStatus.IDLE;
 
@@ -71,7 +71,6 @@ public class DfsScheduler implements Scheduler {
   public Schedule getBestSchedule() {
     return this.bestSchedule.get();
   }
-
 
   /*
    * @inheritDoc
@@ -121,7 +120,6 @@ public class DfsScheduler implements Scheduler {
    * @param worker    Worker who contains to a thread that processes the branch and bound.
    */
   private void branchAndBound(Graph taskGraph, DfsWorker worker) {
-    // DFS iteration (no optimisations)
     int syncCounter = 0;
     int localMinMakespan = this.currentMinMakespan.get();
     long localSearchCount = 0;
@@ -238,7 +236,7 @@ public class DfsScheduler implements Scheduler {
    * randomly selected worker is itself or if that worker doesn't have any work available.
    *
    * @param worker that is idle, trying to steal work from another
-   * @return {@true} if the steal was successful, {@code false} otherwise
+   * @return {@code true} if the steal was successful, {@code false} otherwise
    */
   private boolean takeWorkFromRandomWorker(DfsWorker worker) {
     // Randomly choose a worker to steal from. This attempts to evenly distribute the workers being stolen from
@@ -331,7 +329,7 @@ public class DfsScheduler implements Scheduler {
   }
 
   /**
-   * Resets the scheduler to its initial state so that it can be used to schedule a new graph.
+   * Resets the scheduler to its initial state so that it can be used to schedule a new task graph.
    */
   private void resetScheduler() {
     this.searchedCount.set(0);
