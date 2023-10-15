@@ -11,16 +11,12 @@ public class SchedulerFactory {
   /**
    * Returns a scheduler for the given algorithm
    *
-   * @param arguments The command line arguments that this was run with
+   * @param algorithm The command line arguments that this was run with
    * @return A scheduler for the given algorithm
    */
-  public Scheduler getScheduler(CommandLineArguments arguments) {
-    // We don't currently support parallelisation of the other schedulers
-    if (arguments.parallelisationProcessorCount() > 1) {
-      return new DfsScheduler(arguments.parallelisationProcessorCount());
-    }
+  public Scheduler getScheduler(String algorithm) {
 
-    switch (arguments.algorithm().toLowerCase()) {
+    switch (algorithm.toLowerCase()) {
       case "astar" -> {
         return new AStarScheduler();
       }
@@ -31,7 +27,7 @@ public class SchedulerFactory {
         return new DfsAOScheduler();
       }
       default -> throw new IllegalArgumentException(
-          "Invalid algorithm. " + arguments.algorithm() + " is not a valid algorithm.");
+          "Invalid algorithm. " + algorithm + " is not a valid algorithm.");
     }
   }
 
@@ -43,8 +39,9 @@ public class SchedulerFactory {
    * @return A scheduler depending on if the user wants to visualise the search or not
    */
   public Scheduler getScheduler(CommandLineArguments arguments) {
-    if (arguments.visualiseSearch()) {
-      return new DfsScheduler();
+    // We only support parallelization and visualization using DFS
+    if (arguments.visualiseSearch() || arguments.parallelisationProcessorCount() > 1) {
+      return new DfsScheduler(arguments.parallelisationProcessorCount());
     } else {
       return this.getScheduler(arguments.algorithm());
     }

@@ -53,7 +53,7 @@ public class CommandLineParser {
         .metavar("ALGORITHM")
         .choices("astar", "dfs", "ao")
         .dest(Keys.ALGORITHM)
-        .setDefault("dfs")
+        .setDefault("ao")
         .help("the algorithm with which to find the optimal schedule (default is dfs); options are "
             + "astar (A* with ELS space), dfs (DFS branch-and bound with ELS state space) and ao "
             + "(DFS with allocation-ordering state space)");
