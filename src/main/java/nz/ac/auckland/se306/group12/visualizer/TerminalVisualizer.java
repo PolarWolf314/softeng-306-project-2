@@ -337,8 +337,11 @@ public class TerminalVisualizer implements Visualizer {
         .append(AnsiSgrSequenceBuilder.SET_BOLD)
         .append(this.executionProcessorCount)
         .append(AnsiSgrSequenceBuilder.SET_NORMAL_INTENSITY)
-        .append(" threads")
-        .append(AnsiSgrSequenceBuilder.RESET)
+        .append(" thread");
+    if (this.executionProcessorCount != 1) {
+      sb.append('s');
+    }
+    sb.append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
   }
 
