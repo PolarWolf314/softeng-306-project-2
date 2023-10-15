@@ -54,10 +54,6 @@ public class TerminalVisualizer implements Visualizer {
    * Used to detect the height (in lines) of the visualiser's output terminal window.
    */
   private final TerminalHeight terminalHeightManager = new TerminalHeight();
-  /**
-   * Used to adapt the visualiser output to the terminal window width. If
-   * {@link #terminalWidthManager} cannot detect the window width, the fallback value 80 is used.
-   */
 
   /**
    * The task graph whose schedules (partial or complete) are to be visualised.
@@ -71,15 +67,18 @@ public class TerminalVisualizer implements Visualizer {
    * Whether {@link #scheduler} is using parallel execution.
    */
   private final int executionProcessorCount;
-
   private final LocalDateTime startTime;
 
-  private int terminalWidth = 80;
+  /**
+   * Used to adapt the visualiser output to the terminal window width. If
+   * {@link #terminalWidthManager} cannot detect the window width, the fallback value is used.
+   */
+  private int terminalWidth = 50;
   /**
    * Used to adapt the visualiser output to the terminal window height. If
-   * {@link #terminalHeightManager} cannot detect the window height, the fallback value 24 is used.
+   * {@link #terminalHeightManager} cannot detect the window height, the fallback value is used.
    */
-  private int terminalHeight = 24;
+  private int terminalHeight = 32;
   private final int cpuChartBodyHeight;
   private final int resourceChartBodyHeight;
   /**
@@ -112,7 +111,6 @@ public class TerminalVisualizer implements Visualizer {
    * each visualisation cycle for the same reason as {@link #schedulerStatus}.
    */
   private Schedule schedule;
-
 
   /**
    * Instantiates and <strong>immediately begins running</strong> a visualiser.
@@ -174,15 +172,26 @@ public class TerminalVisualizer implements Visualizer {
     sb.append(NEW_LINE);
     this.drawStatusBar();
     sb.append(NEW_LINE);
-    if (schedule == null) {
+
+    /*if (this.terminalWidth < 44) {
+      this.drawWindowSizeNotice();
+    } else */
+    if (this.schedule == null) {
       this.drawLoadingGraphic();
+    } else if (this.ganttChartMaxBodyHeight < 6 || this.terminalWidth < 72) {
+      this.drawWindowSizeNotice();
+      sb.append(NEW_LINE);
+      this.drawStatistics();
     } else {
+      this.drawExecutionSummary();
+      sb.append(NEW_LINE);
       this.drawSystemResourceUsage();
       sb.append(NEW_LINE);
       this.drawGanttChart();
       sb.append(NEW_LINE);
       this.drawStatistics();
     }
+
     sb.append(NEW_LINE);
     this.drawHorizontalRule();
     sb.deleteCharAt(sb.length() - 1); // Trim trailing newline
@@ -226,9 +235,9 @@ public class TerminalVisualizer implements Visualizer {
    * @return The maximum number of lines the Gantt chart body may occupy.
    */
   private int getGanttChartMaxBodyHeight() {
-    // To be quite honest, this 15 was merely *informed* by the rest of the code in this class, but
+    // To be quite honest, this 16 was merely *informed* by the rest of the code in this class, but
     // its precise value was determined empirically
-    return this.terminalHeight - this.resourceChartBodyHeight - 15;
+    return Math.max(this.terminalHeight - this.resourceChartBodyHeight - 16, 1);
   }
 
   /**
@@ -242,10 +251,12 @@ public class TerminalVisualizer implements Visualizer {
    * </pre>
    */
   private void drawLoadingGraphic() {
-    final String format = "%" + (44 + (terminalWidth - 44) / 2) + "s%n";
-    //                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Centre alignment
-    //                     44 is the length of the `Loading...` word art
-    sb.append(new AnsiSgrSequenceBuilder().faint())
+    // Centre-align the graphic
+    // 44 is the length of the `Loading...` word art
+    final int length = Math.max(1, Math.min(44 + (terminalWidth - 44) / 2, terminalWidth));
+
+    final String format = "%" + length + "." + length + "s%n";
+    sb.append(AnsiSgrSequenceBuilder.SET_FAINT)
         .append(String.format(format, " _                    _ _                   "))
         .append(String.format(format, "| |    ___   __ _  __| (_)_ __   __ _       "))
         .append(String.format(format, "| |   / _ \\ / _` |/ _` | | '_ \\ / _` |      "))
@@ -300,14 +311,11 @@ public class TerminalVisualizer implements Visualizer {
     int stopwatchLength = stopwatchLabel.length();
 
     // Graph name
+    int graphNameLength = Math.max(1, terminalWidth - 16 - stopwatchLength);
     sb.append(new AnsiSgrSequenceBuilder().normalIntensity()
             .background(AnsiColor.COLOR_CUBE_8_BIT[4][4][5]) // 189 lilac-ish
             .foreground(AnsiColor.COLOR_CUBE_8_BIT[0][0][1])) // 18 blue-black
-        .append(String.format(" %-"
-                + (terminalWidth - 16 - stopwatchLength)
-                + "."
-                + (terminalWidth - 16 - stopwatchLength)
-                + "s ",
+        .append(String.format(" %-" + graphNameLength + "." + graphNameLength + "s ",
             taskGraph.getName()));
 
     // Elapsed time (stopwatch)
@@ -317,6 +325,20 @@ public class TerminalVisualizer implements Visualizer {
         .append(stopwatchLabel);
 
     sb.append(AnsiSgrSequenceBuilder.RESET)
+        .append(NEW_LINE);
+  }
+
+  private void drawExecutionSummary() {
+    sb.append(this.schedulerStatus == SchedulerStatus.SCHEDULING ? "Running " : "Ran ")
+        .append(AnsiSgrSequenceBuilder.SET_BOLD)
+        .append(scheduler.getHumanReadableName())
+        .append(AnsiSgrSequenceBuilder.SET_NORMAL_INTENSITY)
+        .append(" on ")
+        .append(AnsiSgrSequenceBuilder.SET_BOLD)
+        .append(this.executionProcessorCount)
+        .append(AnsiSgrSequenceBuilder.SET_NORMAL_INTENSITY)
+        .append(" threads")
+        .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
   }
 
@@ -376,20 +398,20 @@ public class TerminalVisualizer implements Visualizer {
     final String cpuHeading = "CPU "
         + AnsiSgrSequenceBuilder.RESET // Length 3
         + cpuLoadPercentage + '%'
-        + new AnsiSgrSequenceBuilder().faint() // Length 4
+        + AnsiSgrSequenceBuilder.SET_FAINT // Length 4
         + " (peak " + this.peakCpuUsagePercentage + "%)";
     final String memoryHeading = "Memory "
         + AnsiSgrSequenceBuilder.RESET // Length 3
         + memoryUsageMiB + '/' + maxMemoryMiB
-        + new AnsiSgrSequenceBuilder().faint() // Length 4
+        + AnsiSgrSequenceBuilder.SET_FAINT // Length 4
         + " (peak " + this.peakMemoryUsageMiB + " MiB)";
     final int sequenceLength = columnWidth + 7;
 
-    sb.append(new AnsiSgrSequenceBuilder().bold())
+    sb.append(AnsiSgrSequenceBuilder.SET_BOLD)
         .append(String.format("%-" + sequenceLength + "." + sequenceLength + "s", cpuHeading))
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(interColumnPadding)
-        .append(new AnsiSgrSequenceBuilder().bold())
+        .append(AnsiSgrSequenceBuilder.SET_BOLD)
         .append(String.format("%-" + sequenceLength + "." + sequenceLength + "s", memoryHeading))
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
@@ -454,12 +476,12 @@ public class TerminalVisualizer implements Visualizer {
     }
 
     // CPU usage chart
-    sb.append(new AnsiSgrSequenceBuilder().bold())
+    sb.append(AnsiSgrSequenceBuilder.SET_BOLD)
         .append("CPU ")
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(cpuLoadPercentage)
         .append("% ")
-        .append(new AnsiSgrSequenceBuilder().faint())
+        .append(AnsiSgrSequenceBuilder.SET_FAINT)
         .append("(peak ")
         .append(this.peakCpuUsagePercentage)
         .append("%)")
@@ -500,14 +522,14 @@ public class TerminalVisualizer implements Visualizer {
     sb.append(NEW_LINE);
 
     // Memory usage chart
-    sb.append(new AnsiSgrSequenceBuilder().bold())
+    sb.append(AnsiSgrSequenceBuilder.SET_BOLD)
         .append("Memory ")
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(memoryUsageMiB)
         .append('/')
         .append(maxMemoryMiB)
         .append(" MiB ")
-        .append(new AnsiSgrSequenceBuilder().faint())
+        .append(AnsiSgrSequenceBuilder.SET_FAINT)
         .append("(peak ")
         .append(this.peakMemoryUsageMiB)
         .append(" MiB)")
@@ -543,7 +565,7 @@ public class TerminalVisualizer implements Visualizer {
     // Horizontal axis labels: processors
     int processorCount = this.schedule.getProcessorCount();
     for (int processorIndex = 1; processorIndex <= processorCount; processorIndex++) {
-      sb.append(String.format("P%-" + (columnWidth) + "d", processorIndex));
+      sb.append(String.format("P%-" + columnWidth + "d", processorIndex));
     }
 
     // Horizontal axis label: time
@@ -624,13 +646,14 @@ public class TerminalVisualizer implements Visualizer {
     // Padding - fill space between schedule chips and makespan chip
     // Note: Not using String.format() here for right-alignment because formatting control sequences
     //       make string lengths unpredictable
-    sb.append(" ".repeat(terminalWidth - 20
-        - searchCountChip.length()
-        - pruneCountChip.length()
-        - makespanChip.length()));
+    sb.append(" ".repeat(Math.max(1,
+        terminalWidth - 20
+            - searchCountChip.length()
+            - pruneCountChip.length()
+            - makespanChip.length())));
 
     // Makespan chip
-    sb.append(new AnsiSgrSequenceBuilder().bold())
+    sb.append(AnsiSgrSequenceBuilder.SET_BOLD)
         .append("Makespan ") // Length 9
         .append(new AnsiSgrSequenceBuilder()
             .background(238) // #444 grey
@@ -648,6 +671,22 @@ public class TerminalVisualizer implements Visualizer {
     sb.append(new AnsiSgrSequenceBuilder()
             .foreground(AnsiColor.COLOR_CUBE_8_BIT[1][1][5])) // 63 lavender-ish
         .append("─".repeat(terminalWidth))
+        .append(AnsiSgrSequenceBuilder.RESET)
+        .append(NEW_LINE);
+  }
+
+  private void drawWindowSizeNotice() {
+    final String line1 = "Increase window size to visualise the search";
+    final String line2 = "At least 100x40 recommended";
+    sb.append(" ".repeat(Math.max(0, this.terminalWidth - line1.length()) / 2))
+        .append(new AnsiSgrSequenceBuilder()
+            .foreground(AnsiColor.COLOR_CUBE_8_BIT[5][2][0])
+            .bold())
+        .append(line1)
+        .append(AnsiSgrSequenceBuilder.SET_NORMAL_INTENSITY)
+        .append(NEW_LINE)
+        .append(" ".repeat(Math.max(0, this.terminalWidth - line2.length()) / 2))
+        .append(line2)
         .append(AnsiSgrSequenceBuilder.RESET)
         .append(NEW_LINE);
   }
