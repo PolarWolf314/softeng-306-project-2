@@ -12,6 +12,7 @@ import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
 import nz.ac.auckland.se306.group12.models.ScheduledTask;
 import nz.ac.auckland.se306.group12.models.SchedulerStatus;
+import nz.ac.auckland.se306.group12.monitors.ResourceMonitor;
 import nz.ac.auckland.se306.group12.scheduler.Scheduler;
 import nz.ac.auckland.se306.group12.visualizer.util.AnsiColor;
 import nz.ac.auckland.se306.group12.visualizer.util.AnsiSgrSequenceBuilder;
@@ -62,10 +63,9 @@ public class TerminalVisualizer implements Visualizer {
    */
   private final Scheduler scheduler;
   /**
-   * The number of threads the {@link #scheduler} is using to run its algorithm. (<strong>Distinct
-   * from</strong> the number of processors for which it is scheduling tasks.)
+   * Whether {@link #scheduler} is using parallel execution.
    */
-  private final int executionProcessorCount;
+  private final boolean executionIsParallel;
 
   /**
    * Responsible for re-rendering the visualisation on a regular basis, based on the
@@ -76,10 +76,10 @@ public class TerminalVisualizer implements Visualizer {
 
   /**
    * This visualiser’s output is just a massive string. This is where the heavy lifting gets done.
-   * Initial capacity of 1000 is actually conservative, but already miles more appropriate than the
+   * This initial capacity is actually conservative, but already miles more appropriate than the
    * default 16.
    */
-  private final StringBuilder sb = new StringBuilder(1000);
+  private final StringBuilder sb = new StringBuilder(1200);
   private final AsciiSpinner spinner = new BrailleSpinner();
 
   /**
@@ -97,21 +97,34 @@ public class TerminalVisualizer implements Visualizer {
 
   /**
    * Instantiates and <strong>immediately begins running</strong> a visualiser.
+   * <p>
+   * The rate at which {@link #visualize()} may be run is inextricably coupled to the delay used by
+   * {@link ResourceMonitor#getProcessorCpuLoad()}, because it will take at least that long to
+   * return its value.  If the period is too short, the executor will have a backlog, which renders
+   * the visualiser ineffective.  Ignoring that annoying method, {@link #visualize()} should
+   * comfortably take somewhere in the order of 100 ms to run.
    *
-   * @param taskGraph The task graph whose schedules (partial and/or complete) are to be
-   *                  visualised.
-   * @param scheduler The {@link Scheduler} whose progress to visualise.
+   * @param taskGraph               The task graph whose schedules (partial and/or complete) are to
+   *                                be visualised.
+   * @param scheduler               The {@link Scheduler} whose progress to visualise.
+   * @param executionProcessorCount The number of threads the {@link Scheduler} is using to execute
+   *                                (not the number of processors for which it is scheduling
+   *                                tasks).
    */
-  public TerminalVisualizer(Graph taskGraph, Scheduler scheduler) {
+  public TerminalVisualizer(Graph taskGraph, Scheduler scheduler, int executionProcessorCount) {
     this.taskGraph = taskGraph;
     this.scheduler = scheduler;
+    this.executionIsParallel = executionProcessorCount > 1;
     this.startTime = LocalDateTime.now();
 
     // No need to keep the returned ScheduledFuture; the ScheduledExecutorService shutdown takes
     // care of cancelling this future
+    //
+    // Period must be greater than delay in call to `getProcessorCpuLoad()` for some asinine reason.
+    // See Javadoc immediately above.
     this.executor.scheduleAtFixedRate(this::visualize,
         0,
-        200,
+        500,
         TimeUnit.MILLISECONDS);
   }
 
@@ -139,6 +152,8 @@ public class TerminalVisualizer implements Visualizer {
     if (schedule == null) {
       this.drawLoadingGraphic();
     } else {
+      this.drawSystemResourceUsage();
+      sb.append(NEW_LINE);
       this.drawGanttChart();
       sb.append(NEW_LINE);
       this.drawStatistics();
@@ -155,7 +170,9 @@ public class TerminalVisualizer implements Visualizer {
       this.executor.shutdown();
     }
 
-    clearStringBuilder();
+    this.clearStringBuilder();
+
+
   }
 
   /**
@@ -267,6 +284,59 @@ public class TerminalVisualizer implements Visualizer {
         .append(NEW_LINE);
   }
 
+  private void drawSystemResourceUsage() {
+    final int memoryChartWidth = (this.terminalWidth - 1) / 2; // -1 for padding
+    final int cpuChartWidth = memoryChartWidth - 3; // -1 for padding, -3 for CPU label
+
+    final double[] coreLoads = ResourceMonitor.getProcessorCpuLoad();
+    final int coreCount = coreLoads.length; // Determines chart height
+
+    final int cpuLoadPercentage = (int) Math.round(ResourceMonitor.getSystemCpuLoad() * 100);
+
+    final long memoryUsageMiB = ResourceMonitor.getMemoryUsageMiB();
+    final long maxMemoryMiB = ResourceMonitor.getMaxMemoryMiB();
+    final double memoryUsageRatio = (double) memoryUsageMiB / maxMemoryMiB;
+
+    // Chart header
+    sb.append(String.format("%-" + (cpuChartWidth + 3) + "s",
+            "   CPU " + cpuLoadPercentage + "%"))
+        .append(" ") // Padding
+        .append("Memory ")
+        .append(memoryUsageMiB)
+        .append('/')
+        .append(maxMemoryMiB)
+        .append(" MiB (")
+        .append(Math.round(memoryUsageRatio * 100))
+        .append("%)")
+        .append(NEW_LINE);
+
+    // Memory bar chart entry
+    final int memoryUsageQuantized = (int) Math.round(memoryChartWidth * memoryUsageRatio);
+    final String memoryBar = new AnsiSgrSequenceBuilder().background(45)
+        + " ".repeat(memoryUsageQuantized)
+        + new AnsiSgrSequenceBuilder().background(252)
+        + " ".repeat(memoryChartWidth - memoryUsageQuantized)
+        + AnsiSgrSequenceBuilder.RESET;
+
+    // Chart body
+    for (int i = 0; i < coreCount; i++) {
+      // Row in CPU chart
+      final String cpuLabel = String.format("%2d ", i + 1);
+      final int coreUsageQuantized = (int) Math.round(cpuChartWidth * coreLoads[i]);
+      sb.append(cpuLabel)
+          .append(new AnsiSgrSequenceBuilder().background(45))
+          .append(" ".repeat(coreUsageQuantized))
+          .append(new AnsiSgrSequenceBuilder().background(252))
+          .append(" ".repeat(cpuChartWidth - coreUsageQuantized))
+          .append(AnsiSgrSequenceBuilder.RESET);
+
+      // Row in memory chart
+      sb.append(' ') // Padding
+          .append(memoryBar)
+          .append(NEW_LINE);
+    }
+  }
+
   /**
    * Takes a {@link Schedule}, and creates a Gantt Chart representation of it in plaintext (with
    * some in-band formatting using ANSI control sequences). The plaintext chart is then appended to
@@ -302,7 +372,7 @@ public class TerminalVisualizer implements Visualizer {
       for (int activeTaskIndex : timeSlice) {
         if (activeTaskIndex == PROCESSOR_IDLE) {
           // Processor idling
-          sb.append(new AnsiSgrSequenceBuilder().background(251)) // #c6c6c6 grey
+          sb.append(new AnsiSgrSequenceBuilder().background(252)) // #c6c6c6 grey
               .append(columnSlice);
         } else {
           sb.append(new AnsiSgrSequenceBuilder().bold()
