@@ -148,28 +148,26 @@ public class TerminalVisualizer implements Visualizer {
     // Prepare frame
     this.drawStatusBar();
     sb.append(NEW_LINE);
-
     if (schedule == null) {
       this.drawLoadingGraphic();
     } else {
-      this.drawSystemResourceUsage();
-      sb.append(NEW_LINE);
+      if (schedulerStatus != SchedulerStatus.SCHEDULED) {
+        this.drawSystemResourceUsage();
+        sb.append(NEW_LINE);
+      }
       this.drawGanttChart();
       sb.append(NEW_LINE);
       this.drawStatistics();
     }
-
     sb.append(NEW_LINE);
     this.drawHorizontalRule();
     sb.deleteCharAt(sb.length() - 1); // Trim trailing newline
 
-    // Render frame
-    System.out.println(sb);
+    System.out.println(sb); // Render frame
 
     if (schedulerStatus == SchedulerStatus.SCHEDULED) {
       this.executor.shutdown();
     }
-
     this.clearStringBuilder();
   }
 
