@@ -9,7 +9,9 @@ import nz.ac.auckland.se306.group12.models.AOSchedule;
 import nz.ac.auckland.se306.group12.models.Allocation;
 import nz.ac.auckland.se306.group12.models.Graph;
 import nz.ac.auckland.se306.group12.models.Schedule;
+import nz.ac.auckland.se306.group12.models.ScheduledTask;
 import nz.ac.auckland.se306.group12.models.SchedulerStatus;
+import nz.ac.auckland.se306.group12.models.Task;
 
 public class DfsAOScheduler implements Scheduler {
 
@@ -81,7 +83,14 @@ public class DfsAOScheduler implements Scheduler {
         continue;
       }
 
-      currentSchedule.extendSchedule(queue);
+      // Check to find if any tasks can be scheduled and schedule any valid schedules
+      for (Task task : currentSchedule.getReadyTasks()) {
+        ScheduledTask newScheduledTask = currentSchedule.extendWithTask(task);
+        AOSchedule newSchedule = currentSchedule.extendWithTask(newScheduledTask, task);
+        if (newSchedule != null) {
+          queue.add(newSchedule);
+        }
+      }
     }
 
   }

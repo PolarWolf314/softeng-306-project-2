@@ -66,28 +66,12 @@ public class AOSchedule {
   }
 
   /**
-   * This method adds all children of the current schedule to the stack
-   *
-   * @param queue Queue to add children to
-   */
-  public void extendSchedule(Queue<AOSchedule> queue) {
-    // Check to find if any tasks can be scheduled and schedule them
-    for (Task task : getReadyTasks()) {
-      ScheduledTask newScheduledTask = extendWithTask(task);
-      AOSchedule newSchedule = extendWithTask(newScheduledTask, task);
-      if (newSchedule != null) {
-        queue.add(newSchedule);
-      }
-    }
-  }
-
-  /**
    * This method gets the next schedule based on the task being scheduled
    *
    * @param task Task to be scheduled
    * @return AOSchedule with the task scheduled representing the next iteration
    */
-  private ScheduledTask extendWithTask(Task task) {
+  public ScheduledTask extendWithTask(Task task) {
     int startTime = getLatestStartTimeOf(task);
     int endTime = startTime + task.getWeight();
     ScheduledTask newScheduledTask = new ScheduledTask(startTime, endTime, this.localIndex);
