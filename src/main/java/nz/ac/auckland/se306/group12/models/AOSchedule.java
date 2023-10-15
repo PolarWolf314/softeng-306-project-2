@@ -161,7 +161,7 @@ public class AOSchedule {
 
   /**
    * Iteratively propagates the new scheduled task's end time to all
-   * children nodes (graph-wise) and decendants (processor-wise)
+   * children nodes (graph-wise) and descendants (processor-wise)
    *
    * @param newScheduledTasks    List of scheduled tasks representing the schedule at the next state
    * @param task                 Task to start propagation from
@@ -198,17 +198,17 @@ public class AOSchedule {
           stack.push(childTask);
         }
       }
-      // propagate the decendant (this will be on the same processor)
-      int decendantIndex = nextTasks[parentTask.getIndex()];
-      // don't run this if the parent task does not have a decendant
-      if (decendantIndex != -1) {
-        Task decendantTask = taskGraph.getTask(decendantIndex);
-        ScheduledTask decendantScheduledTask = newScheduledTasks[decendantIndex];
-        if (decendantScheduledTask.getStartTime() < parentScheduledTask.getEndTime()) {
-          decendantScheduledTask.setStartTime(parentScheduledTask.getEndTime());
-          decendantScheduledTask.setEndTime(parentScheduledTask.getEndTime() + decendantTask
+      // propagate the descendant (this will be on the same processor)
+      int descendantIndex = nextTasks[parentTask.getIndex()];
+      // don't run this if the parent task does not have a descendant
+      if (descendantIndex != -1) {
+        Task descendantTask = taskGraph.getTask(descendantIndex);
+        ScheduledTask descendantScheduledTask = newScheduledTasks[descendantIndex];
+        if (descendantScheduledTask.getStartTime() < parentScheduledTask.getEndTime()) {
+          descendantScheduledTask.setStartTime(parentScheduledTask.getEndTime());
+          descendantScheduledTask.setEndTime(parentScheduledTask.getEndTime() + descendantTask
               .getWeight());
-          stack.push(decendantTask);
+          stack.push(descendantTask);
         }
       }
     }
