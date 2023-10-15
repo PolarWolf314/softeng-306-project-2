@@ -11,13 +11,12 @@ public class SchedulerFactory {
   /**
    * Returns a scheduler for the given algorithm
    *
-   * @param algorithm The algorithm to return a scheduler for
+   * @param algorithm The command line arguments that this was run with
    * @return A scheduler for the given algorithm
    */
   public Scheduler getScheduler(String algorithm) {
-    algorithm = algorithm.toLowerCase();
 
-    switch (algorithm) {
+    switch (algorithm.toLowerCase()) {
       case "astar" -> {
         return new AStarScheduler();
       }
@@ -40,8 +39,9 @@ public class SchedulerFactory {
    * @return A scheduler depending on if the user wants to visualise the search or not
    */
   public Scheduler getScheduler(CommandLineArguments arguments) {
-    if (arguments.visualiseSearch()) {
-      return new DfsScheduler();
+    // We only support parallelization and visualization using DFS
+    if (arguments.visualiseSearch() || arguments.parallelisationProcessorCount() > 1) {
+      return new DfsScheduler(arguments.parallelisationProcessorCount());
     } else {
       return this.getScheduler(arguments.algorithm());
     }

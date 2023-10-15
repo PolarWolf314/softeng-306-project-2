@@ -76,7 +76,7 @@ public class Schedule implements Comparable<Schedule> {
    *
    * @return The number of processors that support having a task scheduled on it
    */
-  public int getAllocableProcessors() {
+  public int getAllocableProcessorCount() {
     return this.getProcessorCount();
   }
 
