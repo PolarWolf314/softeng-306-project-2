@@ -229,7 +229,7 @@ public class Schedule implements Comparable<Schedule> {
    * @param newTotalIdleTime The new total idle time
    * @return The new makespan estimate
    * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Sinnen,
-   * Kozlov & Shahul: Optimal Scheduling of Task Graphs on Parallel Systems</a>, Section 3.1
+   *      Kozlov & Shahul: Optimal Scheduling of Task Graphs on Parallel Systems</a>, Section 3.1
    */
   protected int estimateNewMakespan(ScheduledTask scheduledTask, Task task, int newTotalIdleTime) {
     return Math.max(
@@ -248,7 +248,7 @@ public class Schedule implements Comparable<Schedule> {
    * @param newTotalIdleTime The new total idle time
    * @return The idle underestimate of the makespan
    * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Sinnen,
-   * Kozlov & Shahul: Optimal Scheduling of Task Graphs on Parallel Systems</a>, Section 3.1
+   *      Kozlov & Shahul: Optimal Scheduling of Task Graphs on Parallel Systems</a>, Section 3.1
    */
   private int estimateIdleTimeMakespan(int newTotalIdleTime) {
     return (newTotalIdleTime + this.totalTaskWeights) / this.getProcessorCount();
@@ -263,7 +263,7 @@ public class Schedule implements Comparable<Schedule> {
    * @param task          The corresponding {@link Task} for the scheduled task
    * @return The bottom level estimate of this scheduled task
    * @see <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.9084">Sinnen,
-   * Kozlov & Shahul: Optimal Scheduling of Task Graphs on Parallel Systems</a>, Section 3.1
+   *      Kozlov & Shahul: Optimal Scheduling of Task Graphs on Parallel Systems</a>, Section 3.1
    */
   private int estimateBottomLevelMakespan(ScheduledTask scheduledTask, Task task) {
     return scheduledTask.getEndTime() + task.getBottomLevel();
