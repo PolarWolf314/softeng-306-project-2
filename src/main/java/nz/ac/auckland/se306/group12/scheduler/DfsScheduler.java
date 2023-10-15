@@ -14,8 +14,13 @@ import nz.ac.auckland.se306.group12.models.datastructures.MaxSizeHashMap;
 
 public class DfsScheduler implements Scheduler {
 
-  private int currentMinMakespan = Integer.MAX_VALUE;
+  /**
+   * After a little bit of trial and error, this seems to be a decent balance between being able to
+   * store a lot of schedules in the closed set without running out of memory.
+   */
+  private static final int MAX_CLOSED_SET_SIZE = 1 << 18; // 262144
 
+  private int currentMinMakespan = Integer.MAX_VALUE;
   @Getter
   private long searchedCount = 0;
   @Getter
@@ -30,13 +35,14 @@ public class DfsScheduler implements Scheduler {
    */
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
+    this.resetScheduler();
     this.status = SchedulerStatus.SCHEDULING;
-    Map<String, Boolean> closed = new MaxSizeHashMap<>(200_000, 10_000);
     Deque<Schedule> stack = new ArrayDeque<>();
+    Map<String, Boolean> closed = new MaxSizeHashMap<>(
+        MAX_CLOSED_SET_SIZE, Scheduler.INITIAL_CLOSED_SET_CAPACITY);
 
     stack.add(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
 
-    // DFS iteration (no optimisations)
     while (!stack.isEmpty()) {
       Schedule currentSchedule = stack.pop();
 
@@ -76,16 +82,24 @@ public class DfsScheduler implements Scheduler {
 
           if (closed.containsKey(stringHash)) {
             this.prunedCount++;
-          } else {
-            stack.push(newSchedule);
-            closed.put(stringHash, Boolean.TRUE);
+            continue;
           }
+
+          stack.push(newSchedule);
+          closed.put(stringHash, Boolean.TRUE);
         }
       }
     }
 
     this.status = SchedulerStatus.SCHEDULED;
     return this.bestSchedule;
+  }
+
+  private void resetScheduler() {
+    this.searchedCount = 0;
+    this.prunedCount = 0;
+    this.bestSchedule = null;
+    this.currentMinMakespan = Integer.MAX_VALUE;
   }
 
 }

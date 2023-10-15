@@ -15,6 +15,12 @@ import nz.ac.auckland.se306.group12.models.datastructures.MaxSizeHashMap;
 @Getter
 public class AStarScheduler implements Scheduler {
 
+  /**
+   * This closed set size is slightly smaller than the one in {@link DfsScheduler} as we tend to
+   * have a lot more scheduled stored in priority queue, and so we don't want to run out of memory.
+   */
+  private static final int MAX_CLOSED_SET_SIZE = 1 << 17; // 131072
+
   private long searchedCount;
   private long prunedCount;
   private SchedulerStatus status = SchedulerStatus.IDLE;
@@ -36,9 +42,11 @@ public class AStarScheduler implements Scheduler {
    */
   @Override
   public Schedule schedule(Graph taskGraph, int processorCount) {
-    Map<String, Boolean> closed = new MaxSizeHashMap<>(200_000, 10_000);
-    this.priorityQueue.clear();
+    this.resetScheduler();
     this.status = SchedulerStatus.SCHEDULING;
+
+    Map<String, Boolean> closed = new MaxSizeHashMap<>(
+        MAX_CLOSED_SET_SIZE, Scheduler.INITIAL_CLOSED_SET_CAPACITY);
 
     this.priorityQueue.add(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
 
@@ -68,16 +76,23 @@ public class AStarScheduler implements Scheduler {
 
           if (closed.containsKey(stringHash)) {
             this.prunedCount++;
-          } else {
-            this.priorityQueue.add(newSchedule);
-            closed.put(stringHash, Boolean.TRUE);
+            continue;
           }
+
+          this.priorityQueue.add(newSchedule);
+          closed.put(stringHash, Boolean.TRUE);
         }
       }
     }
 
     this.status = SchedulerStatus.SCHEDULED;
     throw new IllegalStateException("No optimal schedule found");
+  }
+
+  private void resetScheduler() {
+    this.searchedCount = 0;
+    this.prunedCount = 0;
+    this.priorityQueue.clear();
   }
 
 }
