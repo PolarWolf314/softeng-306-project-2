@@ -174,6 +174,7 @@ public class AOSchedule {
     while (!stack.isEmpty()) {
       Task parentTask = stack.pop();
       ScheduledTask parentScheduledTask = newScheduledTasks[parentTask.getIndex()];
+      int parentEndTime = parentScheduledTask.getEndTime();
       if (parentScheduledTask.getEndTime() > taskGraph.getTotalTaskWeights()) {
         return false;
       }
@@ -185,16 +186,11 @@ public class AOSchedule {
         if (childScheduledTask == null) {
           continue;
         }
-        int newChildEstStartTime = parentScheduledTask.getProcessorIndex() == childScheduledTask
+        int childStartTime = parentScheduledTask.getProcessorIndex() == childScheduledTask
             .getProcessorIndex()
-                ? parentScheduledTask.getEndTime()
-                : parentScheduledTask.getEndTime() + outEdge.getWeight();
-
-        // if the child task needs updating then update
-        if (childScheduledTask.getStartTime() < newChildEstStartTime) {
-          childScheduledTask.setStartTime(newChildEstStartTime);
-          childScheduledTask.setEndTime(newChildEstStartTime + childTask.getWeight());
-          // add the child task to the propagate stack
+                ? parentEndTime
+                : parentEndTime + outEdge.getWeight();
+        if (updateScheduledTask(childTask, childScheduledTask, childStartTime)) {
           stack.push(childTask);
         }
       }
@@ -204,15 +200,31 @@ public class AOSchedule {
       if (descendantIndex != -1) {
         Task descendantTask = taskGraph.getTask(descendantIndex);
         ScheduledTask descendantScheduledTask = newScheduledTasks[descendantIndex];
-        if (descendantScheduledTask.getStartTime() < parentScheduledTask.getEndTime()) {
-          descendantScheduledTask.setStartTime(parentScheduledTask.getEndTime());
-          descendantScheduledTask.setEndTime(parentScheduledTask.getEndTime() + descendantTask
-              .getWeight());
+        if (updateScheduledTask(descendantTask, descendantScheduledTask, parentEndTime)) {
           stack.push(descendantTask);
         }
       }
     }
     return true;
+  }
+
+  /**
+   * Updates the scheduled task if the new start time is greater than the current start time
+   *
+   * @param childTask          Task to be updated
+   * @param childScheduledTask Scheduled task representation of the task to be updated
+   * @param childStartTime     New start time of the task
+   * @return True if the task was updated, false otherwise
+   */
+  private boolean updateScheduledTask(Task childTask, ScheduledTask childScheduledTask,
+      int childStartTime) {
+    // if the child task needs updating then update
+    if (childScheduledTask.getStartTime() < childStartTime) {
+      childScheduledTask.setStartTime(childStartTime);
+      childScheduledTask.setEndTime(childStartTime + childTask.getWeight());
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -237,6 +249,12 @@ public class AOSchedule {
     return true;
   }
 
+  /**
+   * This method gets the processor that a task is allocated to
+   *
+   * @param child Child task to get the allocated processor of
+   * @return
+   */
   private int getAllocatedProcessorOf(Task child) {
     return this.allocation.getTasksProcessor()[child.getIndex()];
   }
