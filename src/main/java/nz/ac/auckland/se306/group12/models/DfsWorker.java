@@ -13,8 +13,11 @@ import lombok.ToString;
 public class DfsWorker {
 
   private final Queue<Schedule> queue = Collections.asLifoQueue(new ArrayDeque<>());
-  @Getter
   private boolean hasWork = false;
+
+  public boolean hasWork() {
+    return hasWork;
+  }
 
   public void give(Schedule schedule) {
     this.queue.add(schedule);
@@ -22,10 +25,11 @@ public class DfsWorker {
   }
 
   public Schedule steal() {
-    if (queue.size() == 1) {
-      this.hasWork = false;
+    Schedule work = this.queue.remove();
+    if (this.queue.isEmpty()) {
+      hasWork = false;
     }
-    return this.queue.remove();
+    return work;
   }
-  
+
 }

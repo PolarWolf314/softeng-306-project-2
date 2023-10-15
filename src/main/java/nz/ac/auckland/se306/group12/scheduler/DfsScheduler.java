@@ -28,6 +28,7 @@ public class DfsScheduler implements Scheduler {
   private AtomicInteger idleWorkers = new AtomicInteger(0);
   private Set<String> closed = ConcurrentHashMap.newKeySet();
   private List<DfsWorker> workers = new ArrayList<>();
+  private boolean hasStarted = false;
   private int syncThreshold = 1024;
   private int workerNum = 1;
 
@@ -63,9 +64,6 @@ public class DfsScheduler implements Scheduler {
       workers.add(new DfsWorker());
     }
 
-    // Grab the schedule result from first worker
-    Schedule schedule = branchAndBound(taskGraph, worker);
-
     // Instantiate other workers to steal from worker
     for (int i = 1; i < this.workerNum; i++) {
       DfsWorker currentWorker = workers.get(i);
@@ -73,8 +71,10 @@ public class DfsScheduler implements Scheduler {
         branchAndBound(taskGraph, currentWorker);
       });
       threads.add(thread);
-      thread.start();
     }
+
+    // Grab the schedule result from first worker
+    Schedule schedule = branchAndBound(taskGraph, worker);
 
     for (Thread thread : this.threads) {
       try {
@@ -100,6 +100,7 @@ public class DfsScheduler implements Scheduler {
     int syncCounter = 0;
     int localMinMakespan = this.currentMinMakespan.get();
     while (this.idleWorkers.get() < this.workers.size()) {
+
       while (true) {
         if (worker.getQueue().isEmpty()) {
           this.idleWorkers.incrementAndGet();
@@ -149,11 +150,18 @@ public class DfsScheduler implements Scheduler {
         }
       }
 
-      for (DfsWorker dfsWorker : workers) {
-        if (dfsWorker.isHasWork() && dfsWorker != worker) {
-          worker.give(dfsWorker.steal());
-          this.idleWorkers.decrementAndGet();
-          break;
+      if (!hasStarted) {
+        hasStarted = true;
+        for (Thread thread : this.threads) {
+          thread.start();
+        }
+      } else {
+        for (DfsWorker dfsWorker : workers) {
+          if (dfsWorker.hasWork() && dfsWorker != worker) {
+            worker.give(dfsWorker.steal());
+            this.idleWorkers.decrementAndGet();
+            break;
+          }
         }
       }
 
