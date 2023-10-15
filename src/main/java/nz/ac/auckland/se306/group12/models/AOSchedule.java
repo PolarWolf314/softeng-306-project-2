@@ -146,6 +146,8 @@ public class AOSchedule {
 
   /**
    * Creates a deep copy of the list of ScheduleTtasks
+   * <p>
+   * TODO: refactor code so deepcopy is not needed
    * 
    * @return A deep copy of the list of ScheduleTasks
    */
