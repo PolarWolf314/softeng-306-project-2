@@ -389,8 +389,7 @@ public class AOSchedule {
   }
 
   public int getEstimatedMakespan() {
-    return Math.max(Math.max(latestEndTime, getOrderedLoadEstimate()),
-        estimateBottomLevelMakespan());
+    return Math.max(latestEndTime, getOrderedLoadEstimate());
   }
 
   private int getOrderedLoadEstimate() {
