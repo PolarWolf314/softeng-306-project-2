@@ -79,7 +79,7 @@ public class TerminalVisualizer implements Visualizer {
    * Used to adapt the visualiser output to the terminal window height. If
    * {@link #terminalHeightManager} cannot detect the window height, the fallback value 24 is used.
    */
-  private int terminalHeight = 24;
+  private int terminalHeight = 38;
   private final int cpuChartBodyHeight;
   private final int resourceChartBodyHeight;
   /**
@@ -174,9 +174,12 @@ public class TerminalVisualizer implements Visualizer {
     sb.append(NEW_LINE);
     this.drawStatusBar();
     sb.append(NEW_LINE);
-    if (schedule == null) {
+
+    if (this.terminalWidth < 44) {
+      this.drawWindowSizeNotice();
+    } else if (schedule == null) {
       this.drawLoadingGraphic();
-    } else if (this.ganttChartMaxBodyHeight < 6 || terminalWidth < 71) {
+    } else if (this.ganttChartMaxBodyHeight < 6 || terminalWidth < 72) {
       this.drawWindowSizeNotice();
       sb.append(NEW_LINE);
       this.drawStatistics();
@@ -189,6 +192,7 @@ public class TerminalVisualizer implements Visualizer {
       sb.append(NEW_LINE);
       this.drawStatistics();
     }
+
     sb.append(NEW_LINE);
     this.drawHorizontalRule();
     sb.deleteCharAt(sb.length() - 1); // Trim trailing newline
