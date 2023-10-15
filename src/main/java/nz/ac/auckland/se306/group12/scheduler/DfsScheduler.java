@@ -6,9 +6,6 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
@@ -31,13 +28,18 @@ public class DfsScheduler implements Scheduler {
   private AtomicLong searchedCount = new AtomicLong(0);
   private AtomicLong prunedCount = new AtomicLong(0);
   private AtomicInteger idleWorkers = new AtomicInteger(0);
+  private AtomicInteger finishedThreads = new AtomicInteger(0);
   private List<DfsWorker> workers = new ArrayList<>();
+  private List<Thread> threads = new ArrayList<>();
   private Random random = new Random();
   private int syncThreshold = 1024;
 
   @Getter
   private SchedulerStatus status = SchedulerStatus.IDLE;
 
+  /**
+   * Creates a new single thread {@link DfsScheduler}.
+   */
   public DfsScheduler() {
     this.workerCount = 1;
   }
@@ -69,11 +71,14 @@ public class DfsScheduler implements Scheduler {
   public Schedule schedule(Graph taskGraph, int processorCount) {
     this.status = SchedulerStatus.SCHEDULING;
 
+    DfsWorker initWorker = new DfsWorker();
+    Schedule initWork = new ScheduleWithAnEmptyProcessor(taskGraph, processorCount);
+    initWorker.give(initWork);
+    workers.add(initWorker);
+
     Queue<Schedule> initialStates = aStarInitialStates(taskGraph, processorCount);
 
-    ExecutorService executor = Executors.newFixedThreadPool(workerCount);
-
-    for (int i = 0; i < this.workerCount; i++) {
+    for (int i = 1; i < this.workerCount; i++) {
       DfsWorker worker = new DfsWorker();
       Schedule work = initialStates.poll();
       if (work != null) {
@@ -83,13 +88,15 @@ public class DfsScheduler implements Scheduler {
     }
 
     for (DfsWorker dfsWorker : workers) {
-      executor.submit(() -> branchAndBound(taskGraph, dfsWorker));
+      Thread thread = new Thread(() -> branchAndBound(taskGraph, dfsWorker));
+      threads.add(thread);
+      thread.start();
     }
 
-    executor.shutdown();
-
     try {
-      executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+      for (Thread thread : threads) {
+        thread.join();
+      }
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
@@ -116,17 +123,18 @@ public class DfsScheduler implements Scheduler {
 
     boolean hasWork = true;
 
-    while (hasRunningWorker()) {
+    while (hasRunningWorker() && this.finishedThreads.get() != this.workerCount) {
       while (hasWork) {
         Schedule currentSchedule = worker.steal();
         if (currentSchedule == null) {
-          hasWork = false;
           idleWorkers.incrementAndGet();
+          hasWork = false;
           break;
         }
         syncCounter++;
 
         if (syncCounter == this.syncThreshold) {
+          System.out.println(this.idleWorkers.get());
           localMinMakespan = this.currentMinMakespan.get();
           this.prunedCount.getAndAdd(localPruneCount);
           this.searchedCount.getAndAdd(localSearchCount);
@@ -171,7 +179,8 @@ public class DfsScheduler implements Scheduler {
 
       hasWork = this.takeWorkFromRandomWorker(worker);
     }
-
+    this.finishedThreads.incrementAndGet();
+    System.out.println("Finished");
   }
 
   /**
@@ -183,15 +192,17 @@ public class DfsScheduler implements Scheduler {
    */
   public Queue<Schedule> aStarInitialStates(Graph taskGraph, int processorCount) {
     Queue<Schedule> priorityQueue = new PriorityQueue<>();
-    this.status = SchedulerStatus.SCHEDULING;
 
     priorityQueue.add(new ScheduleWithAnEmptyProcessor(taskGraph, processorCount));
 
     while (!priorityQueue.isEmpty()) {
-      Schedule currentSchedule = priorityQueue.peek();
-
-      // Only remove it now so that if we found the best schedule we can still access it through peeking
-      priorityQueue.poll();
+      Schedule currentSchedule = priorityQueue.poll();
+      if (currentSchedule.getScheduledTaskCount() == taskGraph.taskCount()) {
+        // It's possible for A* to solve the graph before we get enough tasks in the queue to stop
+        this.currentMinMakespan.set(currentSchedule.getEstimatedMakespan());
+        this.bestSchedule.set(currentSchedule);
+        break;
+      }
 
       // Check to find if any tasks can be scheduled and schedule them
       for (Task task : currentSchedule.getReadyTasks()) {
@@ -204,11 +215,12 @@ public class DfsScheduler implements Scheduler {
           Schedule newSchedule = currentSchedule.extendWithTask(newScheduledTask, task);
 
           priorityQueue.add(newSchedule);
+          if (priorityQueue.size() >= this.workerCount - 1) {
+            return priorityQueue;
+          }
         }
       }
-      if (priorityQueue.size() >= this.workerCount) {
-        break;
-      }
+
     }
     return priorityQueue;
   }
@@ -221,19 +233,22 @@ public class DfsScheduler implements Scheduler {
    */
   private boolean takeWorkFromRandomWorker(DfsWorker worker) {
     // Randomly choose a worker to steal from. This attempts to evenly distribute the workers being stolen from
-    int index = this.random.nextInt(this.workerCount);
-    DfsWorker dfsWorker = this.workers.get(index);
-    if (dfsWorker == worker) {
-      return false;
-    }
+    for (int attempt = 0; attempt < 3; attempt++) {
+      int index = this.random.nextInt(this.workerCount);
+      DfsWorker otherWorker = this.workers.get(index);
 
-    Schedule work = dfsWorker.steal();
-    if (work != null) {
-      worker.give(work);
-      this.idleWorkers.decrementAndGet();
-      return true;
-    }
+      // We can't steal from ourselves
+      if (otherWorker == worker) {
+        continue;
+      }
 
+      Schedule work = otherWorker.steal();
+      if (work != null) {
+        worker.give(work);
+        this.idleWorkers.decrementAndGet();
+        return true;
+      }
+    }
     return false;
   }
 
